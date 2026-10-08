@@ -108,7 +108,7 @@ const challenge = {
   rules: `
 MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → Design → Build → Test → Improve.
 - You play the project team and the laws of physics. Be fair and realistic.
-- Abi's screen shows the opening cards and a short list of BUILDING BLOCKS (categories only, no prices). She must ask for costs, capacities and specs; when she does, call look_up and answer briefly. Never recite the whole toolbox or offer a menu of products.
+- Abi's screen shows the opening cards and a short list of BUILDING BLOCKS (categories only, no prices). She must ask for costs, capacities and specs; when she does, call look_up (with her plan so far) and answer briefly, then show the budget breakdown as a short list: what she's chosen with costs, total so far, budget, and what's left. Never recite the whole toolbox or offer a menu of products.
 - Items marked HIDDEN exist so her own ideas can be priced fairly. Never mention, hint at or suggest them; only price one if Abi herself proposes that idea.
 - Anything measured on site (water tests, how much a source yields, what's happening in homes) she must ask for. Use take_measurement and report the result in 1–3 sentences.
 - Never hand her multiple-choice designs. She invents the design. Unconventional ideas are fine if physically plausible: give a fair game cost/capacity consistent with the toolbox scale.
@@ -122,8 +122,19 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
   tools: (): Tool[] => [
     {
       name: 'look_up',
-      description: "Look up the game cost, capacity and notes for items Abi asks about. Only for things she named or clearly described.",
-      input_schema: { type: 'object', properties: { item_ids: { type: 'array', items: { type: 'string' } } }, required: ['item_ids'] },
+      description: "Look up the game cost, capacity and notes for items Abi asks about (only things she named or clearly described). Also pass `plan`: every item and quantity she has said she wants so far in the conversation, including this one if she wants it, so the result can show her running total and what's left.",
+      input_schema: {
+        type: 'object',
+        properties: {
+          item_ids: { type: 'array', items: { type: 'string' } },
+          plan: {
+            type: 'array',
+            description: "Items she has chosen so far (ids and quantities). Empty if she hasn't chosen anything yet.",
+            items: { type: 'object', properties: { id: { type: 'string' }, qty: { type: 'integer', minimum: 1 } }, required: ['id', 'qty'] },
+          },
+        },
+        required: ['item_ids'],
+      },
     },
     {
       name: 'take_measurement',
@@ -197,10 +208,25 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
       const found = d.toolbox.filter((t) => ids.includes(t.id));
       if (!found.length) return { result: `No matching items. Valid ids: ${d.toolbox.map((x) => x.id).join(', ')}`, isError: true };
       for (const t of found) pushUnique(s.state, 'lookedUp', t.id);
+      const { u, fmtCost } = unitsOf(d);
+      const plan = arr<{ id: string; qty: number }>(input.plan)
+        .map((p) => ({ t: d.toolbox.find((x) => x.id === p.id), qty: Math.max(1, Number(p.qty) || 1) }))
+        .filter((p) => p.t) as { t: ChallengeData['toolbox'][number]; qty: number }[];
+      if (plan.length) s.state.plan = plan.map((p) => ({ id: p.t.id, qty: p.qty }));
+      const planCost = plan.reduce((sum, p) => sum + p.t.cost * p.qty, 0);
+      const planScarce = +plan.reduce((sum, p) => sum + (p.t.scarce ?? 0) * p.qty, 0).toFixed(2);
+      const budgetLines = [
+        'BUDGET BREAKDOWN (always show this to Abi as a short list after the price):',
+        ...(plan.length ? plan.map((p) => `- ${p.qty} × ${p.t.name}: ${fmtCost(p.t.cost * p.qty)}`) : ['- Nothing chosen yet']),
+        `- Total so far: ${fmtCost(planCost)}`,
+        `- Budget: ${fmtCost(d.budget)}`,
+        `- Left: ${fmtCost(d.budget - planCost)}${planCost > d.budget ? ' (OVER BUDGET)' : ''}`,
+        u?.scarce ? `- ${u.scarce.label}: ${planScarce} of ${u.scarce.limit} used, ${+(u.scarce.limit - planScarce).toFixed(2)} left` : '',
+      ].filter(Boolean);
       return {
         result: found
           .map((t) => `${t.name}: ${unitsOf(d).fmtCost(t.cost)}${t.scarce && d.units?.scarce ? ` + ${t.scarce} ${d.units.scarce.label}` : ''}${unitsOf(d).capOf(t) ? `, about ${unitsOf(d).capOf(t).toLocaleString()} ${unitsOf(d).capLabel}` : ''}${t.max ? ` (only ${t.max} available)` : ''}. ${t.provides}${t.needs ? ` Needs: ${t.needs.map((n) => n.replace(/\|/g, ' or ').replace('existing:', '')).join(', ')}.` : ''}${t.maintenance ? ` Upkeep: ${t.maintenance}` : ''}`)
-          .join('\n'),
+          .join('\n') + '\n\n' + budgetLines.join('\n'),
       };
     }
     if (name === 'take_measurement') {

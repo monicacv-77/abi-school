@@ -224,6 +224,12 @@ export default function Play({ initial }: { initial: SessionView }) {
         </section>
       )}
 
+      {view.planLine && !view.design && (
+        <div className="panel" style={{ padding: 12, marginBottom: 14, fontSize: 16 }}>
+          <span className="label">💰 Plan so far</span> · {view.planLine}
+        </div>
+      )}
+
       {view.design && (
         <div className="panel" style={{ padding: 12, marginBottom: 14, fontSize: 15 }}>
           <span className="label">📐 Your design</span> · {view.design.line ?? `$${view.design.cost.toLocaleString()} · ~${view.design.liters.toLocaleString()} L/day`} · {view.design.valid ? 'ready' : 'not done yet'}

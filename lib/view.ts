@@ -17,6 +17,7 @@ export interface SessionView {
   budget?: number;
   design?: { description: string; cost: number; liters: number; line?: string; valid: boolean } | null;
   budgetLabel?: string;
+  planLine?: string;
   stats?: { label: string; value: number; count?: boolean; delta?: number }[];
   winCondition?: string;
   board?: { theory: string; supporting: string[]; problems: string[] }[];
@@ -51,6 +52,13 @@ export function toView(s: Session): SessionView {
     v.budgetLabel = d.units ? `${d.budget.toLocaleString('en-US')} ${d.units.cost}${d.units.scarce ? ` · ${d.units.scarce.limit} ${d.units.scarce.label}` : ''}` : `$${d.budget.toLocaleString('en-US')}`;
     v.blocks = d.buildingBlocks;
     v.design = (s.state.design as SessionView['design']) ?? null;
+    const plan = Array.isArray(s.state.plan) ? (s.state.plan as { id: string; qty: number }[]) : [];
+    if (plan.length) {
+      const cost = plan.reduce((sum, p) => sum + (d.toolbox.find((t) => t.id === p.id)?.cost ?? 0) * p.qty, 0);
+      const fmt = (n: number) => (d.units ? `${n.toLocaleString('en-US')} ${d.units.cost}` : `$${n.toLocaleString('en-US')}`);
+      const scarce = d.units?.scarce ? +plan.reduce((sum, p) => sum + (d.toolbox.find((t) => t.id === p.id)?.scarce ?? 0) * p.qty, 0).toFixed(2) : 0;
+      v.planLine = `${fmt(cost)} of ${fmt(d.budget)} · ${fmt(d.budget - cost)} left${d.units?.scarce ? ` · ${scarce} of ${d.units.scarce.limit} ${d.units.scarce.label}` : ''}`;
+    }
   }
   if (c?.data.kind === 'investigation') {
     v.board = (s.state.board as SessionView['board']) ?? [];

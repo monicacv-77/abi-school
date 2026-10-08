@@ -31,6 +31,9 @@ async function main() {
   // --- Challenge: improve is required after a failure
   const ch: any = await startCaseSession('001', true);
   const design = (n: number) => tu('submit_design', { description: 'design ' + n, items: [{ id: 'repair_borehole', qty: 1 }, { id: 'solar_pump', qty: 1 }, { id: 'storage_tank', qty: 1 }, { id: 'tap_stand', qty: 6 }, { id: 'pipe_km', qty: 3 }] });
+  await step(ch, tu('look_up', { item_ids: ['solar_pump'], plan: [{ id: 'repair_borehole', qty: 1 }, { id: 'solar_pump', qty: 1 }] }));
+  const lk = [...ch.api].reverse().find((m: any) => m.role === 'user' && Array.isArray(m.content)) as any;
+  expect('challenge: cost lookup shows budget left', String(lk.content[0].content), '- Left: $22,000');
   expect('challenge: design priced', await step(ch, design(1)), 'Design: design 1');
   for (const t of ['rainy_season', 'access', 'recontamination']) await step(ch, tu('run_stress_test', { test_id: t }));
   expect('challenge: must judge tests', await step(ch, close()), 'Judge the stress tests');
