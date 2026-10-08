@@ -63,8 +63,9 @@ async function main() {
   // --- Simulation (Jamestown): people count, choice-dependent events, triggers, required decision
   const sim: any = await startCaseSession('005', true);
   expect('jamestown: first decision buttons ready at start', JSON.stringify((await import('../lib/view')).toView(sim).decision), '"when":"May 1607"');
-  await step(sim, tu('present_decision', { decision_id: 'site' }));
-  expect('jamestown: A–D buttons on screen', JSON.stringify((await import('../lib/view')).toView(sim).decision), '"letter":"D"');
+  await step(sim, tu('present_decision', { decision_id: 'site', options: [{ label: 'The island the Company likes', base_option_id: 'island' }, { label: 'Higher ground with springs', base_option_id: 'high_ground' }, { label: 'Ask the sailors which spot floods', }] }));
+  expect('jamestown: adapted options on screen', JSON.stringify((await import('../lib/view')).toView(sim).decision), 'Ask the sailors which spot floods');
+  expect('jamestown: status in words', JSON.stringify((await import('../lib/view')).toView(sim).stats), '"word":"Fair"');
   await step(sim, tu('make_choice', { decision_id: 'site', option_id: 'high_ground' }));
   expect('jamestown: buttons clear after choosing', String((await import('../lib/view')).toView(sim).decision), 'undefined');
   await step(sim, tu('advance_time', { event_id: 'attack' }));

@@ -127,6 +127,7 @@ export interface StatDef {
   label: string;
   start: number; // 0–10 for bars; any number for counts
   kind?: 'count'; // a number like People, not a 0–10 bar
+  scale?: string[]; // words from worst to best, shown instead of a number (e.g. Hostile … Cooperative)
 }
 export interface DecisionOption {
   id: string;

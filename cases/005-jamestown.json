@@ -7,7 +7,7 @@
   "location": "Jamestown, Virginia",
   "realOrConstructed": "Real historical setting with alternate outcomes",
   "status": "READY",
-  "version": 5,
+  "version": 6,
   "bigUnderstanding": "Monica's design: Jamestown's survival was shaped by real pressures (water, food, labor, disease, relations with the Powhatan, supply ships, investor expectations, population growth, the search for profit). Abi learns them through decisions and consequences, not exposition. This is the unit finale: she may transfer ideas from Clean Water, The Failing Farm, Too Good to Be True and Build for Survival; never prompt her to.",
   "winCondition": "Lead your colony through its first three years. Then explain what mattered most to its survival, and why.",
   "opening": {
@@ -44,7 +44,7 @@
   "facilitatorNotes": [
     "ROLE: Abi is President of the Council, the colony's leader, named in the Company's sealed orders (this really happened; the real first president was Edward Wingfield, so here Wingfield is a resentful councilor). Characters address her as 'President.' Don't make an issue of her name or gender; if she gives a name, use it.",
     "PRESSURE: she carries real responsibility. Company letters are addressed to her. Councilors argue, scheme and blame her. Deaths are her problem. Keep it serious but not grim, with dry humor where history allows (gentlemen refusing to dig, worthless 'gold').",
-    "TURN SHAPE (Monica's rule): 2–4 short sentences of situation, one clear question, choices labeled A–D. After she chooses: 2–4 sentences of consequence, show stat changes with arrows, move quickly to the next situation. Phone-friendly.",
+    "TURN SHAPE: situation in 2–4 short sentences, one clear question, choices A–D (you adapt them to her story via present_decision). After she chooses: 3–5 sentences of vivid consequence, status changes with arrows and words, then move on quickly. Let her bigger strategies carry forward: if she founds a second settlement, sets a work rule, or makes a trade alliance, later situations and options should build on it.",
     "Follow the ORDER OF PLAY. Call advance_time for each real event when the story reaches it; their severity depends on her earlier choices (the tool result says how). Narrate from the numbers.",
     "Do not force the real outcome, and do not protect the colony. Survival should feel uncertain. Reward plausible good choices; let poor ones make things worse.",
     "Choices have tradeoffs; never imply one is virtuous. Don't say which is historically correct before she chooses.",
@@ -56,8 +56,7 @@
     "Pocahontas (about 11 in 1607) really visited the fort. The famous 'rescue' of John Smith is his own story, told years later; historians debate it.",
     "Tobacco became Virginia's money crop only after 1612. Don't let it rescue the early colony.",
     "If she proposes something outside the options that's plausible for 1607, allow it with make_choice custom_choice.",
-    "DEBRIEF after the last decision: a short outcome for HER colony; then YOUR JAMESTOWN (her major decisions and results) vs. REAL JAMESTOWN (what happened, where she differed). Then ask these one at a time, and push once for causal reasoning if an answer is shallow: (1) What was the biggest threat to Jamestown's survival? (2) Why did adding more settlers sometimes make things worse? (3) Why did depending on supply ships pressure the colonists to make money for the Company?",
-    "Close after the debrief questions, using her own words for the Case Summary (visual: compare, My Jamestown vs. Real Jamestown)."
+    "DEBRIEF (after the last decision), in this order, using short labeled sections with emoji:\n1. 🏁 YOUR FINAL COLONY: a short status list (survivors, food, water, food production, settlement, Powhatan relations, profit), in words.\n2. 🔀 YOUR JAMESTOWN vs. THE REAL JAMESTOWN: topic by topic (Location, Food, Work, Powhatan relations, Profit, Expansion if she expanded, The Starving Time, Rescue), 1–2 sentences each: what she did, what really happened, how it changed things. Mention tobacco (John Rolfe, from 1612) as the long-term answer, and its cost in land, labor and conflict.\n3. ⭐ THE BIGGEST DIFFERENCE: 2–3 sentences, including that Jamestown's disaster wasn't one bad decision; problems combined and made each other worse.\nThen ask these ONE AT A TIME, waiting for each answer. Respond briefly, restating her reasoning as cause and effect; if an answer is shallow, ask one follow-up that makes her explain the connection:\nQ1. What's one important decision you made differently from the real colonists?\nQ2. How did that decision affect what happened to your colony later?\nQ3. What do you think were the biggest causes of the real Jamestown's problems? (If she gives one, ask for one or two more.)\nQ4. What surprised you most about what actually happened at Jamestown?\nThen close the case (Case Summary visual: compare, My Jamestown vs. Real Jamestown; quote her best cause-and-effect line)."
   ],
   "justInTimeConcepts": [
     "Joint-stock company: investors share the costs and hope to share profits.",
@@ -210,22 +209,48 @@
       {
         "id": "food",
         "label": "🌽 Food",
-        "start": 5
+        "start": 5,
+        "scale": [
+          "Gone",
+          "Very low",
+          "Low",
+          "Fair",
+          "Good"
+        ]
       },
       {
         "id": "health",
         "label": "❤️ Health",
-        "start": 6
+        "start": 6,
+        "scale": [
+          "Critical",
+          "Poor",
+          "Fair",
+          "Good"
+        ]
       },
       {
         "id": "relations",
         "label": "🤝 Powhatan relations",
-        "start": 5
+        "start": 5,
+        "scale": [
+          "Hostile",
+          "Tense",
+          "Mixed",
+          "Cooperative"
+        ]
       },
       {
         "id": "investors",
         "label": "💰 Investors",
-        "start": 5
+        "start": 5,
+        "scale": [
+          "Falling",
+          "Low",
+          "Waiting",
+          "Improving",
+          "Strong"
+        ]
       }
     ],
     "sequence": [

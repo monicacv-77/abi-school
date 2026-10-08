@@ -248,6 +248,8 @@ export default function Play({ initial }: { initial: SessionView }) {
               ) : null}
               {s.count ? (
                 <div style={{ fontFamily: 'var(--display)', fontWeight: 800, fontSize: 24, lineHeight: 1 }}>{s.value}</div>
+              ) : s.word ? (
+                <div style={{ fontWeight: 700, fontSize: 18, lineHeight: 1.2, color: s.value <= 3 ? 'var(--rust)' : 'var(--ink)' }}>{s.word}</div>
               ) : (
                 <div style={{ display: 'flex', gap: 2, marginTop: 4 }} aria-label={`${s.value} of 10`}>
                   {Array.from({ length: 10 }, (_, i) => (

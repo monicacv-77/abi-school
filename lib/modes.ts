@@ -444,6 +444,14 @@ MODE: INVESTIGATION — "Figure it out." Abi is the investigator. Backbone: Ques
 
 // ---------------------------------------------------------------- SIMULATION
 
+// A stat as a word from its scale (0–10 mapped evenly), or the number itself.
+export function statWord(st: { scale?: string[]; kind?: 'count' }, v: number): string {
+  if (st.kind === 'count' || !st.scale?.length) return String(v);
+  const n = st.scale.length;
+  return st.scale[Math.max(0, Math.min(n - 1, Math.round((v * (n - 1)) / 10)))];
+}
+const statsLine = (d: SimulationData, stats: Record<string, number>) => d.stats.map((x) => `${x.label}: ${statWord(x, stats[x.id])}`).join(' · ');
+
 // Apply stat changes, then fire any threshold consequences (each fires once; knock-ons can chain).
 function applyStats(d: SimulationData, s: Session, effects: Record<string, number>): { changes: string[]; triggered: string[] } {
   const stats = (s.state.stats ?? {}) as Record<string, number>;
@@ -459,7 +467,7 @@ function applyStats(d: SimulationData, s: Session, effects: Record<string, numbe
       const real = stats[k] - before;
       if (!real) continue;
       delta[k] = (delta[k] ?? 0) + real;
-      changes.push(`${st?.label ?? k} ${real > 0 ? '↑' : '↓'}${Math.abs(real)}`);
+      changes.push(`${st?.label ?? k} ${real > 0 ? '↑' : '↓'}${st?.kind === 'count' ? Math.abs(real) : ''}${st && st.kind !== 'count' ? ` (now ${statWord(st, stats[k])})` : ''}`);
     }
   };
   apply(effects);
@@ -491,17 +499,31 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
 - Real people talk in character, briefly, with personality. A little humor is welcome when it's historically honest.
 - Abi only knows what someone in her role could know. No modern hindsight from characters. If Abi uses what she learned in class, characters react as people of their time would.
 - History is mechanisms: when it matters, let her see WHY things happen (incentives, orders from investors, disease, weather, relationships).
-- MULTIPLE CHOICE IS REQUIRED HERE (this overrides any general rule against options). At every decision point, call present_decision first: that puts A–D buttons on her screen. Then give 2–4 short sentences of situation, one clear question, and the choices listed briefly as A, B, C, D. She may also propose her own plan. Call make_choice, then give the consequence in 2–4 sentences with the stat changes shown as arrows (e.g. Food ↓1). Never say which choice is historically correct before she chooses. Don't over-praise.
+- MULTIPLE CHOICE IS REQUIRED HERE (this overrides any general rule against options). At every decision point, call present_decision with 3–4 options YOU write, adapted to her colony's story so far (build on her earlier strategy, e.g. a settlement she founded, a policy she set). Use the case's options as anchors and set base_option_id when an option matches one. Then: 2–4 short sentences of situation, one clear question, and the choices listed as A, B, C, D.
+- When she picks, call make_choice with the base option id (or custom_choice for a new idea) and choice_label = her choice as shown.
+- CONSEQUENCES: narrate 3–5 sentences, vivid and concrete, weaving in one real person, place or fact from the period when it fits. Show status changes with arrows and words (e.g. 🌽 Food ↓ Low). Then move on to what comes next. She may also propose her own plan. Call make_choice, then give the consequence in 2–4 sentences with the stat changes shown as arrows (e.g. Food ↓1). Never say which choice is historically correct before she chooses. Don't over-praise.
 - Real historical events happen on schedule: call advance_time to bring the next fixed event in when the story reaches it.
 - Her choices have knock-on effects: when a tool result says CONSEQUENCE TRIGGERED, that event happens now. Narrate it briefly and let her respond. These are how her earlier decisions shape what comes later.
 - Her version of history may differ from what really happened. The setting and facts stay accurate.
-- At the end, compare her outcome with what really happened, briefly.
+- At the end, run the case's debrief exactly as described in its notes.
 `.trim(),
   tools: (): Tool[] => [
     {
       name: 'present_decision',
-      description: "Start a decision point. This puts the case's A–D choice buttons on Abi's screen. Call it whenever the story reaches a decision, then describe the situation in 2–4 short sentences and ask one clear question.",
-      input_schema: { type: 'object', properties: { decision_id: { type: 'string' } }, required: ['decision_id'] },
+      description: "Start a decision point and put 3–4 choice buttons on Abi's screen. Write the options yourself, adapted to HER colony's story so far (her earlier strategy, places, people, problems), using the case's options for this decision as anchors. For each option give base_option_id = the case option it is closest to (so its effects come from the case), or leave it out for a genuinely new idea (then you'll give small fair effects when she picks it). Keep real tradeoffs; no option should be obviously right.",
+      input_schema: {
+        type: 'object',
+        properties: {
+          decision_id: { type: 'string' },
+          options: {
+            type: 'array',
+            minItems: 2,
+            maxItems: 4,
+            items: { type: 'object', properties: { label: { type: 'string', description: 'under 18 words' }, base_option_id: { type: 'string' } }, required: ['label'] },
+          },
+        },
+        required: ['decision_id'],
+      },
     },
     {
       name: 'make_choice',
@@ -510,7 +532,8 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
         type: 'object',
         properties: {
           decision_id: { type: 'string' },
-          option_id: { type: 'string' },
+          option_id: { type: 'string', description: 'the case option id (use the base_option_id of the button she picked)' },
+          choice_label: { type: 'string', description: 'what she actually chose, in the words shown to her' },
           custom_choice: { type: 'string' },
           custom_effects: { type: 'object', description: 'stat id → change, each between -2 and 2', additionalProperties: { type: 'number' } },
         },
@@ -559,8 +582,15 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
       if (arr<{ decision: string }>(s.state.choices).some((ch) => ch.decision === dp.id)) return { result: 'That decision was already made.', isError: true };
       s.state.pendingDecision = dp.id;
       const letters = 'ABCD';
+      const given = arr<{ label: string; base_option_id?: string }>(input.options).filter((o) => o && o.label).slice(0, 4);
+      const opts = (given.length >= 2 ? given : dp.options.map((o) => ({ label: o.label, base_option_id: o.id }))).map((o, i) => ({
+        letter: letters[i],
+        label: String(o.label),
+        base: o.base_option_id && dp.options.some((x) => x.id === o.base_option_id) ? o.base_option_id : null,
+      }));
+      s.state.pendingOptions = opts;
       return {
-        result: `Decision ${dp.id} (${dp.when}) is now on her screen with buttons:\n${dp.options.map((o, i) => `${letters[i]}. ${o.label}`).join('\n')}\nSituation to narrate: ${dp.situation}\nIn your message: set the scene (2–4 short sentences), ask one clear question, and list the choices briefly as A, B, C, D. She can tap a button or type her own plan.`,
+        result: `Decision ${dp.id} (${dp.when}) is on her screen with buttons:\n${opts.map((o) => `${o.letter}. ${o.label}${o.base ? ` [effects of case option ${o.base}]` : ' [new idea: you set small fair effects]'}`).join('\n')}\nCase anchor situation: ${dp.situation}\nCase anchor options: ${dp.options.map((o) => `${o.id} = ${o.label}`).join(' | ')}\nIn your message: set the scene in her colony's own story, ask one clear question, and list the choices as A, B, C, D. She can tap a button or type her own plan.`,
       };
     }
     if (name === 'make_choice') {
@@ -575,17 +605,22 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
         if (!o) return { result: `Unknown option. Valid: ${dp.options.map((x) => x.id).join(', ')}`, isError: true };
         effects = o.effects;
         consequence = o.consequence;
-        label = o.label;
+        label = input.choice_label ? String(input.choice_label) : o.label;
       } else if (input.custom_choice) {
         for (const [k, v] of Object.entries((input.custom_effects ?? {}) as Record<string, number>)) {
-          if (k in stats) effects[k] = Math.max(-2, Math.min(2, Number(v) || 0));
+          if (!(k in stats)) continue;
+          const isCount = d.stats.find((x) => x.id === k)?.kind === 'count';
+          effects[k] = isCount ? Math.max(-20, Math.min(20, Number(v) || 0)) : Math.max(-2, Math.min(2, Number(v) || 0));
         }
         label = String(input.custom_choice);
         consequence = 'Abi chose her own path. Narrate a fair, historically plausible consequence.';
       } else return { result: 'Give option_id or custom_choice.', isError: true };
       const { changes, triggered } = applyStats(d, s, effects);
       s.state.choices = [...arr(s.state.choices), { decision: dp.id, option: input.option_id ? String(input.option_id) : 'custom', choice: label }];
-      if (s.state.pendingDecision === dp.id) s.state.pendingDecision = null;
+      if (s.state.pendingDecision === dp.id) {
+        s.state.pendingDecision = null;
+        s.state.pendingOptions = null;
+      }
       s.stage = 'decision';
       const now = (s.state.stats ?? {}) as Record<string, number>;
       return {
@@ -594,7 +629,7 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
           `Consequence: ${consequence}`,
           `Stat changes: ${changes.join(', ') || 'none'}`,
           ...triggered.map((t) => `CONSEQUENCE TRIGGERED: ${t}`),
-          `Stats now: ${d.stats.map((x) => `${x.label} ${now[x.id]}`).join(', ')}`,
+          `Status now: ${statsLine(d, now)}`,
         ].join('\n'),
       };
     }
@@ -619,7 +654,7 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
           notes.length ? `How her earlier choices changed this: ${notes.join(' ')}` : '',
           changes.length ? `Stat changes: ${changes.join(', ')}` : '',
           ...triggered.map((t) => `CONSEQUENCE TRIGGERED: ${t}`),
-          `Stats now: ${d.stats.map((x) => `${x.label} ${now[x.id]}`).join(', ')}`,
+          `Status now: ${statsLine(d, now)}`,
         ]
           .filter(Boolean)
           .join('\n'),
@@ -634,7 +669,7 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
     const nextUp = (d.sequence ?? []).find((id) => !doneIds.includes(id));
     const nextKind = nextUp ? (d.decisions.some((x) => x.id === nextUp) ? 'decision (call present_decision)' : 'real event (call advance_time)') : '';
     const pending = s.state.pendingDecision ? `Decision on screen now, waiting for her choice: ${s.state.pendingDecision}. ` : '';
-    return `${pending}${nextUp ? `NEXT IN ORDER OF PLAY: ${nextUp}, a ${nextKind}. ` : ''}Stats: ${d.stats.map((x) => `${x.label} ${stats[x.id]}`).join(', ')}. Consequences triggered: ${arr<string>(s.state.triggered).join(', ') || 'none'}. Decisions made: ${arr<{ decision: string; choice: string }>(s.state.choices).map((c) => `${c.decision}: ${c.choice}`).join('; ') || 'none'}. Events so far: ${arr<string>(s.state.events).join(', ') || 'none'}. Remaining decisions: ${d.decisions.filter((dp) => !arr<{ decision: string }>(s.state.choices).some((c) => c.decision === dp.id)).map((dp) => dp.id).join(', ') || 'none'}.`;
+    return `${pending}${nextUp ? `NEXT IN ORDER OF PLAY: ${nextUp}, a ${nextKind}. ` : ''}Status: ${statsLine(d, stats)}. Consequences triggered: ${arr<string>(s.state.triggered).join(', ') || 'none'}. Decisions made: ${arr<{ decision: string; choice: string }>(s.state.choices).map((c) => `${c.decision}: ${c.choice}`).join('; ') || 'none'}. Events so far: ${arr<string>(s.state.events).join(', ') || 'none'}. Remaining decisions: ${d.decisions.filter((dp) => !arr<{ decision: string }>(s.state.choices).some((c) => c.decision === dp.id)).map((dp) => dp.id).join(', ') || 'none'}.`;
   },
   canClose(s: Session, c: CaseDef): string | null {
     const d = c.data as SimulationData;
