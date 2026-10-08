@@ -1,0 +1,246 @@
+'use client';
+import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
+import type { SessionView } from '@/lib/view';
+
+const METHOD: Record<string, string> = { challenge: 'Challenge', investigation: 'Investigation', simulation: 'Simulation', inquiry: 'Inquiry' };
+const THINKING = ['Thinking…', 'Checking the evidence…', 'Consulting the archive…', 'Doing the math…', 'Hmm…'];
+
+function plain(text: string) {
+  return text.replace(/\*\*/g, '').replace(/[#_`>]/g, '');
+}
+
+function Rich({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(/\n{2,}/).map((para, i) => (
+        <p key={i} style={{ margin: i ? '10px 0 0' : 0 }}>
+          {para.split(/(\*\*[^*]+\*\*)/g).map((part, j) =>
+            part.startsWith('**') && part.endsWith('**') ? <strong key={j}>{part.slice(2, -2)}</strong> : <span key={j}>{part.split('\n').map((l, k) => (k ? [<br key={k} />, l] : l))}</span>,
+          )}
+        </p>
+      ))}
+    </>
+  );
+}
+
+type Recog = { start: () => void; stop: () => void; onresult: ((e: any) => void) | null; onend: (() => void) | null; interimResults: boolean; lang: string };
+
+export default function Play({ initial }: { initial: SessionView }) {
+  const [view, setView] = useState(initial);
+  const [text, setText] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState('');
+  const [open, setOpen] = useState<Record<number, boolean>>({});
+  const [showToolbox, setShowToolbox] = useState(false);
+  const [autoRead, setAutoRead] = useState(false);
+  const [listening, setListening] = useState(false);
+  const [thinkIdx, setThinkIdx] = useState(0);
+  const [canTalk, setCanTalk] = useState(false);
+  const recog = useRef<Recog | null>(null);
+  const bottom = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const W = window as any;
+    setCanTalk(Boolean(W.SpeechRecognition || W.webkitSpeechRecognition));
+    try { setAutoRead(localStorage.getItem('abi-autoread') === '1'); } catch {}
+  }, []);
+  useEffect(() => { bottom.current?.scrollIntoView({ behavior: 'smooth' }); }, [view.display.length, busy]);
+  useEffect(() => {
+    if (!busy) return;
+    const t = setInterval(() => setThinkIdx((i) => (i + 1) % THINKING.length), 2200);
+    return () => clearInterval(t);
+  }, [busy]);
+
+  function speak(t: string) {
+    if (!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(plain(t));
+    u.rate = 1;
+    window.speechSynthesis.speak(u);
+  }
+
+  function toggleListen() {
+    const W = window as any;
+    const R = W.SpeechRecognition || W.webkitSpeechRecognition;
+    if (!R) return;
+    if (listening) { recog.current?.stop(); return; }
+    const r: Recog = new R();
+    r.lang = 'en-US';
+    r.interimResults = true;
+    const before = text ? text + ' ' : '';
+    r.onresult = (e: any) => {
+      let said = '';
+      for (let i = 0; i < e.results.length; i++) said += e.results[i][0].transcript;
+      setText(before + said);
+    };
+    r.onend = () => setListening(false);
+    recog.current = r;
+    window.speechSynthesis?.cancel();
+    r.start();
+    setListening(true);
+  }
+
+  async function send(e?: React.FormEvent) {
+    e?.preventDefault();
+    const t = text.trim();
+    if (!t || busy) return;
+    recog.current?.stop();
+    setBusy(true);
+    setErr('');
+    setText('');
+    setView((v) => ({ ...v, display: [...v.display, { role: 'abi', text: t, at: new Date().toISOString() }] }));
+    try {
+      const r = await fetch('/api/turn', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionId: view.id, text: t }) });
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.error || 'Something went wrong');
+      setView(data.view);
+      const last = data.view.display[data.view.display.length - 1];
+      if (autoRead && last?.role === 'guide') speak(last.text);
+    } catch (ex) {
+      setErr((ex as Error).message);
+      setText(t);
+      setView((v) => ({ ...v, display: v.display.slice(0, -1) }));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  const closed = view.status === 'closed';
+
+  return (
+    <main className="wrap" style={{ paddingBottom: 200 }}>
+      <div className="topbar no-print">
+        <Link href="/">← Case Files</Link>
+        <span>{view.caseId === 'inquiry' ? 'Question' : `Case ${view.number}`}</span>
+      </div>
+
+      <header style={{ marginBottom: 16 }}>
+        <span className="tag">{view.classification}</span>
+        <span className="tag">{METHOD[view.mode]}</span>
+        <h1 className="title" style={{ fontSize: 44 }}>{view.mode === 'inquiry' ? view.question : view.title}</h1>
+      </header>
+
+      {view.opening && (
+        <section className="stack" style={{ gap: 10, marginBottom: 18 }}>
+          <p style={{ margin: 0, fontSize: 20 }}>{view.opening.intro}</p>
+          <div className="row" style={{ gap: 8 }}>
+            {view.opening.cards.map((c, i) => (
+              <button
+                key={i}
+                aria-expanded={Boolean(open[i])}
+                onClick={() => setOpen((o) => ({ ...o, [i]: !o[i] }))}
+                style={{ border: '2px solid var(--teal)', background: open[i] ? 'var(--teal)' : 'var(--teal-soft)', color: open[i] ? '#fff' : '#153f47', borderRadius: 6, padding: '8px 12px', minHeight: 44, fontWeight: 600, fontSize: 15 }}
+              >
+                {c.label}
+              </button>
+            ))}
+            {view.toolbox && (
+              <button aria-expanded={showToolbox} onClick={() => setShowToolbox((s) => !s)} style={{ border: '2px solid var(--ink)', background: showToolbox ? 'var(--ink)' : 'transparent', color: showToolbox ? 'var(--paper)' : 'var(--ink)', borderRadius: 6, padding: '8px 12px', minHeight: 44, fontWeight: 600, fontSize: 15 }}>
+                Toolbox
+              </button>
+            )}
+          </div>
+          {view.opening.cards.map((c, i) =>
+            open[i] ? (
+              <div key={i} className="panel" style={{ padding: 14, display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                <div style={{ flex: 1 }}>
+                  <div className="label" style={{ color: 'var(--teal)' }}>{c.label}</div>
+                  <div>{c.text}</div>
+                </div>
+                <button className="btn ghost" aria-label={`Read ${c.label} aloud`} onClick={() => speak(`${c.label}. ${c.text}`)} style={{ minHeight: 40, padding: '4px 10px' }}>🔊</button>
+              </div>
+            ) : null,
+          )}
+          {showToolbox && view.toolbox && (
+            <div className="panel" style={{ padding: 14 }}>
+              <div className="label" style={{ marginBottom: 8 }}>Toolbox · Budget ${view.budget?.toLocaleString()}</div>
+              <div className="stack" style={{ gap: 8 }}>
+                {view.toolbox.map((t) => (
+                  <div key={t.name} style={{ borderBottom: '1px solid var(--rule)', paddingBottom: 6 }}>
+                    <div className="row" style={{ justifyContent: 'space-between', gap: 6 }}>
+                      <strong style={{ fontSize: 16 }}>{t.name}</strong>
+                      <span className="label">${t.cost.toLocaleString()}{t.capacity ? ` · ${t.capacity.toLocaleString()} L/day` : ''}</span>
+                    </div>
+                    <div className="muted" style={{ fontSize: 15 }}>{t.provides}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          <p style={{ margin: 0, fontWeight: 600 }}>{view.opening.prompt}</p>
+        </section>
+      )}
+
+      {view.design && (
+        <div className="panel" style={{ padding: 12, marginBottom: 14, fontSize: 15 }}>
+          <span className="label">Your design</span> · ${view.design.cost.toLocaleString()} · ~{view.design.liters.toLocaleString()} L/day · {view.design.valid ? 'ready' : 'not done yet'}
+        </div>
+      )}
+
+      {view.stats && (
+        <div className="row" style={{ gap: 8, marginBottom: 14 }} aria-label="Colony status">
+          {view.stats.map((s) => (
+            <div key={s.label} className="panel" style={{ padding: '6px 10px', fontSize: 14 }}>
+              <span className="label" style={{ fontSize: 10 }}>{s.label}</span>
+              <div style={{ display: 'flex', gap: 2, marginTop: 4 }} aria-label={`${s.value} of 10`}>
+                {Array.from({ length: 10 }, (_, i) => (
+                  <span key={i} style={{ width: 8, height: 12, borderRadius: 2, background: i < s.value ? (s.value <= 3 ? 'var(--rust)' : 'var(--teal)') : 'var(--rule)' }} />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <section className="stack" aria-live="polite">
+        {view.display.map((m, i) =>
+          m.role === 'abi' ? (
+            <div key={i} style={{ alignSelf: 'flex-end', maxWidth: '85%', background: 'var(--ink)', color: 'var(--paper)', padding: '10px 14px', borderRadius: '14px 14px 2px 14px' }}>{m.text}</div>
+          ) : (
+            <div key={i} style={{ alignSelf: 'flex-start', maxWidth: '92%', display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+              <div style={{ background: 'var(--card)', border: '1px solid var(--rule)', padding: '10px 14px', borderRadius: '14px 14px 14px 2px', fontSize: 19 }}>
+                <Rich text={m.text} />
+              </div>
+              <button aria-label="Read aloud" onClick={() => speak(m.text)} style={{ border: 'none', background: 'transparent', fontSize: 20, minHeight: 44, minWidth: 44 }}>🔊</button>
+            </div>
+          ),
+        )}
+        {busy && <div className="muted" style={{ fontFamily: 'var(--mono)', fontSize: 14 }}>{THINKING[thinkIdx]}</div>}
+        {closed && (
+          <div className="panel stack" style={{ borderColor: 'var(--rust)', borderWidth: 2 }}>
+            <div className="label" style={{ color: 'var(--rust)' }}>Case closed</div>
+            {view.hasSummary && <div><Link className="btn" href={`/files/${view.id}`}>See your Case Summary</Link></div>}
+          </div>
+        )}
+        <div ref={bottom} />
+      </section>
+
+      <form onSubmit={send} className="no-print" style={{ position: 'fixed', left: 0, right: 0, bottom: 22, background: 'var(--paper)', borderTop: '2px solid var(--ink)', padding: '10px 16px' }}>
+        <div style={{ maxWidth: 760, margin: '0 auto' }} className="stack">
+          {err && <div role="alert" style={{ color: 'var(--rust)', fontSize: 15 }}>{err}</div>}
+          <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end' }}>
+            <label htmlFor="msg" style={{ position: 'absolute', left: -9999 }}>Your message</label>
+            <textarea
+              id="msg"
+              rows={2}
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } }}
+              placeholder={closed ? 'Ask a follow-up…' : listening ? 'Listening…' : 'Type or tap the mic…'}
+              style={{ flex: 1 }}
+            />
+            {canTalk && (
+              <button type="button" onClick={toggleListen} aria-label={listening ? 'Stop listening' : 'Talk instead of typing'} className="btn ghost" style={{ minWidth: 52, background: listening ? 'var(--rust)' : undefined, color: listening ? '#fff' : undefined }}>🎤</button>
+            )}
+            <button className="btn" type="submit" disabled={busy || !text.trim()}>Send</button>
+          </div>
+          <label className="row muted" style={{ fontSize: 14, gap: 6 }}>
+            <input type="checkbox" checked={autoRead} onChange={(e) => { setAutoRead(e.target.checked); try { localStorage.setItem('abi-autoread', e.target.checked ? '1' : '0'); } catch {} }} />
+            Read replies aloud
+          </label>
+        </div>
+      </form>
+    </main>
+  );
+}

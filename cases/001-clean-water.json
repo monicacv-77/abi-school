@@ -1,0 +1,123 @@
+{
+  "id": "001",
+  "title": "Clean Water",
+  "mode": "challenge",
+  "classification": "Design Problem",
+  "unit": "Early Settlements",
+  "location": "Eastern Province, Zambia",
+  "realOrConstructed": "Constructed case in a real setting",
+  "status": "READY",
+  "version": 2,
+  "bigUnderstanding": "Safe water is a system: source, treatment, access, transport and storage, sanitation, and maintenance. A good filter can still be part of a failed system. Abi should discover this by engineering, not be told.",
+  "opening": {
+    "intro": "You've joined a team bringing safe water to Chisomo Village in Zambia. 1,000 people. $30,000. You're the engineer.",
+    "cards": [
+      { "label": "Health worker", "text": "Lots of stomach sickness here. It's worst in the rainy season. Some families live 3 km from the center." },
+      { "label": "Water technician", "text": "We've got a river, some shallow wells, and an old borehole. Its hand pump broke years ago." },
+      { "label": "Village leader", "text": "People carry every drop home. A new system only helps if folks actually use it." },
+      { "label": "Resident", "text": "My closest well goes dry by September. Then it's the long walk to the river." },
+      { "label": "Project brief", "text": "Goal: safe water for about 1,000 people. At least 10,000 liters a day. Budget $30,000 (you don't have to spend it all). The village must run it after you leave." },
+      { "label": "The place", "text": "Rainy season: Nov–Apr, wettest in Jan and Feb. June–Sept: almost no rain. About 1,000 mm (40 in) a year. No reliable electricity." }
+    ],
+    "prompt": "Your toolbox has prices and capacities. Where do you want to start?"
+  },
+  "facilitatorNotes": [
+    "Abi has used household water filters before. Don't explain filtration basics unless she asks.",
+    "Don't announce 'safe water is a system.' Let the stress tests reveal it.",
+    "There is no secret correct design. Household filters, borehole systems, river treatment and hybrids can all succeed if she handles their weak points.",
+    "If she solves a future stress test early (e.g. adds safe containers or drainage), say so when that test comes and let it pass.",
+    "Malaria comes from mosquitoes, not drinking water. If it comes up, teach the difference between waterborne and mosquito-borne illness briefly.",
+    "Use a simple text diagram only if it truly helps her see the system.",
+    "Final question: 'Would you approve this system for Chisomo Village? Why?' Require her reasoning, not a particular answer.",
+    "At the end, it's a nice moment to mention that real humanitarian standards often plan for about 15 liters per person per day, more than our simplified 10."
+  ],
+  "justInTimeConcepts": [
+    "Groundwater vs. surface water: why runoff dirties rivers and shallow wells more than deep boreholes.",
+    "Turbidity (muddiness) makes treatment harder.",
+    "Gravity-fed storage: a raised tank pushes water to taps without power.",
+    "Recontamination: clean water can get dirty again in open containers.",
+    "Waterborne vs. mosquito-borne disease."
+  ],
+  "scaffolds": [
+    "What do you already have that might be useful before buying anything new?",
+    "Which of the success targets does your design not address yet?",
+    "Follow a single liter of water from the source to someone's cup. Where could it go wrong?"
+  ],
+  "completion": "A valid design within budget that meets 10,000 L/day, at least 3 stress tests run, any redesign she chooses, and her answer to 'Would you approve this system? Why?'",
+  "endReveal": {
+    "concept": "Systems engineering: safe water depends on the whole chain — source → treatment → distribution → transport/storage → sanitation/hygiene → maintenance.",
+    "vocabulary": [
+      { "term": "Borehole", "meaning": "A narrow, deep well drilled down to groundwater." },
+      { "term": "Groundwater", "meaning": "Water stored underground in soil and rock." },
+      { "term": "Recontamination", "meaning": "Clean water getting dirty again before someone drinks it." },
+      { "term": "Systems engineering", "meaning": "Designing all the parts so the whole thing works." }
+    ],
+    "realVsConstructed": {
+      "real": "Zambia, Eastern Province, the Chipata area's seasons and rainfall, and the real challenges of rural water: boreholes, safe storage, sanitation, maintenance, and mosquito-borne disease.",
+      "constructed": "Chisomo Village, its people, layout and test results, the $30,000 budget, and the game prices and capacities."
+    }
+  },
+  "skills": ["Design Thinking", "Systems Thinking", "Testing & Improving"],
+  "data": {
+    "kind": "challenge",
+    "budget": 30000,
+    "minLitersPerDay": 10000,
+    "targets": [
+      { "id": "safe", "label": "SAFE", "check": "Safe where people actually drink it, not just at the source." },
+      { "id": "enough", "label": "ENOUGH", "check": "At least 10,000 liters per day (game target: 10 L per person)." },
+      { "id": "accessible", "label": "ACCESSIBLE", "check": "Reasonably reachable by the whole community, including families 2–3 km out." },
+      { "id": "reliable", "label": "RELIABLE", "check": "Works through the rainy season, the dry season, and a breakdown." },
+      { "id": "sustainable", "label": "SUSTAINABLE", "check": "The village can operate, maintain and repair it." }
+    ],
+    "existingResources": [
+      "A river (flows year-round, lower in the dry season)",
+      "Several shallow wells",
+      "An old borehole with a broken hand pump",
+      "A school, a small health post, and a central market",
+      "Residents who can dig, build and do routine maintenance (free labor)",
+      "No reliable electricity"
+    ],
+    "environment": [
+      "Rainy season roughly November–April; January and February are the wettest (about 250 mm each).",
+      "June–September is nearly rainless.",
+      "About 1,000 mm (40 inches) of rain per year (Chipata area).",
+      "Average temperature around 21°C (70°F); hot before the rains.",
+      "Many small streams in the area shrink or dry up late in the dry season."
+    ],
+    "toolbox": [
+      { "id": "repair_borehole", "name": "Repair & test old borehole", "cost": 3000, "provides": "Opens up the old groundwater source again. Needs a pump to get water out." },
+      { "id": "new_borehole", "name": "Drill a new borehole", "cost": 10000, "provides": "A second groundwater source, wherever you choose to drill. Needs a pump." },
+      { "id": "hand_pump", "name": "Hand pump", "cost": 2000, "capacityLitersPerDay": 4000, "provides": "Simple pump, no electricity. About 4,000 L/day of people pumping.", "needs": ["repair_borehole|new_borehole"], "limitedBy": ["repair_borehole", "new_borehole"], "maintenance": "Worn seals and rods every year or two; cheap parts." },
+      { "id": "solar_pump", "name": "Solar pump", "cost": 5000, "capacityLitersPerDay": 15000, "provides": "Pumps about 15,000 L/day on sunny days into a tank.", "needs": ["repair_borehole|new_borehole", "storage_tank"], "limitedBy": ["repair_borehole", "new_borehole"], "maintenance": "Panels need cleaning; electronics need a trained repair person." },
+      { "id": "storage_tank", "name": "10,000 L storage tank on a tower", "cost": 4000, "provides": "Stores water and uses gravity to push it through pipes to taps." },
+      { "id": "river_treatment", "name": "Central river treatment system", "cost": 8000, "capacityLitersPerDay": 12000, "provides": "Filters and disinfects about 12,000 L/day of river water.", "needs": ["existing:river"], "maintenance": "Needs a trained operator, regular chemicals and cleaning." },
+      { "id": "community_taps", "name": "5 community taps + piping", "cost": 4000, "provides": "Five taps placed near clusters of homes.", "needs": ["storage_tank"] },
+      { "id": "pipe_network", "name": "Pipe network to most homes", "cost": 15000, "provides": "Pipes water close to most homes.", "needs": ["storage_tank"] },
+      { "id": "household_filters", "name": "200 household filters (one per home)", "cost": 5000, "capacityLitersPerDay": 4000, "provides": "Each home can filter about 20 L/day of drinking water from whatever source they use.", "needs": ["existing:any water"], "maintenance": "Must be cleaned; parts wear out." },
+      { "id": "safe_containers", "name": "Covered safe-storage containers for every home", "cost": 2000, "provides": "Lidded containers with taps, so water isn't dipped into." },
+      { "id": "drainage", "name": "Drainage at water points", "cost": 2000, "provides": "Drains and soak pits so spilled water doesn't pool." },
+      { "id": "sanitation", "name": "Sanitation improvements", "cost": 5000, "provides": "Latrines placed safely away from water sources." },
+      { "id": "maintenance_fund", "name": "Maintenance training & spare parts fund", "cost": 2000, "provides": "Trains local repair people, stocks spare parts, supplies water test kits." }
+    ],
+    "measurements": [
+      { "id": "river_test", "label": "Test the river water", "result": "Somewhat cloudy. Bacteria from human and animal waste detected. Parasites possible. Treatable with proper filtering and disinfection.", "conditions": "dry season; it's dry season now" },
+      { "id": "river_after_rain", "label": "What the river is like after heavy rain", "result": "Brown and muddy with sediment. Bacteria levels jump sharply from runoff. Much harder to treat.", "conditions": "rainy season, from the technician's records" },
+      { "id": "wells_test", "label": "Test the shallow wells", "result": "They look clearer than the river, but several contain bacteria. Records show it gets worse after rain. Two of them usually dry up by September." },
+      { "id": "borehole_water_test", "label": "Test the borehole water", "result": "Groundwater tests safe for everything tested. No bacteria." },
+      { "id": "borehole_yield", "label": "Pump test: how much the borehole can give", "result": "With a powered pump it can supply about 20,000 L/day. A hand pump is limited by how fast people can pump." },
+      { "id": "borehole_inspect", "label": "Inspect the broken borehole pump", "result": "Worn-out seals and a broken rod. Nobody in the village knows how to fix it, and parts come from Chipata, hours away. It's been broken four years." },
+      { "id": "home_survey", "label": "Survey where homes are", "result": "About 60% of homes are within 1 km of the center. About 25% are 1–2 km out. About 15% are 2–3 km out, in three small clusters." },
+      { "id": "water_use", "label": "Ask how families use water now", "result": "Families carry about 10–15 liters per person per day, mostly in buckets on foot. Far clusters spend up to two hours a day on water trips." },
+      { "id": "home_storage", "label": "Look at how families store water at home", "result": "Most use open buckets or jerrycans. People dip cups and hands into them. Some containers sit on the floor uncovered." },
+      { "id": "sunshine", "label": "Check sunshine through the year", "result": "Strong sun most of the year. In the rainy season there are runs of cloudy days when solar output drops to about half." },
+      { "id": "mosquitoes", "label": "Ask the health post about fevers", "result": "Fevers go up in the rainy season. The clinic says many are malaria." }
+    ],
+    "stressTests": [
+      { "id": "rainy_season", "order": 1, "name": "Rainy season", "scenario": "Heavy rain for several days. The river turns brown with mud and runoff. Bacteria rise in the river and some shallow wells. Cloudy skies for a week.", "passesIf": "Passes if her safe-water source isn't wrecked by runoff (borehole groundwater is fine; river treatment struggles with mud unless she planned for it; filters clog faster with muddy water). Solar pumps make about half on cloudy days: check whether storage/backup covers it." },
+      { "id": "access", "order": 2, "name": "Access", "scenario": "The health worker reports: families near the safe water use it every day, but many families 2–3 km away still use the old wells and river.", "passesIf": "Passes if her design brings safe water reasonably close to the far clusters (extra taps, piping, a second borehole out there, household treatment, etc.). Safe but far away is not success." },
+      { "id": "recontamination", "order": 3, "name": "Recontamination", "scenario": "Water tested at the taps is safe. But samples from several homes are contaminated.", "passesIf": "Passes if she already provided safe storage or household treatment. Otherwise she should figure out why.", "hiddenDetail": "Families carry and store water in open buckets and dip cups and hands in." },
+      { "id": "mosquito", "order": 4, "name": "Mosquito twist", "scenario": "In the rainy season the clinic sees more fevers, even though drinking water tests stay good.", "passesIf": "Not a drinking-water failure. Passes once she understands malaria is spread by mosquitoes breeding in standing water, and decides whether to add drainage or covers. Credit drainage she already added.", "hiddenDetail": "Puddles around taps and pumps, uncovered containers, and rain pools are breeding mosquitoes." },
+      { "id": "breakdown", "order": 5, "name": "Breakdown", "scenario": "Six months in, the main pump (or the most critical part of her system) fails.", "passesIf": "Passes if there's a backup (second source, hand pump, stored water, household filters) and local people can repair it (maintenance fund/training, spare parts). Fails if everyone has to go back to the river and wait for outside help." }
+    ]
+  }
+}
