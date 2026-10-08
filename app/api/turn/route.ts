@@ -15,6 +15,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ view: toView(session) });
   } catch (err) {
     console.error('turn failed', err);
-    return NextResponse.json({ error: 'The guide hit a snag. Try sending that again.' }, { status: 500 });
+    return NextResponse.json({ error: `The guide hit a snag (${(err as Error).message}). Try sending that again.` }, { status: 500 });
   }
 }

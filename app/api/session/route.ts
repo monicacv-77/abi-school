@@ -9,6 +9,15 @@ export const maxDuration = 120;
 
 // Start a case (caseId) or an Inquiry (question). Parents can start test runs of any case.
 export async function POST(req: Request) {
+  try {
+    return await start(req);
+  } catch (e) {
+    console.error('start failed', e);
+    return NextResponse.json({ error: `Couldn't open the case: ${(e as Error).message}` }, { status: 500 });
+  }
+}
+
+async function start(req: Request) {
   const body = (await req.json().catch(() => ({}))) as { caseId?: string; question?: string; wonderId?: string; test?: boolean };
   const isParent = (await cookies()).get(PARENT_COOKIE)?.value === (await parentToken());
   const isTest = Boolean(body.test && isParent);
