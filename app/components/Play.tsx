@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import type { SessionView } from '@/lib/view';
+import KeepExploring from './KeepExploring';
 
 const METHOD: Record<string, string> = { challenge: 'Challenge', investigation: 'Investigation', simulation: 'Simulation', inquiry: 'Inquiry' };
 const THINKING = ['Thinking…', 'Checking the evidence…', 'Consulting the archive…', 'Doing the math…', 'Hmm…'];
@@ -257,6 +258,7 @@ export default function Play({ initial }: { initial: SessionView }) {
             {view.hasSummary && <div><Link className="btn" href={`/files/${view.id}`}>See your Case Summary</Link></div>}
           </div>
         )}
+        {closed && view.followUps && view.followUps.length > 0 && <KeepExploring questions={view.followUps} />}
         <div ref={bottom} />
       </section>
 

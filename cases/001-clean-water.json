@@ -375,5 +375,12 @@
         "examples": "tap stands and pipes"
       }
     ]
-  }
+  },
+  "followUpSeeds": [
+    "how water filters and disinfection actually kill germs",
+    "how cities clean and deliver water today, including Santa Barbara's",
+    "the people who invented public water systems and germ theory, like John Snow and the 1854 cholera map",
+    "solar power and pumps",
+    "why some places in the world still lack safe water"
+  ]
 }

@@ -30,6 +30,7 @@ function caseSpec(c: CaseDef): string {
     `Completion criteria: ${c.completion}`,
     `End reveal (after close only): ${c.endReveal.concept}\nVocabulary: ${c.endReveal.vocabulary.map((v) => `${v.term} = ${v.meaning}`).join('; ')}\nReal: ${c.endReveal.realVsConstructed.real}\nConstructed: ${c.endReveal.realVsConstructed.constructed}`,
     `Skills for the summary: ${c.skills.join(', ')}`,
+    c.followUpSeeds?.length ? `Follow-up directions for the 'Keep exploring' questions at close: ${c.followUpSeeds.join('; ')}` : '',
     c.timelineEvents?.length ? `Timeline events you may pin when they come up: ${c.timelineEvents.map((t) => `${t.year} — ${t.label}`).join('; ')}` : '',
     `CASE DATA\n${(ENGINES[c.mode] as { spec: (c: CaseDef) => string }).spec(c)}`,
   ]
@@ -107,9 +108,17 @@ async function runTool(s: Session, c: CaseDef | undefined, name: string, input: 
       concepts: Array.isArray(input.parent_concepts) ? input.parent_concepts.map(String) : [],
       notes: '',
     };
+    s.followUps = (Array.isArray(input.follow_ups) ? input.follow_ups : [])
+      .map((q: unknown) => String(q).trim())
+      .filter(Boolean)
+      .slice(0, 4)
+      .map((q: string) => (q.length > 140 ? q.slice(0, 137) + '…' : q));
     s.status = 'closed';
     s.stage = 'closed';
-    return { result: 'Case closed and Case Summary saved. Now give the short end reveal (concept name, real vs. invented) in 3–5 sentences.' };
+    return {
+      result:
+        "Case closed and Case Summary saved. Now give the short end reveal (concept name, real vs. invented) in 3–5 sentences. Her 'Keep exploring' questions appear as buttons below your message: don't list them; at most say one short line inviting her to pick one.",
+    };
   }
   const out = (ENGINES[s.mode].handle as (n: string, i: unknown, s: Session, c: CaseDef) => { result: string; isError?: boolean } | null)(name, input, s, c as CaseDef);
   return out ?? { result: `Unknown tool ${name}`, isError: true };

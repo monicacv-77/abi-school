@@ -21,10 +21,10 @@ async function main() {
   await runTurn(s, 'build it', fakeClient([[tu('submit_design', { description: 'borehole + solar + tank + taps', items: [{ id: 'repair_borehole', qty: 1 }, { id: 'solar_pump', qty: 1 }, { id: 'storage_tank', qty: 1 }, { id: 'tap_stand', qty: 6 }, { id: 'pipe_km', qty: 3 }] })], [tx('designed')]]));
   await runTurn(s, 'close it', fakeClient([[tu('close_case', { abi_final_words: 'x', hook: 'h', quote: 'q', quote_label: 'l', visual: { kind: 'list', title: 't', items: ['a'] }, found_title: 'f', found: ['a'], parent_what_happened: 'p' })], [tx('not yet')]]));
   for (const t of ['rainy_season', 'access', 'recontamination']) await runTurn(s, 'test', fakeClient([[tu('run_stress_test', { test_id: t })], [tx('ran ' + t)]]));
-  await runTurn(s, 'yes approve', fakeClient([[tu('close_case', { abi_final_words: 'I approve', hook: 'h', quote: 'q', quote_label: 'l', visual: { kind: 'list', title: 't', items: ['a'] }, found_title: 'f', found: ['a'], parent_what_happened: 'p' })], [tx('closed!')]]));
+  await runTurn(s, 'yes approve', fakeClient([[tu('close_case', { abi_final_words: 'I approve', hook: 'h', quote: 'q', quote_label: 'l', visual: { kind: 'list', title: 't', items: ['a'] }, found_title: 'f', found: ['a'], follow_ups: ['How do solar pumps work?', 'How does my town clean water?', 'Who invented water filters?'], parent_what_happened: 'p' })], [tx('closed!')]]));
   const after = await getSession(s.id);
   const results = after!.api.filter((m: any) => m.role === 'user' && Array.isArray(m.content)).map((m: any) => m.content[0].content.split('\n')[0]);
   console.log(results.join('\n'));
-  console.log('status:', after!.status, '| design:', JSON.stringify(after!.state.design));
+  console.log('followUps:', JSON.stringify(after!.followUps)); console.log('status:', after!.status, '| design:', JSON.stringify(after!.state.design));
 }
 main();

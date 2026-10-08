@@ -270,5 +270,11 @@
     ],
     "resolved": false,
     "winCondition": "You crack the case by making a case: what you think happened, 2–3 clues that back it up, one clue that doesn't fit and how you explain it, and how sure you are. There's no answer key. Historians still argue about this one."
-  }
+  },
+  "followUpSeeds": [
+    "how tree rings record climate",
+    "how archaeologists date objects",
+    "the Croatoan people and Hatteras Island today",
+    "other famous unsolved history mysteries"
+  ]
 }

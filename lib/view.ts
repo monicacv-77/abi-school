@@ -20,6 +20,7 @@ export interface SessionView {
   board?: { theory: string; supporting: string[]; problems: string[] }[];
   question?: string;
   hasSummary: boolean;
+  followUps?: string[];
 }
 
 export function toView(s: Session): SessionView {
@@ -35,6 +36,7 @@ export function toView(s: Session): SessionView {
     classification: c?.classification ?? 'Open Question',
     question: s.question,
     hasSummary: Boolean(s.summary),
+    followUps: s.followUps,
   };
   if (c) v.opening = c.opening;
   if (c?.data.kind === 'challenge') {

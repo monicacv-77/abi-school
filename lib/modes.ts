@@ -54,11 +54,17 @@ const CLOSE_CASE: Tool = {
         description: '2–4 terms that became relevant, each defined in under 15 plain words',
       },
       skills: { type: 'array', items: { type: 'string' }, description: '2–3 skills, e.g. "Cause & Effect", "Using Evidence", "Design Thinking"' },
+      follow_ups: {
+        type: 'array',
+        items: { type: 'string' },
+        description:
+          "Exactly 3 'Keep exploring' questions Abi might want to ask next, written as she would ask them (under 12 words each, plain words). Make them different: one deeper science/technology question, one 'how does this work today' question, one people/history question. Build on what she was curious about in this case and the case's follow-up directions. They appear as buttons, so don't list them in your reply.",
+      },
       parent_what_happened: { type: 'string', description: 'For her mom: 3–5 sentences on what Abi did, where she struggled, what clicked.' },
       parent_scaffolds_used: { type: 'string', description: 'Hints you had to give, if any.' },
       parent_concepts: { type: 'array', items: { type: 'string' }, description: 'Academic concepts covered, for the curriculum index.' },
     },
-    required: ['abi_final_words', 'hook', 'quote', 'quote_label', 'visual', 'found_title', 'found', 'parent_what_happened'],
+    required: ['abi_final_words', 'hook', 'quote', 'quote_label', 'visual', 'found_title', 'found', 'follow_ups', 'parent_what_happened'],
   },
 };
 

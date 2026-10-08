@@ -35,6 +35,7 @@ export interface CaseDef {
   endReveal: { concept: string; vocabulary: { term: string; meaning: string }[]; realVsConstructed: { real: string; constructed: string } };
   skills: string[];
   timelineEvents?: { year: string; label: string }[];
+  followUpSeeds?: string[]; // directions for the end-of-case 'Keep exploring' questions
   data: ChallengeData | InvestigationData | SimulationData;
 }
 
@@ -180,6 +181,7 @@ export interface Session {
   state: Record<string, unknown>; // mode state (design, revealed, stats, ...)
   question?: string; // inquiry
   summary?: CaseSummary;
+  followUps?: string[]; // 'Keep exploring' questions offered after closing
   parent?: ParentRecord;
   isTest?: boolean; // started from the parent dashboard
 }
