@@ -65,6 +65,7 @@ export async function startCaseSession(caseId: string, isTest = false): Promise<
     display: [],
     state: ENGINES[c.mode].initialState(c as never),
     isTest,
+    caseSnapshot: JSON.parse(JSON.stringify(c)),
   };
   await saveSession(s);
   return s;

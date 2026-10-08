@@ -36,6 +36,7 @@ export interface CaseDef {
   skills: string[];
   timelineEvents?: { year: string; label: string }[];
   followUpSeeds?: string[]; // directions for the end-of-case 'Keep exploring' questions
+  winCondition: string; // shown to Abi on screen, for every case type
   data: ChallengeData | InvestigationData | SimulationData;
 }
 
@@ -89,7 +90,7 @@ export interface InvestigationData {
   kind: 'investigation';
   question: string;
   resolved: boolean; // false = real unsolved mystery: no answer key, any evidence-backed verdict can win
-  winCondition: string; // shown to Abi
+  winCondition?: string; // (legacy; the case-level winCondition is used)
   trueExplanation: string; // hidden — may be "unresolved" for real history
   causalChain?: string[];
   evidence: EvidenceItem[];
@@ -115,6 +116,14 @@ export interface DecisionPoint {
   situation: string;
   options: DecisionOption[];
 }
+export interface StatTrigger {
+  id: string;
+  stat: string;
+  below?: number; // fires when stat <= below
+  above?: number; // fires when stat >= above
+  event: string; // what happens (narrate it)
+  effects?: Record<string, number>; // knock-on stat changes
+}
 export interface SimulationData {
   kind: 'simulation';
   role: string;
@@ -124,7 +133,8 @@ export interface SimulationData {
   people: { name: string; who: string; voice: string; real: boolean }[];
   dailyLife: string[];
   stats: StatDef[];
-  fixedEvents: { id: string; when: string; event: string }[]; // happen regardless
+  fixedEvents: { id: string; when: string; event: string; effects?: Record<string, number> }[]; // happen regardless
+  triggers?: StatTrigger[]; // consequences that fire when a stat crosses a line
   decisions: DecisionPoint[];
   scienceHooks?: string[];
   historyComparison: string; // for the end
@@ -184,6 +194,7 @@ export interface Session {
   followUps?: string[]; // 'Keep exploring' questions offered after closing
   parent?: ParentRecord;
   isTest?: boolean; // started from the parent dashboard
+  caseSnapshot?: CaseDef; // the case exactly as it was when this session started (version lock)
 }
 
 export interface SessionIndexEntry {

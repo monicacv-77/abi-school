@@ -7,15 +7,27 @@
   "location": "James River, Virginia",
   "realOrConstructed": "Real history and science; Abi's assignment is invented",
   "status": "READY",
-  "version": 1,
+  "version": 2,
   "bigUnderstanding": "Food is a system: crop, soil, water, timing, tools, knowledge and labor. The English failed because they brought the wrong crops, farmed the wrong ground the wrong way at the wrong time, without the people or knowledge to do it, during a drought. The Powhatan succeeded with crops and methods refined over generations, including corn, beans and squash planted together, which work as a living system. Sets up why Jamestown depended on Powhatan corn in the simulation.",
   "opening": {
     "intro": "1609. Jamestown is starving. A few miles upriver, a Powhatan town has so much corn it trades the extra. Same sun. Same rain. So why is one field dying while the other one is full?",
     "cards": [
-      { "label": "The English field", "text": "Neat rows of wheat and barley from England. Thin, yellow, patchy. Bare dirt baked hard between the rows." },
-      { "label": "The Powhatan field", "text": "Looks messy: corn in little hills, beans climbing the stalks, giant squash leaves covering the ground. And it's loaded with food." },
-      { "label": "Your job", "text": "The Virginia Company sent you to find out why its colony can't feed itself. They're paying. They want answers." },
-      { "label": "How to win", "text": "Explain why the English fields fail and the Powhatan fields thrive: at least 3 causes, each backed by evidence." }
+      {
+        "label": "The English field",
+        "text": "Neat rows of wheat and barley from England. Thin, yellow, patchy. Bare dirt baked hard between the rows."
+      },
+      {
+        "label": "The Powhatan field",
+        "text": "Looks messy: corn in little hills, beans climbing the stalks, giant squash leaves covering the ground. And it's loaded with food."
+      },
+      {
+        "label": "Your job",
+        "text": "The Virginia Company sent you to find out why its colony can't feed itself. They're paying. They want answers."
+      },
+      {
+        "label": "How to win",
+        "text": "Explain why the English fields fail and the Powhatan fields thrive: at least 3 causes, each backed by evidence."
+      }
     ],
     "prompt": "What do you want to check first?"
   },
@@ -43,20 +55,42 @@
   "endReveal": {
     "concept": "Agriculture as a system. Corn, beans and squash grown together (often called the Three Sisters) support each other: corn is the pole, beans feed the soil nitrogen, squash shades and protects the ground.",
     "vocabulary": [
-      { "term": "Nitrogen fixation", "meaning": "Bacteria on bean roots turning air into plant food." },
-      { "term": "Three Sisters", "meaning": "Corn, beans and squash planted together to help each other." },
-      { "term": "Native crop", "meaning": "A plant suited to a place over thousands of years." },
-      { "term": "Drought", "meaning": "A long stretch of much less rain than normal." }
+      {
+        "term": "Nitrogen fixation",
+        "meaning": "Bacteria on bean roots turning air into plant food."
+      },
+      {
+        "term": "Three Sisters",
+        "meaning": "Corn, beans and squash planted together to help each other."
+      },
+      {
+        "term": "Native crop",
+        "meaning": "A plant suited to a place over thousands of years."
+      },
+      {
+        "term": "Drought",
+        "meaning": "A long stretch of much less rain than normal."
+      }
     ],
     "realVsConstructed": {
       "real": "Jamestown's failing harvests, the crops and methods on both sides, Powhatan women farmers, Kemps and Tassore, the rats, the 1606–1612 drought, and the science of nitrogen and shade.",
       "constructed": "Your assignment from the Company and the side-by-side field visit."
     }
   },
-  "skills": ["Cause & Effect", "Systems Thinking", "Using Evidence"],
+  "skills": [
+    "Cause & Effect",
+    "Systems Thinking",
+    "Using Evidence"
+  ],
   "timelineEvents": [
-    { "year": "1607", "label": "English plant their first crops at Jamestown" },
-    { "year": "1609", "label": "Powhatan men teach colonists to plant corn" }
+    {
+      "year": "1607",
+      "label": "English plant their first crops at Jamestown"
+    },
+    {
+      "year": "1609",
+      "label": "Powhatan men teach colonists to plant corn"
+    }
   ],
   "followUpSeeds": [
     "Native American farming technology, like how corn was bred from a wild grass called teosinte",
@@ -71,30 +105,154 @@
     "resolved": true,
     "winCondition": "Explain why the English fields fail and the Powhatan fields thrive: at least 3 causes, each backed by evidence.",
     "trueExplanation": "Several causes together. (1) Wrong crops: English wheat and barley suit cool, wet England; corn was bred for this land and gives far more food per seed. (2) Wrong ground: Jamestown Island is low, marshy and salty in places; Powhatan fields sit on better-drained ground. (3) Wrong method: bare rows dry out and grow weeds; the Powhatan system of corn, beans and squash in hills keeps soil fertile (bean nodules add nitrogen), shaded and damp, with fewer weeds, and needs no plow. (4) Knowledge and labor: Powhatan women were expert farmers; many English were gentlemen who wouldn't farm, few were farmers, and men were sent hunting gold. (5) Timing: the English planted late. (6) A severe drought hurt everyone, but the Powhatan system handled it better. When colonists learned Powhatan methods in 1609, they grew corn successfully.",
-    "causalChain": ["English crops from a cool, wet country", "Planted late in marshy ground", "In bare rows that dry out", "By few farmers who knew this land", "During a drought", "Thin harvests and hunger"],
+    "causalChain": [
+      "English crops from a cool, wet country",
+      "Planted late in marshy ground",
+      "In bare rows that dry out",
+      "By few farmers who knew this land",
+      "During a drought",
+      "Thin harvests and hunger"
+    ],
     "evidence": [
-      { "id": "english_field", "label": "Inspect the English field up close", "howToGet": "inspect", "result": "Wheat and barley from England in straight rows. Stunted, yellowing leaves. The bare soil between rows is cracked and hard. Weeds are winning in places. Some low corners are soggy and the plants there have rotted." },
-      { "id": "powhatan_field", "label": "Inspect the Powhatan field up close", "howToGet": "inspect", "result": "Corn planted in small mounds about a step apart. Bean vines spiral up the corn stalks. Big squash leaves spread across the ground between mounds. Hardly any bare dirt shows, and there are few weeds." },
-      { "id": "ground", "label": "Compare the ground under each field", "howToGet": "inspect / test", "result": "Jamestown Island is low and marshy. After rain, parts flood; near the river the soil tastes salty. The Powhatan field is on higher, well-drained ground by a creek, dark and crumbly." },
-      { "id": "bean_roots", "label": "Dig up a bean plant and look at its roots", "howToGet": "dig / science", "result": "The roots are covered in small lumps called nodules. Inside them live bacteria that take nitrogen from the air and turn it into a form plants can use as food. Corn is a hungry plant that uses up lots of nitrogen." },
-      { "id": "under_squash", "label": "Check the soil under the squash leaves vs. bare soil", "howToGet": "measure", "result": "Under the squash leaves the soil is cooler and still damp. Bare soil in the English field is hot and dry. Prickly squash stems also discourage animals, and the shade blocks weed seedlings." },
-      { "id": "crops", "label": "Where each crop comes from", "howToGet": "research", "result": "Wheat and barley come from cool, rainy places like England. Corn was bred by Native farmers over thousands of years from a wild grass, and suits hot, humid Virginia summers. One planted corn kernel can produce hundreds of new kernels; wheat produces far fewer per seed." },
-      { "id": "who_farms", "label": "Who does the farming in each place", "howToGet": "ask / observe", "result": "In Powhatan towns, women are the farmers: skilled, organized, and trained from childhood by older women. Men clear new fields, hunt and fish. At Jamestown, many colonists are gentlemen who refuse to farm, there are few trained farmers, and men have been sent to hunt gold." },
-      { "id": "tools", "label": "What tools each side uses", "howToGet": "observe", "result": "The English farm like they did at home, with rows meant for plows and oxen, but they have almost no plows and no work animals yet, just hoes and spades. Powhatan farmers use hoes and digging sticks; their mound method was designed for hand tools." },
-      { "id": "timing", "label": "When each side planted", "howToGet": "records", "result": "The English arrived in May 1607 and spent the first weeks building the fort, so crops went in late. Powhatan farmers plant in spring, in stages, so harvests come in over the summer and fall." },
-      { "id": "clearing", "label": "How the Powhatan prepare a field", "howToGet": "ask", "result": "Men kill trees by cutting a ring through the bark, then burn the brush. The ash enriches the soil. After several years, they let a field rest and recover while they farm a new one." },
-      { "id": "drought", "label": "Tree-ring data for 1606–1612", "howToGet": "science", "result": "Tree rings show the driest seven-year stretch in about 770 years in this region. Everyone's harvests were hurt, Powhatan and English." },
-      { "id": "kemps", "label": "What happened when the English copied Powhatan methods", "howToGet": "records", "result": "In 1609 two Powhatan men held at Jamestown, Kemps and Tassore, showed the colonists how to plant corn their way. John Smith reported the colony planted 30 to 40 acres of corn that year." },
-      { "id": "rats", "label": "What happened to the colony's stored corn", "howToGet": "records", "result": "In 1609 the colonists opened their corn storage and found much of it eaten or spoiled by rats that came over on English ships." }
+      {
+        "id": "english_field",
+        "label": "Inspect the English field up close",
+        "howToGet": "inspect",
+        "result": "Wheat and barley from England in straight rows. Stunted, yellowing leaves. The bare soil between rows is cracked and hard. Weeds are winning in places. Some low corners are soggy and the plants there have rotted."
+      },
+      {
+        "id": "powhatan_field",
+        "label": "Inspect the Powhatan field up close",
+        "howToGet": "inspect",
+        "result": "Corn planted in small mounds about a step apart. Bean vines spiral up the corn stalks. Big squash leaves spread across the ground between mounds. Hardly any bare dirt shows, and there are few weeds."
+      },
+      {
+        "id": "ground",
+        "label": "Compare the ground under each field",
+        "howToGet": "inspect / test",
+        "result": "Jamestown Island is low and marshy. After rain, parts flood; near the river the soil tastes salty. The Powhatan field is on higher, well-drained ground by a creek, dark and crumbly."
+      },
+      {
+        "id": "bean_roots",
+        "label": "Dig up a bean plant and look at its roots",
+        "howToGet": "dig / science",
+        "result": "The roots are covered in small lumps called nodules. Inside them live bacteria that take nitrogen from the air and turn it into a form plants can use as food. Corn is a hungry plant that uses up lots of nitrogen."
+      },
+      {
+        "id": "under_squash",
+        "label": "Check the soil under the squash leaves vs. bare soil",
+        "howToGet": "measure",
+        "result": "Under the squash leaves the soil is cooler and still damp. Bare soil in the English field is hot and dry. Prickly squash stems also discourage animals, and the shade blocks weed seedlings."
+      },
+      {
+        "id": "crops",
+        "label": "Where each crop comes from",
+        "howToGet": "research",
+        "result": "Wheat and barley come from cool, rainy places like England. Corn was bred by Native farmers over thousands of years from a wild grass, and suits hot, humid Virginia summers. One planted corn kernel can produce hundreds of new kernels; wheat produces far fewer per seed."
+      },
+      {
+        "id": "who_farms",
+        "label": "Who does the farming in each place",
+        "howToGet": "ask / observe",
+        "result": "In Powhatan towns, women are the farmers: skilled, organized, and trained from childhood by older women. Men clear new fields, hunt and fish. At Jamestown, many colonists are gentlemen who refuse to farm, there are few trained farmers, and men have been sent to hunt gold."
+      },
+      {
+        "id": "tools",
+        "label": "What tools each side uses",
+        "howToGet": "observe",
+        "result": "The English farm like they did at home, with rows meant for plows and oxen, but they have almost no plows and no work animals yet, just hoes and spades. Powhatan farmers use hoes and digging sticks; their mound method was designed for hand tools."
+      },
+      {
+        "id": "timing",
+        "label": "When each side planted",
+        "howToGet": "records",
+        "result": "The English arrived in May 1607 and spent the first weeks building the fort, so crops went in late. Powhatan farmers plant in spring, in stages, so harvests come in over the summer and fall."
+      },
+      {
+        "id": "clearing",
+        "label": "How the Powhatan prepare a field",
+        "howToGet": "ask",
+        "result": "Men kill trees by cutting a ring through the bark, then burn the brush. The ash enriches the soil. After several years, they let a field rest and recover while they farm a new one."
+      },
+      {
+        "id": "drought",
+        "label": "Tree-ring data for 1606–1612",
+        "howToGet": "science",
+        "result": "Tree rings show the driest seven-year stretch in about 770 years in this region. Everyone's harvests were hurt, Powhatan and English."
+      },
+      {
+        "id": "kemps",
+        "label": "What happened when the English copied Powhatan methods",
+        "howToGet": "records",
+        "result": "In 1609 two Powhatan men held at Jamestown, Kemps and Tassore, showed the colonists how to plant corn their way. John Smith reported the colony planted 30 to 40 acres of corn that year."
+      },
+      {
+        "id": "rats",
+        "label": "What happened to the colony's stored corn",
+        "howToGet": "records",
+        "result": "In 1609 the colonists opened their corn storage and found much of it eaten or spoiled by rats that came over on English ships."
+      }
     ],
     "theories": [
-      { "theory": "The English brought the wrong crops for Virginia", "supportedBy": ["crops", "english_field"], "weakenedBy": [] },
-      { "theory": "The soil at Jamestown was bad", "supportedBy": ["ground", "english_field"], "weakenedBy": [] },
-      { "theory": "Powhatan planting method (corn, beans, squash together) works better", "supportedBy": ["powhatan_field", "bean_roots", "under_squash", "kemps"], "weakenedBy": [] },
-      { "theory": "The English didn't have the farmers or knowledge", "supportedBy": ["who_farms", "tools", "kemps"], "weakenedBy": [] },
-      { "theory": "It was just the drought", "supportedBy": ["drought"], "weakenedBy": ["powhatan_field", "kemps"] },
-      { "theory": "Rats ruined the farms", "supportedBy": ["rats"], "weakenedBy": ["english_field", "powhatan_field"] }
+      {
+        "theory": "The English brought the wrong crops for Virginia",
+        "supportedBy": [
+          "crops",
+          "english_field"
+        ],
+        "weakenedBy": []
+      },
+      {
+        "theory": "The soil at Jamestown was bad",
+        "supportedBy": [
+          "ground",
+          "english_field"
+        ],
+        "weakenedBy": []
+      },
+      {
+        "theory": "Powhatan planting method (corn, beans, squash together) works better",
+        "supportedBy": [
+          "powhatan_field",
+          "bean_roots",
+          "under_squash",
+          "kemps"
+        ],
+        "weakenedBy": []
+      },
+      {
+        "theory": "The English didn't have the farmers or knowledge",
+        "supportedBy": [
+          "who_farms",
+          "tools",
+          "kemps"
+        ],
+        "weakenedBy": []
+      },
+      {
+        "theory": "It was just the drought",
+        "supportedBy": [
+          "drought"
+        ],
+        "weakenedBy": [
+          "powhatan_field",
+          "kemps"
+        ]
+      },
+      {
+        "theory": "Rats ruined the farms",
+        "supportedBy": [
+          "rats"
+        ],
+        "weakenedBy": [
+          "english_field",
+          "powhatan_field"
+        ]
+      }
     ],
-    "redHerrings": ["Rats: they ruined stored corn, not the growing fields"]
-  }
+    "redHerrings": [
+      "Rats: they ruined stored corn, not the growing fields"
+    ]
+  },
+  "winCondition": "Explain why the English fields fail and the Powhatan fields thrive: at least 3 causes, each backed by evidence."
 }

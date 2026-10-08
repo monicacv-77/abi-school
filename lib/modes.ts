@@ -105,7 +105,9 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
 - Never hand her multiple-choice designs. She invents the design. Unconventional ideas are fine if physically plausible: give a fair game cost/capacity consistent with the toolbox scale.
 - When she proposes a design, call submit_design. Report cost, daily capacity and any missing pieces. If it's over budget or under target, tell her the engineering result and let her fix it.
 - After a valid design, say it's ready and ask if she wants to test it. Then run stress tests in order with run_stress_test, one at a time. Narrate the scenario briefly, ask what happens to her system, let her reason, then judge fairly using the test's pass rule. If her design already handles a test, say so: don't manufacture failure.
-- After a failed test she may redesign: call submit_design again, then retest as needed.
+- After each stress test, once Abi has reasoned it through, call judge_test with whether her design passed.
+- IMPROVE is required: after a failed test, Abi redesigns (submit_design again) and you retest that weakness. Don't fix it for her.
+- If her design passes every test, run ALL the stress tests (a perfect design should prove it).
 - Finish with the case's final question, get her reasoning, then close.
 `.trim(),
   tools: (): Tool[] => [
@@ -143,6 +145,15 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
       },
     },
     {
+      name: 'judge_test',
+      description: 'Record whether her current design passed a stress test you already ran, after she has reasoned it through.',
+      input_schema: {
+        type: 'object',
+        properties: { test_id: { type: 'string' }, passed: { type: 'boolean' }, note: { type: 'string', description: 'one short line: why' } },
+        required: ['test_id', 'passed'],
+      },
+    },
+    {
       name: 'run_stress_test',
       description: 'Run the next stress test on the current design. Returns the scenario and how to judge it.',
       input_schema: { type: 'object', properties: { test_id: { type: 'string' } }, required: ['test_id'] },
@@ -166,7 +177,7 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
         .join('\n')}`,
     ].join('\n\n');
   },
-  initialState: () => ({ revealed: [], design: null, testsRun: [], designCount: 0 }),
+  initialState: () => ({ revealed: [], design: null, testsRun: [], designCount: 0, results: [], step: 0 }),
   handle(name: string, input: any, s: Session, c: CaseDef): ToolOutcome | null {
     const d = c.data as ChallengeData;
     if (name === 'look_up') {
@@ -223,6 +234,8 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
       const valid = !overBudget && !underTarget && missing.length === 0;
       s.state.design = { description: input.description, lines, cost, liters, valid };
       s.state.designCount = (Number(s.state.designCount) || 0) + 1;
+      s.state.step = (Number(s.state.step) || 0) + 1;
+      s.state.lastDesignStep = s.state.step;
       s.stage = valid ? (arr(s.state.testsRun).length ? 'improve' : 'build') : 'design';
       return {
         result: [
@@ -237,6 +250,19 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
           .filter(Boolean)
           .join('\n'),
       };
+    }
+    if (name === 'judge_test') {
+      if (!arr<string>(s.state.testsRun).includes(String(input.test_id))) return { result: 'Run that stress test first.', isError: true };
+      s.state.step = (Number(s.state.step) || 0) + 1;
+      const results = arr<{ test: string; passed: boolean; note: string; step: number }>(s.state.results);
+      results.push({ test: String(input.test_id), passed: Boolean(input.passed), note: String(input.note ?? ''), step: Number(s.state.step) });
+      s.state.results = results;
+      if (!input.passed) {
+        s.state.lastFailStep = s.state.step;
+        s.stage = 'improve';
+        return { result: 'Recorded: failed. Let Abi figure out what to change; then submit_design and retest.' };
+      }
+      return { result: 'Recorded: passed.' };
     }
     if (name === 'run_stress_test') {
       const design = s.state.design as { valid?: boolean } | null;
@@ -260,7 +286,7 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
     const design = s.state.design as { description: string; cost: number; liters: number; valid: boolean } | null;
     return `Stage: ${s.stage}. Measurements taken: ${arr<string>(s.state.revealed).join(', ') || 'none'}. ${
       design ? `Current design: "${design.description}", ${money(design.cost)}, ~${design.liters} L/day, ${design.valid ? 'valid' : 'not valid'}.` : 'No design yet.'
-    } Stress tests run: ${arr<string>(s.state.testsRun).join(', ') || 'none'} of ${d.stressTests.length}.`;
+    } Stress tests run: ${arr<string>(s.state.testsRun).join(', ') || 'none'} of ${d.stressTests.length}. Results: ${arr<{ test: string; passed: boolean }>(s.state.results).map((r) => `${r.test} ${r.passed ? 'passed' : 'FAILED'}`).join(', ') || 'none yet'}. Redesigns: ${Math.max(0, (Number(s.state.designCount) || 0) - 1)}.`;
   },
   canClose(s: Session, c: CaseDef): string | null {
     const d = c.data as ChallengeData;
@@ -268,6 +294,11 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
     if (!design?.valid) return 'There is no valid design yet.';
     const need = Math.min(3, d.stressTests.length);
     if (arr(s.state.testsRun).length < need) return `Run at least ${need} stress tests first (run so far: ${arr(s.state.testsRun).length}).`;
+    const results = arr<{ passed: boolean }>(s.state.results);
+    if (results.length < need) return `Judge the stress tests you ran (judge_test). Judged so far: ${results.length}.`;
+    const lastFail = Number(s.state.lastFailStep) || 0;
+    if (lastFail && (Number(s.state.lastDesignStep) || 0) < lastFail) return 'Her design failed a test and she has not improved it yet. Let her redesign (submit_design), then retest.';
+    if (!lastFail && arr(s.state.testsRun).length < d.stressTests.length) return 'Her design has passed everything so far. Run all the stress tests before closing.';
     return null;
   },
 };
@@ -277,7 +308,7 @@ const investigation = {
   rules: `
 MODE: INVESTIGATION — "Figure it out." Abi is the investigator. Backbone: Question → Evidence → Hypothesis → Conclusion.
 - You play the lab, the archive and the witnesses.
-- Abi decides what to look at. When she asks for something that matches an evidence item, call examine and report the result in 1–3 sentences. If she asks for something the case doesn't have, give a short plausible answer that doesn't change the case.
+- Abi decides what to look at. Whenever evidence reaches her, whether she inspects it, reads it, or a witness or character tells her, call examine for that item FIRST and base your answer on its result. Report it in 1–3 sentences (in character if a witness). If she asks for something the case doesn't have, give a short plausible answer that doesn't change the case.
 - Never list what she should investigate. No multiple choice.
 - The evidence never changes to fit her theory.
 - When she proposes an explanation, call record_theory. Don't demand a theory after every clue.
@@ -290,8 +321,8 @@ MODE: INVESTIGATION — "Figure it out." Abi is the investigator. Backbone: Ques
   tools: (): Tool[] => [
     {
       name: 'examine',
-      description: 'Examine an evidence item Abi asked about. Returns the actual evidence from the case data.',
-      input_schema: { type: 'object', properties: { evidence_id: { type: 'string' } }, required: ['evidence_id'] },
+      description: 'Reveal an evidence item to Abi, whether she inspects it or a witness testifies to it. Returns the actual evidence from the case data. Call before describing it.',
+      input_schema: { type: 'object', properties: { evidence_id: { type: 'string' }, via: { type: 'string', description: 'optional: who told her, e.g. "testimony of John Smith"' } }, required: ['evidence_id'] },
     },
     {
       name: 'record_theory',
@@ -350,13 +381,48 @@ MODE: INVESTIGATION — "Figure it out." Abi is the investigator. Backbone: Ques
     return `Stage: ${s.stage}. Evidence examined (${arr(s.state.examined).length}/${d.evidence.length}): ${arr<string>(s.state.examined).join(', ') || 'none'}. Theories so far: ${arr<string>(s.state.theories).map((t) => `"${t}"`).join(' → ') || 'none'}.`;
   },
   canClose(s: Session): string | null {
-    if (arr(s.state.examined).length < 3) return 'Abi has examined fewer than 3 pieces of evidence.';
+    if (arr(s.state.examined).length < 3) return `Only ${arr(s.state.examined).length} evidence items are recorded. If Abi already heard or saw more evidence (including witness testimony), call examine for each of those items now, then close.`;
     if (!arr(s.state.theories).length) return 'Abi has not stated a theory yet (record_theory).';
     return null;
   },
 };
 
 // ---------------------------------------------------------------- SIMULATION
+
+// Apply stat changes, then fire any threshold consequences (each fires once; knock-ons can chain).
+function applyStats(d: SimulationData, s: Session, effects: Record<string, number>): { changes: string[]; triggered: string[] } {
+  const stats = (s.state.stats ?? {}) as Record<string, number>;
+  const clamp = (n: number) => Math.max(0, Math.min(10, n));
+  const changes: string[] = [];
+  const triggered: string[] = [];
+  const apply = (eff: Record<string, number>) => {
+    for (const [k, v] of Object.entries(eff)) {
+      if (!(k in stats) || !v) continue;
+      stats[k] = clamp(stats[k] + v);
+      const st = d.stats.find((x) => x.id === k);
+      changes.push(`${st?.label ?? k} ${v > 0 ? '↑' : '↓'}${Math.abs(v)}`);
+    }
+  };
+  apply(effects);
+  const fired = arr<string>(s.state.triggered);
+  for (let round = 0; round < 3; round++) {
+    let any = false;
+    for (const t of d.triggers ?? []) {
+      if (fired.includes(t.id)) continue;
+      const v = stats[t.stat];
+      const hit = (t.below !== undefined && v <= t.below) || (t.above !== undefined && v >= t.above);
+      if (!hit) continue;
+      fired.push(t.id);
+      triggered.push(t.event);
+      if (t.effects) apply(t.effects);
+      any = true;
+    }
+    if (!any) break;
+  }
+  s.state.stats = stats;
+  s.state.triggered = fired;
+  return { changes, triggered };
+}
 const simulation = {
   rules: `
 MODE: SIMULATION — "Live the history." Abi is a participant inside a real historical world. Backbone: Role → Situation → Decision → Consequence → Adapt.
@@ -367,6 +433,7 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
 - History is mechanisms: when it matters, let her see WHY things happen (incentives, orders from investors, disease, weather, relationships).
 - Present one decision at a time, with the 3–4 options from the case, in very short form. She may also propose her own choice. Call make_choice to get the consequence and stat changes, then narrate.
 - Real historical events happen on schedule: call advance_time to bring the next fixed event in when the story reaches it.
+- Her choices have knock-on effects: when a tool result says CONSEQUENCE TRIGGERED, that event happens now. Narrate it briefly and let her respond. These are how her earlier decisions shape what comes later.
 - Her version of history may differ from what really happened. The setting and facts stay accurate.
 - At the end, compare her outcome with what really happened, briefly.
 `.trim(),
@@ -401,6 +468,7 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
       `Daily life details to weave in:\n${d.dailyLife.map((x) => `- ${x}`).join('\n')}`,
       d.scienceHooks?.length ? `Science hooks (let her investigate these if she's curious):\n${d.scienceHooks.map((x) => `- ${x}`).join('\n')}` : '',
       `Stats (0–10, shown on her screen): ${d.stats.map((x) => x.label).join(', ')}`,
+      d.triggers?.length ? `Consequences that fire automatically when stats cross a line (don't reveal ahead of time): ${d.triggers.map((t) => `${t.stat} ${t.below !== undefined ? `≤ ${t.below}` : `≥ ${t.above}`}`).join(', ')}` : '',
       `Real events, in order (details hidden — call advance_time):\n${d.fixedEvents.map((e) => `- ${e.id}: ${e.when}`).join('\n')}`,
       `Decision points, in order:\n${d.decisions
         .map((dp) => `- ${dp.id} (${dp.when}): ${dp.situation}\n  Options: ${dp.options.map((o) => `${o.id} = ${o.label}`).join(' | ')}`)
@@ -417,7 +485,6 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
   handle(name: string, input: any, s: Session, c: CaseDef): ToolOutcome | null {
     const d = c.data as SimulationData;
     const stats = (s.state.stats ?? {}) as Record<string, number>;
-    const clamp = (n: number) => Math.max(0, Math.min(10, n));
     if (name === 'make_choice') {
       const dp = d.decisions.find((x) => x.id === input.decision_id);
       if (!dp) return { result: `Unknown decision. Valid ids: ${d.decisions.map((x) => x.id).join(', ')}`, isError: true };
@@ -438,30 +505,44 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
         label = String(input.custom_choice);
         consequence = 'Abi chose her own path. Narrate a fair, historically plausible consequence.';
       } else return { result: 'Give option_id or custom_choice.', isError: true };
-      const changes: string[] = [];
-      for (const [k, v] of Object.entries(effects)) {
-        if (!(k in stats)) continue;
-        stats[k] = clamp(stats[k] + v);
-        const st = d.stats.find((x) => x.id === k);
-        changes.push(`${st?.label ?? k} ${v > 0 ? '↑' : '↓'}${Math.abs(v)}`);
-      }
-      s.state.stats = stats;
+      const { changes, triggered } = applyStats(d, s, effects);
       s.state.choices = [...arr(s.state.choices), { decision: dp.id, choice: label }];
       s.stage = 'decision';
-      return { result: `Choice: ${label}\nConsequence: ${consequence}\nStat changes: ${changes.join(', ') || 'none'}\nStats now: ${d.stats.map((x) => `${x.label} ${stats[x.id]}`).join(', ')}` };
+      const now = (s.state.stats ?? {}) as Record<string, number>;
+      return {
+        result: [
+          `Choice: ${label}`,
+          `Consequence: ${consequence}`,
+          `Stat changes: ${changes.join(', ') || 'none'}`,
+          ...triggered.map((t) => `CONSEQUENCE TRIGGERED: ${t}`),
+          `Stats now: ${d.stats.map((x) => `${x.label} ${now[x.id]}`).join(', ')}`,
+        ].join('\n'),
+      };
     }
     if (name === 'advance_time') {
       const e = d.fixedEvents.find((x) => x.id === input.event_id);
       if (!e) return { result: `Unknown event. Valid ids: ${d.fixedEvents.map((x) => x.id).join(', ')}`, isError: true };
+      if (arr<string>(s.state.events).includes(e.id)) return { result: 'That event already happened.', isError: true };
       pushUnique(s.state, 'events', e.id);
-      return { result: `${e.when}: ${e.event}` };
+      const { changes, triggered } = applyStats(d, s, e.effects ?? {});
+      const now = (s.state.stats ?? {}) as Record<string, number>;
+      return {
+        result: [
+          `${e.when}: ${e.event}`,
+          changes.length ? `Stat changes: ${changes.join(', ')}` : '',
+          ...triggered.map((t) => `CONSEQUENCE TRIGGERED: ${t}`),
+          `Stats now: ${d.stats.map((x) => `${x.label} ${now[x.id]}`).join(', ')}`,
+        ]
+          .filter(Boolean)
+          .join('\n'),
+      };
     }
     return null;
   },
   status(s: Session, c: CaseDef) {
     const d = c.data as SimulationData;
     const stats = (s.state.stats ?? {}) as Record<string, number>;
-    return `Stats: ${d.stats.map((x) => `${x.label} ${stats[x.id]}`).join(', ')}. Decisions made: ${arr<{ decision: string; choice: string }>(s.state.choices).map((c) => `${c.decision}: ${c.choice}`).join('; ') || 'none'}. Events so far: ${arr<string>(s.state.events).join(', ') || 'none'}. Remaining decisions: ${d.decisions.filter((dp) => !arr<{ decision: string }>(s.state.choices).some((c) => c.decision === dp.id)).map((dp) => dp.id).join(', ') || 'none'}.`;
+    return `Stats: ${d.stats.map((x) => `${x.label} ${stats[x.id]}`).join(', ')}. Consequences triggered: ${arr<string>(s.state.triggered).join(', ') || 'none'}. Decisions made: ${arr<{ decision: string; choice: string }>(s.state.choices).map((c) => `${c.decision}: ${c.choice}`).join('; ') || 'none'}. Events so far: ${arr<string>(s.state.events).join(', ') || 'none'}. Remaining decisions: ${d.decisions.filter((dp) => !arr<{ decision: string }>(s.state.choices).some((c) => c.decision === dp.id)).map((dp) => dp.id).join(', ') || 'none'}.`;
   },
   canClose(s: Session, c: CaseDef): string | null {
     const d = c.data as SimulationData;

@@ -7,7 +7,7 @@
   "location": "Eastern Province, Zambia",
   "realOrConstructed": "Constructed case in a real setting",
   "status": "READY",
-  "version": 3,
+  "version": 4,
   "bigUnderstanding": "Safe water is a system: source, treatment, access, transport and storage, sanitation, and maintenance. A good filter can still be part of a failed system. Abi should discover this by engineering, not be told.",
   "opening": {
     "intro": "You've joined a team bringing safe water to Chisomo Village in Zambia. 1,000 people. $30,000. You're the engineer.",
@@ -61,7 +61,7 @@
     "Which of the success targets does your design not address yet?",
     "Follow a single liter of water from the source to someone's cup. Where could it go wrong?"
   ],
-  "completion": "A valid design within budget that meets 10,000 L/day, at least 3 stress tests run, any redesign she chooses, and her answer to 'Would you approve this system? Why?'",
+  "completion": "A valid design within budget that meets 10,000 L/day; at least 3 stress tests run and judged; if anything failed, at least one redesign and retest (if nothing failed, all 5 tests); then her answer to 'Would you approve this system? Why?'",
   "endReveal": {
     "concept": "Systems engineering: safe water depends on the whole chain — source → treatment → distribution → transport/storage → sanitation/hygiene → maintenance.",
     "vocabulary": [
@@ -382,5 +382,6 @@
     "the people who invented public water systems and germ theory, like John Snow and the 1854 cholera map",
     "solar power and pumps",
     "why some places in the world still lack safe water"
-  ]
+  ],
+  "winCondition": "Design a system that hits all five targets: safe, enough, accessible, reliable, sustainable. Then survive the stress tests, and fix whatever breaks."
 }

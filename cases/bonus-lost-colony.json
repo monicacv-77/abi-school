@@ -7,7 +7,7 @@
   "location": "Roanoke Island, North Carolina",
   "realOrConstructed": "Real historical case",
   "status": "HOLD",
-  "version": 3,
+  "version": 4,
   "bigUnderstanding": "Historians reason from evidence, like scientists, and some questions are still open. A strong answer is the one the evidence best supports, stated with the right confidence. Also plants seeds for Jamestown: supply ships, relationships with Native nations, and drought.",
   "opening": {
     "intro": "In 1587, 115 English men, women and children landed on an island off North Carolina. Three years later, every single one of them was gone. Nobody has proven what happened. Yet.",
@@ -276,5 +276,6 @@
     "how archaeologists date objects",
     "the Croatoan people and Hatteras Island today",
     "other famous unsolved history mysteries"
-  ]
+  ],
+  "winCondition": "You crack the case by making a case: what you think happened, 2–3 clues that back it up, one clue that doesn't fit and how you explain it, and how sure you are. There's no answer key. Historians still argue about this one."
 }

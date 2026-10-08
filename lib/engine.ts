@@ -3,7 +3,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { FACILITATOR_GUIDE } from './guide';
 import { ENGINES, toolsFor } from './modes';
-import { getCase } from './cases';
+import { caseFor } from './cases';
 import { addTimeline, addWonder, saveSession } from './sessions';
 import type { CaseDef, CaseSummary, Session } from './types';
 
@@ -21,6 +21,7 @@ const METHOD: Record<Session['mode'], string> = {
 function caseSpec(c: CaseDef): string {
   return [
     `CASE ${c.id} — ${c.title.toUpperCase()}`,
+    `How to win (on Abi's screen): ${c.winCondition}`,
     `Mode: ${METHOD[c.mode]} · Classification: ${c.classification} · Location: ${c.location ?? '—'} · ${c.realOrConstructed} · Case version ${c.version}`,
     `Big understanding (hidden): ${c.bigUnderstanding}`,
     `ALREADY ON ABI'S SCREEN (don't repeat it unless she asks):\n${c.opening.intro}\n${c.opening.cards.map((k) => `[${k.label}] ${k.text}`).join('\n')}\n${c.opening.prompt}`,
@@ -130,7 +131,7 @@ export interface TurnResult {
 }
 
 export async function runTurn(s: Session, userText: string, client = new Anthropic()): Promise<TurnResult> {
-  const c = s.caseId === 'inquiry' ? undefined : getCase(s.caseId);
+  const c = caseFor(s);
   const now = new Date().toISOString();
   const text = userText.trim().slice(0, 2000);
   s.api.push({ role: 'user', content: text });

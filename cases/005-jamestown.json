@@ -7,7 +7,7 @@
   "location": "Jamestown, Virginia",
   "realOrConstructed": "Real historical setting with alternate outcomes",
   "status": "DRAFT",
-  "version": 1,
+  "version": 2,
   "bigUnderstanding": "What was it really like to try to survive in early Virginia? Settlers failed for reasons that make sense: investor pressure for gold, gentlemen who wouldn't work, bad water, drought, dependence on supply ships and on the Powhatan for food. DRAFT engine-test version; Monica's tested Jamestown design will replace this.",
   "opening": {
     "intro": "May 1607. After four and a half months at sea, three small ships slide up a wide river in Virginia. You're Kit, 14, servant and record-keeper for the colony's council.",
@@ -169,7 +169,10 @@
       {
         "id": "attack",
         "when": "Late May 1607",
-        "event": "About 200 warriors attack the half-built camp. Several colonists are hurt and a boy is killed. Cannon from the ships drive the attackers off. The council orders a fort built at once."
+        "event": "About 200 warriors attack the half-built camp. Several colonists are hurt and a boy is killed. Cannon from the ships drive the attackers off. The council orders a fort built at once.",
+        "effects": {
+          "morale": -1
+        }
       },
       {
         "id": "fort_done",
@@ -184,27 +187,45 @@
       {
         "id": "sickness",
         "when": "July–August 1607",
-        "event": "Men fall sick one after another with fevers and stomach illness. Some days several are buried. Food runs low."
+        "event": "Men fall sick one after another with fevers and stomach illness. Some days several are buried. Food runs low.",
+        "effects": {
+          "health": -2,
+          "morale": -1
+        }
       },
       {
         "id": "gosnold_dies",
         "when": "August 22, 1607",
-        "event": "Bartholomew Gosnold dies. The council starts fighting among itself."
+        "event": "Bartholomew Gosnold dies. The council starts fighting among itself.",
+        "effects": {
+          "morale": -1
+        }
       },
       {
         "id": "smith_captured",
         "when": "December 1607",
-        "event": "John Smith, out trading for corn, is captured and taken to Powhatan himself. He returns weeks later, alive, with stories."
+        "event": "John Smith, out trading for corn, is captured and taken to Powhatan himself. He returns weeks later, alive, with stories.",
+        "effects": {
+          "relations": 1
+        }
       },
       {
         "id": "first_supply",
         "when": "January 2, 1608",
-        "event": "Newport returns with supplies and about 100 new colonists. Only about 38 of the original men are still alive."
+        "event": "Newport returns with supplies and about 100 new colonists. Only about 38 of the original men are still alive.",
+        "effects": {
+          "food": 3,
+          "company": 1
+        }
       },
       {
         "id": "fire",
         "when": "January 7, 1608",
-        "event": "A fire sweeps through the fort, burning most houses and supplies in the dead of winter."
+        "event": "A fire sweeps through the fort, burning most houses and supplies in the dead of winter.",
+        "effects": {
+          "food": -2,
+          "morale": -2
+        }
       }
     ],
     "decisions": [
@@ -389,7 +410,66 @@
         ]
       }
     ],
-    "historyComparison": "Real Jamestown: built on the swampy island; gold hunting and gentlemen refusing work cost months; drinking brackish river water and drought helped kill about two-thirds of the first colonists by January 1608 (about 38 of 104 survived); the colony survived largely because of corn from the Powhatan and supply ships. Worse came in the 1609–10 'Starving Time.'"
+    "historyComparison": "Real Jamestown: built on the swampy island; gold hunting and gentlemen refusing work cost months; drinking brackish river water and drought helped kill about two-thirds of the first colonists by January 1608 (about 38 of 104 survived); the colony survived largely because of corn from the Powhatan and supply ships. Worse came in the 1609–10 'Starving Time.'",
+    "triggers": [
+      {
+        "id": "hunger",
+        "stat": "food",
+        "below": 2,
+        "event": "The food runs out. Men eat acorns and boil shoe leather. The sick get sicker.",
+        "effects": {
+          "health": -2,
+          "morale": -1
+        }
+      },
+      {
+        "id": "deaths",
+        "stat": "health",
+        "below": 3,
+        "event": "Burials every day now. Too few healthy men are left to stand guard or plant.",
+        "effects": {
+          "morale": -1,
+          "food": -1
+        }
+      },
+      {
+        "id": "mutiny",
+        "stat": "morale",
+        "below": 2,
+        "event": "A group of men plots to steal the small ship and sail home. The council has to stop them.",
+        "effects": {
+          "company": -1
+        }
+      },
+      {
+        "id": "ambush",
+        "stat": "relations",
+        "below": 2,
+        "event": "Warriors ambush a party gathering firewood. No one leaves the fort without guards now.",
+        "effects": {
+          "health": -1,
+          "food": -1
+        }
+      },
+      {
+        "id": "company_angry",
+        "stat": "company",
+        "below": 2,
+        "event": "A letter from London: the investors are furious. Send gold, valuable goods, or news of the passage, or they'll replace the council.",
+        "effects": {
+          "morale": -1
+        }
+      },
+      {
+        "id": "corn_gifts",
+        "stat": "relations",
+        "above": 8,
+        "event": "Powhatan messengers arrive with baskets of corn and venison as gifts. Wahunsenacah wants to keep the English close.",
+        "effects": {
+          "food": 2
+        }
+      }
+    ]
   },
   "followUpSeeds": [
     "what disease and drinking water did to early colonies",
@@ -397,5 +477,6 @@
     "how tobacco changed Virginia",
     "what happened to Jamestown in the Starving Time",
     "archaeology at Jamestown today"
-  ]
+  ],
+  "winCondition": "Keep your colony alive until January 1608. Then tell the council what you'd do differently, and why things went the way they did."
 }

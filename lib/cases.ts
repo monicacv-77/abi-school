@@ -1,6 +1,6 @@
 // Case registry. Cases live as JSON in /cases, versioned in git.
 // To add a case: drop a JSON file in /cases and import it here, in sequence order.
-import type { CaseDef } from './types';
+import type { CaseDef, Session } from './types';
 import c001 from '@/cases/001-clean-water.json';
 import c002 from '@/cases/002-failing-farm.json';
 import c003 from '@/cases/003-too-good-to-be-true.json';
@@ -16,4 +16,10 @@ export const PLANNED = [
 
 export function getCase(id: string): CaseDef | undefined {
   return CASES.find((c) => c.id === id);
+}
+
+/** The case a session should use: its own snapshot (version lock), falling back to the current file. */
+export function caseFor(s: Pick<Session, 'caseId' | 'caseSnapshot'>): CaseDef | undefined {
+  if (s.caseId === 'inquiry') return undefined;
+  return s.caseSnapshot ?? getCase(s.caseId);
 }
