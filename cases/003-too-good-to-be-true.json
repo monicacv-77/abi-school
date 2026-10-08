@@ -1,0 +1,241 @@
+{
+  "id": "003",
+  "title": "Too Good to Be True",
+  "mode": "investigation",
+  "classification": "Disputed Claims",
+  "unit": "Early Settlements",
+  "location": "London and Jamestown, Virginia",
+  "realOrConstructed": "Real historical case",
+  "status": "READY",
+  "version": 1,
+  "bigUnderstanding": "Who made a claim, and what they wanted, shapes what they say. The Virginia Company needed money and settlers, so it sold Virginia as paradise; the people who actually went told a very different story. The gap between the ad and reality cost lives. Quietly builds the habit Abi needs for modern ads and influencers: who's paying, what do they want me to do, who was actually there? Also sets up the investor pressure in the Jamestown simulation.",
+  "opening": {
+    "intro": "London, 1609. Pamphlets promise a land across the ocean so rich and easy you'd be silly not to go. Meanwhile, letters from that same land describe men dying of hunger. Somebody is not telling the truth.",
+    "cards": [
+      {
+        "label": "The ad",
+        "text": "From a 1609 London pamphlet (in modern words): Virginia has rich soil, sweet air, friendly people, and riches waiting to be found. Invest now!"
+      },
+      {
+        "label": "The letter",
+        "text": "From a colonist at Jamestown, 1607 (in modern words): Our only drink is river water, salty at high tide, full of slime and filth at low tide. Men are dying every day."
+      },
+      {
+        "label": "The Virginia Company",
+        "text": "A business in London. People bought shares in it, hoping Virginia would make them rich. It ran Jamestown."
+      },
+      {
+        "label": "How to win",
+        "text": "Explain who was telling the truth, why the other side said what it did, and back it up with at least 3 clues."
+      }
+    ],
+    "prompt": "Where do you want to start digging?"
+  },
+  "facilitatorNotes": [
+    "This is a SOLVED case: the evidence clearly shows the Company oversold Virginia because it needed money and settlers. The settlers weren't blameless either (many gentlemen refused to work), and a sharp answer can include that.",
+    "Treat every document as a source to question: who wrote it, were they there, when, and what did they want? Let Abi discover that question set herself; teach the words 'bias' and 'propaganda' only once she's found the idea.",
+    "The quotes are real 1600s writing put in modern words. If she asks, say they're modernized and that the originals use old spelling.",
+    "Keep it funny where the hype is ridiculous (shiploads of shiny dirt sent home as gold).",
+    "Do NOT mention modern ads or influencers during the case, and never suggest Abi personally falls for ads. After closing, add ONE short sentence connecting to today, like: 'Same trick still works: ask who's paying and what they want you to do.' Then offer to save a question about modern ads or influencers to her Wonder List if she seems interested.",
+    "The Powhatan appear in these sources through English eyes. If it comes up, point out that the English writers had their own reasons for how they described Native people, which is the same skill she's using.",
+    "Pin real events to her timeline as they come up."
+  ],
+  "justInTimeConcepts": [
+    "Primary source: written by someone who was there, at the time.",
+    "Bias: a reason a source might lean one way.",
+    "Motive: who benefits if you believe this?",
+    "Propaganda: messages made to persuade, not to inform.",
+    "Investors and shares: people put money in hoping to get more back."
+  ],
+  "scaffolds": [
+    "For each source: who wrote it, and were they actually in Virginia?",
+    "What did the Virginia Company need from the people reading its pamphlets?",
+    "Who did the ads attract, and what happened when those people arrived?"
+  ],
+  "completion": "Abi has examined at least 3 sources and explained, in her own words, who was telling the truth, why the other side said what it did, and backed it with at least 3 clues.",
+  "endReveal": {
+    "concept": "Source reliability and motive: ask who made a claim, whether they were there, and what they wanted. Messages built to persuade are called propaganda.",
+    "vocabulary": [
+      {
+        "term": "Primary source",
+        "meaning": "Evidence from someone who was there at the time."
+      },
+      {
+        "term": "Bias",
+        "meaning": "A reason a source leans one way."
+      },
+      {
+        "term": "Propaganda",
+        "meaning": "A message designed to persuade, not to inform."
+      },
+      {
+        "term": "Joint-stock company",
+        "meaning": "A business where many investors share costs and profits."
+      }
+    ],
+    "realVsConstructed": {
+      "real": "Everything: the Virginia Company, its pamphlets and lotteries, John Smith's letter, George Percy's account, the fool's gold, and the people who came.",
+      "constructed": "Nothing invented. The quotes are real, just put into modern words."
+    }
+  },
+  "skills": [
+    "Source Reliability",
+    "Spotting Motive",
+    "Using Evidence"
+  ],
+  "timelineEvents": [
+    {
+      "year": "1606",
+      "label": "King James charters the Virginia Company"
+    },
+    {
+      "year": "May 1607",
+      "label": "Jamestown is founded"
+    },
+    {
+      "year": "1609",
+      "label": "Company pamphlets advertise Virginia"
+    },
+    {
+      "year": "1609–1610",
+      "label": "The Starving Time at Jamestown"
+    }
+  ],
+  "data": {
+    "kind": "investigation",
+    "question": "The ads said Virginia was paradise. The settlers said it was a nightmare. Who was telling the truth, and why would anyone say otherwise?",
+    "resolved": true,
+    "winCondition": "Explain who was telling the truth, why the other side said what it did, and back it up with at least 3 clues.",
+    "trueExplanation": "The settlers' accounts are more reliable: they were there, and their hardship is confirmed by death counts. The Virginia Company oversold Virginia because it needed investors' money and settlers; it profited only if people believed. The hype attracted the wrong people (gentlemen and gold-seekers expecting easy riches), which made things worse. When disaster struck, the Company blamed the settlers and the weather and kept advertising. Strong answers also note the settlers weren't blameless (many refused to work) and that the land was rich for people who knew how to live there, like the Powhatan.",
+    "causalChain": [
+      "Investors want profit",
+      "Company needs money and settlers",
+      "Ads promise paradise",
+      "Wrong people sign up",
+      "Hunger, disease, little work done",
+      "Many die",
+      "Company blames settlers, keeps advertising"
+    ],
+    "evidence": [
+      {
+        "id": "pamphlet",
+        "label": "The 1609 pamphlet (Nova Britannia)",
+        "howToGet": "read",
+        "result": "Written in London by Robert Johnson, a Company member who never went to Virginia. It praises rich soil, a healthy climate and endless resources, and urges readers to buy shares. Its goal: raise money and recruits."
+      },
+      {
+        "id": "company_money",
+        "label": "How the Virginia Company made money",
+        "howToGet": "research",
+        "result": "Investors bought shares. The Company made money only if Virginia produced something valuable to sell: gold, goods, or crops. For years, it produced almost nothing. It always needed new money from new believers."
+      },
+      {
+        "id": "orders_1606",
+        "label": "The Company's orders to the first colonists (1606)",
+        "howToGet": "read",
+        "result": "Find gold and other minerals. Find a river route to the Pacific Ocean (and on to Asian trade). Keep the colony well defended. Profit first."
+      },
+      {
+        "id": "who_came",
+        "label": "Who actually signed up",
+        "howToGet": "read passenger lists",
+        "result": "Of the first 104 men and boys, about a third were listed as 'gentlemen,' men who didn't do manual work. Later ships brought goldsmiths and refiners to process the gold everyone expected. Very few farmers."
+      },
+      {
+        "id": "percy",
+        "label": "George Percy's account (1607)",
+        "howToGet": "read",
+        "result": "A gentleman colonist who was there. In modern words: men died of swellings, fevers and stomach sickness, sometimes several a day; their only drink was salty, slimy river water; they were starving. He was a gentleman from a powerful family who wanted the colony to succeed, so he had no reason to make it look worse than it was."
+      },
+      {
+        "id": "smith_letter",
+        "label": "John Smith's letter to the Company (1608)",
+        "howToGet": "read",
+        "result": "Smith, who ran the colony for a while, wrote back angrily (in modern words): send me 30 carpenters, farmers, fishermen, blacksmiths and masons rather than a thousand of the kind we have. He complained the Company cared more about gold than survival."
+      },
+      {
+        "id": "fools_gold",
+        "label": "The great gold rush of 1608",
+        "howToGet": "research",
+        "result": "Colonists spent weeks digging glittery dirt and loaded a ship with it for London. Experts there tested it: worthless. Likely iron pyrite, 'fool's gold.' Meanwhile, the fields went unplanted."
+      },
+      {
+        "id": "death_count",
+        "label": "How many survived",
+        "howToGet": "records",
+        "result": "Of the 104 who landed in 1607, about 38 were alive when the first supply ship came in January 1608. In the 'Starving Time' winter of 1609–1610, roughly 500 colonists fell to about 60."
+      },
+      {
+        "id": "true_declaration",
+        "label": "The Company's 1610 report after the Starving Time",
+        "howToGet": "read",
+        "result": "The Company's official explanation blamed a hurricane, lazy and quarrelsome colonists, and bad luck. It insisted Virginia itself was still wonderful and kept recruiting."
+      },
+      {
+        "id": "lottery",
+        "label": "How the Company kept raising money",
+        "howToGet": "research",
+        "result": "When investors got nervous, the Company was allowed to run lotteries in England, starting in 1612, to raise money. More ads, more promises."
+      },
+      {
+        "id": "powhatan_food",
+        "label": "Did anyone in Virginia have plenty of food?",
+        "howToGet": "research",
+        "result": "Yes. The Powhatan grew corn, beans and squash, fished and hunted, and stored food for winter. The land could feed people who knew how to live there. The English often traded for their corn, or took it."
+      },
+      {
+        "id": "drought",
+        "label": "Tree-ring data for 1606–1612",
+        "howToGet": "science",
+        "result": "Tree rings show the driest seven years in about 770 years in that region. Even skilled farmers had bad harvests. Not something the ads mentioned."
+      }
+    ],
+    "theories": [
+      {
+        "theory": "The Company oversold Virginia to get money and settlers",
+        "supportedBy": [
+          "pamphlet",
+          "company_money",
+          "orders_1606",
+          "true_declaration",
+          "lottery"
+        ],
+        "weakenedBy": []
+      },
+      {
+        "theory": "The settlers exaggerated and just complained",
+        "supportedBy": [],
+        "weakenedBy": [
+          "percy",
+          "death_count",
+          "smith_letter"
+        ]
+      },
+      {
+        "theory": "Virginia was great; the settlers were just lazy",
+        "supportedBy": [
+          "who_came",
+          "fools_gold",
+          "powhatan_food"
+        ],
+        "weakenedBy": [
+          "drought",
+          "percy",
+          "death_count"
+        ]
+      },
+      {
+        "theory": "Both: oversold by the Company, made worse by the wrong people and bad choices",
+        "supportedBy": [
+          "pamphlet",
+          "who_came",
+          "fools_gold",
+          "smith_letter",
+          "death_count"
+        ],
+        "weakenedBy": []
+      }
+    ],
+    "redHerrings": []
+  }
+}

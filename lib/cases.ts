@@ -2,10 +2,11 @@
 // To add a case: drop a JSON file in /cases and import it here, in sequence order.
 import type { CaseDef } from './types';
 import c001 from '@/cases/001-clean-water.json';
-import c003 from '@/cases/003-lost-colony.json';
+import c003 from '@/cases/003-too-good-to-be-true.json';
+import b1 from '@/cases/bonus-lost-colony.json';
 import c005 from '@/cases/005-jamestown.json';
 
-export const CASES: CaseDef[] = [c001, c003, c005] as unknown as CaseDef[];
+export const CASES: CaseDef[] = [c001, c003, c005, b1] as unknown as CaseDef[];
 
 // Cases planned for the unit but not written yet (shown on the dashboard).
 export const PLANNED = [

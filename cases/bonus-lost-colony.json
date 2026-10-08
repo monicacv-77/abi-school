@@ -1,12 +1,12 @@
 {
-  "id": "003",
+  "id": "B1",
   "title": "The Lost Colony",
   "mode": "investigation",
   "classification": "Historical File",
-  "unit": "Early Settlements",
+  "unit": "Early Settlements (bonus)",
   "location": "Roanoke Island, North Carolina",
   "realOrConstructed": "Real historical case",
-  "status": "READY",
+  "status": "HOLD",
   "version": 3,
   "bigUnderstanding": "Historians reason from evidence, like scientists, and some questions are still open. A strong answer is the one the evidence best supports, stated with the right confidence. Also plants seeds for Jamestown: supply ships, relationships with Native nations, and drought.",
   "opening": {
