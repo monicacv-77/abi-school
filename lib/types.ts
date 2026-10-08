@@ -47,6 +47,7 @@ export interface ToolboxItem {
   needs?: string[]; // ids this item depends on to work ("a|b" = either; "existing:x" = already there)
   limitedBy?: string[]; // capacity counts only up to the total quantity of these items (e.g. one pump per borehole)
   maintenance?: string;
+  hidden?: boolean; // never mentioned unless Abi proposes this idea herself
 }
 export interface Measurement {
   id: string;
@@ -67,6 +68,7 @@ export interface ChallengeData {
   budget: number;
   targets: { id: string; label: string; check: string }[];
   minLitersPerDay?: number;
+  buildingBlocks: { name: string; examples: string }[]; // what Abi sees: categories, no prices
   toolbox: ToolboxItem[];
   measurements: Measurement[];
   stressTests: StressTest[];

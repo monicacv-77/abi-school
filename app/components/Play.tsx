@@ -147,7 +147,7 @@ export default function Play({ initial }: { initial: SessionView }) {
                 {c.label}
               </button>
             ))}
-            {view.toolbox && (
+            {view.blocks && (
               <button aria-expanded={showToolbox} onClick={() => setShowToolbox((s) => !s)} style={{ border: '2px solid var(--ink)', background: showToolbox ? 'var(--ink)' : 'transparent', color: showToolbox ? 'var(--paper)' : 'var(--ink)', borderRadius: 6, padding: '8px 12px', minHeight: 44, fontWeight: 600, fontSize: 15 }}>
                 Toolbox
               </button>
@@ -164,20 +164,15 @@ export default function Play({ initial }: { initial: SessionView }) {
               </div>
             ) : null,
           )}
-          {showToolbox && view.toolbox && (
+          {showToolbox && view.blocks && (
             <div className="panel" style={{ padding: 14 }}>
-              <div className="label" style={{ marginBottom: 8 }}>Toolbox · Budget ${view.budget?.toLocaleString()}</div>
-              <div className="stack" style={{ gap: 8 }}>
-                {view.toolbox.map((t) => (
-                  <div key={t.name} style={{ borderBottom: '1px solid var(--rule)', paddingBottom: 6 }}>
-                    <div className="row" style={{ justifyContent: 'space-between', gap: 6 }}>
-                      <strong style={{ fontSize: 16 }}>{t.name}</strong>
-                      <span className="label">${t.cost.toLocaleString()}{t.capacity ? ` · ${t.capacity.toLocaleString()} L/day` : ''}</span>
-                    </div>
-                    <div className="muted" style={{ fontSize: 15 }}>{t.provides}</div>
-                  </div>
+              <div className="label" style={{ marginBottom: 8 }}>Building blocks · Budget ${view.budget?.toLocaleString()}</div>
+              <div className="stack" style={{ gap: 6 }}>
+                {view.blocks.map((b) => (
+                  <div key={b.name}><strong>{b.name}:</strong> <span className="muted">{b.examples}</span></div>
                 ))}
               </div>
+              <div className="muted" style={{ fontSize: 15, marginTop: 8 }}>Ask for any cost or spec. Got another idea? Propose it.</div>
             </div>
           )}
           <p style={{ margin: 0, fontWeight: 600 }}>{view.opening.prompt}</p>

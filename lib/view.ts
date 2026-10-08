@@ -12,7 +12,7 @@ export interface SessionView {
   number: string;
   classification: string;
   opening?: { intro: string; cards: { label: string; text: string }[]; prompt: string };
-  toolbox?: { name: string; cost: number; capacity?: number; provides: string }[];
+  blocks?: { name: string; examples: string }[];
   budget?: number;
   design?: { description: string; cost: number; liters: number; valid: boolean } | null;
   stats?: { label: string; value: number }[];
@@ -38,7 +38,7 @@ export function toView(s: Session): SessionView {
   if (c?.data.kind === 'challenge') {
     const d = c.data as ChallengeData;
     v.budget = d.budget;
-    v.toolbox = d.toolbox.map((t) => ({ name: t.name, cost: t.cost, capacity: t.capacityLitersPerDay, provides: t.provides }));
+    v.blocks = d.buildingBlocks;
     v.design = (s.state.design as SessionView['design']) ?? null;
   }
   if (c?.data.kind === 'simulation') {

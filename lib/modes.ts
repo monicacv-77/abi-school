@@ -93,7 +93,8 @@ const challenge = {
   rules: `
 MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → Design → Build → Test → Improve.
 - You play the project team and the laws of physics. Be fair and realistic.
-- The opening cards and the Toolbox (with prices and capacities) are already on Abi's screen. She can open them anytime. Don't re-list them unless asked.
+- Abi's screen shows the opening cards and a short list of BUILDING BLOCKS (categories only, no prices). She must ask for costs, capacities and specs; when she does, call look_up and answer briefly. Never recite the whole toolbox or offer a menu of products.
+- Items marked HIDDEN exist so her own ideas can be priced fairly. Never mention, hint at or suggest them; only price one if Abi herself proposes that idea.
 - Anything measured on site (water tests, how much a source yields, what's happening in homes) she must ask for. Use take_measurement and report the result in 1–3 sentences.
 - Never hand her multiple-choice designs. She invents the design. Unconventional ideas are fine if physically plausible: give a fair game cost/capacity consistent with the toolbox scale.
 - When she proposes a design, call submit_design. Report cost, daily capacity and any missing pieces. If it's over budget or under target, tell her the engineering result and let her fix it.
@@ -102,6 +103,11 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
 - Finish with the case's final question, get her reasoning, then close.
 `.trim(),
   tools: (): Tool[] => [
+    {
+      name: 'look_up',
+      description: "Look up the game cost, capacity and notes for items Abi asks about. Only for things she named or clearly described.",
+      input_schema: { type: 'object', properties: { item_ids: { type: 'array', items: { type: 'string' } } }, required: ['item_ids'] },
+    },
     {
       name: 'take_measurement',
       description: 'Do an on-site measurement or inspection Abi asked for. Returns the actual result from the case data.',
@@ -143,8 +149,9 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
       `Success targets:\n${d.targets.map((t) => `- ${t.label}: ${t.check}`).join('\n')}`,
       `Existing resources:\n${d.existingResources.map((r) => `- ${r}`).join('\n')}`,
       `Environment (physical facts shown to Abi):\n${d.environment.map((r) => `- ${r}`).join('\n')}`,
-      `Toolbox (visible to Abi; game prices, not real-world quotes):\n${d.toolbox
-        .map((t) => `- ${t.id}: ${t.name} — ${money(t.cost)}${t.capacityLitersPerDay ? `, ${t.capacityLitersPerDay.toLocaleString()} L/day` : ''} — ${t.provides}${t.needs ? ` (needs: ${t.needs.join(', ')})` : ''}${t.maintenance ? ` [maintenance: ${t.maintenance}]` : ''}`)
+      `Building blocks shown to Abi (categories only): ${d.buildingBlocks.map((b) => `${b.name} (${b.examples})`).join('; ')}`,
+      `Toolbox ids for mapping her ideas (game prices, not real quotes; details come from look_up):\n${d.toolbox
+        .map((t) => `- ${t.id}: ${t.name}${t.hidden ? ' [HIDDEN — only if Abi proposes it]' : ''}`)
         .join('\n')}`,
       `Measurements Abi can ask for (results are hidden — call take_measurement):\n${d.measurements.map((m) => `- ${m.id}: ${m.label}`).join('\n')}`,
       `Stress tests, in order (scenarios hidden — call run_stress_test only after a valid design):\n${d.stressTests
@@ -156,6 +163,17 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
   initialState: () => ({ revealed: [], design: null, testsRun: [], designCount: 0 }),
   handle(name: string, input: any, s: Session, c: CaseDef): ToolOutcome | null {
     const d = c.data as ChallengeData;
+    if (name === 'look_up') {
+      const ids = arr<string>(input.item_ids);
+      const found = d.toolbox.filter((t) => ids.includes(t.id));
+      if (!found.length) return { result: `No matching items. Valid ids: ${d.toolbox.map((x) => x.id).join(', ')}`, isError: true };
+      for (const t of found) pushUnique(s.state, 'lookedUp', t.id);
+      return {
+        result: found
+          .map((t) => `${t.name}: ${money(t.cost)}${t.capacityLitersPerDay ? `, about ${t.capacityLitersPerDay.toLocaleString()} L/day` : ''}. ${t.provides}${t.needs ? ` Needs: ${t.needs.map((n) => n.replace(/\|/g, ' or ').replace('existing:', '')).join(', ')}.` : ''}${t.maintenance ? ` Upkeep: ${t.maintenance}` : ''}`)
+          .join('\n'),
+      };
+    }
     if (name === 'take_measurement') {
       const m = d.measurements.find((x) => x.id === input.measurement_id);
       if (!m) return { result: `No measurement "${input.measurement_id}". Valid ids: ${d.measurements.map((x) => x.id).join(', ')}`, isError: true };
