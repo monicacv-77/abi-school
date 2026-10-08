@@ -94,9 +94,9 @@ export default function Play({ initial }: { initial: SessionView }) {
     setListening(true);
   }
 
-  async function send(e?: React.FormEvent) {
+  async function send(e?: React.FormEvent, override?: string) {
     e?.preventDefault();
-    const t = text.trim();
+    const t = (override ?? text).trim();
     if (!t || busy) return;
     recog.current?.stop();
     setBusy(true);
@@ -112,7 +112,7 @@ export default function Play({ initial }: { initial: SessionView }) {
       if (autoRead && last?.role === 'guide') speak(last.text);
     } catch (ex) {
       setErr((ex as Error).message);
-      setText(t);
+      if (!override) setText(t);
       setView((v) => ({ ...v, display: v.display.slice(0, -1) }));
     } finally {
       setBusy(false);
@@ -282,6 +282,19 @@ export default function Play({ initial }: { initial: SessionView }) {
           ),
         )}
         {busy && <div className="muted" style={{ fontFamily: 'var(--mono)', fontSize: 14 }}>{THINKING[thinkIdx]}</div>}
+        {view.decision && !busy && !closed && (
+          <div className="panel stack" style={{ borderColor: 'var(--accent)', borderWidth: 2, background: 'var(--accent-soft)', gap: 10 }} role="group" aria-label="Your choices">
+            <div className="label" style={{ color: 'var(--accent-ink)' }}>🧭 Your decision · {view.decision.when}</div>
+            {view.decision.options.map((o) => (
+              <button key={o.letter} className="choice-btn" onClick={() => send(undefined, `${o.letter}. ${o.label}`)}>
+                <span className="choice-letter">{o.letter}</span>
+                <span>{o.label}</span>
+              </button>
+            ))}
+            <div className="muted" style={{ fontSize: 15 }}>Or type your own plan below.</div>
+          </div>
+        )}
+
         {closed && (
           <div className="panel stack" style={{ borderColor: 'var(--rust)', borderWidth: 2 }}>
             <div className="label" style={{ color: 'var(--rust)' }}>Case closed</div>
