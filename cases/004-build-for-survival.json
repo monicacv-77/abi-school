@@ -7,11 +7,11 @@
   "location": "Early colonial Virginia (Tidewater)",
   "realOrConstructed": "Constructed challenge in a historically grounded setting",
   "status": "READY",
-  "version": 3,
+  "version": 4,
   "bigUnderstanding": "Shelter is an engineering tradeoff: speed, weather protection, stability, fire safety, labor, scarce imported materials, and repairability. There is no single right design. Early Jamestown builders used local wood and clay (mud-and-stud, daub, thatch) because it was fast and local, but it needed constant maintenance in Virginia weather.",
-  "winCondition": "Design shelter for 100 people that is fast, dry, stable, safe and buildable with what you have. Then survive the tests and fix whatever breaks.",
+  "winCondition": "Design shelter for about 105 people, including 15 families with children, that is fast, dry, stable, safe and buildable with what you have. Then survive the tests and fix whatever breaks.",
   "opening": {
-    "intro": "Spring, on the coast of Virginia. Your ships have just dropped anchor in a wide, brown river. Behind the muddy shore: thick forest, marsh grass taller than you, and clouds of mosquitoes. More than 100 tired people are standing on the bank with their bags, and every one of them needs a roof before the storms and cold nights come.\n\nYou can't ship houses across an ocean, so you'll build with what's here. Design shelter that's fast, dry, stable, safe from fire, and buildable with your people and tools. Then test it, and fix whatever fails.",
+    "intro": "Spring, on the coast of Virginia. Your ships have just dropped anchor in a wide, brown river. Behind the muddy shore: thick forest, marsh grass taller than you, and clouds of mosquitoes. About 105 tired people are standing on the bank with their bags: soldiers and workmen, a few gentlemen, and 15 families with 25 children, from babies to 14-year-olds. Every one of them needs a roof before the storms and cold nights come.\n\nYou can't ship houses across an ocean, so you'll build with what's here. Design shelter that's fast, dry, stable, safe from fire, and buildable with your people and tools. Then test it, and fix whatever fails.",
     "cards": [
       {
         "label": "Carpenter",
@@ -29,6 +29,11 @@
         "icon": "🧑‍✈️"
       },
       {
+        "icon": "👩‍👧‍👦",
+        "label": "A mother of three",
+        "text": "My children can't sleep in a room with fifty strangers. We need our own space, a safe fire to cook on, and somewhere dry for the baby."
+      },
+      {
         "label": "What's around you",
         "text": "Forest, young saplings, clay-rich mud, marsh reeds and grasses, dirt, and oyster shells along the shore.",
         "icon": "🌲"
@@ -40,7 +45,7 @@
       },
       {
         "label": "Your targets",
-        "text": "FAST · DRY · STABLE · SAFE (fire!) · BUILDABLE · REPAIRABLE. Shelter for 100 people, about 30 builders at a time, and only 6 kegs of nails. Then it gets tested.",
+        "text": "FAST · DRY · STABLE · SAFE (fire!) · BUILDABLE · REPAIRABLE. Shelter for about 105 people, including 25 children. About 30 builders at a time, and only 6 kegs of nails. Then it gets tested.",
         "icon": "🎯"
       }
     ],
@@ -48,6 +53,7 @@
   },
   "facilitatorNotes": [
     "Monica's design notes: the problem is NOT 'draw a house.' Abi balances speed, weather, stability, fire, labor, scarce nails, repairability and housing many people.",
+    "WHO'S HERE: about 50 single men plus 15 families (15 couples, 25 children from babies to 14). This is a constructed settlement: the real first Jamestown group (1607) was all men and boys; English women and families came from 1608 on, and the 1587 Roanoke colony included families. Families change the design: privacy (one big barracks with families and single men together will cause real trouble), each family wanting its own hearth to cook and keep warm (more fires = more fire risk), children near hearths, babies needing warm dry beds, and more roofs and walls to build. Let Abi weigh it; don't tell her the answer.",
     "Historical methods are resources, not the required answer. Allow any physically and historically plausible design (using available materials), even if Jamestown didn't build it that way. Price it fairly as a custom item.",
     "Never show the toolbox as a menu. If she asks what's possible, describe a few techniques briefly, not prices.",
     "BUILD: once she proposes a design, ask only for missing decisions that matter for testing: number/size of buildings, wall and roof materials, how it stands up, how rain drains, where fires/cooking happen, how many people per building. No drawings or unnecessary math.",
@@ -70,7 +76,7 @@
     "If one building catches fire, what else goes with it?",
     "What will need fixing after a few months, and what will you fix it with?"
   ],
-  "completion": "A valid design that shelters at least 100 people within the labor and nail limits; at least 3 stress tests run and judged; if anything failed, at least one redesign and retest (if nothing failed, all 5 tests); then her answer to 'Would you approve this shelter system for the settlement's first year? Why?'",
+  "completion": "A valid design that shelters at least 105 people within the labor and nail limits; at least 3 stress tests run and judged; if anything failed, at least one redesign and retest (if nothing failed, all 5 tests); then her answer to 'Would you approve this shelter system for the settlement's first year? Why?'",
   "endReveal": {
     "concept": "Engineering tradeoffs: every design choice buys something and costs something. Early Jamestown used mud-and-stud buildings: fast and local, but they needed constant upkeep.",
     "vocabulary": [
@@ -92,8 +98,8 @@
       }
     ],
     "realVsConstructed": {
-      "real": "Early colonial Virginia's climate and materials, mud-and-stud construction, daub, thatch, scarce nails, and the fire that burned Jamestown's fort in January 1608.",
-      "constructed": "Your settlement, its exact numbers, the labor and nail budgets, and the sequence of tests."
+      "real": "Early colonial Virginia's climate and materials, mud-and-stud construction, daub, thatch, scarce nails, and the fire that burned Jamestown's fort in January 1608. English women and families came to Jamestown from 1608 on, and the 1587 Roanoke colony included families.",
+      "constructed": "Your settlement and who's in it (the real first Jamestown group was all men and boys), its exact numbers, the labor and nail budgets, and the sequence of tests."
     }
   },
   "skills": [
@@ -126,7 +132,7 @@
       },
       "workers": 30
     },
-    "minCapacity": 100,
+    "minCapacity": 105,
     "targets": [
       {
         "id": "fast",
@@ -136,7 +142,7 @@
       {
         "id": "dry",
         "label": "DRY",
-        "check": "People and supplies stay reasonably dry, from rain and from damp ground."
+        "check": "People and supplies stay reasonably dry, from rain and from damp ground. Babies and small children get sick fast in damp beds."
       },
       {
         "id": "stable",
@@ -146,7 +152,7 @@
       {
         "id": "safe",
         "label": "SAFE",
-        "check": "Manages fire and crowding risks."
+        "check": "Manages fire and crowding risks, especially where children sleep near hearths."
       },
       {
         "id": "buildable",
@@ -160,7 +166,7 @@
       }
     ],
     "existingResources": [
-      "About 100 settlers; roughly 30 can build at once (the rest fish, farm, guard)",
+      "About 105 settlers: about 50 single men (soldiers, laborers, a few gentlemen) and 15 families (15 couples, 25 children from babies to 14). Roughly 30 adults can build at once; the rest fish, farm, guard, cook and care for children",
       "Forest timber and young saplings",
       "Clay-rich soil, earth, marsh reeds and grasses, oyster shell",
       "Axes, saws, hammers, digging tools, rope",
@@ -395,6 +401,11 @@
         "id": "builders",
         "label": "Ask how many people can build",
         "result": "About 30 at a time. The rest must fish, farm, gather and guard, or people go hungry."
+      },
+      {
+        "id": "families",
+        "label": "Ask the families what they need",
+        "result": "They want their own space, even if small. Each family wants a hearth to cook on and to keep warm at night. Parents worry about little ones near fires and in damp beds. Several mothers say they'd happily help build, plaster walls and thatch if someone watches the children."
       }
     ],
     "stressTests": [
@@ -403,7 +414,7 @@
         "order": 1,
         "name": "Heavy rain",
         "scenario": "Several days of hard rain.",
-        "passesIf": "Check roof shedding and leaks, wall erosion (daub washes out if walls stay wet), ground drainage, stored food and tools, damp sleeping areas. Credit drainage, steep roofs, overhangs, raised floors or storage, higher ground."
+        "passesIf": "Check roof shedding and leaks, wall erosion (daub washes out if walls stay wet), ground drainage, stored food and tools, damp sleeping areas. Credit drainage, steep roofs, overhangs, raised floors or storage, higher ground. Check where the babies and small children sleep: damp, cold beds make them sick fast."
       },
       {
         "id": "storm",
@@ -417,14 +428,14 @@
         "order": 3,
         "name": "Fire",
         "scenario": "At night, a spark escapes from a cooking or heating fire.",
-        "passesIf": "Check thatch and wood exposure, spacing between buildings, where hearths are, whether there's water and a plan, and whether one fire could destroy all shelter and stores. A well-designed settlement may lose one building, not everything."
+        "passesIf": "Check thatch and wood exposure, spacing between buildings, where hearths are, whether there's water and a plan, and whether one fire could destroy all shelter and stores. A well-designed settlement may lose one building, not everything. Check where children sleep relative to hearths and whether families have a safe place to cook. Many family hearths means many chances for a spark."
       },
       {
         "id": "labor",
         "order": 4,
         "name": "Labor and time",
         "scenario": "Food work is falling behind because too many people are still building or repairing.",
-        "passesIf": "Check total work, number of buildings, dependence on scarce nails or boards, build speed and maintenance burden. Designs near the labor limit or heavy on upkeep struggle."
+        "passesIf": "Check total work, number of buildings, dependence on scarce nails or boards, build speed and maintenance burden. Designs near the labor limit or heavy on upkeep struggle. Separate family houses mean more roofs and walls; one big barracks is faster but causes privacy fights and spreads sickness and fire."
       },
       {
         "id": "maintenance",
