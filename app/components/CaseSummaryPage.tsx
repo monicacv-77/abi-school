@@ -6,6 +6,8 @@ const arrow = (
   </svg>
 );
 
+const METHOD_EMOJI: Record<string, string> = { Investigation: '🔎', Challenge: '🛠️', Simulation: '🧭', Inquiry: '💡' };
+
 export default function CaseSummaryPage({ s }: { s: CaseSummary }) {
   const closed = new Date(s.closedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   return (
@@ -18,8 +20,8 @@ export default function CaseSummaryPage({ s }: { s: CaseSummary }) {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, paddingRight: 150 }}>
         <div>
+          <span className="tag" style={{ borderColor: 'var(--accent)', background: 'var(--accent-soft)', color: 'var(--accent-ink)' }}>{METHOD_EMOJI[s.method] ?? ''} {s.method}</span>
           <span className="tag">{s.classification}</span>
-          <span className="tag">{s.method}</span>
         </div>
         <h1 className="sum-title">{s.title}</h1>
         <p style={{ margin: 0, fontSize: 17, color: 'var(--ink-2)' }}>{s.hook}</p>

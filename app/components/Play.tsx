@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import type { SessionView } from '@/lib/view';
 import KeepExploring from './KeepExploring';
+import { lookFor, modeVars } from '@/lib/look';
 
-const METHOD: Record<string, string> = { challenge: 'Challenge', investigation: 'Investigation', simulation: 'Simulation', inquiry: 'Inquiry' };
 const THINKING = ['Thinking…', 'Checking the evidence…', 'Consulting the archive…', 'Doing the math…', 'Hmm…'];
 
 
@@ -122,17 +122,26 @@ export default function Play({ initial }: { initial: SessionView }) {
   const closed = view.status === 'closed';
 
   return (
-    <main className="wrap" style={{ paddingBottom: 200 }}>
+    <main className="wrap" style={{ paddingBottom: 200, ...modeVars(view.mode) }}>
       <div className="topbar no-print">
         <Link href="/">← Case Files</Link>
         <span>{view.caseId === 'inquiry' ? 'Question' : `Case ${view.number}`}</span>
       </div>
 
       <header style={{ marginBottom: 16 }}>
+        <span className="tag mode"><span aria-hidden="true">{lookFor(view.mode).emoji}</span> {lookFor(view.mode).name}</span>
         <span className="tag">{view.classification}</span>
-        <span className="tag">{METHOD[view.mode]}</span>
-        <h1 className="title" style={{ fontSize: 44 }}>{view.mode === 'inquiry' ? view.question : view.title}</h1>
+        <h1 className="title" style={{ fontSize: 40 }}>{view.mode === 'inquiry' ? view.question : view.title}</h1>
       </header>
+
+      {view.image && (
+        <figure className={`hero${view.image.fit === 'contain' ? ' contain' : ''}`}>
+          <img src={view.image.src} alt={view.image.alt} loading="lazy" style={view.image.position ? { objectPosition: view.image.position } : undefined} />
+          <figcaption>
+            <a href={view.image.href} target="_blank" rel="noreferrer">{view.image.credit}</a>
+          </figcaption>
+        </figure>
+      )}
 
       {view.opening && (
         <section className="stack" style={{ gap: 10, marginBottom: 18 }}>
@@ -154,17 +163,14 @@ export default function Play({ initial }: { initial: SessionView }) {
           )}
           <div className="row" style={{ gap: 8 }}>
             {view.opening.cards.map((c, i) => (
-              <button
-                key={i}
-                aria-expanded={Boolean(open[i])}
-                onClick={() => setOpen((o) => ({ ...o, [i]: !o[i] }))}
-                style={{ border: '2px solid var(--teal)', background: open[i] ? 'var(--teal)' : 'var(--teal-soft)', color: open[i] ? '#fff' : '#153f47', borderRadius: 6, padding: '8px 12px', minHeight: 44, fontWeight: 600, fontSize: 15 }}
-              >
+              <button key={i} className="card-btn" aria-expanded={Boolean(open[i])} onClick={() => setOpen((o) => ({ ...o, [i]: !o[i] }))}>
+                {c.icon && <span className="ic" aria-hidden="true">{c.icon}</span>}
                 {c.label}
               </button>
             ))}
             {view.blocks && (
-              <button aria-expanded={showToolbox} onClick={() => setShowToolbox((s) => !s)} style={{ border: '2px solid var(--ink)', background: showToolbox ? 'var(--ink)' : 'transparent', color: showToolbox ? 'var(--paper)' : 'var(--ink)', borderRadius: 6, padding: '8px 12px', minHeight: 44, fontWeight: 600, fontSize: 15 }}>
+              <button className="card-btn" aria-expanded={showToolbox} onClick={() => setShowToolbox((s) => !s)} style={{ borderColor: 'var(--ink)', background: showToolbox ? 'var(--ink)' : 'var(--card)', color: showToolbox ? 'var(--paper)' : 'var(--ink)' }}>
+                <span className="ic" aria-hidden="true">🧰</span>
                 Toolbox
               </button>
             )}
@@ -173,7 +179,7 @@ export default function Play({ initial }: { initial: SessionView }) {
             open[i] ? (
               <div key={i} className="panel" style={{ padding: 14, display: 'flex', gap: 10, alignItems: 'flex-start' }}>
                 <div style={{ flex: 1 }}>
-                  <div className="label" style={{ color: 'var(--teal)' }}>{c.label}</div>
+                  <div className="label" style={{ color: 'var(--accent-ink)' }}>{c.icon ? `${c.icon} ` : ''}{c.label}</div>
                   <div>{c.text}</div>
                 </div>
                 <button className="btn ghost" aria-label={`Read ${c.label} aloud`} onClick={() => speak(`${c.label}. ${c.text}`)} style={{ minHeight: 40, padding: '4px 10px' }}><SpeakerIcon /></button>
@@ -196,20 +202,20 @@ export default function Play({ initial }: { initial: SessionView }) {
       )}
 
       {view.winCondition && (
-        <div className="panel" style={{ padding: 12, marginBottom: 14, borderColor: 'var(--rust)' }}>
-          <span className="label" style={{ color: 'var(--rust)' }}>How to win</span>
+        <div className="panel" style={{ padding: 12, marginBottom: 14, borderColor: 'var(--accent)', borderWidth: 2, background: 'var(--accent-soft)' }}>
+          <span className="label" style={{ color: 'var(--accent-ink)' }}>🏆 How to win</span>
           <div style={{ fontSize: 16 }}>{view.winCondition}</div>
         </div>
       )}
 
       {view.board && view.board.length > 0 && (
         <section className="panel" style={{ padding: 12, marginBottom: 14 }} aria-label="Theory board">
-          <div className="label" style={{ marginBottom: 8 }}>Theory board</div>
+          <div className="label" style={{ marginBottom: 8 }}>📌 Theory board</div>
           <div className="stack" style={{ gap: 10 }}>
             {view.board.map((b) => (
-              <div key={b.theory} style={{ borderLeft: '4px solid var(--teal)', paddingLeft: 10 }}>
+              <div key={b.theory} style={{ borderLeft: '4px solid var(--accent)', paddingLeft: 10 }}>
                 <div style={{ fontWeight: 600 }}>{b.theory}</div>
-                {b.supporting.length > 0 && <div style={{ fontSize: 15 }}><span style={{ color: 'var(--teal)', fontWeight: 600 }}>Backs it up:</span> {b.supporting.join(' · ')}</div>}
+                {b.supporting.length > 0 && <div style={{ fontSize: 15 }}><span style={{ color: 'var(--accent)', fontWeight: 600 }}>Backs it up:</span> {b.supporting.join(' · ')}</div>}
                 {b.problems.length > 0 && <div style={{ fontSize: 15 }}><span style={{ color: 'var(--rust)', fontWeight: 600 }}>Doesn&apos;t fit:</span> {b.problems.join(' · ')}</div>}
               </div>
             ))}
@@ -219,7 +225,7 @@ export default function Play({ initial }: { initial: SessionView }) {
 
       {view.design && (
         <div className="panel" style={{ padding: 12, marginBottom: 14, fontSize: 15 }}>
-          <span className="label">Your design</span> · {view.design.line ?? `$${view.design.cost.toLocaleString()} · ~${view.design.liters.toLocaleString()} L/day`} · {view.design.valid ? 'ready' : 'not done yet'}
+          <span className="label">📐 Your design</span> · {view.design.line ?? `$${view.design.cost.toLocaleString()} · ~${view.design.liters.toLocaleString()} L/day`} · {view.design.valid ? 'ready' : 'not done yet'}
         </div>
       )}
 
@@ -229,7 +235,7 @@ export default function Play({ initial }: { initial: SessionView }) {
             <div key={s.label} className="panel" style={{ padding: '6px 10px', fontSize: 14 }}>
               <span className="label" style={{ fontSize: 10 }}>{s.label}</span>
               {s.delta ? (
-                <span aria-label={`${s.delta > 0 ? 'up' : 'down'} ${Math.abs(s.delta)}`} style={{ marginLeft: 6, fontWeight: 700, color: s.delta > 0 ? 'var(--teal)' : 'var(--rust)' }}>
+                <span aria-label={`${s.delta > 0 ? 'up' : 'down'} ${Math.abs(s.delta)}`} style={{ marginLeft: 6, fontWeight: 700, color: s.delta > 0 ? 'var(--accent)' : 'var(--rust)' }}>
                   {s.delta > 0 ? '↑' : '↓'}{Math.abs(s.delta)}
                 </span>
               ) : null}
@@ -238,7 +244,7 @@ export default function Play({ initial }: { initial: SessionView }) {
               ) : (
                 <div style={{ display: 'flex', gap: 2, marginTop: 4 }} aria-label={`${s.value} of 10`}>
                   {Array.from({ length: 10 }, (_, i) => (
-                    <span key={i} style={{ width: 8, height: 12, borderRadius: 2, background: i < s.value ? (s.value <= 3 ? 'var(--rust)' : 'var(--teal)') : 'var(--rule)' }} />
+                    <span key={i} style={{ width: 8, height: 12, borderRadius: 2, background: i < s.value ? (s.value <= 3 ? 'var(--rust)' : 'var(--accent)') : 'var(--rule)' }} />
                   ))}
                 </div>
               )}
@@ -253,10 +259,10 @@ export default function Play({ initial }: { initial: SessionView }) {
             <div key={i} style={{ alignSelf: 'flex-end', maxWidth: '85%', background: 'var(--ink)', color: 'var(--paper)', padding: '10px 14px', borderRadius: '14px 14px 2px 14px' }}>{m.text}</div>
           ) : (
             <div key={i} style={{ alignSelf: 'flex-start', maxWidth: '92%', display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-              <div style={{ background: 'var(--card)', border: '1px solid var(--rule)', padding: '10px 14px', borderRadius: '14px 14px 14px 2px', fontSize: 19 }}>
+              <div style={{ background: 'var(--card)', border: '1px solid var(--rule)', borderLeft: '4px solid var(--accent)', padding: '10px 14px', borderRadius: '14px 14px 14px 2px', fontSize: 19 }}>
                 <Rich text={m.text} />
               </div>
-              <button aria-label="Read aloud" onClick={() => speak(m.text)} style={{ border: 'none', background: 'transparent', color: 'var(--teal)', minHeight: 44, minWidth: 44 }}><SpeakerIcon /></button>
+              <button aria-label="Read aloud" onClick={() => speak(m.text)} style={{ border: 'none', background: 'transparent', color: 'var(--accent)', minHeight: 44, minWidth: 44 }}><SpeakerIcon /></button>
             </div>
           ),
         )}

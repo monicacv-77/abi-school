@@ -4,6 +4,7 @@ export type Mode = 'challenge' | 'investigation' | 'simulation' | 'inquiry';
 export type CaseStatus = 'READY' | 'DRAFT' | 'HOLD' | 'PILOT';
 
 export interface OpeningCard {
+  icon?: string; // an emoji
   label: string; // e.g. "WATER TECHNICIAN"
   text: string; // one or two short sentences
 }
@@ -28,6 +29,7 @@ export interface CaseDef {
   version: number;
   bigUnderstanding: string; // hidden
   opening: Opening;
+  image?: { src: string; alt: string; credit: string; href: string; fit?: 'cover' | 'contain'; position?: string }; // top-of-case picture
   facilitatorNotes: string[]; // hidden, case-specific rules
   justInTimeConcepts: string[];
   scaffolds: string[]; // light → stronger

@@ -59,7 +59,7 @@ export function AskDoor() {
   }
   return (
     <div className="stack">
-      <label htmlFor="ask" className="label">Wondering about something?</label>
+      <label htmlFor="ask" className="label" style={{ color: 'var(--accent-ink)' }}>💡 Wondering about something?</label>
       <textarea id="ask" rows={2} value={q} onChange={(e) => { setQ(e.target.value); setSaved(false); }} placeholder="Ask anything…" />
       <div className="row">
         <button className="btn" onClick={ask} disabled={!q.trim() || Boolean(busy)}>{busy === 'ask' ? 'Thinking…' : 'Explore it now'}</button>

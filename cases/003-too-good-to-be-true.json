@@ -7,26 +7,30 @@
   "location": "London and Jamestown, Virginia",
   "realOrConstructed": "Real people and evidence in an imagined courtroom",
   "status": "READY",
-  "version": 3,
+  "version": 4,
   "bigUnderstanding": "Who made a claim, and what they wanted, shapes what they say. The Virginia Company needed money and settlers, so it sold Virginia as paradise; the people who actually went told a very different story. The gap between the ad and reality cost lives. Quietly builds the habit Abi needs for modern ads and influencers: who's paying, what do they want me to do, who was actually there? Also sets up the investor pressure in the Jamestown simulation.",
   "opening": {
     "intro": "Order in the court! The families of Jamestown settlers say the Virginia Company lured people to their deaths with fake ads. The Company says Virginia is wonderful and the settlers ruined it. You're the judge.",
     "cards": [
       {
         "label": "The charge",
-        "text": "The families: the Company promised paradise to raise money. People believed it, went, and died."
+        "text": "The families: the Company promised paradise to raise money. People believed it, went, and died.",
+        "icon": "⚖️"
       },
       {
         "label": "The defense",
-        "text": "The Company: Virginia is rich. The settlers were lazy, quarrelsome, and hit by a hurricane. Not our fault."
+        "text": "The Company: Virginia is rich. The settlers were lazy, quarrelsome, and hit by a hurricane. Not our fault.",
+        "icon": "🛡️"
       },
       {
         "label": "Your court",
-        "text": "Call witnesses. Examine exhibits. Ask anything. Witnesses only know what they saw, and every one of them wants something."
+        "text": "Call witnesses. Examine exhibits. Ask anything. Witnesses only know what they saw, and every one of them wants something.",
+        "icon": "🔨"
       },
       {
         "label": "How to win",
-        "text": "Deliver your ruling: who told the truth, why the other side said what it did, and 3 pieces of evidence that prove it."
+        "text": "Deliver your ruling: who told the truth, why the other side said what it did, and 3 pieces of evidence that prove it.",
+        "icon": "🏆"
       }
     ],
     "prompt": "Who do you call first, Your Honor?"
@@ -249,5 +253,12 @@
     "the Powhatan's side of the story",
     "how stock and investing work today"
   ],
-  "winCondition": "Deliver your ruling: who told the truth, why the other side said what it did, and 3 pieces of evidence that prove it."
+  "winCondition": "Deliver your ruling: who told the truth, why the other side said what it did, and 3 pieces of evidence that prove it.",
+  "image": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/b/bf/Nova_Britannia_Cover.jpg",
+    "alt": "Title page of Nova Britannia, a 1609 pamphlet advertising Virginia",
+    "credit": "“Nova Britannia,” London, 1609 · public domain",
+    "href": "https://commons.wikimedia.org/wiki/File:Nova_Britannia_Cover.jpg",
+    "fit": "contain"
+  }
 }

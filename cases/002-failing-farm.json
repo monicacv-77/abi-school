@@ -7,26 +7,30 @@
   "location": "James River, Virginia",
   "realOrConstructed": "Real history and science; Abi's assignment is invented",
   "status": "READY",
-  "version": 2,
+  "version": 3,
   "bigUnderstanding": "Food is a system: crop, soil, water, timing, tools, knowledge and labor. The English failed because they brought the wrong crops, farmed the wrong ground the wrong way at the wrong time, without the people or knowledge to do it, during a drought. The Powhatan succeeded with crops and methods refined over generations, including corn, beans and squash planted together, which work as a living system. Sets up why Jamestown depended on Powhatan corn in the simulation.",
   "opening": {
     "intro": "1609. Jamestown is starving. A few miles upriver, a Powhatan town has so much corn it trades the extra. Same sun. Same rain. So why is one field dying while the other one is full?",
     "cards": [
       {
         "label": "The English field",
-        "text": "Neat rows of wheat and barley from England. Thin, yellow, patchy. Bare dirt baked hard between the rows."
+        "text": "Neat rows of wheat and barley from England. Thin, yellow, patchy. Bare dirt baked hard between the rows.",
+        "icon": "🌾"
       },
       {
         "label": "The Powhatan field",
-        "text": "Looks messy: corn in little hills, beans climbing the stalks, giant squash leaves covering the ground. And it's loaded with food."
+        "text": "Looks messy: corn in little hills, beans climbing the stalks, giant squash leaves covering the ground. And it's loaded with food.",
+        "icon": "🌽"
       },
       {
         "label": "Your job",
-        "text": "The Virginia Company sent you to find out why its colony can't feed itself. They're paying. They want answers."
+        "text": "The Virginia Company sent you to find out why its colony can't feed itself. They're paying. They want answers.",
+        "icon": "📜"
       },
       {
         "label": "How to win",
-        "text": "Explain why the English fields fail and the Powhatan fields thrive: at least 3 causes, each backed by evidence."
+        "text": "Explain why the English fields fail and the Powhatan fields thrive: at least 3 causes, each backed by evidence.",
+        "icon": "🏆"
       }
     ],
     "prompt": "What do you want to check first?"
@@ -254,5 +258,12 @@
       "Rats: they ruined stored corn, not the growing fields"
     ]
   },
-  "winCondition": "Explain why the English fields fail and the Powhatan fields thrive: at least 3 causes, each backed by evidence."
+  "winCondition": "Explain why the English fields fail and the Powhatan fields thrive: at least 3 causes, each backed by evidence.",
+  "image": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/John_White_-_The_town_of_Secoton%2C_1906%2C0509.1.7.jpg/960px-John_White_-_The_town_of_Secoton%2C_1906%2C0509.1.7.jpg",
+    "alt": "John White’s painting of the Algonquian town of Secotan, with houses and cornfields",
+    "credit": "John White, “The town of Secoton,” about 1585 · British Museum · public domain",
+    "href": "https://commons.wikimedia.org/wiki/File:John_White_-_The_town_of_Secoton,_1906,0509.1.7.jpg",
+    "position": "center 40%"
+  }
 }

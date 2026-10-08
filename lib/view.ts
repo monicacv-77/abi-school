@@ -11,7 +11,8 @@ export interface SessionView {
   display: Session['display'];
   number: string;
   classification: string;
-  opening?: { intro: string; video?: { title: string; youtubeId: string; minutes: number; source: string }; cards: { label: string; text: string }[]; prompt: string };
+  opening?: { intro: string; video?: { title: string; youtubeId: string; minutes: number; source: string }; cards: { icon?: string; label: string; text: string }[]; prompt: string };
+  image?: { src: string; alt: string; credit: string; href: string; fit?: 'cover' | 'contain'; position?: string };
   blocks?: { name: string; examples: string }[];
   budget?: number;
   design?: { description: string; cost: number; liters: number; line?: string; valid: boolean } | null;
@@ -40,7 +41,10 @@ export function toView(s: Session): SessionView {
     followUps: s.followUps,
     winCondition: c ? c.winCondition ?? (c.data as InvestigationData).winCondition : 'Figure it out and explain it in your own words.',
   };
-  if (c) v.opening = c.opening;
+  if (c) {
+    v.opening = c.opening;
+    v.image = c.image;
+  }
   if (c?.data.kind === 'challenge') {
     const d = c.data as ChallengeData;
     v.budget = d.budget;
