@@ -194,6 +194,28 @@ export default function Play({ initial }: { initial: SessionView }) {
         </section>
       )}
 
+      {view.winCondition && (
+        <div className="panel" style={{ padding: 12, marginBottom: 14, borderColor: 'var(--rust)' }}>
+          <span className="label" style={{ color: 'var(--rust)' }}>How to win</span>
+          <div style={{ fontSize: 16 }}>{view.winCondition}</div>
+        </div>
+      )}
+
+      {view.board && view.board.length > 0 && (
+        <section className="panel" style={{ padding: 12, marginBottom: 14 }} aria-label="Theory board">
+          <div className="label" style={{ marginBottom: 8 }}>Theory board</div>
+          <div className="stack" style={{ gap: 10 }}>
+            {view.board.map((b) => (
+              <div key={b.theory} style={{ borderLeft: '4px solid var(--teal)', paddingLeft: 10 }}>
+                <div style={{ fontWeight: 600 }}>{b.theory}</div>
+                {b.supporting.length > 0 && <div style={{ fontSize: 15 }}><span style={{ color: 'var(--teal)', fontWeight: 600 }}>Backs it up:</span> {b.supporting.join(' · ')}</div>}
+                {b.problems.length > 0 && <div style={{ fontSize: 15 }}><span style={{ color: 'var(--rust)', fontWeight: 600 }}>Doesn&apos;t fit:</span> {b.problems.join(' · ')}</div>}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {view.design && (
         <div className="panel" style={{ padding: 12, marginBottom: 14, fontSize: 15 }}>
           <span className="label">Your design</span> · ${view.design.cost.toLocaleString()} · ~{view.design.liters.toLocaleString()} L/day · {view.design.valid ? 'ready' : 'not done yet'}

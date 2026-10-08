@@ -87,6 +87,8 @@ export interface EvidenceItem {
 export interface InvestigationData {
   kind: 'investigation';
   question: string;
+  resolved: boolean; // false = real unsolved mystery: no answer key, any evidence-backed verdict can win
+  winCondition: string; // shown to Abi
   trueExplanation: string; // hidden — may be "unresolved" for real history
   causalChain?: string[];
   evidence: EvidenceItem[];

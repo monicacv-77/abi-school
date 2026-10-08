@@ -277,7 +277,9 @@ MODE: INVESTIGATION — "Figure it out." Abi is the investigator. Backbone: Ques
 - When she proposes an explanation, call record_theory. Don't demand a theory after every clue.
 - If her explanation is incomplete, point to the evidence it doesn't explain and let her revise.
 - She may ask for an evidence summary anytime: give a short list of what she has found.
-- For real history, be honest that some questions are unresolved. A strong answer is the one the evidence best supports, stated with the right confidence.
+- When she proposes or changes a theory, call record_theory with the clues that support it and the clues that are a problem for it (only clues she has actually examined). Her Theory Board on screen shows this.
+- SOLVED cases (there is a real answer): if her explanation is incomplete, point to evidence it doesn't explain and let her revise.
+- UNSOLVED cases: there is no answer key. Never say a theory is wrong, incorrect or unlikely to be right. Show the evidence for and against and let her weigh it. She wins by making a case (verdict, supporting clues, one clue that doesn't fit and how she explains it, confidence). Any theory backed that way wins.
 `.trim(),
   tools: (): Tool[] => [
     {
@@ -287,15 +289,25 @@ MODE: INVESTIGATION — "Figure it out." Abi is the investigator. Backbone: Ques
     },
     {
       name: 'record_theory',
-      description: "Record Abi's current theory, in her words, when she proposes one or revises one.",
-      input_schema: { type: 'object', properties: { theory: { type: 'string' } }, required: ['theory'] },
+      description: "Record Abi's theory (her words) on her Theory Board, with the clues she has examined that support it and the clues that are a problem for it. Call again with the same theory text to update it.",
+      input_schema: {
+        type: 'object',
+        properties: {
+          theory: { type: 'string' },
+          supporting: { type: 'array', items: { type: 'string' }, description: 'short clue names, e.g. "CROATOAN carving"' },
+          problems: { type: 'array', items: { type: 'string' } },
+        },
+        required: ['theory'],
+      },
     },
   ],
   spec(c: CaseDef): string {
     const d = c.data as InvestigationData;
     return [
       `The question: ${d.question}`,
-      `What the evidence actually supports (HIDDEN — for judging only): ${d.trueExplanation}`,
+      d.resolved ? 'This is a SOLVED case: there is a real answer.' : 'This is an UNSOLVED case: no answer key. Any evidence-backed verdict wins.',
+      `Win condition (shown to Abi): ${d.winCondition}`,
+      `${d.resolved ? 'The real explanation (HIDDEN — for judging only)' : 'Background for you (HIDDEN — NOT an answer key)'}: ${d.trueExplanation}`,
       d.causalChain ? `Cause-and-effect chain (hidden): ${d.causalChain.join(' → ')}` : '',
       `Theories Abi might consider:\n${d.theories.map((t) => `- ${t.theory} | supported by: ${t.supportedBy.join(', ') || '—'} | weakened by: ${t.weakenedBy.join(', ') || '—'}`).join('\n')}`,
       `Evidence available (results hidden — call examine):\n${d.evidence.map((e) => `- ${e.id}: ${e.label} [${e.howToGet}]`).join('\n')}`,
@@ -315,11 +327,15 @@ MODE: INVESTIGATION — "Figure it out." Abi is the investigator. Backbone: Ques
       return { result: `${e.label}: ${e.result}` };
     }
     if (name === 'record_theory') {
-      const list = arr<string>(s.state.theories);
-      list.push(String(input.theory));
-      s.state.theories = list;
+      const board = arr<{ theory: string; supporting: string[]; problems: string[] }>(s.state.board);
+      const entry = { theory: String(input.theory), supporting: arr<string>(input.supporting).map(String), problems: arr<string>(input.problems).map(String) };
+      const i = board.findIndex((b) => b.theory.toLowerCase() === entry.theory.toLowerCase());
+      if (i >= 0) board[i] = entry;
+      else board.push(entry);
+      s.state.board = board;
+      s.state.theories = board.map((b) => b.theory);
       s.stage = 'hypothesis';
-      return { result: 'Theory recorded.' };
+      return { result: 'On her Theory Board.' };
     }
     return null;
   },

@@ -1,6 +1,6 @@
 // What the browser is allowed to see about a session (never the raw model conversation or hidden data).
 import { getCase } from './cases';
-import type { ChallengeData, Session, SimulationData } from './types';
+import type { ChallengeData, InvestigationData, Session, SimulationData } from './types';
 
 export interface SessionView {
   id: string;
@@ -16,6 +16,8 @@ export interface SessionView {
   budget?: number;
   design?: { description: string; cost: number; liters: number; valid: boolean } | null;
   stats?: { label: string; value: number }[];
+  winCondition?: string;
+  board?: { theory: string; supporting: string[]; problems: string[] }[];
   question?: string;
   hasSummary: boolean;
 }
@@ -40,6 +42,10 @@ export function toView(s: Session): SessionView {
     v.budget = d.budget;
     v.blocks = d.buildingBlocks;
     v.design = (s.state.design as SessionView['design']) ?? null;
+  }
+  if (c?.data.kind === 'investigation') {
+    v.winCondition = (c.data as InvestigationData).winCondition;
+    v.board = (s.state.board as SessionView['board']) ?? [];
   }
   if (c?.data.kind === 'simulation') {
     const d = c.data as SimulationData;
