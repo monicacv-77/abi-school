@@ -7,7 +7,7 @@
   "location": "London and Jamestown, Virginia",
   "realOrConstructed": "Real people and evidence in an imagined courtroom",
   "status": "READY",
-  "version": 4,
+  "version": 5,
   "bigUnderstanding": "Who made a claim, and what they wanted, shapes what they say. The Virginia Company needed money and settlers, so it sold Virginia as paradise; the people who actually went told a very different story. The gap between the ad and reality cost lives. Quietly builds the habit Abi needs for modern ads and influencers: who's paying, what do they want me to do, who was actually there? Also sets up the investor pressure in the Jamestown simulation.",
   "opening": {
     "intro": "Order in the court! The families of Jamestown settlers say the Virginia Company lured people to their deaths with fake ads. The Company says Virginia is wonderful and the settlers ruined it. You're the judge.",
@@ -37,7 +37,7 @@
   },
   "facilitatorNotes": [
     "COURTROOM FORMAT. You are the court clerk (brief, dry, a little theatrical) and you play every witness. Abi is the judge and runs the hearing: she calls witnesses, asks questions, examines exhibits, and rules. Keep each witness answer to 1–3 sentences in a distinct voice.",
-    "WITNESSES (call examine for the matching evidence when their testimony covers it):\n- Robert Johnson, Company member who wrote the 1609 pamphlet (real). Enthusiastic salesman. Never went to Virginia. Covers: pamphlet. If pressed on whether he's been there, he squirms.\n- Sir Thomas Smythe, the Company's treasurer (real). Smooth, polite, always has an excuse: hurricane, lazy settlers, bad luck. Covers: company_money, orders_1606, true_declaration, lottery. Never admits the ads were exaggerated unless Abi corners him with evidence.\n- Captain John Smith (real). Blunt, boastful, furious at the Company and at the gentlemen. Covers: smith_letter, who_came, fools_gold.\n- George Percy (real). Gentleman colonist who saw the sickness. Serious, a bit dramatic. Covers: percy, death_count.\n- A gold refiner from the 1608 supply ship (INVENTED, say so if asked). Sheepish. Covers: fools_gold.\nExhibits (documents and data, no witness needed): powhatan_food, drought, plus any document above.",
+    "WITNESSES (call examine for the matching evidence when their testimony covers it):\n- Robert Johnson, Company member who wrote the 1609 pamphlet (real). Enthusiastic salesman. Never went to Virginia. Covers: pamphlet, pamphlet_author. If pressed on whether he's been there, he squirms.\n- Sir Thomas Smythe, the Company's treasurer (real). Smooth, polite, always has an excuse: hurricane, lazy settlers, bad luck. Covers: company_money, orders_1606, true_declaration, lottery. Never admits the ads were exaggerated unless Abi corners him with evidence.\n- Captain John Smith (real). Blunt, boastful, furious at the Company and at the gentlemen. Covers: smith_letter, who_came, fools_gold.\n- George Percy (real). Gentleman colonist who saw the sickness. Serious, a bit dramatic. Covers: percy, death_count.\n- A gold refiner from the 1608 supply ship (INVENTED, say so if asked). Sheepish. Covers: fools_gold.\nExhibits (documents and data, no witness needed): powhatan_food, drought, plus any document above.",
     "Witnesses can only testify to what they saw or wrote. Each has a motive; let it show so Abi can catch it. If Abi asks a witness about something they couldn't know, they say so.",
     "A real trial like this never happened. The people, documents and facts are real, and testimony is built from what they actually wrote or did. Say so plainly if asked, and at the end.",
     "This is a SOLVED case: the evidence clearly shows the Company oversold Virginia because it needed money and settlers. The settlers weren't blameless either (many gentlemen refused to work), and a sharp answer can include that.",
@@ -127,15 +127,21 @@
     "evidence": [
       {
         "id": "pamphlet",
-        "label": "The 1609 pamphlet (Nova Britannia)",
+        "label": "The 1609 pamphlet, Nova Britannia",
         "howToGet": "read",
-        "result": "Written in London by Robert Johnson, a Company member who never went to Virginia. It praises rich soil, a healthy climate and endless resources, and urges readers to buy shares. Its goal: raise money and recruits."
+        "result": "A pamphlet printed in London in 1609 for the Virginia Company. In modern words it says: Virginia's soil is rich and fertile; the air is sweet and healthy; there are endless fish, birds, deer and timber; the native people are friendly; riches are waiting; anyone who buys shares will profit and help England."
+      },
+      {
+        "id": "pamphlet_author",
+        "label": "Who wrote the pamphlet",
+        "howToGet": "ask / research",
+        "result": "Robert Johnson, a London merchant and a member of the Virginia Company. He never went to Virginia."
       },
       {
         "id": "company_money",
         "label": "How the Virginia Company made money",
         "howToGet": "research",
-        "result": "Investors bought shares. The Company made money only if Virginia produced something valuable to sell: gold, goods, or crops. For years, it produced almost nothing. It always needed new money from new believers."
+        "result": "Investors bought shares in the Company. Investors would earn money only if Virginia produced something valuable to sell: gold, goods or crops. By 1609, Virginia had produced almost nothing to sell."
       },
       {
         "id": "orders_1606",
@@ -153,7 +159,7 @@
         "id": "percy",
         "label": "George Percy's account (1607)",
         "howToGet": "read",
-        "result": "A gentleman colonist who was there. In modern words: men died of swellings, fevers and stomach sickness, sometimes several a day; their only drink was salty, slimy river water; they were starving. He was a gentleman from a powerful family who wanted the colony to succeed, so he had no reason to make it look worse than it was."
+        "result": "George Percy, a gentleman from a powerful English family and one of the first colonists. He was at Jamestown in 1607. In modern words he wrote: men died of swellings, fevers and stomach sickness, sometimes several a day; their only drink was river water, salty at high tide and slimy at low tide; they were starving."
       },
       {
         "id": "smith_letter",
@@ -177,7 +183,7 @@
         "id": "true_declaration",
         "label": "The Company's 1610 report after the Starving Time",
         "howToGet": "read",
-        "result": "The Company's official explanation blamed a hurricane, lazy and quarrelsome colonists, and bad luck. It insisted Virginia itself was still wonderful and kept recruiting."
+        "result": "Written in London by the Company in 1610. It says the colony's troubles came from a hurricane, idle and quarrelsome colonists, and bad luck, and that Virginia itself is still rich and wonderful. It asks for more investors and settlers."
       },
       {
         "id": "lottery",
