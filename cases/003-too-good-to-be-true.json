@@ -7,10 +7,10 @@
   "location": "London and Jamestown, Virginia",
   "realOrConstructed": "Real people and evidence in an imagined courtroom",
   "status": "READY",
-  "version": 6,
+  "version": 7,
   "bigUnderstanding": "Who made a claim, and what they wanted, shapes what they say. The Virginia Company needed money and settlers, so it sold Virginia as paradise; the people who actually went told a very different story. The gap between the ad and reality cost lives. Quietly builds the habit Abi needs for modern ads and influencers: who's paying, what do they want me to do, who was actually there? Also sets up the investor pressure in the Jamestown simulation.",
   "opening": {
-    "intro": "Order in the court! The families of Jamestown settlers say the Virginia Company lured people to their deaths with fake ads. The Company says Virginia is wonderful and the settlers ruined it. You're the judge.",
+    "intro": "London, 1610. The courtroom is packed and loud. On one side sit families whose sons, brothers and husbands sailed to Virginia after reading ads that promised a rich, easy paradise. Hundreds of them never came home. On the other side sit the well-dressed men of the Virginia Company, who sold those ads.\n\nOrder in the court! You're the judge. Call witnesses, examine the evidence, and decide: who told the truth, and why did the other side say what it did? Back your ruling with at least three pieces of evidence.",
     "cards": [
       {
         "label": "The charge",
@@ -24,13 +24,8 @@
       },
       {
         "label": "Your court",
-        "text": "Call witnesses. Examine exhibits. Ask anything. Witnesses only know what they saw, and every one of them wants something.",
+        "text": "Call any witness. Ask for any document. Witnesses only know what they saw, and every one of them wants something. Your ruling must name who told the truth, explain why the other side said what it did, and cite 3 pieces of evidence.",
         "icon": "🔨"
-      },
-      {
-        "label": "How to win",
-        "text": "Deliver your ruling: who told the truth, why the other side said what it did, and 3 pieces of evidence that prove it.",
-        "icon": "🏆"
       }
     ],
     "prompt": "Who do you call first, Your Honor?"

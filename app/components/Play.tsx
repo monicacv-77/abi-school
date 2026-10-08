@@ -145,7 +145,14 @@ export default function Play({ initial }: { initial: SessionView }) {
 
       {view.opening && (
         <section className="stack" style={{ gap: 10, marginBottom: 18 }}>
-          <p style={{ margin: 0, fontSize: 22, lineHeight: 1.4, fontWeight: 500 }}>{view.opening.intro}</p>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+            <div style={{ flex: 1, fontSize: 21, lineHeight: 1.5 }}>
+              {view.opening.intro.split(/\n{2,}/).map((para, i) => (
+                <p key={i} style={{ margin: i ? '12px 0 0' : 0 }}>{para}</p>
+              ))}
+            </div>
+            <button aria-label="Read the opening aloud" onClick={() => speak(view.opening!.intro)} style={{ border: 'none', background: 'transparent', color: 'var(--accent)', minHeight: 44, minWidth: 44 }}><SpeakerIcon /></button>
+          </div>
           {view.opening.video && (
             <details className="panel" style={{ padding: 12 }}>
               <summary style={{ cursor: 'pointer', fontWeight: 600, minHeight: 32 }}>Watch first: {view.opening.video.title} ({view.opening.video.minutes} min)</summary>
@@ -201,12 +208,6 @@ export default function Play({ initial }: { initial: SessionView }) {
         </section>
       )}
 
-      {view.winCondition && (
-        <div className="panel" style={{ padding: 12, marginBottom: 14, borderColor: 'var(--accent)', borderWidth: 2, background: 'var(--accent-soft)' }}>
-          <span className="label" style={{ color: 'var(--accent-ink)' }}>🏆 How to win</span>
-          <div style={{ fontSize: 16 }}>{view.winCondition}</div>
-        </div>
-      )}
 
       {view.board && view.board.length > 0 && (
         <section className="panel" style={{ padding: 12, marginBottom: 14 }} aria-label="Theory board">

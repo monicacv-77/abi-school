@@ -7,11 +7,11 @@
   "location": "Jamestown, Virginia",
   "realOrConstructed": "Real historical setting with alternate outcomes",
   "status": "READY",
-  "version": 4,
+  "version": 5,
   "bigUnderstanding": "Monica's design: Jamestown's survival was shaped by real pressures (water, food, labor, disease, relations with the Powhatan, supply ships, investor expectations, population growth, the search for profit). Abi learns them through decisions and consequences, not exposition. This is the unit finale: she may transfer ideas from Clean Water, The Failing Farm, Too Good to Be True and Build for Survival; never prompt her to.",
   "winCondition": "Lead your colony through its first three years. Then explain what mattered most to its survival, and why.",
   "opening": {
-    "intro": "April 1607. Your ship reaches Virginia and the captain breaks open a sealed box from the Virginia Company. Inside: the names of the colony's leaders. Yours is at the top. You are President of the Council of Virginia.",
+    "intro": "April 1607. After four months crammed below deck, you finally see Virginia: dark green forest right down to the water, a river so wide it looks like a lake, and birds everywhere. The air smells like pine and mud. On deck, the captain breaks open a sealed box from the Virginia Company. Inside are the names of the colony's leaders. Yours is at the top.\n\nYou are President of the Council of Virginia. 104 men and boys are now your responsibility, and investors in London are waiting for results. Lead the colony through its first three years. At the end, you'll explain what mattered most to its survival, and why.",
     "cards": [
       {
         "label": "Your colony",
@@ -34,9 +34,9 @@
         "icon": "🏞️"
       },
       {
+        "icon": "⚙️",
         "label": "How it works",
-        "text": "One big decision at a time. Your choices change the colony's numbers, and earlier choices come back later. Nothing is guaranteed.",
-        "icon": "⚙️"
+        "text": "One big decision at a time. Your choices change the colony's numbers, and earlier choices come back later. Nothing is guaranteed."
       }
     ],
     "prompt": "The ships head up a wide river. Where will you build?"

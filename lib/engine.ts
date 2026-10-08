@@ -21,7 +21,7 @@ const METHOD: Record<Session['mode'], string> = {
 function caseSpec(c: CaseDef): string {
   return [
     `CASE ${c.id} — ${c.title.toUpperCase()}`,
-    `How to win (on Abi's screen): ${c.winCondition}`,
+    `Her goal (stated in her opening paragraph and brief): ${c.winCondition}`,
     `Mode: ${METHOD[c.mode]} · Classification: ${c.classification} · Location: ${c.location ?? '—'} · ${c.realOrConstructed} · Case version ${c.version}`,
     `Big understanding (hidden): ${c.bigUnderstanding}`,
     `ALREADY ON ABI'S SCREEN (don't repeat it unless she asks):\n${c.opening.intro}\n${c.opening.cards.map((k) => `[${k.label}] ${k.text}`).join('\n')}\n${c.opening.prompt}`,

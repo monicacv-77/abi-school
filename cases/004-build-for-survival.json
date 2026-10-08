@@ -7,11 +7,11 @@
   "location": "Early colonial Virginia (Tidewater)",
   "realOrConstructed": "Constructed challenge in a historically grounded setting",
   "status": "READY",
-  "version": 2,
+  "version": 3,
   "bigUnderstanding": "Shelter is an engineering tradeoff: speed, weather protection, stability, fire safety, labor, scarce imported materials, and repairability. There is no single right design. Early Jamestown builders used local wood and clay (mud-and-stud, daub, thatch) because it was fast and local, but it needed constant maintenance in Virginia weather.",
   "winCondition": "Design shelter for 100 people that is fast, dry, stable, safe and buildable with what you have. Then survive the tests and fix whatever breaks.",
   "opening": {
-    "intro": "Your ships just landed in Virginia. 100 people need a roof before the weather turns, and you can't ship houses across an ocean. You're the builder.",
+    "intro": "Spring, on the coast of Virginia. Your ships have just dropped anchor in a wide, brown river. Behind the muddy shore: thick forest, marsh grass taller than you, and clouds of mosquitoes. More than 100 tired people are standing on the bank with their bags, and every one of them needs a roof before the storms and cold nights come.\n\nYou can't ship houses across an ocean, so you'll build with what's here. Design shelter that's fast, dry, stable, safe from fire, and buildable with your people and tools. Then test it, and fix whatever fails.",
     "cards": [
       {
         "label": "Carpenter",
@@ -40,7 +40,7 @@
       },
       {
         "label": "Your targets",
-        "text": "FAST · DRY · STABLE · SAFE (fire!) · BUILDABLE · REPAIRABLE",
+        "text": "FAST · DRY · STABLE · SAFE (fire!) · BUILDABLE · REPAIRABLE. Shelter for 100 people, about 30 builders at a time, and only 6 kegs of nails. Then it gets tested.",
         "icon": "🎯"
       }
     ],
