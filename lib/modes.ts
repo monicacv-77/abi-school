@@ -418,15 +418,19 @@ MODE: INVESTIGATION — "Figure it out." Abi is the investigator. Backbone: Ques
 // Apply stat changes, then fire any threshold consequences (each fires once; knock-ons can chain).
 function applyStats(d: SimulationData, s: Session, effects: Record<string, number>): { changes: string[]; triggered: string[] } {
   const stats = (s.state.stats ?? {}) as Record<string, number>;
-  const clamp = (n: number) => Math.max(0, Math.min(10, n));
+  const delta: Record<string, number> = {};
   const changes: string[] = [];
   const triggered: string[] = [];
   const apply = (eff: Record<string, number>) => {
     for (const [k, v] of Object.entries(eff)) {
       if (!(k in stats) || !v) continue;
-      stats[k] = clamp(stats[k] + v);
       const st = d.stats.find((x) => x.id === k);
-      changes.push(`${st?.label ?? k} ${v > 0 ? '↑' : '↓'}${Math.abs(v)}`);
+      const before = stats[k];
+      stats[k] = st?.kind === 'count' ? Math.max(0, before + v) : Math.max(0, Math.min(10, before + v));
+      const real = stats[k] - before;
+      if (!real) continue;
+      delta[k] = (delta[k] ?? 0) + real;
+      changes.push(`${st?.label ?? k} ${real > 0 ? '↑' : '↓'}${Math.abs(real)}`);
     }
   };
   apply(effects);
@@ -447,6 +451,7 @@ function applyStats(d: SimulationData, s: Session, effects: Record<string, numbe
   }
   s.state.stats = stats;
   s.state.triggered = fired;
+  s.state.lastDelta = delta;
   return { changes, triggered };
 }
 const simulation = {
@@ -457,7 +462,7 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
 - Real people talk in character, briefly, with personality. A little humor is welcome when it's historically honest.
 - Abi only knows what someone in her role could know. No modern hindsight from characters. If Abi uses what she learned in class, characters react as people of their time would.
 - History is mechanisms: when it matters, let her see WHY things happen (incentives, orders from investors, disease, weather, relationships).
-- Present one decision at a time, with the 3–4 options from the case, in very short form. She may also propose her own choice. Call make_choice to get the consequence and stat changes, then narrate.
+- Present one decision at a time: 2–4 short sentences of situation, one clear question, then the case's options labeled A, B, C, D in very short form. She may also propose her own plan. Call make_choice, then give the consequence in 2–4 sentences with the stat changes shown as arrows (e.g. Food ↓1). Never say which choice is historically correct before she chooses. Don't over-praise.
 - Real historical events happen on schedule: call advance_time to bring the next fixed event in when the story reaches it.
 - Her choices have knock-on effects: when a tool result says CONSEQUENCE TRIGGERED, that event happens now. Narrate it briefly and let her respond. These are how her earlier decisions shape what comes later.
 - Her version of history may differ from what really happened. The setting and facts stay accurate.
@@ -493,7 +498,8 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
       `People:\n${d.people.map((p) => `- ${p.name}${p.real ? ' (real)' : ' (invented)'}: ${p.who}. Voice: ${p.voice}`).join('\n')}`,
       `Daily life details to weave in:\n${d.dailyLife.map((x) => `- ${x}`).join('\n')}`,
       d.scienceHooks?.length ? `Science hooks (let her investigate these if she's curious):\n${d.scienceHooks.map((x) => `- ${x}`).join('\n')}` : '',
-      `Stats (0–10, shown on her screen): ${d.stats.map((x) => x.label).join(', ')}`,
+      `Stats shown on her screen: ${d.stats.map((x) => (x.kind === 'count' ? `${x.label} (a number)` : `${x.label} (0–10)`)).join(', ')}`,
+      d.sequence?.length ? `ORDER OF PLAY (decisions and real events, interleaved): ${d.sequence.join(' → ')}` : '',
       d.triggers?.length ? `Consequences that fire automatically when stats cross a line (don't reveal ahead of time): ${d.triggers.map((t) => `${t.stat} ${t.below !== undefined ? `≤ ${t.below}` : `≥ ${t.above}`}`).join(', ')}` : '',
       `Real events, in order (details hidden — call advance_time):\n${d.fixedEvents.map((e) => `- ${e.id}: ${e.when}`).join('\n')}`,
       `Decision points, in order:\n${d.decisions
@@ -532,7 +538,7 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
         consequence = 'Abi chose her own path. Narrate a fair, historically plausible consequence.';
       } else return { result: 'Give option_id or custom_choice.', isError: true };
       const { changes, triggered } = applyStats(d, s, effects);
-      s.state.choices = [...arr(s.state.choices), { decision: dp.id, choice: label }];
+      s.state.choices = [...arr(s.state.choices), { decision: dp.id, option: input.option_id ? String(input.option_id) : 'custom', choice: label }];
       s.stage = 'decision';
       const now = (s.state.stats ?? {}) as Record<string, number>;
       return {
@@ -550,11 +556,20 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
       if (!e) return { result: `Unknown event. Valid ids: ${d.fixedEvents.map((x) => x.id).join(', ')}`, isError: true };
       if (arr<string>(s.state.events).includes(e.id)) return { result: 'That event already happened.', isError: true };
       pushUnique(s.state, 'events', e.id);
-      const { changes, triggered } = applyStats(d, s, e.effects ?? {});
+      const made = arr<{ decision: string; option?: string }>(s.state.choices).map((ch) => `${ch.decision}:${ch.option ?? ''}`);
+      const eff: Record<string, number> = { ...(e.effects ?? {}) };
+      const notes: string[] = [];
+      for (const m of e.modifiers ?? []) {
+        if (!made.includes(m.ifChoice)) continue;
+        for (const [k, v] of Object.entries(m.effects)) eff[k] = (eff[k] ?? 0) + v;
+        if (m.note) notes.push(m.note);
+      }
+      const { changes, triggered } = applyStats(d, s, eff);
       const now = (s.state.stats ?? {}) as Record<string, number>;
       return {
         result: [
           `${e.when}: ${e.event}`,
+          notes.length ? `How her earlier choices changed this: ${notes.join(' ')}` : '',
           changes.length ? `Stat changes: ${changes.join(', ')}` : '',
           ...triggered.map((t) => `CONSEQUENCE TRIGGERED: ${t}`),
           `Stats now: ${d.stats.map((x) => `${x.label} ${now[x.id]}`).join(', ')}`,
@@ -574,6 +589,9 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
     const d = c.data as SimulationData;
     const need = Math.ceil(d.decisions.length / 2);
     if (arr(s.state.choices).length < need) return `Make at least ${need} decisions first.`;
+    const made = arr<{ decision: string }>(s.state.choices).map((ch) => ch.decision);
+    const missing = (d.requiredDecisions ?? []).filter((id) => !made.includes(id));
+    if (missing.length) return `These decisions still have to happen: ${missing.join(', ')}.`;
     return null;
   },
 };

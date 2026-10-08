@@ -6,477 +6,250 @@
   "unit": "Early Settlements",
   "location": "Jamestown, Virginia",
   "realOrConstructed": "Real historical setting with alternate outcomes",
-  "status": "DRAFT",
-  "version": 2,
-  "bigUnderstanding": "What was it really like to try to survive in early Virginia? Settlers failed for reasons that make sense: investor pressure for gold, gentlemen who wouldn't work, bad water, drought, dependence on supply ships and on the Powhatan for food. DRAFT engine-test version; Monica's tested Jamestown design will replace this.",
+  "status": "READY",
+  "version": 3,
+  "bigUnderstanding": "Monica's design: Jamestown's survival was shaped by real pressures (water, food, labor, disease, relations with the Powhatan, supply ships, investor expectations, population growth, the search for profit). Abi learns them through decisions and consequences, not exposition. This is the unit finale: she may transfer ideas from Clean Water, The Failing Farm, Too Good to Be True and Build for Survival; never prompt her to.",
+  "winCondition": "Lead your colony through its first three years. Then explain what mattered most to its survival, and why.",
   "opening": {
-    "intro": "May 1607. After four and a half months at sea, three small ships slide up a wide river in Virginia. You're Kit, 14, servant and record-keeper for the colony's council.",
+    "intro": "April 1607. Your ship reaches Virginia and the captain breaks open a sealed box from the Virginia Company. Inside: the names of the colony's leaders. Yours is at the top. You are President of the Council of Virginia.",
     "cards": [
-      {
-        "label": "Who's here",
-        "text": "About 104 men and boys. Lots of 'gentlemen' who've never done hard work. A few carpenters, a blacksmith, laborers."
-      },
-      {
-        "label": "The boss",
-        "text": "The Virginia Company of London paid for all this. The investors want profit: gold, valuable goods, or a route to the Pacific."
-      },
-      {
-        "label": "Your job",
-        "text": "Write everything down. The council sometimes asks your opinion. Mostly so they have someone to blame."
-      }
+      { "label": "Your colony", "text": "104 men and boys. No women. Lots of 'gentlemen' who've never done hard work. A few carpenters and laborers. Hardly any farmers." },
+      { "label": "Your orders", "text": "Build a settlement. Survive. Explore. And find something valuable, like gold or a route to the Pacific, so the investors in London keep paying." },
+      { "label": "Your council", "text": "John Smith: bold, practical, makes enemies. Edward Wingfield: rich, proper, thinks this job should be his. Bartholomew Gosnold: steady and respected." },
+      { "label": "Your neighbors", "text": "This land is Tsenacommacah, home to about 30 Powhatan nations led by Wahunsenacah. They've farmed, fished and governed here for generations." },
+      { "label": "How it works", "text": "One big decision at a time. Your choices change the colony's numbers, and earlier choices come back later. Nothing is guaranteed." }
     ],
-    "prompt": "The ships are anchored. What do you do first?"
+    "prompt": "The ships head up a wide river. Where will you build?"
   },
   "facilitatorNotes": [
-    "DRAFT version for testing the Simulation engine. Keep it immersive, short and funny where history allows.",
-    "Abi studies Jamestown in her history class. If she uses what she learned, characters react as 1607 people would (no hindsight), but let her try to do better.",
-    "Science hook: if people start getting sick in summer, let her investigate the water. In summer the river runs low, salt water pushes upriver, and waste sits near the fort. Historians think salty water plus typhoid and dysentery killed many.",
-    "The Powhatan were a powerful alliance of about 30 tribes led by Wahunsenacah (called Powhatan). Portray them as people with their own interests and decisions, not villains or props.",
-    "The famous Pocahontas rescue story comes only from John Smith, years later. If it comes up, say historians debate it.",
-    "Pin real events to her timeline (May 1607 landing, June 1607 fort finished, Jan 1608 First Supply and fire)."
+    "ROLE: Abi is President of the Council, the colony's leader, named in the Company's sealed orders (this really happened; the real first president was Edward Wingfield, so here Wingfield is a resentful councilor). Characters address her as 'President.' Don't make an issue of her name or gender; if she gives a name, use it.",
+    "PRESSURE: she carries real responsibility. Company letters are addressed to her. Councilors argue, scheme and blame her. Deaths are her problem. Keep it serious but not grim, with dry humor where history allows (gentlemen refusing to dig, worthless 'gold').",
+    "TURN SHAPE (Monica's rule): 2–4 short sentences of situation, one clear question, choices labeled A–D. After she chooses: 2–4 sentences of consequence, show stat changes with arrows, move quickly to the next situation. Phone-friendly.",
+    "Follow the ORDER OF PLAY. Call advance_time for each real event when the story reaches it; their severity depends on her earlier choices (the tool result says how). Narrate from the numbers.",
+    "Do not force the real outcome, and do not protect the colony. Survival should feel uncertain. Reward plausible good choices; let poor ones make things worse.",
+    "Choices have tradeoffs; never imply one is virtuous. Don't say which is historically correct before she chooses.",
+    "Powhatan nations are organized societies with their own interests, politics and food systems, not props and not rescuers. Cooperation is never guaranteed. Trade never creates unlimited food.",
+    "Investors are not cartoon villains: the Company paid for ships, supplies and people across an ocean and needs the venture to pay for itself. Abi should feel SURVIVE NOW vs. BECOME USEFUL.",
+    "No modern hindsight for her character. If she uses what she learned in class, characters react as 1607 people would, but let her plan work if it's plausible.",
+    "If she asks a history question, answer briefly without telling her what to decide.",
+    "Starving Time: describe honestly but not graphically (eating horses, dogs, rats, boiled leather). Archaeology also found evidence of at least one case of survival cannibalism: mention it only if Abi asks directly, in one plain sentence, no detail.",
+    "Pocahontas (about 11 in 1607) really visited the fort. The famous 'rescue' of John Smith is his own story, told years later; historians debate it.",
+    "Tobacco became Virginia's money crop only after 1612. Don't let it rescue the early colony.",
+    "If she proposes something outside the options that's plausible for 1607, allow it with make_choice custom_choice.",
+    "DEBRIEF after the last decision: a short outcome for HER colony; then YOUR JAMESTOWN (her major decisions and results) vs. REAL JAMESTOWN (what happened, where she differed). Then ask these one at a time, and push once for causal reasoning if an answer is shallow: (1) What was the biggest threat to Jamestown's survival? (2) Why did adding more settlers sometimes make things worse? (3) Why did depending on supply ships pressure the colonists to make money for the Company?",
+    "Close after the debrief questions, using her own words for the Case Summary (visual: compare, My Jamestown vs. Real Jamestown)."
   ],
   "justInTimeConcepts": [
-    "Joint-stock company: investors share costs and profits, so they push for quick returns.",
-    "Brackish water: a mix of fresh and salt water.",
-    "Gentlemen in 1600s England didn't do manual labor; it was a matter of status."
+    "Joint-stock company: investors share the costs and hope to share profits.",
+    "Brackish water: part fresh, part salt; worse in summer when the river runs low.",
+    "Carrying capacity: how many people a place's food, water and shelter can support.",
+    "Cash crop: something grown to sell, not to eat.",
+    "Gentleman: a man of high rank who didn't do manual labor."
   ],
   "scaffolds": [
-    "What do the investors want, and what does the colony need? Are those the same?",
-    "Where does your food come from if your crops aren't planted yet?"
+    "What does the colony need this month, and what does London want? Are they the same?",
+    "Where will your food come from if this goes wrong?",
+    "Who pays the price if this choice backfires?"
   ],
-  "completion": "Abi has made at least half of the decisions, reached January 1608, and said in her own words what she'd do differently or why things went the way they did.",
+  "completion": "Abi has made the major decisions through the Starving Time, reached a final colony outcome, heard the Your Jamestown vs. Real Jamestown comparison, and answered the three debrief questions with causal reasoning in her own words.",
   "endReveal": {
-    "concept": "Cause and effect in history: Jamestown's disasters came from real pressures (investors, status, water, drought, supply), not from settlers being stupid.",
+    "concept": "Cause and effect in history: Jamestown's disasters came from real pressures stacking up (bad water, too few workers, investor demands, dependence on supply ships and on Powhatan food, drought, more mouths to feed). Its survival was never guaranteed.",
     "vocabulary": [
-      {
-        "term": "Joint-stock company",
-        "meaning": "A business where many investors share the costs and profits."
-      },
-      {
-        "term": "Brackish",
-        "meaning": "Water that's part fresh, part salty."
-      },
-      {
-        "term": "Palisade",
-        "meaning": "A wall made of tall tree trunks."
-      }
+      { "term": "Joint-stock company", "meaning": "A business where many investors share costs and profits." },
+      { "term": "Carrying capacity", "meaning": "How many people a place can support." },
+      { "term": "Starving Time", "meaning": "The winter of 1609–1610, when most of Jamestown died." },
+      { "term": "Cash crop", "meaning": "A crop grown to sell, like Virginia's later tobacco." }
     ],
     "realVsConstructed": {
-      "real": "Jamestown, the ships, the Virginia Company, John Smith, Wingfield, Newport, Gosnold, Powhatan, the fort, the sickness, the fire, and the dates.",
-      "constructed": "Kit, Kit's conversations, and how your choices changed what happened."
+      "real": "Jamestown, the Virginia Company, the sealed box, the council members, the Powhatan nations, the sickness, the fire, the supply ships, the Starving Time, and the near-abandonment in 1610.",
+      "constructed": "You as President, your choices, and how your colony turned out."
     }
   },
-  "skills": [
-    "Cause & Effect",
-    "Perspective",
-    "Decision Making"
-  ],
+  "skills": ["Cause & Effect", "Leadership Under Pressure", "Weighing Tradeoffs"],
   "timelineEvents": [
-    {
-      "year": "May 1607",
-      "label": "English colonists land at Jamestown"
-    },
-    {
-      "year": "Jan 1608",
-      "label": "First Supply arrives; fire burns the fort"
-    }
+    { "year": "May 1607", "label": "Jamestown is founded" },
+    { "year": "Jan 1608", "label": "First supply ship arrives; fire burns the fort" },
+    { "year": "Oct 1608", "label": "First English women arrive at Jamestown" },
+    { "year": "1609–1610", "label": "The Starving Time" },
+    { "year": "June 1610", "label": "Survivors nearly abandon Jamestown" }
+  ],
+  "followUpSeeds": [
+    "how disease and drinking water shaped early colonies",
+    "Powhatan life, farming and government",
+    "how tobacco changed Virginia, and who was forced to grow it",
+    "what archaeologists have found at Jamestown",
+    "how leaders make decisions when there's no good option"
   ],
   "data": {
     "kind": "simulation",
-    "role": "Kit, 14, an invented servant and record-keeper for the council. Can talk to anyone, attends council meetings, is sometimes asked for an opinion.",
-    "setting": "The James River in Virginia, spring 1607 to early 1608. Thick forest, marshes, mosquitoes, hot humid summer. Tsenacommacah, the land of the Powhatan alliance, all around.",
-    "canKnow": "What colonists knew in 1607: their orders from the Company, what they see and hear, rumors, what Powhatan people tell them through signs and a few words.",
-    "cannotKnow": "Germ theory, what happens later, that there's no gold, how history turns out.",
+    "role": "President of the Council of Virginia, the colony's leader, named in the Virginia Company's sealed orders. Leads council meetings, gives orders, answers to London.",
+    "setting": "The James River in Virginia, April 1607 to June 1610. Thick forest, marshes, mosquitoes, hot humid summers, cold winters. Tsenacommacah, the land of the Powhatan alliance, all around.",
+    "canKnow": "What English leaders knew 1607–1610: the Company's orders, what they see and hear, reports from councilors and scouts, rumors, what Powhatan people convey through trade, signs and a few interpreters.",
+    "cannotKnow": "Germ theory, what happens next, that there's no gold, that tobacco will pay later, how history turns out.",
     "people": [
-      {
-        "name": "Captain John Smith",
-        "who": "Soldier and adventurer, about 27. Arrived under arrest for 'mutiny', then named to the council",
-        "voice": "Bold, boastful, practical. Thinks the gentlemen are useless and says so.",
-        "real": true
-      },
-      {
-        "name": "Edward Maria Wingfield",
-        "who": "First president of the council, a wealthy gentleman investor",
-        "voice": "Proper, prickly, worried about status and supplies.",
-        "real": true
-      },
-      {
-        "name": "Captain Christopher Newport",
-        "who": "Commander of the ships, will sail back for supplies",
-        "voice": "Experienced, one-armed sea captain. Focused on what the Company wants.",
-        "real": true
-      },
-      {
-        "name": "Bartholomew Gosnold",
-        "who": "Council member who organized the voyage",
-        "voice": "Thoughtful, respected, a calming voice.",
-        "real": true
-      },
-      {
-        "name": "George Percy",
-        "who": "A gentleman colonist who wrote about what he saw",
-        "voice": "Observant, a bit dramatic, writes things down too.",
-        "real": true
-      },
-      {
-        "name": "Will",
-        "who": "Invented teenage laborer, Kit's friend",
-        "voice": "Funny, always hungry, complains about the gentlemen.",
-        "real": false
-      }
+      { "name": "Captain John Smith", "who": "Councilor, soldier, explorer and trader, about 27", "voice": "Bold, blunt, boastful, practical. Thinks the gentlemen are useless and says so. Gets things done; makes enemies.", "real": true },
+      { "name": "Edward Maria Wingfield", "who": "Councilor, wealthy gentleman investor (the real first president)", "voice": "Proper, prickly, status-conscious. Thinks the presidency should be his. Guards the supplies jealously.", "real": true },
+      { "name": "Bartholomew Gosnold", "who": "Councilor who organized the voyage", "voice": "Thoughtful, respected, calming. The one everyone listens to.", "real": true },
+      { "name": "John Ratcliffe", "who": "Councilor and ship captain", "voice": "Ambitious, smooth, looking out for himself.", "real": true },
+      { "name": "Captain Christopher Newport", "who": "Commander of the ships; carries the Company's letters and demands back and forth", "voice": "Experienced one-armed sea captain. Loyal to the Company's goals.", "real": true },
+      { "name": "George Percy", "who": "Gentleman colonist who writes down what he sees (later leads during the Starving Time)", "voice": "Observant, a bit dramatic.", "real": true },
+      { "name": "Wahunsenacah", "who": "Paramount chief (mamanatowick) of the Powhatan, the English call him Powhatan; about 60", "voice": "Shrewd, powerful, patient. Watches the English and decides what they're worth to him.", "real": true },
+      { "name": "Pocahontas", "who": "Wahunsenacah's daughter, about 11; visits the fort", "voice": "Curious and lively. A child, not a romance.", "real": true }
     ],
     "dailyLife": [
-      "Sleeping under sails stretched over branches until real houses are built.",
+      "Sleeping under sails stretched over branches until real buildings go up.",
       "Gentlemen in fine clothes who refuse to chop wood.",
       "Clouds of mosquitoes and biting flies.",
-      "The common pot: wheat or barley boiled in water, sometimes with worms.",
-      "Drinking from the river, which at low tide in summer is slimy and salty.",
+      "The common pot: wheat or barley boiled in water, sometimes with worms in it.",
+      "River water that turns salty and slimy at low tide in summer.",
       "Daily prayers and drills with heavy matchlock muskets."
     ],
     "scienceHooks": [
-      "Why people get sick in summer: river water near the fort turns salty and dirty at low tide; waste isn't kept away from drinking water.",
-      "Drought: tree rings show 1606–1612 was the driest stretch in about 770 years in this region, making crops fail for everyone.",
-      "Why a well inside the fort could help (and could be salty if dug too near the river)."
+      "Why people sicken in summer: the river turns brackish and waste collects near the fort at low tide.",
+      "Drought: tree rings show 1606–1612 was the driest stretch in about 770 years here; everyone's crops suffered.",
+      "Carrying capacity: more people means more food, water and shelter, not just more workers."
     ],
     "stats": [
-      {
-        "id": "food",
-        "label": "Food",
-        "start": 6
-      },
-      {
-        "id": "health",
-        "label": "Health",
-        "start": 7
-      },
-      {
-        "id": "morale",
-        "label": "Morale",
-        "start": 6
-      },
-      {
-        "id": "relations",
-        "label": "Powhatan relations",
-        "start": 5
-      },
-      {
-        "id": "company",
-        "label": "Company happiness",
-        "start": 6
-      }
+      { "id": "people", "label": "People", "start": 104, "kind": "count" },
+      { "id": "food", "label": "Food", "start": 5 },
+      { "id": "health", "label": "Health", "start": 6 },
+      { "id": "relations", "label": "Powhatan relations", "start": 5 },
+      { "id": "investors", "label": "Investor confidence", "start": 5 }
     ],
+    "sequence": ["site", "attack", "build_first", "newport_leaves", "food_labor", "relations", "water", "sickness", "first_supply", "fire", "supply_ship", "second_supply", "newcomers", "winter_prep", "rats", "third_supply", "smith_leaves", "starving_time", "starving", "abandon", "delawarr"],
+    "requiredDecisions": ["starving"],
     "fixedEvents": [
-      {
-        "id": "attack",
-        "when": "Late May 1607",
-        "event": "About 200 warriors attack the half-built camp. Several colonists are hurt and a boy is killed. Cannon from the ships drive the attackers off. The council orders a fort built at once.",
-        "effects": {
-          "morale": -1
-        }
-      },
-      {
-        "id": "fort_done",
-        "when": "Mid-June 1607",
-        "event": "A triangle-shaped wooden fort is finished in about 19 days: palisade walls with a round platform at each corner for cannon."
-      },
-      {
-        "id": "newport_leaves",
-        "when": "June 22, 1607",
-        "event": "Captain Newport sails for England with the big ships, promising supplies in about 20 weeks. The colony is on its own."
-      },
-      {
-        "id": "sickness",
-        "when": "July–August 1607",
-        "event": "Men fall sick one after another with fevers and stomach illness. Some days several are buried. Food runs low.",
-        "effects": {
-          "health": -2,
-          "morale": -1
-        }
-      },
-      {
-        "id": "gosnold_dies",
-        "when": "August 22, 1607",
-        "event": "Bartholomew Gosnold dies. The council starts fighting among itself.",
-        "effects": {
-          "morale": -1
-        }
-      },
-      {
-        "id": "smith_captured",
-        "when": "December 1607",
-        "event": "John Smith, out trading for corn, is captured and taken to Powhatan himself. He returns weeks later, alive, with stories.",
-        "effects": {
-          "relations": 1
-        }
-      },
-      {
-        "id": "first_supply",
-        "when": "January 2, 1608",
-        "event": "Newport returns with supplies and about 100 new colonists. Only about 38 of the original men are still alive.",
-        "effects": {
-          "food": 3,
-          "company": 1
-        }
-      },
-      {
-        "id": "fire",
-        "when": "January 7, 1608",
-        "event": "A fire sweeps through the fort, burning most houses and supplies in the dead of winter.",
-        "effects": {
-          "food": -2,
-          "morale": -2
-        }
-      }
+      { "id": "attack", "when": "Late May 1607", "event": "About 200 Powhatan warriors attack the half-built camp. Several colonists are wounded and a boy is killed. Cannon from the ships drive the attackers off.", "effects": { "people": -2 }, "modifiers": [{ "ifChoice": "site:inland", "effects": { "people": -3, "relations": -1 }, "note": "Far from the ships' cannon, the inland camp is hit harder." }, { "ifChoice": "site:split", "effects": { "people": -2 }, "note": "The farming camp is exposed." }] },
+      { "id": "newport_leaves", "when": "June 22, 1607", "event": "Captain Newport sails for England with the big ships, promising supplies in about 20 weeks. The colony is on its own." },
+      { "id": "sickness", "when": "August–September 1607", "event": "Fevers and stomach sickness sweep the colony. Some days several men are buried. Gosnold dies in August. Councilors start blaming each other, and you.", "effects": { "people": -55, "health": -2 }, "modifiers": [{ "ifChoice": "site:high_ground", "effects": { "people": 20, "health": 1 }, "note": "Better water on higher ground saves many lives." }, { "ifChoice": "site:inland", "effects": { "people": 25, "health": 1 }, "note": "Fresh springs inland mean far less sickness." }, { "ifChoice": "site:split", "effects": { "people": 15 }, "note": "The farming camp's better water helps." }, { "ifChoice": "build_first:shelter_water", "effects": { "people": 10 }, "note": "Early shelter and a water source pay off." }, { "ifChoice": "water:well", "effects": { "people": 15, "health": 1 }, "note": "The well inside the fort makes a real difference." }, { "ifChoice": "water:springs", "effects": { "people": 10 }, "note": "Spring water helps." }, { "ifChoice": "water:sanitation", "effects": { "people": 10 }, "note": "Keeping waste away from the water helps." }, { "ifChoice": "water:river", "effects": { "people": -5 }, "note": "Drinking the river all summer makes it worse." }, { "ifChoice": "food_labor:everyone_works", "effects": { "people": 5 }, "note": "Better-fed men fight off sickness a little better." }] },
+      { "id": "first_supply", "when": "January 2, 1608", "event": "Newport returns with food and about 100 new colonists, and a letter from the Company for you: show us results.", "effects": { "people": 100, "food": 3 } },
+      { "id": "fire", "when": "January 7, 1608", "event": "A fire sweeps through the fort in the dead of winter, burning most of the buildings and many supplies.", "effects": { "food": -2, "health": -1 } },
+      { "id": "second_supply", "when": "October 1608", "event": "The Second Supply arrives with about 70 people, including the first two English women, Mistress Forrest and her maid Anne Burras, plus Polish and German glassmakers and tar-makers. Also: a sharp letter from London.", "effects": { "people": 70, "food": 1 }, "modifiers": [{ "ifChoice": "supply_ship:gold", "effects": { "investors": -3 }, "note": "The letter reports the 'gold' you sent was worthless dirt. The investors are embarrassed and angry." }, { "ifChoice": "supply_ship:exports", "effects": { "investors": 1 }, "note": "The clapboard and pitch you sent sold. Small, but real." }] },
+      { "id": "rats", "when": "Spring 1609", "event": "Colonists open the storehouses and find rats, which came over on English ships, have eaten or spoiled much of the stored corn.", "effects": { "food": -2 }, "modifiers": [{ "ifChoice": "winter_prep:store", "effects": { "food": -1 }, "note": "With so much stored, the rats do even more damage." }, { "ifChoice": "winter_prep:spread_out", "effects": { "food": 1 }, "note": "People living off oysters and fish downriver don't depend on the storehouse." }] },
+      { "id": "third_supply", "when": "August 1609", "event": "Ships of the Third Supply straggle in with about 250 hungry new settlers. The flagship, carrying the new leaders and most of the supplies, never arrives. Rumor says it was wrecked in a hurricane.", "effects": { "people": 250, "food": -1 } },
+      { "id": "smith_leaves", "when": "October 1609", "event": "John Smith is badly burned when gunpowder explodes on his boat. He sails home to England. Relations with the Powhatan break down into open conflict.", "effects": { "relations": -2 }, "modifiers": [{ "ifChoice": "relations:diplomacy", "effects": { "relations": 1 }, "note": "Your earlier diplomacy softens the fall a little." }] },
+      { "id": "starving_time", "when": "Winter 1609–1610", "event": "Winter closes in. The Powhatan besiege the fort; anyone who leaves risks death. Food runs out. In the real colony, people ate horses, dogs, rats and boiled leather, and roughly 500 people fell to about 60. Your colony's fate depends on everything you've done.", "effects": { "people": -350, "food": -4, "health": -3 }, "modifiers": [{ "ifChoice": "food_labor:everyone_works", "effects": { "people": 40 }, "note": "Years of farming built real skill." }, { "ifChoice": "food_labor:mixed", "effects": { "people": 20 }, "note": "A mixed food system holds up somewhat." }, { "ifChoice": "food_labor:profit", "effects": { "people": -20 }, "note": "Years of neglected farming catch up with you." }, { "ifChoice": "relations:diplomacy", "effects": { "people": 40, "food": 1 }, "note": "Some Powhatan towns still trade quietly with you." }, { "ifChoice": "relations:watchful", "effects": { "people": 20 }, "note": "A few trading partners remain." }, { "ifChoice": "relations:force", "effects": { "people": -40 }, "note": "No one will trade; the siege is tighter." }, { "ifChoice": "supply_ship:survival", "effects": { "people": 25 }, "note": "Investing in survival back in 1608 still pays." }, { "ifChoice": "supply_ship:gold", "effects": { "people": -20 }, "note": "The gold rush cost you a planting season." }, { "ifChoice": "newcomers:work", "effects": { "people": 20 }, "note": "Newcomers put straight to farming added food." }, { "ifChoice": "newcomers:explore", "effects": { "people": -20 }, "note": "Explorers ate food and grew none." }, { "ifChoice": "winter_prep:work_or_starve", "effects": { "people": 40, "food": 1 }, "note": "Your work rule built bigger harvests." }, { "ifChoice": "winter_prep:store", "effects": { "people": 25 }, "note": "Your storehouses help, despite the rats." }, { "ifChoice": "winter_prep:spread_out", "effects": { "people": 40 }, "note": "People who know how to fish and gather oysters survive." }, { "ifChoice": "winter_prep:profit", "effects": { "people": -40 }, "note": "Rations were thin all along." }, { "ifChoice": "water:well", "effects": { "people": 15 }, "note": "Clean water keeps the weak alive a little longer." }] },
+      { "id": "delawarr", "when": "June 1610", "event": "As the survivors drift downriver, a fleet appears: Lord De La Warr, the new governor, with food, supplies and about 150 new settlers. In real history this is what saved Jamestown. The shipwrecked leaders also turn up alive, having built new boats in Bermuda.", "effects": { "people": 150, "food": 3, "investors": 1 } }
+    ],
+    "triggers": [
+      { "id": "hunger", "stat": "food", "below": 1, "event": "The food is gone. Men eat acorns and roots. The weak start to die.", "effects": { "health": -2, "people": -10 } },
+      { "id": "council_revolt", "stat": "food", "below": 2, "event": "Wingfield and Ratcliffe call a council meeting to remove you as President. They say you're hoarding food. Make your case to the council.", "effects": { "investors": -1 } },
+      { "id": "deaths", "stat": "health", "below": 2, "event": "Burials every day. Too few healthy men are left to stand guard or plant.", "effects": { "people": -15, "food": -1 } },
+      { "id": "ambush", "stat": "relations", "below": 2, "event": "Warriors ambush a party gathering firewood. No one leaves the fort without guards now.", "effects": { "people": -5, "food": -1 } },
+      { "id": "company_angry", "stat": "investors", "below": 2, "event": "A letter from London, addressed to you: send something valuable, or the Company will replace you and the council.", "effects": {} },
+      { "id": "corn_gifts", "stat": "relations", "above": 8, "event": "Powhatan messengers arrive with baskets of corn and venison as gifts. Wahunsenacah wants to keep the English close, and useful.", "effects": { "food": 2 } }
     ],
     "decisions": [
       {
         "id": "site",
         "when": "May 1607",
-        "situation": "The council debates where to build.",
+        "situation": "The Company says: build where you can defend against Spain and where ships can reach you. Some spots have deep water and good defense; others have better water or farmland.",
         "options": [
-          {
-            "id": "island",
-            "label": "The marshy island: deep water for ships, easy to defend from Spain, nobody lives there",
-            "effects": {
-              "company": 1,
-              "health": -1
-            },
-            "consequence": "Ships tie up right to the trees. It's defensible. Nobody asks why no one lives on this swampy island."
-          },
-          {
-            "id": "high_ground",
-            "label": "Higher ground upriver with a freshwater spring",
-            "effects": {
-              "health": 2,
-              "company": -1,
-              "relations": -1
-            },
-            "consequence": "Healthier water, but the ships can't come close and it's near Powhatan towns that don't want neighbors."
-          },
-          {
-            "id": "near_town",
-            "label": "Near a Powhatan town to trade",
-            "effects": {
-              "food": 1,
-              "relations": -2
-            },
-            "consequence": "Easy trading at first, but the town sees your armed camp as a threat."
-          }
+          { "id": "island", "label": "A marshy island: ships tie up right at the shore, easy to defend, no one lives there", "effects": { "investors": 1 }, "consequence": "Ships moor at the trees and the Company will approve. Nobody asks why no one lives on this low, swampy island." },
+          { "id": "high_ground", "label": "Keep searching upriver for higher ground with springs and farmland", "effects": { "food": -1, "investors": -1, "relations": -1 }, "consequence": "Weeks of searching eat food and patience. You find drier ground with springs, but it's close to Powhatan towns that don't want neighbors." },
+          { "id": "split", "label": "Split up: a fort on the river plus a farming camp on better ground", "effects": { "food": 1, "relations": -1, "investors": -1 }, "consequence": "Two sites, half the guards at each. Farming gets a head start. Defending both will stretch your men thin." },
+          { "id": "inland", "label": "Go farther inland near fresh water", "effects": { "investors": -2, "relations": -2, "food": -1 }, "consequence": "Good water, but supplies must be hauled from the ships, the Company is unhappy, and you're now deep in Powhatan land." }
         ]
       },
       {
-        "id": "after_attack",
+        "id": "build_first",
         "when": "Late May 1607, after the attack",
-        "situation": "Half the men want to hunt for gold like the Company ordered. The rest are scared.",
+        "situation": "Everyone is shaken. There's only so much labor. Half the men want to hunt for gold like the Company ordered. Many gentlemen won't dig at all.",
         "options": [
-          {
-            "id": "fort",
-            "label": "Everyone builds a fort first",
-            "effects": {
-              "morale": 1,
-              "company": -1
-            },
-            "consequence": "Walls go up fast. The gentlemen grumble but feel safer."
-          },
-          {
-            "id": "plant",
-            "label": "Clear fields and plant crops before it's too late",
-            "effects": {
-              "food": 2,
-              "company": -1
-            },
-            "consequence": "Late-planted crops are risky in a dry year, but it's something."
-          },
-          {
-            "id": "gold",
-            "label": "Send men to look for gold and the passage to the Pacific",
-            "effects": {
-              "company": 2,
-              "food": -2,
-              "morale": -1
-            },
-            "consequence": "They bring back shiny rocks and blisters. The Company will be thrilled. Probably."
-          },
-          {
-            "id": "peace",
-            "label": "Send gifts to make peace with nearby towns",
-            "effects": {
-              "relations": 2,
-              "food": -1
-            },
-            "consequence": "Some leaders accept gifts. Trust is thin, but the attacks slow."
-          }
+          { "id": "fort", "label": "Walls first: build a fort", "effects": { "food": -1 }, "consequence": "A triangle fort goes up in about 19 days. People feel safer. Planting falls behind." },
+          { "id": "fields", "label": "Clear fields and plant before it's too late", "effects": { "food": 2, "people": -2 }, "consequence": "Seeds go in. Working in the open without walls costs you." },
+          { "id": "gold", "label": "Send the best workers to look for gold and a passage to the Pacific", "effects": { "investors": 2, "food": -2, "health": -1 }, "consequence": "They bring back shiny rocks and blisters. London will love the reports. Your stores shrink." },
+          { "id": "shelter_water", "label": "Shelters and a reliable water source", "effects": { "health": 1, "food": -1, "investors": -1 }, "consequence": "Dry beds and a better water supply. Nothing to show the Company yet." }
+        ]
+      },
+      {
+        "id": "food_labor",
+        "when": "June–July 1607",
+        "situation": "The food from England is running low. Farming is behind. Gentlemen say digging is for servants.",
+        "options": [
+          { "id": "everyone_works", "label": "Everyone works the fields and fishing, gentlemen included", "effects": { "food": 2, "investors": -1 }, "consequence": "Outrage, then ditches get dug. Some gentlemen write angry letters home to the Company about you." },
+          { "id": "profit", "label": "Keep skilled men on valuable goods (timber, sassafras, searching for ore)", "effects": { "investors": 2, "food": -2 }, "consequence": "Cargo piles up for London. The common pot gets thinner." },
+          { "id": "trade", "label": "Rely mainly on trading with the Powhatan for corn", "effects": { "food": 2, "relations": -1 }, "consequence": "Copper and beads buy corn now. Each trade puts pressure on towns that need their own winter food." },
+          { "id": "mixed", "label": "Mix it: ration, fish, farm a little, trade a little", "effects": { "food": 1 }, "consequence": "Slow and steady. No one's happy, no one's starving yet." }
+        ]
+      },
+      {
+        "id": "relations",
+        "when": "July 1607",
+        "situation": "Some Powhatan towns trade; others attack your work parties. Wahunsenacah is watching to see what kind of neighbors you'll be.",
+        "options": [
+          { "id": "diplomacy", "label": "Send envoys with gifts and trade fairly", "effects": { "relations": 2, "food": 1, "investors": -1 }, "consequence": "Trade goods the Company meant for profit go out as gifts. Some leaders accept. Trust is thin but growing." },
+          { "id": "force", "label": "Show force and demand corn", "effects": { "food": 2, "relations": -3 }, "consequence": "Corn now. Enemies later." },
+          { "id": "isolate", "label": "Stay behind walls and avoid contact", "effects": { "relations": -1, "food": -1 }, "consequence": "Fewer fights, fewer trades. You're on your own." },
+          { "id": "watchful", "label": "Trade, but with armed guards and constant watch", "effects": { "relations": 1, "food": 1 }, "consequence": "Business with caution. Both sides keep a hand on their weapons." }
         ]
       },
       {
         "id": "water",
-        "when": "July 1607",
-        "situation": "Men are getting sick. The river water tastes salty and smells at low tide.",
+        "when": "August 1607",
+        "situation": "It's hot. Men are getting sick. The river tastes salty and smells foul at low tide.",
         "options": [
-          {
-            "id": "river",
-            "label": "Keep drinking from the river; it's what we have",
-            "effects": {
-              "health": -2
-            },
-            "consequence": "The sickness gets worse."
-          },
-          {
-            "id": "well",
-            "label": "Dig a well inside the fort",
-            "effects": {
-              "health": 2,
-              "food": -1
-            },
-            "consequence": "Hard work in the heat, but the water is cleaner. (Jamestown really got a well, but not until 1609.)"
-          },
-          {
-            "id": "spring",
-            "label": "Send parties upriver to fetch fresh water",
-            "effects": {
-              "health": 1,
-              "relations": -1
-            },
-            "consequence": "Better water, but parties outside the fort risk ambush."
-          }
+          { "id": "river", "label": "Keep using the river; there's no time for anything else", "effects": { "health": -1 }, "consequence": "No extra work. The sickness spreads." },
+          { "id": "well", "label": "Dig a well inside the fort", "effects": { "health": 1, "food": -1 }, "consequence": "Hard digging in the heat, but cleaner water. (The real colony didn't dig one until 1609.)" },
+          { "id": "springs", "label": "Fetch water from springs upriver", "effects": { "health": 1, "relations": -1 }, "consequence": "Better water, but water parties outside the walls are exposed." },
+          { "id": "sanitation", "label": "Move latrines and waste far from the water; boil what you can", "effects": { "health": 1 }, "consequence": "Some grumbling about the 'pointless' rules. Firewood goes faster." }
         ]
       },
       {
-        "id": "food",
-        "when": "Fall 1607",
-        "situation": "Food stores are nearly gone. Smith says the Powhatan have corn.",
+        "id": "supply_ship",
+        "when": "January 1608",
+        "situation": "The supply ship brought food and 100 new people, and the Company's letter: we will not pay forever; send back something valuable. Newport sails home in spring.",
         "options": [
-          {
-            "id": "trade",
-            "label": "Trade copper, beads and tools for corn",
-            "effects": {
-              "food": 2,
-              "relations": 1
-            },
-            "consequence": "Corn comes in. The colony now depends on Powhatan's goodwill."
-          },
-          {
-            "id": "take",
-            "label": "Take corn by force",
-            "effects": {
-              "food": 2,
-              "relations": -3
-            },
-            "consequence": "Food now, enemies later."
-          },
-          {
-            "id": "ration",
-            "label": "Ration what's left and fish",
-            "effects": {
-              "food": -1,
-              "morale": -1
-            },
-            "consequence": "Thin soup and thinner tempers."
-          }
+          { "id": "survival", "label": "Put nearly everyone on food, shelter and repairs", "effects": { "food": 2, "health": 1, "investors": -2 }, "consequence": "The colony stabilizes. Newport sails home with almost nothing to show." },
+          { "id": "gold", "label": "Load the ship with the glittering 'gold' the men have been digging", "effects": { "investors": 2, "food": -2 }, "consequence": "Weeks of digging fill the hold with shiny dirt. London will be thrilled. For now." },
+          { "id": "exports", "label": "Make goods to sell: clapboard, pitch, tar", "effects": { "investors": 1, "food": -1 }, "consequence": "Modest cargo, real products. Less time for food." },
+          { "id": "balanced", "label": "Half on survival, half on goods for the ship", "effects": { "food": 1, "investors": 1, "health": -1 }, "consequence": "A bit of both. Everyone's exhausted." }
         ]
       },
       {
-        "id": "work",
-        "when": "Winter 1607–08",
-        "situation": "The gentlemen still won't work. Smith wants a new rule.",
+        "id": "newcomers",
+        "when": "October 1608",
+        "situation": "Seventy more people just arrived. That sounds like help, but every one of them needs food, water, shelter and work.",
         "options": [
-          {
-            "id": "all_work",
-            "label": "Everyone works or doesn't eat, gentlemen included",
-            "effects": {
-              "food": 2,
-              "morale": -1
-            },
-            "consequence": "Outrage, then ditches get dug. (Smith really made this rule in 1608.)"
-          },
-          {
-            "id": "pay_status",
-            "label": "Respect rank; laborers do the work",
-            "effects": {
-              "morale": 1,
-              "food": -1
-            },
-            "consequence": "Gentlemen are pleased. Laborers are exhausted."
-          },
-          {
-            "id": "teams",
-            "label": "Mixed teams with rewards for the best team",
-            "effects": {
-              "food": 1,
-              "morale": 1
-            },
-            "consequence": "Competition helps. So does extra bread."
-          }
+          { "id": "work", "label": "Put every newcomer straight to farming and fishing", "effects": { "food": 1, "health": -1 }, "consequence": "Tired, seasick people in the fields. Food output grows." },
+          { "id": "housing", "label": "Build housing first, then put them to work", "effects": { "health": 1, "food": -1 }, "consequence": "Healthier newcomers, emptier storehouse." },
+          { "id": "explore", "label": "Send them exploring and making goods for the Company", "effects": { "investors": 2, "food": -2 }, "consequence": "Busy, impressive, hungry." },
+          { "id": "letter", "label": "Write to London: send farmers and carpenters, not more mouths", "effects": { "investors": -1, "food": 1 }, "consequence": "A blunt letter. (John Smith really wrote one like it, and London didn't love it.)" }
+        ]
+      },
+      {
+        "id": "winter_prep",
+        "when": "Winter 1608–1609",
+        "situation": "Councilors are fighting. Many still won't work. Winter is coming, and your choices so far are showing.",
+        "options": [
+          { "id": "work_or_starve", "label": "New rule: whoever doesn't work doesn't eat", "effects": { "food": 2, "investors": -1 }, "consequence": "Furious gentlemen. Bigger harvests. (Smith made this exact rule in 1608.)" },
+          { "id": "store", "label": "Build storehouses and trade for extra corn before winter", "effects": { "food": 2, "relations": -1 }, "consequence": "Full storehouses. Powhatan towns feel the squeeze." },
+          { "id": "spread_out", "label": "Spread people out in small groups to fish and gather oysters", "effects": { "food": 1, "health": 1 }, "consequence": "Less crowding, more food from the river. Harder to defend." },
+          { "id": "profit", "label": "Keep the strongest on Company work; ration everyone else", "effects": { "investors": 2, "food": -2 }, "consequence": "London gets cargo. The colony gets thinner." }
+        ]
+      },
+      {
+        "id": "starving",
+        "when": "Winter 1609–1610",
+        "situation": "You're surrounded. Food is almost gone. People are desperate. One last decision to get through the winter.",
+        "options": [
+          { "id": "ration", "label": "Strict equal rations; guard the storehouse day and night", "effects": { "people": 10, "food": 1 }, "consequence": "Fair, hungry, tense. It stretches what's left." },
+          { "id": "seek_powhatan", "label": "Send a party to beg or trade for food with the Powhatan", "effects": { "relations": 1, "people": -10 }, "consequence": "A huge risk. How it goes depends on how you've treated them." },
+          { "id": "fish", "label": "Send everyone who can walk downriver to fish and gather oysters", "effects": { "food": 2, "health": -1 }, "consequence": "Cold, wet work outside the walls, but there's food in the river." },
+          { "id": "raid", "label": "Raid Powhatan food stores", "effects": { "food": 2, "relations": -3, "people": -10 }, "consequence": "Food, at a terrible price." }
+        ]
+      },
+      {
+        "id": "abandon",
+        "when": "June 1610",
+        "situation": "Spring comes. The survivors are skeletons. Two small ships could carry everyone home to England.",
+        "options": [
+          { "id": "stay", "label": "Stay. Jamestown isn't finished.", "effects": { "investors": 1, "health": -1 }, "consequence": "Stubborn, maybe brave." },
+          { "id": "leave", "label": "Board the ships and sail for England", "effects": { "investors": -2 }, "consequence": "You load the ships. (This is what the real survivors did.)" },
+          { "id": "downriver", "label": "Move downriver to the coast, fish, and wait for ships", "effects": { "food": 1 }, "consequence": "A middle path: alive, watching the horizon." }
         ]
       }
     ],
-    "historyComparison": "Real Jamestown: built on the swampy island; gold hunting and gentlemen refusing work cost months; drinking brackish river water and drought helped kill about two-thirds of the first colonists by January 1608 (about 38 of 104 survived); the colony survived largely because of corn from the Powhatan and supply ships. Worse came in the 1609–10 'Starving Time.'",
-    "triggers": [
-      {
-        "id": "hunger",
-        "stat": "food",
-        "below": 2,
-        "event": "The food runs out. Men eat acorns and boil shoe leather. The sick get sicker.",
-        "effects": {
-          "health": -2,
-          "morale": -1
-        }
-      },
-      {
-        "id": "deaths",
-        "stat": "health",
-        "below": 3,
-        "event": "Burials every day now. Too few healthy men are left to stand guard or plant.",
-        "effects": {
-          "morale": -1,
-          "food": -1
-        }
-      },
-      {
-        "id": "mutiny",
-        "stat": "morale",
-        "below": 2,
-        "event": "A group of men plots to steal the small ship and sail home. The council has to stop them.",
-        "effects": {
-          "company": -1
-        }
-      },
-      {
-        "id": "ambush",
-        "stat": "relations",
-        "below": 2,
-        "event": "Warriors ambush a party gathering firewood. No one leaves the fort without guards now.",
-        "effects": {
-          "health": -1,
-          "food": -1
-        }
-      },
-      {
-        "id": "company_angry",
-        "stat": "company",
-        "below": 2,
-        "event": "A letter from London: the investors are furious. Send gold, valuable goods, or news of the passage, or they'll replace the council.",
-        "effects": {
-          "morale": -1
-        }
-      },
-      {
-        "id": "corn_gifts",
-        "stat": "relations",
-        "above": 8,
-        "event": "Powhatan messengers arrive with baskets of corn and venison as gifts. Wahunsenacah wants to keep the English close.",
-        "effects": {
-          "food": 2
-        }
-      }
-    ]
-  },
-  "followUpSeeds": [
-    "what disease and drinking water did to early colonies",
-    "Powhatan life, farming and government",
-    "how tobacco changed Virginia",
-    "what happened to Jamestown in the Starving Time",
-    "archaeology at Jamestown today"
-  ],
-  "winCondition": "Keep your colony alive until January 1608. Then tell the council what you'd do differently, and why things went the way they did."
+    "historyComparison": "Real Jamestown: built on the swampy island; gold hunting and gentlemen refusing work cost months; brackish water, disease and drought killed about two-thirds of the first colonists by January 1608 (about 38 of 104 survived); the colony leaned on Powhatan corn and supply ships; Smith's 'work or don't eat' rule helped in 1608–09; then the Third Supply's crowds, rats, Smith's departure and war with the Powhatan brought the Starving Time (about 500 fell to about 60). In June 1610 the survivors abandoned Jamestown and were sailing away when Lord De La Warr's fleet arrived. Tobacco (John Rolfe, from 1612) finally made Virginia profitable."
+  }
 }

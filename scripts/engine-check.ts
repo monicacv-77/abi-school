@@ -56,14 +56,21 @@ async function main() {
   await step(inv, tu('examine', { evidence_id: 'death_count' }));
   expect('investigation: closes', await step(inv, close()), 'Case closed');
 
-  // --- Simulation: low relations triggers an ambush; events move stats
+  // --- Simulation (Jamestown): people count, choice-dependent events, triggers, required decision
   const sim: any = await startCaseSession('005', true);
-  expect('simulation: event changes stats', await step(sim, tu('advance_time', { event_id: 'attack' })), 'Late May 1607');
-  await step(sim, tu('make_choice', { decision_id: 'site', option_id: 'near_town' }));
-  await runTurn(sim, 'go', fakeClient([[tu('make_choice', { decision_id: 'food', option_id: 'take' })], [tx('.')]]));
-  const s3 = (await getSession(sim.id))!;
-  const res = JSON.stringify(s3.api);
-  expect('simulation: consequence triggered', res.includes('CONSEQUENCE TRIGGERED: Warriors ambush') ? 'ambush fired' : 'no trigger', 'ambush fired');
+  await step(sim, tu('make_choice', { decision_id: 'site', option_id: 'high_ground' }));
+  await step(sim, tu('advance_time', { event_id: 'attack' }));
+  await step(sim, tu('make_choice', { decision_id: 'water', option_id: 'well' }));
+  await step(sim, tu('advance_time', { event_id: 'sickness' }));
+  expect('jamestown: earlier choices soften the sickness', String(sim.state.stats.people), '82');
+  expect('jamestown: arrows recorded', JSON.stringify(sim.state.lastDelta), '"people":-20');
+  await runTurn(sim, 'go', fakeClient([[tu('make_choice', { decision_id: 'relations', option_id: 'force' })], [tx('.')]]));
+  await runTurn(sim, 'go', fakeClient([[tu('make_choice', { decision_id: 'food_labor', option_id: 'trade' })], [tx('.')]]));
+  const after = (await getSession(sim.id))!;
+  expect('jamestown: low relations triggers ambush', JSON.stringify(after.api).includes('CONSEQUENCE TRIGGERED: Warriors ambush') ? 'ambush' : 'none', 'ambush');
+  Object.assign(sim, after);
+  for (const dcs of ['build_first:fort', 'supply_ship:survival']) { const [a, b] = dcs.split(':'); await step(sim, tu('make_choice', { decision_id: a, option_id: b })); }
+  expect('jamestown: must reach the Starving Time', await step(sim, close()), 'still have to happen: starving');
 
   // --- Build for Survival: worker-days, nails, people, limits
   const sh: any = await startCaseSession('004', true);

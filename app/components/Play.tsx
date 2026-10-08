@@ -228,11 +228,20 @@ export default function Play({ initial }: { initial: SessionView }) {
           {view.stats.map((s) => (
             <div key={s.label} className="panel" style={{ padding: '6px 10px', fontSize: 14 }}>
               <span className="label" style={{ fontSize: 10 }}>{s.label}</span>
-              <div style={{ display: 'flex', gap: 2, marginTop: 4 }} aria-label={`${s.value} of 10`}>
-                {Array.from({ length: 10 }, (_, i) => (
-                  <span key={i} style={{ width: 8, height: 12, borderRadius: 2, background: i < s.value ? (s.value <= 3 ? 'var(--rust)' : 'var(--teal)') : 'var(--rule)' }} />
-                ))}
-              </div>
+              {s.delta ? (
+                <span aria-label={`${s.delta > 0 ? 'up' : 'down'} ${Math.abs(s.delta)}`} style={{ marginLeft: 6, fontWeight: 700, color: s.delta > 0 ? 'var(--teal)' : 'var(--rust)' }}>
+                  {s.delta > 0 ? '↑' : '↓'}{Math.abs(s.delta)}
+                </span>
+              ) : null}
+              {s.count ? (
+                <div style={{ fontFamily: 'var(--display)', fontWeight: 800, fontSize: 24, lineHeight: 1 }}>{s.value}</div>
+              ) : (
+                <div style={{ display: 'flex', gap: 2, marginTop: 4 }} aria-label={`${s.value} of 10`}>
+                  {Array.from({ length: 10 }, (_, i) => (
+                    <span key={i} style={{ width: 8, height: 12, borderRadius: 2, background: i < s.value ? (s.value <= 3 ? 'var(--rust)' : 'var(--teal)') : 'var(--rule)' }} />
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>

@@ -16,7 +16,7 @@ export interface SessionView {
   budget?: number;
   design?: { description: string; cost: number; liters: number; line?: string; valid: boolean } | null;
   budgetLabel?: string;
-  stats?: { label: string; value: number }[];
+  stats?: { label: string; value: number; count?: boolean; delta?: number }[];
   winCondition?: string;
   board?: { theory: string; supporting: string[]; problems: string[] }[];
   question?: string;
@@ -54,7 +54,8 @@ export function toView(s: Session): SessionView {
   if (c?.data.kind === 'simulation') {
     const d = c.data as SimulationData;
     const stats = (s.state.stats ?? {}) as Record<string, number>;
-    v.stats = d.stats.map((x) => ({ label: x.label, value: stats[x.id] ?? x.start }));
+    const delta = (s.state.lastDelta ?? {}) as Record<string, number>;
+    v.stats = d.stats.map((x) => ({ label: x.label, value: stats[x.id] ?? x.start, count: x.kind === 'count', delta: delta[x.id] }));
   }
   return v;
 }

@@ -112,7 +112,8 @@ export interface InvestigationData {
 export interface StatDef {
   id: string;
   label: string;
-  start: number; // 0–10
+  start: number; // 0–10 for bars; any number for counts
+  kind?: 'count'; // a number like People, not a 0–10 bar
 }
 export interface DecisionOption {
   id: string;
@@ -143,8 +144,16 @@ export interface SimulationData {
   people: { name: string; who: string; voice: string; real: boolean }[];
   dailyLife: string[];
   stats: StatDef[];
-  fixedEvents: { id: string; when: string; event: string; effects?: Record<string, number> }[]; // happen regardless
+  fixedEvents: {
+    id: string;
+    when: string;
+    event: string;
+    effects?: Record<string, number>;
+    modifiers?: { ifChoice: string; effects: Record<string, number>; note?: string }[]; // 'decisionId:optionId' — earlier choices change how hard this hits
+  }[]; // happen regardless
   triggers?: StatTrigger[]; // consequences that fire when a stat crosses a line
+  sequence?: string[]; // order of play: decision and event ids interleaved
+  requiredDecisions?: string[]; // decisions that must happen before closing
   decisions: DecisionPoint[];
   scienceHooks?: string[];
   historyComparison: string; // for the end
