@@ -50,6 +50,7 @@ async function main() {
   // --- Investigation: blocker tells the guide to record testimony
   const inv: any = await startCaseSession('003', true);
   await step(inv, tu('examine', { evidence_id: 'pamphlet', via: 'testimony of Robert Johnson' }));
+  expect('investigation: exhibit image shown in chat', JSON.stringify(inv.display.filter((m: any) => m.image).map((m: any) => m.image.alt)), 'Nova Britannia');
   await step(inv, tu('record_theory', { theory: 'The Company lied', supporting: ['pamphlet'] }));
   expect('investigation: self-healing blocker', await step(inv, close()), 'call examine for each');
   await step(inv, tu('examine', { evidence_id: 'percy' }));

@@ -5,7 +5,7 @@ import { FACILITATOR_GUIDE } from './guide';
 import { ENGINES, toolsFor } from './modes';
 import { caseFor } from './cases';
 import { addTimeline, addWonder, saveSession } from './sessions';
-import type { CaseDef, CaseSummary, Session } from './types';
+import type { CaseDef, CaseSummary, DisplayMessage, Session } from './types';
 
 export const MODEL = process.env.ABI_MODEL || 'claude-sonnet-5-5';
 const MAX_STEPS = 8;
@@ -175,6 +175,9 @@ export async function runTurn(s: Session, userText: string, client = new Anthrop
   if (lastMsg?.role === 'user') s.api.push({ role: 'assistant', content: replyParts.at(-1) ?? 'Okay.' });
 
   const reply = replyParts.join('\n\n') || '…';
+  const shown = Array.isArray(s.state.showImages) ? (s.state.showImages as DisplayMessage['image'][]) : [];
+  for (const image of shown) if (image) s.display.push({ role: 'guide', text: '', image, at: new Date().toISOString() });
+  s.state.showImages = [];
   s.display.push({ role: 'guide', text: reply, at: new Date().toISOString() });
   await saveSession(s);
   return { reply, session: s };

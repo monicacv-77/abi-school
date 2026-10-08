@@ -207,6 +207,7 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
       const m = d.measurements.find((x) => x.id === input.measurement_id);
       if (!m) return { result: `No measurement "${input.measurement_id}". Valid ids: ${d.measurements.map((x) => x.id).join(', ')}`, isError: true };
       pushUnique(s.state, 'revealed', m.id);
+      if (m.image) s.state.showImages = [...arr(s.state.showImages), m.image];
       if (s.stage === 'define') s.stage = 'design';
       return { result: `${m.label}: ${m.result}${m.conditions ? ` (${m.conditions})` : ''}` };
     }
@@ -388,7 +389,8 @@ MODE: INVESTIGATION — "Figure it out." Abi is the investigator. Backbone: Ques
       if (!e) return { result: `No evidence "${input.evidence_id}". Valid ids: ${d.evidence.map((x) => x.id).join(', ')}`, isError: true };
       pushUnique(s.state, 'examined', e.id);
       s.stage = 'evidence';
-      return { result: `${e.label}: ${e.result}` };
+      if (e.image) s.state.showImages = [...arr(s.state.showImages), e.image];
+      return { result: `${e.label}: ${e.result}${e.image ? '\n(A picture of this is now shown on her screen above your message; don\'t describe it in detail.)' : ''}` };
     }
     if (name === 'record_theory') {
       const board = arr<{ theory: string; supporting: string[]; problems: string[] }>(s.state.board);

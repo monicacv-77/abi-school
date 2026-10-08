@@ -255,7 +255,15 @@ export default function Play({ initial }: { initial: SessionView }) {
 
       <section className="stack" aria-live="polite">
         {view.display.map((m, i) =>
-          m.role === 'abi' ? (
+          m.image ? (
+            <figure key={i} className="exhibit">
+              <div className="label" style={{ color: 'var(--accent-ink)', padding: '8px 12px 0' }}>🖼️ Exhibit</div>
+              <img src={m.image.src} alt={m.image.alt} style={{ objectFit: m.image.fit ?? 'cover' }} />
+              <figcaption>
+                <a href={m.image.href} target="_blank" rel="noreferrer">{m.image.credit}</a>
+              </figcaption>
+            </figure>
+          ) : m.role === 'abi' ? (
             <div key={i} style={{ alignSelf: 'flex-end', maxWidth: '85%', background: 'var(--ink)', color: 'var(--paper)', padding: '10px 14px', borderRadius: '14px 14px 2px 14px' }}>{m.text}</div>
           ) : (
             <div key={i} style={{ alignSelf: 'flex-start', maxWidth: '92%', display: 'flex', gap: 8, alignItems: 'flex-start' }}>

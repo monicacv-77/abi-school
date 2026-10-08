@@ -3,6 +3,15 @@
 export type Mode = 'challenge' | 'investigation' | 'simulation' | 'inquiry';
 export type CaseStatus = 'READY' | 'DRAFT' | 'HOLD' | 'PILOT';
 
+export interface CaseImage {
+  src: string;
+  alt: string;
+  credit: string;
+  href: string;
+  fit?: 'cover' | 'contain';
+  position?: string;
+}
+
 export interface OpeningCard {
   icon?: string; // an emoji
   label: string; // e.g. "WATER TECHNICIAN"
@@ -62,6 +71,7 @@ export interface Measurement {
   label: string; // "Test the shallow wells"
   result: string; // what is found
   conditions?: string; // when this result applies
+  image?: CaseImage;
 }
 export interface StressTest {
   id: string;
@@ -97,6 +107,7 @@ export interface EvidenceItem {
   label: string; // how Abi would ask for it
   howToGet: string; // inspect / test / ask / read
   result: string;
+  image?: CaseImage; // shown in the chat when this evidence is revealed
 }
 export interface InvestigationData {
   kind: 'investigation';
@@ -170,6 +181,7 @@ export interface ApiMessage {
 export interface DisplayMessage {
   role: 'abi' | 'guide';
   text: string;
+  image?: CaseImage; // an exhibit shown in the chat
   at: string;
 }
 

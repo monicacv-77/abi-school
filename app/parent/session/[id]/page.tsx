@@ -39,7 +39,7 @@ export default async function ParentSession({ params }: { params: Promise<{ id: 
         {s.display.map((m, i) => (
           <div key={i} style={{ borderLeft: `4px solid ${m.role === 'abi' ? 'var(--ink)' : 'var(--teal)'}`, paddingLeft: 10 }}>
             <div className="label" style={{ fontSize: 10 }}>{m.role === 'abi' ? 'Abi' : 'Guide'} · {new Date(m.at).toLocaleTimeString()}</div>
-            <div style={{ whiteSpace: 'pre-wrap' }}>{m.text}</div>
+            <div style={{ whiteSpace: 'pre-wrap' }}>{m.image ? `[Exhibit shown: ${m.image.alt}]` : m.text}</div>
           </div>
         ))}
       </section>
