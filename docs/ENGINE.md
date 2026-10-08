@@ -19,9 +19,9 @@ Hidden results (water tests, evidence, event details, stress-test scenarios) are
 
 | Mode | AI plays | Tools | Code enforces |
 |---|---|---|---|
-| **Challenge** — make it work | Project team + physics | `take_measurement`, `submit_design`, `run_stress_test` | Cost and capacity math; no stress tests before a valid design; tests in order; ≥3 tests before closing |
-| **Investigation** — figure it out | Lab, archive, witnesses | `examine`, `record_theory` | Evidence never changes; ≥3 pieces examined and a theory before closing |
-| **Simulation** — live the history | The world and its people | `make_choice`, `advance_time` | Stat changes from data; each decision once; real events from data; ≥half the decisions before closing |
+| **Challenge** — make it work | Project team + physics | `look_up`, `take_measurement`, `submit_design`, `run_stress_test`, `judge_test` | Cost and capacity math; no stress tests before a valid design; tests in order; ≥3 tests judged; a failed test requires a redesign before closing; a perfect design must face every test |
+| **Investigation** — figure it out | Lab, archive, witnesses | `examine`, `record_theory` | Evidence never changes; witness testimony is recorded as evidence; Theory Board; solved vs. unsolved rules; ≥3 pieces and a theory before closing |
+| **Simulation** — live the history | The world and its people | `make_choice`, `advance_time` | Stat changes from data; real events move stats; stat thresholds trigger consequences (Adapt); each decision once; ≥half the decisions before closing |
 | **Inquiry** — ask a question | Socratic mentor | `record_starting_idea` | Starting idea recorded before closing |
 
 Every mode also has `pin_to_timeline`, `save_wonder` and `close_case`.
@@ -45,7 +45,9 @@ One JSON file per case in `/cases`, registered in `lib/cases.ts`. Shared fields:
 - **Investigation**: question, what the evidence supports, causal chain, evidence items, theories (supported/weakened by), red herrings.
 - **Simulation**: role, setting, can/can't know, people (real or invented, with voice), daily-life details, science hooks, stats, fixed events, decision points (options with effects and consequences), history comparison.
 
-**Version locking**: a session records the case version it started with. Raise `version` when you change a case.
+**Version locking**: a session saves a snapshot of the case when it starts and uses it to the end, so editing a case never changes one already in progress. Raise `version` when you change a case.
+
+**Every case** has a `winCondition` shown on Abi's screen, and `followUpSeeds` that steer the three Keep exploring questions at the end.
 
 ## Workflow for a new case
 
