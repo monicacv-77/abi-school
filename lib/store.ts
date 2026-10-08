@@ -4,7 +4,8 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 
-const useBlob = () => Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+// Connected Blob stores provide either a read-write token or a store id (with Vercel's built-in OIDC sign-in).
+const useBlob = () => Boolean(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID);
 const LOCAL_DIR = path.join(process.cwd(), '.data');
 
 type Access = 'private' | 'public';
@@ -48,7 +49,7 @@ export async function writeJSON(key: string, value: unknown): Promise<void> {
     );
     return;
   }
-  if (process.env.VERCEL) throw new Error('Storage is not connected: no BLOB_READ_WRITE_TOKEN. Connect a Blob store to the project and redeploy.');
+  if (process.env.VERCEL) throw new Error('Storage is not connected (no BLOB_READ_WRITE_TOKEN or BLOB_STORE_ID). Connect a Blob store to the project and redeploy.');
   const file = path.join(LOCAL_DIR, key);
   await fs.mkdir(path.dirname(file), { recursive: true });
   await fs.writeFile(file, body, 'utf8');

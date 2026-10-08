@@ -11,7 +11,7 @@ export async function GET() {
     ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY ? 'set' : 'MISSING',
     APP_PASSCODE: process.env.APP_PASSCODE ? 'set' : 'MISSING',
     PARENT_PIN: process.env.PARENT_PIN ? 'set' : 'MISSING',
-    BLOB_READ_WRITE_TOKEN: process.env.BLOB_READ_WRITE_TOKEN ? 'set' : 'MISSING',
+    BLOB: process.env.BLOB_READ_WRITE_TOKEN ? 'token set' : process.env.BLOB_STORE_ID ? 'store id set' : 'MISSING',
     model: MODEL,
   };
   try {
