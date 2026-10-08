@@ -6,6 +6,18 @@ import type { SessionView } from '@/lib/view';
 const METHOD: Record<string, string> = { challenge: 'Challenge', investigation: 'Investigation', simulation: 'Simulation', inquiry: 'Inquiry' };
 const THINKING = ['Thinking…', 'Checking the evidence…', 'Consulting the archive…', 'Doing the math…', 'Hmm…'];
 
+
+const SpeakerIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M11 5 6 9H3v6h3l5 4V5z" /><path d="M15.5 8.5a5 5 0 0 1 0 7" /><path d="M18.5 5.5a9 9 0 0 1 0 13" />
+  </svg>
+);
+const MicIcon = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <rect x="9" y="3" width="6" height="11" rx="3" /><path d="M5 11a7 7 0 0 0 14 0" /><path d="M12 18v3" />
+  </svg>
+);
+
 function plain(text: string) {
   return text.replace(/\*\*/g, '').replace(/[#_`>]/g, '');
 }
@@ -148,7 +160,7 @@ export default function Play({ initial }: { initial: SessionView }) {
                   <div className="label" style={{ color: 'var(--teal)' }}>{c.label}</div>
                   <div>{c.text}</div>
                 </div>
-                <button className="btn ghost" aria-label={`Read ${c.label} aloud`} onClick={() => speak(`${c.label}. ${c.text}`)} style={{ minHeight: 40, padding: '4px 10px' }}>🔊</button>
+                <button className="btn ghost" aria-label={`Read ${c.label} aloud`} onClick={() => speak(`${c.label}. ${c.text}`)} style={{ minHeight: 40, padding: '4px 10px' }}><SpeakerIcon /></button>
               </div>
             ) : null,
           )}
@@ -202,7 +214,7 @@ export default function Play({ initial }: { initial: SessionView }) {
               <div style={{ background: 'var(--card)', border: '1px solid var(--rule)', padding: '10px 14px', borderRadius: '14px 14px 14px 2px', fontSize: 19 }}>
                 <Rich text={m.text} />
               </div>
-              <button aria-label="Read aloud" onClick={() => speak(m.text)} style={{ border: 'none', background: 'transparent', fontSize: 20, minHeight: 44, minWidth: 44 }}>🔊</button>
+              <button aria-label="Read aloud" onClick={() => speak(m.text)} style={{ border: 'none', background: 'transparent', color: 'var(--teal)', minHeight: 44, minWidth: 44 }}><SpeakerIcon /></button>
             </div>
           ),
         )}
@@ -231,7 +243,7 @@ export default function Play({ initial }: { initial: SessionView }) {
               style={{ flex: 1 }}
             />
             {canTalk && (
-              <button type="button" onClick={toggleListen} aria-label={listening ? 'Stop listening' : 'Talk instead of typing'} className="btn ghost" style={{ minWidth: 52, background: listening ? 'var(--rust)' : undefined, color: listening ? '#fff' : undefined }}>🎤</button>
+              <button type="button" onClick={toggleListen} aria-label={listening ? 'Stop listening' : 'Talk instead of typing'} className="btn ghost" style={{ minWidth: 52, background: listening ? 'var(--rust)' : undefined, color: listening ? '#fff' : undefined }}><MicIcon /></button>
             )}
             <button className="btn" type="submit" disabled={busy || !text.trim()}>Send</button>
           </div>
