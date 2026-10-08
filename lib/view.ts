@@ -14,7 +14,8 @@ export interface SessionView {
   opening?: { intro: string; video?: { title: string; youtubeId: string; minutes: number; source: string }; cards: { label: string; text: string }[]; prompt: string };
   blocks?: { name: string; examples: string }[];
   budget?: number;
-  design?: { description: string; cost: number; liters: number; valid: boolean } | null;
+  design?: { description: string; cost: number; liters: number; line?: string; valid: boolean } | null;
+  budgetLabel?: string;
   stats?: { label: string; value: number }[];
   winCondition?: string;
   board?: { theory: string; supporting: string[]; problems: string[] }[];
@@ -43,6 +44,7 @@ export function toView(s: Session): SessionView {
   if (c?.data.kind === 'challenge') {
     const d = c.data as ChallengeData;
     v.budget = d.budget;
+    v.budgetLabel = d.units ? `${d.budget.toLocaleString('en-US')} ${d.units.cost}${d.units.scarce ? ` · ${d.units.scarce.limit} ${d.units.scarce.label}` : ''}` : `$${d.budget.toLocaleString('en-US')}`;
     v.blocks = d.buildingBlocks;
     v.design = (s.state.design as SessionView['design']) ?? null;
   }

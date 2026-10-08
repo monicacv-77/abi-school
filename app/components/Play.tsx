@@ -182,7 +182,7 @@ export default function Play({ initial }: { initial: SessionView }) {
           )}
           {showToolbox && view.blocks && (
             <div className="panel" style={{ padding: 14 }}>
-              <div className="label" style={{ marginBottom: 8 }}>Building blocks · Budget ${view.budget?.toLocaleString()}</div>
+              <div className="label" style={{ marginBottom: 8 }}>Building blocks · Budget {view.budgetLabel}</div>
               <div className="stack" style={{ gap: 6 }}>
                 {view.blocks.map((b) => (
                   <div key={b.name}><strong>{b.name}:</strong> <span className="muted">{b.examples}</span></div>
@@ -219,7 +219,7 @@ export default function Play({ initial }: { initial: SessionView }) {
 
       {view.design && (
         <div className="panel" style={{ padding: 12, marginBottom: 14, fontSize: 15 }}>
-          <span className="label">Your design</span> · ${view.design.cost.toLocaleString()} · ~{view.design.liters.toLocaleString()} L/day · {view.design.valid ? 'ready' : 'not done yet'}
+          <span className="label">Your design</span> · {view.design.line ?? `$${view.design.cost.toLocaleString()} · ~${view.design.liters.toLocaleString()} L/day`} · {view.design.valid ? 'ready' : 'not done yet'}
         </div>
       )}
 

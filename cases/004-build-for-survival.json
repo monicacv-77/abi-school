@@ -1,0 +1,145 @@
+{
+  "id": "004",
+  "title": "Build for Survival",
+  "mode": "challenge",
+  "classification": "Design Problem",
+  "unit": "Early Settlements",
+  "location": "Early colonial Virginia (Tidewater)",
+  "realOrConstructed": "Constructed challenge in a historically grounded setting",
+  "status": "READY",
+  "version": 1,
+  "bigUnderstanding": "Shelter is an engineering tradeoff: speed, weather protection, stability, fire safety, labor, scarce imported materials, and repairability. There is no single right design. Early Jamestown builders used local wood and clay (mud-and-stud, daub, thatch) because it was fast and local, but it needed constant maintenance in Virginia weather.",
+  "winCondition": "Design shelter for 100 people that is fast, dry, stable, safe and buildable with what you have. Then survive the tests and fix whatever breaks.",
+  "opening": {
+    "intro": "Your ships just landed in Virginia. 100 people need a roof before the weather turns, and you can't ship houses across an ocean. You're the builder.",
+    "cards": [
+      { "label": "Carpenter", "text": "We can cut trees, but every beam takes work. Nails are precious. I know ways to join wood with pegs instead." },
+      { "label": "Quartermaster", "text": "We've got axes, saws, hammers, shovels, rope, a few kegs of nails, and some old sail canvas. Hardly any boards, bricks or glass." },
+      { "label": "Settlement leader", "text": "Every person building is a person not fishing, farming or standing guard. We also need somewhere dry for food and tools." },
+      { "label": "What's around you", "text": "Forest, young saplings, clay-rich mud, marsh reeds and grasses, dirt, and oyster shells along the shore." },
+      { "label": "The place", "text": "Hot, sticky summers. Hard rain and storms. Cold nights later in the year. Low, damp ground near the river." },
+      { "label": "Your targets", "text": "FAST · DRY · STABLE · SAFE (fire!) · BUILDABLE · REPAIRABLE" }
+    ],
+    "prompt": "What do you want to know, or what are you thinking of building?"
+  },
+  "facilitatorNotes": [
+    "Monica's design notes: the problem is NOT 'draw a house.' Abi balances speed, weather, stability, fire, labor, scarce nails, repairability and housing many people.",
+    "Historical methods are resources, not the required answer. Allow any physically and historically plausible design (using available materials), even if Jamestown didn't build it that way. Price it fairly as a custom item.",
+    "Never show the toolbox as a menu. If she asks what's possible, describe a few techniques briefly, not prices.",
+    "BUILD: once she proposes a design, ask only for missing decisions that matter for testing: number/size of buildings, wall and roof materials, how it stands up, how rain drains, where fires/cooking happen, how many people per building. No drawings or unnecessary math.",
+    "Engineering tradeoffs to judge by: one big barracks is fast and shares walls, but crowds people and one fire or failure hits everyone. Many small buildings isolate fire and failure but need more roofs and labor. Nails simplify joints but are scarce. Daub uses local stuff but needs labor and upkeep. Thatch is local and light but burns and needs repair.",
+    "Tests follow physics and the stated environment, never invented to defeat her. If her design already handles a test, say it passed and why. Do not automatically burn down a well-designed settlement.",
+    "Abi's mom is an architect; Abi may know some building terms. Don't assume she does; don't over-explain either.",
+    "Final question: 'Would you approve this shelter system for the settlement's first year? Why?'",
+    "End reveal: archaeologists at Jamestown found early colonists built with local wood and clay using mud-and-stud construction. Daub mixed clay with plant fibers, and early roofs could be thatch. Fast, local, but high-maintenance in Virginia weather. The real fort burned in January 1608. Make clear her settlement, design and tests were constructed."
+  ],
+  "justInTimeConcepts": [
+    "Post-in-ground: posts set straight into holes; fast, but the buried wood rots.",
+    "Stud and lath: small upright pieces and thin strips that hold the wall filling.",
+    "Daub: clay mixed with grass or straw, pressed onto lath; dries hard but washes away if it stays wet.",
+    "Thatch: bundled reeds or straw laid thick on a steep roof so rain runs off.",
+    "Bracing: diagonal pieces that stop a frame from leaning over in wind.",
+    "Load: the weight and push (like wind) a structure has to carry."
+  ],
+  "scaffolds": [
+    "Follow a raindrop from the sky to the ground. Where does it go on your building?",
+    "If one building catches fire, what else goes with it?",
+    "What will need fixing after a few months, and what will you fix it with?"
+  ],
+  "completion": "A valid design that shelters at least 100 people within the labor and nail limits; at least 3 stress tests run and judged; if anything failed, at least one redesign and retest (if nothing failed, all 5 tests); then her answer to 'Would you approve this shelter system for the settlement's first year? Why?'",
+  "endReveal": {
+    "concept": "Engineering tradeoffs: every design choice buys something and costs something. Early Jamestown used mud-and-stud buildings: fast and local, but they needed constant upkeep.",
+    "vocabulary": [
+      { "term": "Daub", "meaning": "Clay mixed with plant fibers, used to fill walls." },
+      { "term": "Thatch", "meaning": "A roof of tightly bundled reeds or straw." },
+      { "term": "Bracing", "meaning": "Diagonal pieces that keep a frame from tipping." },
+      { "term": "Tradeoff", "meaning": "Getting one benefit by giving up another." }
+    ],
+    "realVsConstructed": {
+      "real": "Early colonial Virginia's climate and materials, mud-and-stud construction, daub, thatch, scarce nails, and the fire that burned Jamestown's fort in January 1608.",
+      "constructed": "Your settlement, its exact numbers, the labor and nail budgets, and the sequence of tests."
+    }
+  },
+  "skills": ["Design Thinking", "Weighing Tradeoffs", "Testing & Improving"],
+  "timelineEvents": [{ "year": "Jan 1608", "label": "Fire burns most of the Jamestown fort" }],
+  "followUpSeeds": [
+    "Powhatan houses (yehakins) and how they were built from bent saplings and mats",
+    "how modern buildings are designed to survive hurricanes, earthquakes and fire (building codes)",
+    "building with earth around the world: adobe, cob, rammed earth",
+    "how archaeologists figure out what a building looked like from post holes",
+    "why the Great Fire of London (1666) changed how cities are built"
+  ],
+  "data": {
+    "kind": "challenge",
+    "budget": 600,
+    "units": { "cost": "worker-days", "capacity": "people sheltered", "scarce": { "label": "kegs of nails", "limit": 6 }, "workers": 30 },
+    "minCapacity": 100,
+    "targets": [
+      { "id": "fast", "label": "FAST", "check": "Enough shelter before exposure becomes dangerous (roughly within 3 weeks)." },
+      { "id": "dry", "label": "DRY", "check": "People and supplies stay reasonably dry, from rain and from damp ground." },
+      { "id": "stable", "label": "STABLE", "check": "Handles ordinary wind and storms." },
+      { "id": "safe", "label": "SAFE", "check": "Manages fire and crowding risks." },
+      { "id": "buildable", "label": "BUILDABLE", "check": "Fits the labor, tools and materials available." },
+      { "id": "repairable", "label": "REPAIRABLE", "check": "Settlers can maintain it with what they have, without waiting for England." }
+    ],
+    "existingResources": [
+      "About 100 settlers; roughly 30 can build at once (the rest fish, farm, guard)",
+      "Forest timber and young saplings",
+      "Clay-rich soil, earth, marsh reeds and grasses, oyster shell",
+      "Axes, saws, hammers, digging tools, rope",
+      "6 kegs of iron nails (scarce: no more until a supply ship)",
+      "Old sail canvas: enough to cover about 8 building sections, temporarily",
+      "Very few imported boards; almost no brick or glass"
+    ],
+    "environment": [
+      "Humid coastal Virginia (Tidewater).",
+      "Hot, humid summers; colder nights later in the year.",
+      "Heavy rain and occasional strong storms.",
+      "Low, damp ground near the river."
+    ],
+    "buildingBlocks": [
+      { "name": "What holds it up", "examples": "posts, frames, poles, bent saplings" },
+      { "name": "Walls", "examples": "what fills the space between the frame" },
+      { "name": "Roof", "examples": "what keeps the rain out overhead" },
+      { "name": "Layout", "examples": "how many buildings, how big, and where" }
+    ],
+    "toolbox": [
+      { "id": "frame_pegged", "name": "Post-in-ground frame section, pegged joints (about 10×16 ft, sleeps 5)", "cost": 8, "capacity": 5, "provides": "Posts set in holes, studs and beams joined with wooden pegs. No nails, more work.", "needs": ["wall_daub|wall_wattle|wall_board|wall_bark", "roof_thatch|roof_bark|roof_canvas|roof_board"], "limitedBy": ["roof_thatch", "roof_bark", "roof_canvas", "roof_board"], "maintenance": "Buried post ends rot in damp ground within a few years." },
+      { "id": "frame_nailed", "name": "Post-in-ground frame section, nailed joints (about 10×16 ft, sleeps 5)", "cost": 5, "scarce": 0.2, "capacity": 5, "provides": "Same frame, joined with nails: faster, uses scarce nails.", "needs": ["wall_daub|wall_wattle|wall_board|wall_bark", "roof_thatch|roof_bark|roof_canvas|roof_board"], "limitedBy": ["roof_thatch", "roof_bark", "roof_canvas", "roof_board"], "maintenance": "Buried post ends rot in damp ground within a few years." },
+      { "id": "wall_daub", "name": "Daub walls, one section (clay + grass pressed onto lath)", "cost": 6, "provides": "Solid, warm walls from local clay. Takes work to mix and press.", "maintenance": "Cracks and washes out if rain hits it for long; patch with fresh clay." },
+      { "id": "wall_wattle", "name": "Woven-stick walls only, no clay, one section", "cost": 3, "provides": "Quick woven sapling walls. Drafty and lets in blowing rain." },
+      { "id": "wall_board", "name": "Board walls, one section (imported boards)", "cost": 2, "scarce": 0.15, "max": 6, "provides": "Fast, tight walls, but only enough boards for about 6 sections." },
+      { "id": "wall_bark", "name": "Bark-slab walls, one section", "cost": 5, "provides": "Peeled bark slabs tied or pegged to the frame.", "maintenance": "Bark curls and splits; needs replacing." },
+      { "id": "roof_thatch", "name": "Thatched roof, one section (marsh reed)", "cost": 4, "provides": "Thick reed bundles. Sheds rain well on a steep roof. Burns easily.", "maintenance": "Patch every season; birds and wind pull it apart." },
+      { "id": "roof_bark", "name": "Bark-covered roof, one section", "cost": 5, "provides": "Overlapping bark slabs. Less likely than thatch to catch a spark.", "maintenance": "Slabs crack and shift; replace some each season." },
+      { "id": "roof_canvas", "name": "Sail-canvas roof, one section", "cost": 1, "max": 8, "provides": "Very fast. Only enough canvas for about 8 sections.", "maintenance": "Rots and tears within a few months." },
+      { "id": "roof_board", "name": "Board roof, one section (imported boards)", "cost": 3, "scarce": 0.2, "max": 2, "provides": "Tight roof, but boards are almost gone." },
+      { "id": "lean_to", "name": "Quick lean-to (branches and brush, sleeps 4)", "cost": 1, "capacity": 4, "provides": "Up in an hour. Leaks, blows apart in storms." },
+      { "id": "storehouse", "name": "Storehouse section for food and tools", "cost": 16, "provides": "A frame, walls and roof section for supplies (sleeps no one)." },
+      { "id": "raised_floor", "name": "Raised floor or sleeping platforms, one section", "cost": 3, "hidden": true, "provides": "Keeps people and supplies off the damp ground." },
+      { "id": "drainage", "name": "Drainage ditch around one building", "cost": 3, "hidden": true, "provides": "Carries rain away from the walls and floor." },
+      { "id": "eaves", "name": "Deep overhanging eaves, one section", "cost": 1, "hidden": true, "provides": "Roof edge sticks out to keep rain off the walls." },
+      { "id": "bracing", "name": "Diagonal bracing, one section", "cost": 1, "hidden": true, "provides": "Stops the frame racking over in wind." },
+      { "id": "clay_chimney", "name": "Clay-lined chimney or fire hood, one building", "cost": 5, "hidden": true, "provides": "Keeps sparks away from thatch and walls." },
+      { "id": "cookhouse", "name": "Separate outdoor cookhouse", "cost": 12, "hidden": true, "provides": "Moves cooking fires away from sleeping buildings." },
+      { "id": "firebreak", "name": "Fire spacing and water buckets", "cost": 4, "hidden": true, "provides": "Gaps between buildings plus filled buckets and a fire watch." },
+      { "id": "yehakin_section", "name": "Bent-sapling house section covered in bark or reed mats (sleeps 5)", "cost": 5, "capacity": 5, "hidden": true, "provides": "Powhatan-style: saplings bent into arches, covered with mats or bark. Sheds rain; easy to repair.", "maintenance": "Mats need regular replacing." }
+    ],
+    "measurements": [
+      { "id": "site_ground", "label": "Check the ground where you'd build", "result": "Near the river it's low and squishy, with puddles after rain. A little higher ground sits about 100 yards back, firmer and drier." },
+      { "id": "clay_test", "label": "Test the local clay", "result": "Sticky, good clay. Mixed with chopped grass it dries hard in a few days of sun. Pure clay cracks as it dries." },
+      { "id": "reeds", "label": "Check the marsh reeds", "result": "Tall, tough reeds in big stands. Plenty for roofs if people cut and bundle them, which is slow work." },
+      { "id": "trees", "label": "Look at the trees nearby", "result": "Lots of straight young trees good for posts and studs, and big oaks and pines that take a long time to cut and move." },
+      { "id": "wind", "label": "Ask about storms", "result": "Locals warn that late-summer storms bring winds strong enough to flatten weak shelters and drop dead branches." },
+      { "id": "nails_count", "label": "Count the nails", "result": "6 kegs. That's it until a supply ship comes, maybe months away." },
+      { "id": "builders", "label": "Ask how many people can build", "result": "About 30 at a time. The rest must fish, farm, gather and guard, or people go hungry." }
+    ],
+    "stressTests": [
+      { "id": "heavy_rain", "order": 1, "name": "Heavy rain", "scenario": "Several days of hard rain.", "passesIf": "Check roof shedding and leaks, wall erosion (daub washes out if walls stay wet), ground drainage, stored food and tools, damp sleeping areas. Credit drainage, steep roofs, overhangs, raised floors or storage, higher ground." },
+      { "id": "storm", "order": 2, "name": "Wind and storm", "scenario": "Strong winds hit the settlement.", "passesIf": "Check how posts are anchored, how roofs are attached, big flat walls or roofs catching wind, nearby trees that could fall, and bracing. Lean-tos and canvas roofs fare badly." },
+      { "id": "fire", "order": 3, "name": "Fire", "scenario": "At night, a spark escapes from a cooking or heating fire.", "passesIf": "Check thatch and wood exposure, spacing between buildings, where hearths are, whether there's water and a plan, and whether one fire could destroy all shelter and stores. A well-designed settlement may lose one building, not everything." },
+      { "id": "labor", "order": 4, "name": "Labor and time", "scenario": "Food work is falling behind because too many people are still building or repairing.", "passesIf": "Check total work, number of buildings, dependence on scarce nails or boards, build speed and maintenance burden. Designs near the labor limit or heavy on upkeep struggle." },
+      { "id": "maintenance", "order": 5, "name": "Maintenance", "scenario": "After months of weather, some daub has cracked and washed out, thatch needs patching, and wood touching the ground is going soft.", "passesIf": "Passes if repairs can be done locally with what they have (clay, reeds, timber), without waiting for England. Designs that depend on nails, boards or canvas struggle." }
+    ]
+  }
+}

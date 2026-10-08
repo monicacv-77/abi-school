@@ -51,6 +51,9 @@ export interface ToolboxItem {
   limitedBy?: string[]; // capacity counts only up to the total quantity of these items (e.g. one pump per borehole)
   maintenance?: string;
   hidden?: boolean; // never mentioned unless Abi proposes this idea herself
+  capacity?: number; // generic capacity per unit (people sheltered, etc.); capacityLitersPerDay is the water-case name
+  scarce?: number; // amount of the case's scarce resource used per unit (e.g. kegs of nails)
+  max?: number; // most units available (e.g. limited canvas)
 }
 export interface Measurement {
   id: string;
@@ -69,6 +72,13 @@ export interface StressTest {
 export interface ChallengeData {
   kind: 'challenge';
   budget: number;
+  units?: {
+    cost: string; // e.g. 'worker-days'; omit for dollars
+    capacity: string; // e.g. 'people sheltered'
+    scarce?: { label: string; limit: number }; // e.g. kegs of nails
+    workers?: number; // to turn cost into days
+  };
+  minCapacity?: number; // generic target; water case uses minLitersPerDay
   targets: { id: string; label: string; check: string }[];
   minLitersPerDay?: number;
   buildingBlocks: { name: string; examples: string }[]; // what Abi sees: categories, no prices

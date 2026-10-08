@@ -65,6 +65,14 @@ async function main() {
   const res = JSON.stringify(s3.api);
   expect('simulation: consequence triggered', res.includes('CONSEQUENCE TRIGGERED: Warriors ambush') ? 'ambush fired' : 'no trigger', 'ambush fired');
 
+  // --- Build for Survival: worker-days, nails, people, limits
+  const sh: any = await startCaseSession('004', true);
+  expect('shelter: pegged daub thatch for 100', await step(sh, tu('submit_design', { description: 'pegged', items: [{ id: 'frame_pegged', qty: 20 }, { id: 'wall_daub', qty: 20 }, { id: 'roof_thatch', qty: 20 }] })), 'Design: pegged');
+  expect('shelter: valid + numbers', JSON.stringify(sh.state.design), '"line":"360 worker-days · 0 kegs of nails · 100 people sheltered · ~12 days to build"');
+  await step(sh, tu('submit_design', { description: 'canvas', items: [{ id: 'frame_nailed', qty: 31 }, { id: 'wall_wattle', qty: 31 }, { id: 'roof_canvas', qty: 31 }] }));
+  expect('shelter: canvas limit + nails limit', JSON.stringify(sh.state.design), '"valid":false');
+  expect('shelter: canvas limited capacity', String(sh.state.design.capacity), '40');
+
   // --- Version lock: session keeps its snapshot even if the case file changes
   const lock: any = await startCaseSession('002', true);
   const live = getCase('002')!;

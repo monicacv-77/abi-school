@@ -93,6 +93,15 @@ function pushUnique(state: Record<string, unknown>, key: string, value: string) 
   state[key] = list;
 }
 const money = (n: number) => '$' + n.toLocaleString('en-US');
+// Units for a Challenge: dollars + liters/day by default, or whatever the case defines.
+function unitsOf(d: ChallengeData) {
+  const u = d.units;
+  const fmtCost = (n: number) => (u ? `${n.toLocaleString('en-US')} ${u.cost}` : money(n));
+  const capLabel = u ? u.capacity : 'L/day of safe water';
+  const capOf = (t: ChallengeData['toolbox'][number]) => t.capacity ?? t.capacityLitersPerDay ?? 0;
+  const minCap = d.minCapacity ?? d.minLitersPerDay;
+  return { u, fmtCost, capLabel, capOf, minCap };
+}
 
 // ---------------------------------------------------------------- CHALLENGE
 const challenge = {
@@ -136,7 +145,7 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
             type: 'array',
             items: {
               type: 'object',
-              properties: { name: { type: 'string' }, cost: { type: 'number' }, liters_per_day: { type: 'number' }, provides: { type: 'string' } },
+              properties: { name: { type: 'string' }, cost: { type: 'number' }, liters_per_day: { type: 'number' }, capacity: { type: 'number' }, scarce: { type: 'number' }, provides: { type: 'string' } },
               required: ['name', 'cost'],
             },
           },
@@ -162,7 +171,10 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
   spec(c: CaseDef): string {
     const d = c.data as ChallengeData;
     return [
-      `Budget: ${money(d.budget)}. ${d.minLitersPerDay ? `Minimum game target: ${d.minLitersPerDay.toLocaleString()} liters/day.` : ''}`,
+      (() => {
+        const { u, fmtCost, capLabel, minCap } = unitsOf(d);
+        return `Budget: ${fmtCost(d.budget)}.${u?.scarce ? ` Scarce: ${u.scarce.limit} ${u.scarce.label} total.` : ''}${minCap ? ` Minimum target: ${minCap.toLocaleString()} ${capLabel}.` : ''}${u?.workers ? ` About ${u.workers} workers available, so ${u.workers} ${u.cost} ≈ 1 day of building.` : ''}`;
+      })(),
       `Success targets:\n${d.targets.map((t) => `- ${t.label}: ${t.check}`).join('\n')}`,
       `Existing resources:\n${d.existingResources.map((r) => `- ${r}`).join('\n')}`,
       `Environment (physical facts shown to Abi):\n${d.environment.map((r) => `- ${r}`).join('\n')}`,
@@ -187,7 +199,7 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
       for (const t of found) pushUnique(s.state, 'lookedUp', t.id);
       return {
         result: found
-          .map((t) => `${t.name}: ${money(t.cost)}${t.capacityLitersPerDay ? `, about ${t.capacityLitersPerDay.toLocaleString()} L/day` : ''}. ${t.provides}${t.needs ? ` Needs: ${t.needs.map((n) => n.replace(/\|/g, ' or ').replace('existing:', '')).join(', ')}.` : ''}${t.maintenance ? ` Upkeep: ${t.maintenance}` : ''}`)
+          .map((t) => `${t.name}: ${unitsOf(d).fmtCost(t.cost)}${t.scarce && d.units?.scarce ? ` + ${t.scarce} ${d.units.scarce.label}` : ''}${unitsOf(d).capOf(t) ? `, about ${unitsOf(d).capOf(t).toLocaleString()} ${unitsOf(d).capLabel}` : ''}${t.max ? ` (only ${t.max} available)` : ''}. ${t.provides}${t.needs ? ` Needs: ${t.needs.map((n) => n.replace(/\|/g, ' or ').replace('existing:', '')).join(', ')}.` : ''}${t.maintenance ? ` Upkeep: ${t.maintenance}` : ''}`)
           .join('\n'),
       };
     }
@@ -199,9 +211,11 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
       return { result: `${m.label}: ${m.result}${m.conditions ? ` (${m.conditions})` : ''}` };
     }
     if (name === 'submit_design') {
+      const { u, fmtCost, capLabel, capOf, minCap } = unitsOf(d);
       const lines: string[] = [];
       let cost = 0;
-      let liters = 0;
+      let capacity = 0;
+      let scarce = 0;
       const chosen = new Map<string, number>();
       for (const it of arr<{ id: string; qty: number }>(input.items)) {
         const t = d.toolbox.find((x) => x.id === it.id);
@@ -211,28 +225,38 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
       const missing: string[] = [];
       for (const [id, qty] of chosen) {
         const t = d.toolbox.find((x) => x.id === id)!;
+        if (t.max !== undefined && qty > t.max) missing.push(`only ${t.max} × ${t.name} available, design uses ${qty}`);
         cost += t.cost * qty;
+        scarce += (t.scarce ?? 0) * qty;
         // Each need is a toolbox id, or alternatives written "a|b", or "existing:<thing>" (already available).
         const needsMet = (t.needs ?? []).every((n) => n.split('|').some((alt) => alt.startsWith('existing:') || chosen.has(alt)));
-        let usable = qty;
+        let usable = Math.min(qty, t.max ?? qty);
         if (t.limitedBy?.length) {
-          const cap = t.limitedBy.reduce((sum, id) => sum + (chosen.get(id) ?? 0), 0);
-          if (cap < qty) missing.push(`only ${cap} of ${qty} × ${t.name} can be used (one per ${t.limitedBy.join(' or ')})`);
-          usable = Math.min(qty, cap);
+          const cap = t.limitedBy.reduce((sum, lid) => {
+            const lt = d.toolbox.find((x) => x.id === lid);
+            return sum + Math.min(chosen.get(lid) ?? 0, lt?.max ?? Infinity);
+          }, 0);
+          if (cap < usable) missing.push(`only ${cap} of ${qty} × ${t.name} can be used (needs one ${t.limitedBy.join(' or ')} each)`);
+          usable = Math.min(usable, cap);
         }
-        if (t.capacityLitersPerDay && needsMet) liters += t.capacityLitersPerDay * usable;
+        if (capOf(t) && needsMet) capacity += capOf(t) * usable;
         if (!needsMet) missing.push(`${t.name} won't work without: ${(t.needs ?? []).map((n) => n.replace(/\|/g, ' or ')).join(' and ')}`);
-        lines.push(`${qty} × ${t.name} = ${money(t.cost * qty)}`);
+        lines.push(`${qty} × ${t.name} = ${fmtCost(t.cost * qty)}${t.scarce && u?.scarce ? ` + ${+(t.scarce * qty).toFixed(2)} ${u.scarce.label}` : ''}`);
       }
-      for (const ci of arr<{ name: string; cost: number; liters_per_day?: number; provides?: string }>(input.custom_items)) {
+      for (const ci of arr<{ name: string; cost: number; liters_per_day?: number; capacity?: number; scarce?: number }>(input.custom_items)) {
         cost += ci.cost;
-        liters += ci.liters_per_day ?? 0;
-        lines.push(`custom: ${ci.name} = ${money(ci.cost)}${ci.liters_per_day ? `, ${ci.liters_per_day} L/day` : ''}`);
+        capacity += ci.capacity ?? ci.liters_per_day ?? 0;
+        scarce += ci.scarce ?? 0;
+        lines.push(`custom: ${ci.name} = ${fmtCost(ci.cost)}${(ci.capacity ?? ci.liters_per_day) ? `, ${ci.capacity ?? ci.liters_per_day} ${capLabel}` : ''}`);
       }
+      scarce = +scarce.toFixed(2);
       const overBudget = cost > d.budget;
-      const underTarget = d.minLitersPerDay ? liters < d.minLitersPerDay : false;
-      const valid = !overBudget && !underTarget && missing.length === 0;
-      s.state.design = { description: input.description, lines, cost, liters, valid };
+      const overScarce = u?.scarce ? scarce > u.scarce.limit : false;
+      const underTarget = minCap ? capacity < minCap : false;
+      const valid = !overBudget && !overScarce && !underTarget && missing.length === 0;
+      const days = u?.workers ? Math.ceil(cost / u.workers) : 0;
+      const line = [fmtCost(cost), u?.scarce ? `${scarce} ${u.scarce.label}` : '', `${capacity.toLocaleString()} ${capLabel}`, days ? `~${days} days to build` : ''].filter(Boolean).join(' · ');
+      s.state.design = { description: input.description, lines, cost, liters: capacity, capacity, scarce, days, line, valid };
       s.state.designCount = (Number(s.state.designCount) || 0) + 1;
       s.state.step = (Number(s.state.step) || 0) + 1;
       s.state.lastDesignStep = s.state.step;
@@ -241,11 +265,13 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
         result: [
           `Design: ${input.description}`,
           ...lines,
-          `Total cost: ${money(cost)} of ${money(d.budget)} budget${overBudget ? ` — OVER by ${money(cost - d.budget)}` : ''}.`,
-          `Safe water capacity: about ${liters.toLocaleString()} L/day${d.minLitersPerDay ? ` (target ${d.minLitersPerDay.toLocaleString()})${underTarget ? ' — BELOW TARGET' : ''}` : ''}.`,
+          `Total: ${fmtCost(cost)} of ${fmtCost(d.budget)} budget${overBudget ? ` — OVER by ${fmtCost(cost - d.budget)}` : ''}.`,
+          u?.scarce ? `${u.scarce.label}: ${scarce} of ${u.scarce.limit}${overScarce ? ' — NOT ENOUGH' : ''}.` : '',
+          days ? `Build time: about ${days} days with ${u?.workers} workers.` : '',
+          `Capacity: about ${capacity.toLocaleString()} ${capLabel}${minCap ? ` (target ${minCap.toLocaleString()})${underTarget ? ' — BELOW TARGET' : ''}` : ''}.`,
           missing.length ? `Missing pieces: ${missing.join('; ')}` : '',
           valid ? 'Design is valid and ready to test.' : 'Design is not valid yet. Tell Abi the engineering result; let her fix it.',
-          'Note: capacity is a simple game estimate. It does not by itself prove access, safety at home, reliability or maintenance — the stress tests check those.',
+          'Note: these numbers are a simple game estimate. The stress tests check everything else.',
         ]
           .filter(Boolean)
           .join('\n'),
@@ -283,9 +309,9 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
   },
   status(s: Session, c: CaseDef) {
     const d = c.data as ChallengeData;
-    const design = s.state.design as { description: string; cost: number; liters: number; valid: boolean } | null;
+    const design = s.state.design as { description: string; line?: string; valid: boolean } | null;
     return `Stage: ${s.stage}. Measurements taken: ${arr<string>(s.state.revealed).join(', ') || 'none'}. ${
-      design ? `Current design: "${design.description}", ${money(design.cost)}, ~${design.liters} L/day, ${design.valid ? 'valid' : 'not valid'}.` : 'No design yet.'
+      design ? `Current design: "${design.description}" (${design.line ?? ''}), ${design.valid ? 'valid' : 'not valid'}.` : 'No design yet.'
     } Stress tests run: ${arr<string>(s.state.testsRun).join(', ') || 'none'} of ${d.stressTests.length}. Results: ${arr<{ test: string; passed: boolean }>(s.state.results).map((r) => `${r.test} ${r.passed ? 'passed' : 'FAILED'}`).join(', ') || 'none yet'}. Redesigns: ${Math.max(0, (Number(s.state.designCount) || 0) - 1)}.`;
   },
   canClose(s: Session, c: CaseDef): string | null {
