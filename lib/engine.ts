@@ -127,6 +127,15 @@ export async function runTurn(s: Session, userText: string, client = new Anthrop
   s.api.push({ role: 'user', content: text });
   s.display.push({ role: 'abi', text, at: now });
 
+  // Thinking blocks are sealed to the exact system prompt they were made with. Ours changes every
+  // turn (live game state), so drop thinking from earlier turns. Within this turn's tool loop the
+  // system prompt is identical, so new thinking blocks stay valid there.
+  s.api = s.api.map((m) => {
+    if (m.role !== 'assistant' || !Array.isArray(m.content)) return m;
+    const kept = (m.content as { type: string }[]).filter((b) => b.type !== 'thinking' && b.type !== 'redacted_thinking');
+    return { ...m, content: kept.length ? kept : 'Okay.' };
+  });
+
   const system = buildSystem(s, c);
   const tools = toolsFor(s.mode);
   const replyParts: string[] = [];
