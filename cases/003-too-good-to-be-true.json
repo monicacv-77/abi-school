@@ -5,40 +5,44 @@
   "classification": "Disputed Claims",
   "unit": "Early Settlements",
   "location": "London and Jamestown, Virginia",
-  "realOrConstructed": "Real historical case",
+  "realOrConstructed": "Real people and evidence in an imagined courtroom",
   "status": "READY",
-  "version": 1,
+  "version": 2,
   "bigUnderstanding": "Who made a claim, and what they wanted, shapes what they say. The Virginia Company needed money and settlers, so it sold Virginia as paradise; the people who actually went told a very different story. The gap between the ad and reality cost lives. Quietly builds the habit Abi needs for modern ads and influencers: who's paying, what do they want me to do, who was actually there? Also sets up the investor pressure in the Jamestown simulation.",
   "opening": {
-    "intro": "London, 1609. Pamphlets promise a land across the ocean so rich and easy you'd be silly not to go. Meanwhile, letters from that same land describe men dying of hunger. Somebody is not telling the truth.",
+    "intro": "Order in the court! The families of Jamestown settlers say the Virginia Company lured people to their deaths with fake ads. The Company says Virginia is wonderful and the settlers ruined it. You're the judge.",
     "cards": [
       {
-        "label": "The ad",
-        "text": "From a 1609 London pamphlet (in modern words): Virginia has rich soil, sweet air, friendly people, and riches waiting to be found. Invest now!"
+        "label": "The charge",
+        "text": "The families: the Company promised paradise to raise money. People believed it, went, and died."
       },
       {
-        "label": "The letter",
-        "text": "From a colonist at Jamestown, 1607 (in modern words): Our only drink is river water, salty at high tide, full of slime and filth at low tide. Men are dying every day."
+        "label": "The defense",
+        "text": "The Company: Virginia is rich. The settlers were lazy, quarrelsome, and hit by a hurricane. Not our fault."
       },
       {
-        "label": "The Virginia Company",
-        "text": "A business in London. People bought shares in it, hoping Virginia would make them rich. It ran Jamestown."
+        "label": "Your court",
+        "text": "Call witnesses. Examine exhibits. Ask anything. Witnesses only know what they saw, and every one of them wants something."
       },
       {
         "label": "How to win",
-        "text": "Explain who was telling the truth, why the other side said what it did, and back it up with at least 3 clues."
+        "text": "Deliver your ruling: who told the truth, why the other side said what it did, and 3 pieces of evidence that prove it."
       }
     ],
-    "prompt": "Where do you want to start digging?"
+    "prompt": "Who do you call first, Your Honor?"
   },
   "facilitatorNotes": [
+    "COURTROOM FORMAT. You are the court clerk (brief, dry, a little theatrical) and you play every witness. Abi is the judge and runs the hearing: she calls witnesses, asks questions, examines exhibits, and rules. Keep each witness answer to 1–3 sentences in a distinct voice.",
+    "WITNESSES (call examine for the matching evidence when their testimony covers it):\n- Robert Johnson, Company member who wrote the 1609 pamphlet (real). Enthusiastic salesman. Never went to Virginia. Covers: pamphlet. If pressed on whether he's been there, he squirms.\n- Sir Thomas Smythe, the Company's treasurer (real). Smooth, polite, always has an excuse: hurricane, lazy settlers, bad luck. Covers: company_money, orders_1606, true_declaration, lottery. Never admits the ads were exaggerated unless Abi corners him with evidence.\n- Captain John Smith (real). Blunt, boastful, furious at the Company and at the gentlemen. Covers: smith_letter, who_came, fools_gold.\n- George Percy (real). Gentleman colonist who saw the sickness. Serious, a bit dramatic. Covers: percy, death_count.\n- A gold refiner from the 1608 supply ship (INVENTED, say so if asked). Sheepish. Covers: fools_gold.\nExhibits (documents and data, no witness needed): powhatan_food, drought, plus any document above.",
+    "Witnesses can only testify to what they saw or wrote. Each has a motive; let it show so Abi can catch it. If Abi asks a witness about something they couldn't know, they say so.",
+    "A real trial like this never happened. The people, documents and facts are real, and testimony is built from what they actually wrote or did. Say so plainly if asked, and at the end.",
     "This is a SOLVED case: the evidence clearly shows the Company oversold Virginia because it needed money and settlers. The settlers weren't blameless either (many gentlemen refused to work), and a sharp answer can include that.",
-    "Treat every document as a source to question: who wrote it, were they there, when, and what did they want? Let Abi discover that question set herself; teach the words 'bias' and 'propaganda' only once she's found the idea.",
     "The quotes are real 1600s writing put in modern words. If she asks, say they're modernized and that the originals use old spelling.",
     "Keep it funny where the hype is ridiculous (shiploads of shiny dirt sent home as gold).",
     "Do NOT mention modern ads or influencers during the case, and never suggest Abi personally falls for ads. After closing, add ONE short sentence connecting to today, like: 'Same trick still works: ask who's paying and what they want you to do.' Then offer to save a question about modern ads or influencers to her Wonder List if she seems interested.",
     "The Powhatan appear in these sources through English eyes. If it comes up, point out that the English writers had their own reasons for how they described Native people, which is the same skill she's using.",
-    "Pin real events to her timeline as they come up."
+    "Pin real events to her timeline as they come up.",
+    "Abi should discover the judge's key questions herself: Were you there? Who paid you? What do you want people to believe? Teach 'bias' and 'propaganda' only after she's found the idea."
   ],
   "justInTimeConcepts": [
     "Primary source: written by someone who was there, at the time.",
@@ -48,11 +52,11 @@
     "Investors and shares: people put money in hoping to get more back."
   ],
   "scaffolds": [
-    "For each source: who wrote it, and were they actually in Virginia?",
-    "What did the Virginia Company need from the people reading its pamphlets?",
-    "Who did the ads attract, and what happened when those people arrived?"
+    "Ask each witness: were you actually in Virginia?",
+    "Ask the treasurer: how does the Company make money?",
+    "Who did the ads bring over, and what happened to them?"
   ],
-  "completion": "Abi has examined at least 3 sources and explained, in her own words, who was telling the truth, why the other side said what it did, and backed it with at least 3 clues.",
+  "completion": "Abi has heard or examined at least 3 pieces of evidence and delivered her ruling in her own words: who told the truth, why the other side said what it did, and at least 3 supporting pieces of evidence.",
   "endReveal": {
     "concept": "Source reliability and motive: ask who made a claim, whether they were there, and what they wanted. Messages built to persuade are called propaganda.",
     "vocabulary": [
@@ -74,8 +78,8 @@
       }
     ],
     "realVsConstructed": {
-      "real": "Everything: the Virginia Company, its pamphlets and lotteries, John Smith's letter, George Percy's account, the fool's gold, and the people who came.",
-      "constructed": "Nothing invented. The quotes are real, just put into modern words."
+      "real": "The Virginia Company, its pamphlet, treasurer Thomas Smythe, writer Robert Johnson, John Smith, George Percy, the fool's gold, the death counts, the lotteries and the drought.",
+      "constructed": "The trial itself and the gold refiner witness. The testimony is built from what the real people wrote."
     }
   },
   "skills": [
@@ -105,7 +109,7 @@
     "kind": "investigation",
     "question": "The ads said Virginia was paradise. The settlers said it was a nightmare. Who was telling the truth, and why would anyone say otherwise?",
     "resolved": true,
-    "winCondition": "Explain who was telling the truth, why the other side said what it did, and back it up with at least 3 clues.",
+    "winCondition": "Deliver your ruling: who told the truth, why the other side said what it did, and 3 pieces of evidence that prove it.",
     "trueExplanation": "The settlers' accounts are more reliable: they were there, and their hardship is confirmed by death counts. The Virginia Company oversold Virginia because it needed investors' money and settlers; it profited only if people believed. The hype attracted the wrong people (gentlemen and gold-seekers expecting easy riches), which made things worse. When disaster struck, the Company blamed the settlers and the weather and kept advertising. Strong answers also note the settlers weren't blameless (many refused to work) and that the land was rich for people who knew how to live there, like the Powhatan.",
     "causalChain": [
       "Investors want profit",
