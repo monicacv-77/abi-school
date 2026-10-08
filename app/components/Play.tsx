@@ -135,7 +135,22 @@ export default function Play({ initial }: { initial: SessionView }) {
 
       {view.opening && (
         <section className="stack" style={{ gap: 10, marginBottom: 18 }}>
-          <p style={{ margin: 0, fontSize: 20 }}>{view.opening.intro}</p>
+          <p style={{ margin: 0, fontSize: 22, lineHeight: 1.4, fontWeight: 500 }}>{view.opening.intro}</p>
+          {view.opening.video && (
+            <details className="panel" style={{ padding: 12 }}>
+              <summary style={{ cursor: 'pointer', fontWeight: 600, minHeight: 32 }}>Watch first: {view.opening.video.title} ({view.opening.video.minutes} min)</summary>
+              <div style={{ position: 'relative', paddingTop: '56.25%', marginTop: 10, background: '#000', borderRadius: 6, overflow: 'hidden' }}>
+                <iframe
+                  src={`https://www.youtube-nocookie.com/embed/${view.opening.video.youtubeId}?rel=0`}
+                  title={view.opening.video.title}
+                  loading="lazy"
+                  allow="encrypted-media; picture-in-picture; fullscreen"
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0 }}
+                />
+              </div>
+              <div className="muted" style={{ fontSize: 13, marginTop: 6 }}>Video: {view.opening.video.source}</div>
+            </details>
+          )}
           <div className="row" style={{ gap: 8 }}>
             {view.opening.cards.map((c, i) => (
               <button

@@ -11,7 +11,7 @@ export interface SessionView {
   display: Session['display'];
   number: string;
   classification: string;
-  opening?: { intro: string; cards: { label: string; text: string }[]; prompt: string };
+  opening?: { intro: string; video?: { title: string; youtubeId: string; minutes: number; source: string }; cards: { label: string; text: string }[]; prompt: string };
   blocks?: { name: string; examples: string }[];
   budget?: number;
   design?: { description: string; cost: number; liters: number; valid: boolean } | null;

@@ -9,7 +9,8 @@ export interface OpeningCard {
 }
 
 export interface Opening {
-  intro: string; // 1–2 short sentences shown first
+  intro: string; // the hook: 1–3 short sentences shown first
+  video?: { title: string; youtubeId: string; minutes: number; source: string }; // optional short context video
   cards: OpeningCard[]; // tap-to-open cards
   prompt: string; // the hand-off question
 }

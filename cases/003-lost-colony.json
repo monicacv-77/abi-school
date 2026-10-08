@@ -7,17 +7,46 @@
   "location": "Roanoke Island, North Carolina",
   "realOrConstructed": "Real historical case",
   "status": "READY",
-  "version": 1,
+  "version": 2,
   "bigUnderstanding": "Historians reason from evidence, like scientists, and some questions are still open. A strong answer is the one the evidence best supports, stated with the right confidence. Also plants seeds for Jamestown: supply ships, relationships with Native nations, and drought.",
   "opening": {
-    "intro": "August 1590. John White finally sails back to Roanoke Island after three years away. His daughter and baby granddaughter were there. Everyone was.",
+    "intro": "In 1587, 115 English men, women and children landed on an island off North Carolina. Three years later, every single one of them was gone. Nobody has proven what happened. Yet.",
+    "video": {
+      "title": "How Roanoke Vanished Into Thin Air",
+      "youtubeId": "THqZ8r2Vr2M",
+      "minutes": 2,
+      "source": "Smithsonian Channel"
+    },
     "cards": [
-      { "label": "Ship's log", "text": "We saw smoke rising near the island. We fired a cannon and sounded a trumpet. No answer." },
-      { "label": "Your job", "text": "About 115 men, women and children are gone. Figure out what most likely happened to them. Evidence, not guesses." }
+      {
+        "label": "Why England was here",
+        "text": "Spain was getting rich from its American colonies. Queen Elizabeth wanted England in the game, so she let Sir Walter Raleigh try to start England's first colony."
+      },
+      {
+        "label": "Try #1 (1585)",
+        "text": "About 100 soldiers built a fort on Roanoke Island. They ran short of food, fought with the local tribes, and went home a year later."
+      },
+      {
+        "label": "Try #2 (1587)",
+        "text": "This time: families. Their governor was John White, an artist. They planned to settle farther north, but the ship's pilot dropped them back at Roanoke."
+      },
+      {
+        "label": "Who already lived here",
+        "text": "Algonquian-speaking nations, like the Roanoke, Secotan and Croatoan peoples. They'd lived on this coast for centuries."
+      },
+      {
+        "label": "1590: White returns",
+        "text": "White sailed home for supplies and got stuck in England for three years. When he finally came back, he saw smoke on the island. He fired a cannon. No answer."
+      },
+      {
+        "label": "Your job",
+        "text": "Figure out what most likely happened to 115 people. Evidence, not guesses."
+      }
     ],
     "prompt": "What do you want to look at first?"
   },
   "facilitatorNotes": [
+    "Abi has seen the context cards (Raleigh, the 1585 fort, the 1587 families, the Native nations, White's 1590 return) and may have watched a 2-minute Smithsonian Channel video about the mystery. Don't re-explain that background unless she asks.",
     "This is real history and the mystery is genuinely unsolved. Never claim a final answer. Reward the conclusion the evidence best supports, with honest confidence.",
     "Give Abi the evidence as an investigator would find it: White's 1590 observations, earlier records, later reports, archaeology, and tree rings.",
     "Tree rings are a great science hook: if she asks how rings show rainfall, explain briefly (wide rings = good growing years, narrow = drought).",
@@ -39,50 +68,205 @@
   "endReveal": {
     "concept": "Historical reasoning: weighing primary and secondhand sources, and stating conclusions with honest confidence when a question is unresolved.",
     "vocabulary": [
-      { "term": "Primary source", "meaning": "Evidence from someone who was there." },
-      { "term": "Corroborate", "meaning": "When separate pieces of evidence back each other up." },
-      { "term": "Dendrochronology", "meaning": "Dating events and climate using tree rings." }
+      {
+        "term": "Primary source",
+        "meaning": "Evidence from someone who was there."
+      },
+      {
+        "term": "Corroborate",
+        "meaning": "When separate pieces of evidence back each other up."
+      },
+      {
+        "term": "Dendrochronology",
+        "meaning": "Dating events and climate using tree rings."
+      }
     ],
     "realVsConstructed": {
       "real": "Everything in this case: the colony, John White, Virginia Dare, the carvings, the war with Spain, the drought shown by tree rings, and the later reports and digs.",
       "constructed": "Nothing invented. The mystery is still open today."
     }
   },
-  "skills": ["Using Evidence", "Source Reliability", "Cause & Effect"],
+  "skills": [
+    "Using Evidence",
+    "Source Reliability",
+    "Cause & Effect"
+  ],
   "timelineEvents": [
-    { "year": "1587", "label": "White's colony settles Roanoke Island" },
-    { "year": "1588", "label": "Spanish Armada; England's ships held at home" },
-    { "year": "1590", "label": "White returns; the colony is gone" }
+    {
+      "year": "1587",
+      "label": "White's colony settles Roanoke Island"
+    },
+    {
+      "year": "1588",
+      "label": "Spanish Armada; England's ships held at home"
+    },
+    {
+      "year": "1590",
+      "label": "White returns; the colony is gone"
+    }
   ],
   "data": {
     "kind": "investigation",
     "question": "What most likely happened to the Roanoke colonists between 1587 and 1590?",
     "trueExplanation": "Unresolved. The evidence best supports an orderly, planned departure (houses taken down, palisade, CROATOAN carved, no distress cross), most likely to Croatoan with Manteo's people, possibly with some colonists moving inland. A severe 1587–1589 drought made food scarce for everyone. The massacre claim (Strachey) is secondhand and decades later. Many colonists likely joined Native communities. A strong answer weighs these, separates firsthand from secondhand evidence, and states honest uncertainty.",
-    "causalChain": ["Colony needs supplies", "White sails to England", "War with Spain delays him 3 years", "Worst drought in 800 years", "Colonists leave in an orderly way", "CROATOAN carved, no distress cross", "Storms stop White from searching"],
+    "causalChain": [
+      "Colony needs supplies",
+      "White sails to England",
+      "War with Spain delays him 3 years",
+      "Worst drought in 800 years",
+      "Colonists leave in an orderly way",
+      "CROATOAN carved, no distress cross",
+      "Storms stop White from searching"
+    ],
     "evidence": [
-      { "id": "colonists", "label": "Who the colonists were", "howToGet": "read records", "result": "About 115 people, including families: men, women and children. White's daughter Eleanor Dare gave birth to Virginia Dare on August 18, 1587, the first English child born in the Americas." },
-      { "id": "why_white_left", "label": "Why John White left", "howToGet": "read records", "result": "Late summer 1587 the colonists were short of supplies. They begged their governor, White, to sail to England and bring more. He left about nine days after his granddaughter was born." },
-      { "id": "delay", "label": "Why it took three years to return", "howToGet": "read records", "result": "England was at war with Spain. In 1588 the Queen kept ships home to fight the Spanish Armada. White's small 1588 attempt was attacked at sea and robbed. He only got back in August 1590." },
-      { "id": "carvings", "label": "The carvings", "howToGet": "inspect the site", "result": "\"CROATOAN\" carved in capital letters on a post at the fort entrance. \"CRO\" carved on a tree near the shore." },
-      { "id": "agreement", "label": "What the colonists agreed with White before he left", "howToGet": "read White's account", "result": "If they moved, they'd carve where they went. If they left in distress or danger, they'd carve a cross above it. White found NO cross." },
-      { "id": "fort", "label": "The settlement and fort", "howToGet": "inspect the site", "result": "The houses had been taken down. A strong palisade (wall of tall tree trunks) had been built. Heavy iron items and lead were left lying in the grass, overgrown." },
-      { "id": "chests", "label": "White's buried chests", "howToGet": "inspect the site", "result": "White had buried his own chests. They'd been dug up and broken open. His books were torn, his maps and pictures rotted by rain, his armor rusted." },
-      { "id": "croatoan", "label": "Who lived on Croatoan", "howToGet": "ask / read records", "result": "Croatoan (today's Hatteras Island) was about 50 miles south. It was home to Manteo's people. Manteo had traveled to England and was an ally of the English." },
-      { "id": "relations", "label": "How things were with other Native neighbors", "howToGet": "read records", "result": "An earlier English expedition (1585–86) had violent conflict with the nearby Secotan and Roanoke people, including killing their leader Wingina. In July 1587 a colonist, George Howe, was killed by warriors while fishing alone." },
-      { "id": "storm_1590", "label": "Why White didn't go to Croatoan", "howToGet": "read White's account", "result": "Storms hit. Seven sailors drowned landing a boat. Anchors were lost. The captains refused to continue, and they sailed away. White never saw his family again." },
-      { "id": "tree_rings", "label": "Tree-ring data from that region", "howToGet": "science", "result": "Ancient bald cypress trees near the Virginia–North Carolina border show 1587–1589 was the driest three-year stretch in 800 years. Crops would have failed, for colonists and Native people alike." },
-      { "id": "strachey", "label": "Later reports from Jamestown", "howToGet": "read records", "result": "Around 1612, Jamestown writer William Strachey reported hearing that Powhatan had killed English people living among another tribe to the north. He wasn't there; it's a secondhand report from decades later." },
-      { "id": "hatteras_digs", "label": "Archaeology on Hatteras Island", "howToGet": "archaeology", "result": "Digs have found some English objects from around that time mixed into a Native village site. Archaeologists debate whether colonists brought them or they arrived by trade." },
-      { "id": "white_map", "label": "John White's map", "howToGet": "science / archaeology", "result": "In 2012, researchers found a hidden symbol under a patch on White's own map, marking a spot inland near Albemarle Sound. Digs nearby found some English-style pottery. Still debated." },
-      { "id": "smoke", "label": "The smoke White saw", "howToGet": "read White's account", "result": "The smoke turned out to come from fires in the grass and woods, not a camp. No people were found." }
+      {
+        "id": "colonists",
+        "label": "Who the colonists were",
+        "howToGet": "read records",
+        "result": "About 115 people, including families: men, women and children. White's daughter Eleanor Dare gave birth to Virginia Dare on August 18, 1587, the first English child born in the Americas."
+      },
+      {
+        "id": "why_white_left",
+        "label": "Why John White left",
+        "howToGet": "read records",
+        "result": "Late summer 1587 the colonists were short of supplies. They begged their governor, White, to sail to England and bring more. He left about nine days after his granddaughter was born."
+      },
+      {
+        "id": "delay",
+        "label": "Why it took three years to return",
+        "howToGet": "read records",
+        "result": "England was at war with Spain. In 1588 the Queen kept ships home to fight the Spanish Armada. White's small 1588 attempt was attacked at sea and robbed. He only got back in August 1590."
+      },
+      {
+        "id": "carvings",
+        "label": "The carvings",
+        "howToGet": "inspect the site",
+        "result": "\"CROATOAN\" carved in capital letters on a post at the fort entrance. \"CRO\" carved on a tree near the shore."
+      },
+      {
+        "id": "agreement",
+        "label": "What the colonists agreed with White before he left",
+        "howToGet": "read White's account",
+        "result": "If they moved, they'd carve where they went. If they left in distress or danger, they'd carve a cross above it. White found NO cross."
+      },
+      {
+        "id": "fort",
+        "label": "The settlement and fort",
+        "howToGet": "inspect the site",
+        "result": "The houses had been taken down. A strong palisade (wall of tall tree trunks) had been built. Heavy iron items and lead were left lying in the grass, overgrown."
+      },
+      {
+        "id": "chests",
+        "label": "White's buried chests",
+        "howToGet": "inspect the site",
+        "result": "White had buried his own chests. They'd been dug up and broken open. His books were torn, his maps and pictures rotted by rain, his armor rusted."
+      },
+      {
+        "id": "croatoan",
+        "label": "Who lived on Croatoan",
+        "howToGet": "ask / read records",
+        "result": "Croatoan (today's Hatteras Island) was about 50 miles south. It was home to Manteo's people. Manteo had traveled to England and was an ally of the English."
+      },
+      {
+        "id": "relations",
+        "label": "How things were with other Native neighbors",
+        "howToGet": "read records",
+        "result": "An earlier English expedition (1585–86) had violent conflict with the nearby Secotan and Roanoke people, including killing their leader Wingina. In July 1587 a colonist, George Howe, was killed by warriors while fishing alone."
+      },
+      {
+        "id": "storm_1590",
+        "label": "Why White didn't go to Croatoan",
+        "howToGet": "read White's account",
+        "result": "Storms hit. Seven sailors drowned landing a boat. Anchors were lost. The captains refused to continue, and they sailed away. White never saw his family again."
+      },
+      {
+        "id": "tree_rings",
+        "label": "Tree-ring data from that region",
+        "howToGet": "science",
+        "result": "Ancient bald cypress trees near the Virginia–North Carolina border show 1587–1589 was the driest three-year stretch in 800 years. Crops would have failed, for colonists and Native people alike."
+      },
+      {
+        "id": "strachey",
+        "label": "Later reports from Jamestown",
+        "howToGet": "read records",
+        "result": "Around 1612, Jamestown writer William Strachey reported hearing that Powhatan had killed English people living among another tribe to the north. He wasn't there; it's a secondhand report from decades later."
+      },
+      {
+        "id": "hatteras_digs",
+        "label": "Archaeology on Hatteras Island",
+        "howToGet": "archaeology",
+        "result": "Digs have found some English objects from around that time mixed into a Native village site. Archaeologists debate whether colonists brought them or they arrived by trade."
+      },
+      {
+        "id": "white_map",
+        "label": "John White's map",
+        "howToGet": "science / archaeology",
+        "result": "In 2012, researchers found a hidden symbol under a patch on White's own map, marking a spot inland near Albemarle Sound. Digs nearby found some English-style pottery. Still debated."
+      },
+      {
+        "id": "smoke",
+        "label": "The smoke White saw",
+        "howToGet": "read White's account",
+        "result": "The smoke turned out to come from fires in the grass and woods, not a camp. No people were found."
+      }
     ],
     "theories": [
-      { "theory": "They moved to Croatoan and lived with Manteo's people", "supportedBy": ["carvings", "agreement", "croatoan", "fort", "hatteras_digs"], "weakenedBy": [] },
-      { "theory": "They were attacked and killed", "supportedBy": ["relations", "strachey"], "weakenedBy": ["agreement", "fort", "carvings"] },
-      { "theory": "They starved or died of sickness", "supportedBy": ["tree_rings", "delay"], "weakenedBy": ["carvings", "fort"] },
-      { "theory": "They split up: some to Croatoan, some inland", "supportedBy": ["carvings", "white_map", "hatteras_digs", "tree_rings"], "weakenedBy": [] },
-      { "theory": "They tried to sail home and were lost at sea", "supportedBy": [], "weakenedBy": ["carvings", "agreement"] }
+      {
+        "theory": "They moved to Croatoan and lived with Manteo's people",
+        "supportedBy": [
+          "carvings",
+          "agreement",
+          "croatoan",
+          "fort",
+          "hatteras_digs"
+        ],
+        "weakenedBy": []
+      },
+      {
+        "theory": "They were attacked and killed",
+        "supportedBy": [
+          "relations",
+          "strachey"
+        ],
+        "weakenedBy": [
+          "agreement",
+          "fort",
+          "carvings"
+        ]
+      },
+      {
+        "theory": "They starved or died of sickness",
+        "supportedBy": [
+          "tree_rings",
+          "delay"
+        ],
+        "weakenedBy": [
+          "carvings",
+          "fort"
+        ]
+      },
+      {
+        "theory": "They split up: some to Croatoan, some inland",
+        "supportedBy": [
+          "carvings",
+          "white_map",
+          "hatteras_digs",
+          "tree_rings"
+        ],
+        "weakenedBy": []
+      },
+      {
+        "theory": "They tried to sail home and were lost at sea",
+        "supportedBy": [],
+        "weakenedBy": [
+          "carvings",
+          "agreement"
+        ]
+      }
     ],
-    "redHerrings": ["The smoke (it was brush fires)", "The dug-up chests (likely dug up after the colonists left)"]
+    "redHerrings": [
+      "The smoke (it was brush fires)",
+      "The dug-up chests (likely dug up after the colonists left)"
+    ]
   }
 }
