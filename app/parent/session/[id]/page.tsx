@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getSession } from '@/lib/sessions';
+import MarkTest from '@/app/components/MarkTest';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,6 +17,7 @@ export default async function ParentSession({ params }: { params: Promise<{ id: 
       </div>
       <h1 className="title" style={{ fontSize: 40 }}>{s.caseId === 'inquiry' ? 'Question' : `Case ${s.caseId}`}: {s.title}</h1>
       <p className="muted">Started {new Date(s.startedAt).toLocaleString()} · case version {s.caseVersion} · stage {s.stage}</p>
+      {!s.isTest && <div style={{ marginBottom: 16 }}><MarkTest sessionId={s.id} /></div>}
 
       {s.parent && (
         <section className="panel stack" style={{ marginBottom: 20 }}>
