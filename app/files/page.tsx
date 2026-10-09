@@ -8,7 +8,7 @@ export default async function Archive() {
   return (
     <main className="wrap">
       <div className="topbar">
-        <Link href="/">← Case Files</Link>
+        <Link href="/">← Dashboard</Link>
         <span>Archive</span>
       </div>
       <h1 className="title" style={{ fontSize: 52 }}>Closed Cases</h1>

@@ -28,7 +28,7 @@ export default async function Timeline() {
   return (
     <main className="wrap">
       <div className="topbar">
-        <Link href="/">← Case Files</Link>
+        <Link href="/">← Dashboard</Link>
         <span>Timeline</span>
       </div>
       <h1 className="title" style={{ fontSize: 48 }}>My Timeline</h1>

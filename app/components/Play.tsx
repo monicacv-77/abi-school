@@ -468,7 +468,7 @@ export default function Play({ initial }: { initial: SessionView }) {
   return (
     <main className={`wrap${twoCol ? ' wide' : ''}`} style={{ paddingBottom: 200, ...modeVars(view.mode) }}>
       <div className="topbar no-print">
-        <Link href="/">← Case Files</Link>
+        <Link href="/">← Dashboard</Link>
         <span>{view.caseId === 'inquiry' ? 'Question' : view.caseId === 'review' ? 'Review' : `Case ${view.number}`}</span>
       </div>
 
