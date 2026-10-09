@@ -8,7 +8,7 @@ import { addTimeline, addWonder, saveSession } from './sessions';
 import type { CaseDef, CaseSummary, DisplayMessage, Session } from './types';
 
 export const MODEL = process.env.ABI_MODEL || 'claude-sonnet-5-5';
-const MAX_STEPS = 8;
+const MAX_STEPS = 14; // room for a full test run (run + judge for each test) in one turn
 const RESUME_GAP_MS = 4 * 60 * 60 * 1000;
 
 const METHOD: Record<Session['mode'], string> = {

@@ -38,7 +38,7 @@ function Rich({ text }: { text: string }) {
     <>
       {text.split(/\n{2,}/).map((para, i) => {
         const lines = para.split('\n');
-        const isStatus = /your colony|what changed/i.test(lines[0].replace(/\*/g, '')) && lines.length > 1;
+        const isStatus = /your colony|what changed|test results/i.test(lines[0].replace(/\*/g, '')) && lines.length > 1;
         const q = para.replace(/\*/g, '').match(/^\s*Question\s+(\d+)\s+of\s+(\d+)\s*[:.]\s*([\s\S]+)$/i);
         if (q)
           return (

@@ -149,9 +149,13 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
 - Anything measured on site (water tests, how much a source yields, what's happening in homes) she must ask for. Use take_measurement and report the result in 1–3 sentences.
 - Never hand her multiple-choice designs. She invents the design. Unconventional ideas are fine if physically plausible: give a fair game cost/capacity consistent with the toolbox scale.
 - When she proposes a design, call submit_design. Report cost, daily capacity and any missing pieces. If it's over budget or under target, tell her the engineering result and let her fix it.
-- TESTING IS ONE CONTINUOUS RUN. Once her design is valid, say it's ready and start the first stress test (run_stress_test). Run them in order, one at a time: narrate the scenario briefly, ask what happens to her system, let her reason, then judge fairly with judge_test using the test's pass rule. If her design already handles a test, say it passes and why: don't manufacture failure.
-- After a PASS, go straight on: in the same message, give the one-line result and start the next test. Never ask what she wants to do next, never offer to stop or skip testing.
-- Testing stops for only two reasons: (1) a FAIL: say what broke, then Abi redesigns (submit_design again; don't fix it for her). After her new design, retest the failed test first, then continue through every remaining test. (2) Every test has passed with her current design: then go to the wrap-up questions.
+- TESTING IS A TEST REPORT, NOT A QUIZ. Once her design is valid, say it's ready and start testing. Don't ask her what will happen or whether it works. For each test in order: call run_stress_test, judge it yourself right away with judge_test using the test's pass rule and the design check, then move to the next. You can judge one test and start the next in the same step. Keep going in this same turn until a test FAILS or every test has passed. If her design already handles a test, it passes: don't manufacture failure.
+- Then write ONE message with a **Test results** card, one line per test run this turn, e.g.:
+  **Test results**
+  ✅ Heavy rain: passed. Steep thatch shed the water and the ditches carried it off.
+  ❌ Fire: FAILED. A spark from a family hearth caught the thatch next door.
+  After a failure, add a short error report (2–3 sentences): what happened, what broke and what it cost the people, in plain physical terms. Don't name the fix or hint at it. End with one question: what will she change?
+- After she redesigns (submit_design), test again the same way: the failed test first, then the rest that haven't passed. When every test has passed, say so and go to the wrap-up questions.
 - Ask only for the missing design decisions that matter for testing (sizes, materials, how it stands, drains, where fire is, who goes where). Don't quiz her on details that won't be tested.
 - Tests follow physics and the stated environment, never invented to defeat her. If an earlier choice already handles a later test, say it passes and why.
 - Real historical methods are resources, not the required answer. Any physically plausible design using available materials is allowed; price it fairly as a custom item.
@@ -407,13 +411,13 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
       if (!input.passed) {
         s.state.lastFailStep = s.state.step;
         s.stage = 'improve';
-        return { result: `Recorded: FAILED. Testing pauses here. Tell her what broke in 1–2 sentences, then let Abi figure out what to change (submit_design). After her new design, retest "${String(input.test_id)}" first, then continue through the remaining tests.` };
+        return { result: `Recorded: FAILED. Stop testing for now. Write the Test results card for every test run this turn, then a short error report on this failure (what happened, what broke, what it cost the people; don't name the fix), then ask what she'll change. After her redesign, retest "${String(input.test_id)}" first, then the rest.` };
       }
       const nextTest = nextUnpassed(d, s);
       return {
         result: nextTest
-          ? `Recorded: passed. KEEP GOING in this same message: give the one-line result, then call run_stress_test for "${nextTest}" and present it. Don't ask what she wants to do.`
-          : 'Recorded: passed. EVERY stress test has now passed with her current design. Testing is complete: move on to the wrap-up questions.',
+          ? `Recorded: passed. KEEP GOING: call run_stress_test for "${nextTest}" now and judge it. Write nothing to Abi until a test fails or all have passed.`
+          : 'Recorded: passed. EVERY stress test has now passed with her current design. Write the Test results card for the tests run this turn, say testing is complete, then go to the wrap-up questions.',
       };
     }
     if (name === 'run_stress_test') {
