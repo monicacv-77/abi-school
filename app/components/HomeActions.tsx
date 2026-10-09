@@ -30,6 +30,28 @@ export function StartCase({ caseId, label, test = false }: { caseId: string; lab
   );
 }
 
+export function StartReview({ label, test = false }: { label: string; test?: boolean }) {
+  const [busy, setBusy] = useState(false);
+  return (
+    <button
+      className="btn"
+      disabled={busy}
+      onClick={async () => {
+        setBusy(true);
+        try {
+          const { id } = await post('/api/session', { review: true, test });
+          window.location.href = `/case/${id}`;
+        } catch (e) {
+          alert((e as Error).message);
+          setBusy(false);
+        }
+      }}
+    >
+      {busy ? 'The Supervisor is coming…' : label}
+    </button>
+  );
+}
+
 export function AskDoor() {
   const [q, setQ] = useState('');
   const [busy, setBusy] = useState<'' | 'ask' | 'save'>('');

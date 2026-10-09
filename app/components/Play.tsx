@@ -38,8 +38,16 @@ function Rich({ text }: { text: string }) {
     <>
       {text.split(/\n{2,}/).map((para, i) => {
         const lines = para.split('\n');
-        const isStatus = (/your colony|what changed|test results/i.test(lines[0].replace(/\*/g, '')) || /test \d+ of \d+/i.test(lines[0])) && lines.length > 1;
+        const isStatus = (/your colony|what changed|test results|review report/i.test(lines[0].replace(/\*/g, '')) || /test \d+ of \d+/i.test(lines[0])) && lines.length > 1;
         const q = para.replace(/\*/g, '').match(/^\s*Question\s+(\d+)\s+of\s+(\d+)\s*[:.]\s*([\s\S]+)$/i);
+        const yw = para.replace(/\*/g, '').match(/^\s*✍️\s*In your words\s*[:.]\s*([\s\S]+)$/i);
+        if (yw)
+          return (
+            <div key={i} className="question-card">
+              <div className="q-num">✍️ In your words</div>
+              <div className="q-text">{yw[1].trim()}</div>
+            </div>
+          );
         if (q)
           return (
             <div key={i} className="question-card">
@@ -300,7 +308,7 @@ export default function Play({ initial }: { initial: SessionView }) {
   }
 
   const closed = view.status === 'closed';
-  const twoCol = (view.mode === 'challenge' && Boolean(view.budgetBox)) || (view.mode === 'simulation' && Boolean(view.stats)) || (view.mode === 'investigation' && Boolean(view.opening)) || view.mode === 'inquiry';
+  const twoCol = (view.mode === 'challenge' && Boolean(view.budgetBox)) || (view.mode === 'simulation' && Boolean(view.stats)) || (view.mode === 'investigation' && Boolean(view.opening)) || view.mode === 'inquiry' || view.mode === 'review';
 
   const heroEl = view.image && (
     <figure className={`hero${view.image.fit === 'contain' ? ' contain' : ''}`}>
@@ -367,6 +375,23 @@ export default function Play({ initial }: { initial: SessionView }) {
               </ul>
             </>
           )}
+        </section>
+      )}
+      {view.review && (
+        <section className="budget" aria-label="Review">
+          <div className="side-h">📋 Supervisor&apos;s review</div>
+          <div className="muted" style={{ fontSize: 14, marginTop: -4, marginBottom: 8 }}>Cases on the clipboard:</div>
+          <ul className="choice-log" style={{ paddingLeft: 20 }}>
+            {view.review.cases.map((c) => <li key={c.caseId + c.title}>{c.caseId === 'inquiry' ? 'Question' : `Case ${c.caseId}`}: {c.title}</li>)}
+          </ul>
+          <div className="colony-sep">Questions</div>
+          <div className="row" style={{ gap: 8, marginTop: 8 }} aria-label={`${view.review.answers.length} of ${view.review.total} answered`}>
+            {Array.from({ length: view.review.total }, (_, i) => {
+              const a = view.review!.answers[i];
+              const mark = !a ? '' : a.result === 'got_it' ? '✅' : a.result === 'partly' ? '🟡' : '❌';
+              return <span key={i} className="review-dot" title={a ? a.result : 'not yet'}>{mark || i + 1}</span>;
+            })}
+          </div>
         </section>
       )}
       {view.mode === 'inquiry' && (
@@ -444,13 +469,13 @@ export default function Play({ initial }: { initial: SessionView }) {
     <main className={`wrap${twoCol ? ' wide' : ''}`} style={{ paddingBottom: 200, ...modeVars(view.mode) }}>
       <div className="topbar no-print">
         <Link href="/">← Case Files</Link>
-        <span>{view.caseId === 'inquiry' ? 'Question' : `Case ${view.number}`}</span>
+        <span>{view.caseId === 'inquiry' ? 'Question' : view.caseId === 'review' ? 'Review' : `Case ${view.number}`}</span>
       </div>
 
       <header style={{ marginBottom: 16 }}>
         <span className="tag mode"><span aria-hidden="true">{lookFor(view.mode).emoji}</span> {lookFor(view.mode).name}</span>
         <span className="tag">{view.classification}</span>
-        <h1 className="title" style={{ fontSize: 40 }}>{view.mode === 'inquiry' ? view.question : view.title}</h1>
+        <h1 className="title" style={{ fontSize: 40 }}>{view.mode === 'inquiry' ? view.question : view.mode === 'review' ? 'The Supervisor Stopped By' : view.title}</h1>
       </header>
 
       <div className={twoCol ? 'play-grid' : undefined}>
@@ -560,7 +585,23 @@ export default function Play({ initial }: { initial: SessionView }) {
 
       <section className="stack" aria-live="polite">
         {view.display.map((m, i) =>
-          m.image ? (
+                    m.source ? (
+            <figure key={i} data-msg={i} className="source-card">
+              <div className="source-head">
+                <span>📜 Primary source</span>
+                <button aria-label="Read the source aloud" onClick={() => speak(m.source!.modern)} className="icon-btn"><SpeakerIcon /></button>
+              </div>
+              <blockquote className="source-modern">“{m.source.modern}”</blockquote>
+              <figcaption>
+                {m.source.author}, <em>{m.source.title}</em> ({m.source.year})
+                <details>
+                  <summary>See the original spelling</summary>
+                  <p className="source-original">“{m.source.original}”</p>
+                  <a href={m.source.href} target="_blank" rel="noreferrer">Where this comes from</a>
+                </details>
+              </figcaption>
+            </figure>
+          ) : m.image ? (
             <figure key={i} data-msg={i} className="exhibit">
               <div className="label" style={{ color: 'var(--accent-ink)', padding: '8px 12px 0' }}>🖼️ Exhibit</div>
               <img src={m.image.src} alt={m.image.alt} style={{ objectFit: m.image.fit ?? 'cover' }} />

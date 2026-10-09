@@ -9,6 +9,8 @@ What every new case needs, learned from building and testing Unit 1. Use it when
 - **Characters protect themselves.** Witnesses and characters act in their own interest, never volunteer damaging facts, and only speak to what they could know.
 - **Real peoples, real societies.** Native nations are organized societies with their own interests and technology, never props or rescuers.
 - **Timeline.** Real events get pinned to her timeline automatically.
+- **✍️ In your words.** Every case ends with Abi writing or saying 2–3 sentences: her answer plus two pieces of evidence. It goes on her Case Summary word for word.
+- **📋 Supervisor review.** After every 2 closed cases, the Supervisor drops in with 3–5 quick recall questions on older cases (✅/🟡/❌, with a short correction when she misses one). Results go to the Parent dashboard.
 - **Pictures.** Evidence and measurement images show in the chat when revealed.
 - **Wrap-up.** The guide says up front how many key questions there are, then shows each as its own "Question 2 of 4" card, one at a time, with no follow-ups. The case closes after the last answer. Keep exploring questions and the Case Summary follow.
 - **Layout.** Every mode uses two columns. On the left: a live panel (Budget, Colony, Theory board with evidence found, or Key points for Open Questions) and the briefs. On the right: the story and chat.
@@ -25,6 +27,8 @@ What every new case needs, learned from building and testing Unit 1. Use it when
 | **Real vs. constructed** | Say exactly what's real and what's invented. Abi learns it at the end. |
 | **Notes** | Only what's special about *this* case: history facts to get right, sensitive topics, what not to give away. |
 | **Scaffolds** | 2–3 hints, light to strong, for when she's truly stuck. |
+| **Standards** | 2–4 standards the case really covers (NGSS, Common Core Literacy, C3, California HSS), with a plain label. They print on the Case Summary. |
+| **Primary source** (history cases) | One short, verified real excerpt (1–3 sentences): the original wording, a modern version, a link to the transcription, and when to show it. Never invent or paraphrase the original. |
 | **Keep exploring** | 3–5 directions (e.g. Native farming technology, modern farming). |
 | **Wrap-up questions** | The last questions, asked straight through. Required for Challenges and Simulations. |
 

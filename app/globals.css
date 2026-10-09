@@ -178,3 +178,28 @@ textarea { resize: none; }
 .need-mark { width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; border: 2px solid var(--rule); color: var(--muted); flex: 0 0 auto; }
 .needs li.ok { color: var(--ink); }
 .needs li.ok .need-mark { background: #e2f1e6; border-color: #1f6b3a; color: #1f6b3a; }
+.review-dot { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--rule); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; color: var(--muted); background: var(--card); }
+.sum-words { border-left: 5px solid var(--accent); background: var(--card); padding: 12px 16px; }
+.sum-words p { margin: 6px 0 0; font-size: 17px; line-height: 1.45; }
+.source-card { align-self: flex-start; max-width: 92%; margin: 0; background: #fbf6e9; border: 2px solid #8a6d3b; border-radius: 12px; padding: 12px 16px; }
+.source-head { display: flex; justify-content: space-between; align-items: center; font-weight: 800; font-size: 14px; color: #6b5124; letter-spacing: 0.02em; }
+.source-modern { margin: 6px 0 8px; font-family: var(--display); font-size: 21px; line-height: 1.4; }
+.source-card figcaption { font-size: 14px; color: var(--ink-2); }
+.source-card details { margin-top: 6px; }
+.source-card summary { cursor: pointer; color: #6b5124; font-weight: 600; min-height: 32px; }
+.source-original { font-family: Georgia, serif; font-style: italic; font-size: 16px; line-height: 1.5; margin: 4px 0; }
+@media print {
+  .summary { gap: 12px; padding: 30px 44px 28px; }
+  .sum-title { font-size: 38px; }
+  .stamp { top: 64px; font-size: 22px; }
+  .sum-quote { padding: 14px 20px; gap: 14px; }
+  .sum-quote p { font-size: 18px !important; }
+  .qmark { font-size: 52px; }
+  .sum-words { padding: 8px 14px; }
+  .sum-words p { font-size: 15px; margin-top: 4px; }
+  .chip { min-height: 44px; }
+  .two { gap: 24px; }
+  .two ul, .two > div > div { font-size: 13px !important; line-height: 1.35 !important; }
+  .two li, .two > div > div > div { margin-bottom: 4px !important; }
+  .sum-foot { padding-top: 10px; }
+}

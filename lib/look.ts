@@ -6,6 +6,7 @@ export const MODE_LOOK: Record<Mode, { emoji: string; name: string; tagline: str
   challenge: { emoji: '🛠️', name: 'Challenge', tagline: 'Make it work', accent: '#b4501a', soft: '#fbeadd', ink: '#6e2f0d' },
   simulation: { emoji: '🧭', name: 'Simulation', tagline: 'Live the history', accent: '#6b3fa0', soft: '#efe6f8', ink: '#432668' },
   inquiry: { emoji: '💡', name: 'Question', tagline: 'Ask anything', accent: '#2c7a4b', soft: '#e2f3e8', ink: '#1a4d2f' },
+  review: { emoji: '📋', name: 'Supervisor Review', tagline: 'Remember it', accent: '#1e5560', soft: '#e1eae8', ink: '#123840' },
 };
 
 export function lookFor(mode: Mode) {

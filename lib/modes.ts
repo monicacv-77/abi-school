@@ -29,6 +29,7 @@ const CLOSE_CASE: Tool = {
     type: 'object',
     properties: {
       abi_final_words: { type: 'string', description: "Abi's own final conclusion/decision/explanation, quoted from what she said, lightly cleaned up." },
+      in_your_words: { type: 'string', description: "Abi's 'In your words' paragraph EXACTLY as she wrote or said it. Fix spelling only; don't add, reword or improve anything." },
       hook: { type: 'string', description: 'One or two sentences a stranger understands, first person. E.g. "Hundreds of fish suddenly died in Lake Mason. My job was to figure out why."' },
       quote: { type: 'string', description: "Abi's single best insight, in her words. Under 30 words." },
       quote_label: { type: 'string', description: 'Label under the quote, e.g. "My conclusion", "My final design", "What I figured out".' },
@@ -64,8 +65,14 @@ const CLOSE_CASE: Tool = {
       parent_scaffolds_used: { type: 'string', description: 'Hints you had to give, if any.' },
       parent_concepts: { type: 'array', items: { type: 'string' }, description: 'Academic concepts covered, for the curriculum index.' },
     },
-    required: ['abi_final_words', 'hook', 'quote', 'quote_label', 'visual', 'found_title', 'found', 'follow_ups', 'parent_what_happened'],
+    required: ['abi_final_words', 'in_your_words', 'hook', 'quote', 'quote_label', 'visual', 'found_title', 'found', 'follow_ups', 'parent_what_happened'],
   },
+};
+
+export const SHOW_SOURCE: Tool = {
+  name: 'show_source',
+  description: "Show the case's one real primary source to Abi as a card (with the original 1600s/1700s wording and a modern version she can read or hear). Use it once, at the moment the case's notes say.",
+  input_schema: { type: 'object', properties: {} },
 };
 
 const SAVE_WONDER: Tool = {
@@ -914,10 +921,104 @@ MODE: INQUIRY — "Ask a question." Abi brought her own question. You are her me
 };
 
 // ---------------------------------------------------------------- registry
-export const ENGINES = { challenge, investigation, simulation, inquiry } as const;
+
+// ---------------------------------------------------------------- SUPERVISOR REVIEW
+export interface ReviewCase {
+  sessionId: string;
+  caseId: string;
+  title: string;
+  mode: string;
+  closedAt: string;
+  hook: string;
+  found: string[];
+  quote: string;
+  inYourWords?: string;
+  bigUnderstanding?: string;
+  concept?: string;
+  vocabulary?: { term: string; meaning: string }[];
+}
+const review = {
+  rules: `
+MODE: SUPERVISOR REVIEW — "Remember it." You are the Supervisor, head of the Case Files office, dropping in to review some cases Abi has closed. Brisk, dry, a little theatrical (clipboard, too much coffee), warm underneath. This is quick recall, not a new case.
+- Ask exactly the number of questions in the review file, ONE AT A TIME, each in its own paragraph that starts exactly like: "**Question 2 of 5:** …". Mix them across the cases: what she found, why it happened (cause), a key term, and one that connects two cases.
+- Questions are short and answerable from memory in a sentence. No multiple choice, no hints inside the question.
+- After each answer: call record_answer (got_it, partly or missed). Then react in ONE line if she got it; if partly or missed, give the right answer plainly in one or two sentences (this is the one place you correct directly, briefly, without lecturing). Then a blank line and the next numbered question.
+- After the last answer: a **Review report** card, one line per question: "✅ Q1 Clean Water: …", "🟡 …" or "❌ …" (a few words each), then one sentence of verdict in character. Then call finish_review.
+- Never shame. Missing something is why reviews exist.
+`.trim(),
+  tools: (): Tool[] => [
+    {
+      name: 'record_answer',
+      description: "Record how Abi did on one review question.",
+      input_schema: {
+        type: 'object',
+        properties: {
+          case_id: { type: 'string' },
+          question: { type: 'string', description: 'the question, short' },
+          result: { type: 'string', enum: ['got_it', 'partly', 'missed'] },
+          note: { type: 'string', description: 'a few words: what she remembered or missed' },
+        },
+        required: ['case_id', 'question', 'result'],
+      },
+    },
+    {
+      name: 'finish_review',
+      description: 'End the review after the last answer and the Review report.',
+      input_schema: { type: 'object', properties: { verdict: { type: 'string', description: 'one sentence, in character' } }, required: ['verdict'] },
+    },
+  ],
+  spec(_c: CaseDef | null, s?: Session): string {
+    const cases = arr<ReviewCase>(s?.state.reviewCases);
+    const total = Number(s?.state.questionCount) || 5;
+    return [
+      `REVIEW FILE: ${total} questions about these closed cases (Abi already finished them; base questions only on this):`,
+      ...cases.map(
+        (c) =>
+          `- ${c.caseId === 'inquiry' ? 'Open question' : `Case ${c.caseId}`} "${c.title}" (${c.mode}, closed ${c.closedAt.slice(0, 10)}): ${c.hook} | What she found: ${c.found.join('; ')} | Her best line: "${c.quote}"${c.inYourWords ? ` | In her words: "${c.inYourWords}"` : ''}${c.bigUnderstanding ? ` | Big idea: ${c.bigUnderstanding}` : ''}${c.concept ? ` | Concept: ${c.concept}` : ''}${c.vocabulary?.length ? ` | Terms: ${c.vocabulary.map((v) => `${v.term} = ${v.meaning}`).join('; ')}` : ''}`,
+      ),
+    ].join('\n');
+  },
+  initialState: () => ({ answers: [], reviewCases: [], questionCount: 5 }),
+  handle(name: string, input: any, s: Session): ToolOutcome | null {
+    if (name === 'record_answer') {
+      const answers = arr<{ caseId: string; question: string; result: string; note?: string }>(s.state.answers);
+      answers.push({ caseId: String(input.case_id), question: String(input.question), result: ['got_it', 'partly', 'missed'].includes(input.result) ? input.result : 'partly', note: input.note ? String(input.note) : '' });
+      s.state.answers = answers;
+      const total = Number(s.state.questionCount) || 5;
+      return { result: answers.length >= total ? `Recorded (${answers.length} of ${total}). That was the last one: write the Review report card, then call finish_review.` : `Recorded (${answers.length} of ${total}). Ask Question ${answers.length + 1} of ${total} next.` };
+    }
+    if (name === 'finish_review') {
+      const answers = arr<{ caseId: string; question: string; result: string; note?: string }>(s.state.answers);
+      const total = Number(s.state.questionCount) || 5;
+      if (answers.length < total) return { result: `Only ${answers.length} of ${total} questions answered. Keep going.`, isError: true };
+      s.state.verdict = String(input.verdict ?? '');
+      const mark = (r: string) => (r === 'got_it' ? '✅' : r === 'partly' ? '🟡' : '❌');
+      s.parent = {
+        whatHappened: `Supervisor review: ${answers.filter((a) => a.result === 'got_it').length} of ${answers.length} remembered. ${s.state.verdict}`,
+        scaffoldsUsed: '',
+        concepts: answers.map((a) => `${mark(a.result)} Case ${a.caseId}: ${a.question}${a.note ? ` (${a.note})` : ''}`),
+        notes: '',
+      };
+      s.status = 'closed';
+      s.stage = 'closed';
+      return { result: 'Review filed. Sign off in one short line, in character.' };
+    }
+    return null;
+  },
+  status(s: Session) {
+    const answers = arr<{ result: string }>(s.state.answers);
+    return `Questions answered: ${answers.length} of ${Number(s.state.questionCount) || 5}. Results so far: ${answers.map((a) => a.result).join(', ') || 'none'}.`;
+  },
+  canClose(): string | null {
+    return 'Reviews end with finish_review, not close_case.';
+  },
+};
+
+export const ENGINES = { challenge, investigation, simulation, inquiry, review } as const;
 
 export function toolsFor(mode: Mode): Tool[] {
-  return [...ENGINES[mode].tools(), PIN_TIMELINE, SAVE_WONDER, CLOSE_CASE];
+  if (mode === 'review') return [...ENGINES.review.tools(), SAVE_WONDER];
+  return [...ENGINES[mode].tools(), PIN_TIMELINE, SAVE_WONDER, SHOW_SOURCE, CLOSE_CASE];
 }
 
 export const FIRST_STAGE: Record<Mode, string> = {
@@ -925,4 +1026,5 @@ export const FIRST_STAGE: Record<Mode, string> = {
   investigation: 'question',
   simulation: 'role',
   inquiry: 'question',
+  review: 'review',
 };

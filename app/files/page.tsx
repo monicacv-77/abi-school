@@ -4,7 +4,7 @@ import { listSessions } from '@/lib/sessions';
 export const dynamic = 'force-dynamic';
 
 export default async function Archive() {
-  const closed = (await listSessions()).filter((s) => s.status === 'closed' && !s.isTest).sort((a, b) => a.startedAt.localeCompare(b.startedAt));
+  const closed = (await listSessions()).filter((s) => s.status === 'closed' && !s.isTest && s.caseId !== 'review').sort((a, b) => a.startedAt.localeCompare(b.startedAt));
   return (
     <main className="wrap">
       <div className="topbar">

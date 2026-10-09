@@ -16,6 +16,7 @@ export interface SessionView {
   evidence?: string[];
   startingIdea?: string;
   keyPoints?: string[];
+  review?: { cases: { caseId: string; title: string }[]; answers: { caseId: string; result: string }[]; total: number };
   nextTest?: { n: number; total: number; name: string; retest: boolean };
   image?: { src: string; alt: string; credit: string; href: string; fit?: 'cover' | 'contain'; position?: string };
   blocks?: { name: string; examples: string }[];
@@ -58,12 +59,19 @@ export function toView(s: Session): SessionView {
     status: s.status,
     display: s.display,
     number: c?.id ?? 'Q',
-    classification: c?.classification ?? 'Open Question',
+    classification: c?.classification ?? (s.mode === 'review' ? 'Memory Check' : 'Open Question'),
     question: s.question,
     hasSummary: Boolean(s.summary),
     followUps: s.followUps,
     winCondition: c ? c.winCondition ?? (c.data as InvestigationData).winCondition : 'Figure it out and explain it in your own words.',
   };
+  if (s.mode === 'review') {
+    v.review = {
+      cases: (Array.isArray(s.state.reviewCases) ? (s.state.reviewCases as { caseId: string; title: string }[]) : []).map((r) => ({ caseId: r.caseId, title: r.title })),
+      answers: Array.isArray(s.state.answers) ? (s.state.answers as { caseId: string; result: string }[]).map((a) => ({ caseId: a.caseId, result: a.result })) : [],
+      total: Number(s.state.questionCount) || 5,
+    };
+  }
   if (s.mode === 'inquiry') {
     v.startingIdea = s.state.startingIdea ? String(s.state.startingIdea) : undefined;
     v.keyPoints = Array.isArray(s.state.keyPoints) ? (s.state.keyPoints as string[]) : [];

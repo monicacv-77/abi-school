@@ -1,6 +1,6 @@
 // Shared types for Abi School.
 
-export type Mode = 'challenge' | 'investigation' | 'simulation' | 'inquiry';
+export type Mode = 'challenge' | 'investigation' | 'simulation' | 'inquiry' | 'review';
 export type CaseStatus = 'READY' | 'DRAFT' | 'HOLD' | 'PILOT';
 
 export interface CaseImage {
@@ -30,7 +30,7 @@ export interface Opening {
 export interface CaseDef {
   id: string; // "001"
   title: string;
-  mode: Exclude<Mode, 'inquiry'>;
+  mode: Exclude<Mode, 'inquiry' | 'review'>;
   classification: string; // "Design Problem", "Unexplained Event", ...
   unit: string;
   location?: string;
@@ -48,6 +48,8 @@ export interface CaseDef {
   skills: string[];
   timelineEvents?: { year: string; label: string }[];
   followUpSeeds?: string[]; // directions for the end-of-case 'Keep exploring' questions
+  standards?: { code: string; label: string }[]; // standards this case covers (shown on the Case Summary)
+  primarySource?: { author: string; title: string; year: string; original: string; modern: string; href: string; when: string }; // one short real source, shown once with show_source
   wrapUpQuestions?: string[]; // asked one at a time at the very end, no follow-ups; case closes after the last answer
   winCondition: string; // shown to Abi on screen, for every case type
   data: ChallengeData | InvestigationData | SimulationData;
@@ -190,6 +192,7 @@ export interface DisplayMessage {
   role: 'abi' | 'guide';
   text: string;
   image?: CaseImage; // an exhibit shown in the chat
+  source?: { author: string; title: string; year: string; original: string; modern: string; href: string }; // a primary-source card shown in the chat
   at: string;
 }
 
@@ -208,6 +211,8 @@ export interface CaseSummary {
   skills: string[];
   realOrConstructed: string;
   closedAt: string;
+  inYourWords?: string; // Abi's own paragraph, word for word
+  standards?: { code: string; label: string }[];
 }
 
 export interface ParentRecord {

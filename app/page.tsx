@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { getCase } from '@/lib/cases';
-import { listSessions, listWonders, nextCase } from '@/lib/sessions';
-import { AskDoor, ExploreWonder, StartCase } from './components/HomeActions';
+import { listSessions, listWonders, nextCase, reviewStatus } from '@/lib/sessions';
+import { AskDoor, ExploreWonder, StartCase, StartReview } from './components/HomeActions';
 import { lookFor, modeVars } from '@/lib/look';
 import type { CaseDef } from '@/lib/types';
 
@@ -27,8 +27,9 @@ function CaseCard({ c, kicker, action }: { c: CaseDef; kicker: string; action: R
 }
 
 export default async function Home() {
-  const [{ active, next }, sessions, wonders] = await Promise.all([nextCase(), listSessions(), listWonders()]);
-  const closed = sessions.filter((s) => s.status === 'closed' && !s.isTest).sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+  const [{ active, next }, sessions, wonders, rev] = await Promise.all([nextCase(), listSessions(), listWonders(), reviewStatus()]);
+  const activeReview = sessions.filter((s) => s.caseId === 'review' && s.status === 'active' && !s.isTest).sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))[0];
+  const closed = sessions.filter((s) => s.status === 'closed' && !s.isTest && s.caseId !== 'review').sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
   const activeCase = active ? getCase(active.caseId) : undefined;
   const openWonders = wonders.filter((w) => w.status === 'open');
 
@@ -50,6 +51,16 @@ export default async function Home() {
         <section className="panel stack">
           <div className="label">📂 Today&apos;s case</div>
           <p style={{ margin: 0 }}>No new case yet. The next file is still being written. Ask a question below instead.</p>
+        </section>
+      )}
+
+      {(activeReview || rev.due) && (
+        <section className="panel" style={{ marginTop: 20, borderColor: 'var(--accent)', borderWidth: 2, background: 'var(--accent-soft)', ...modeVars('review') }}>
+          <div className="stack" style={{ gap: 8 }}>
+            <div className="label" style={{ color: 'var(--accent-ink)' }}>📋 The Supervisor stopped by</div>
+            <p style={{ margin: 0 }}>{activeReview ? 'Your review is still open. The Supervisor is waiting, coffee in hand.' : `You've closed ${rev.since} cases since your last review. The Supervisor wants a quick word about them.`}</p>
+            <div>{activeReview ? <Link className="btn" href={`/case/${activeReview.id}`}>Back to the review</Link> : <StartReview label="Start the review" />}</div>
+          </div>
         </section>
       )}
 

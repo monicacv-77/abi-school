@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { CASES, PLANNED } from '@/lib/cases';
 import { listSessions, listWonders } from '@/lib/sessions';
-import { StartCase } from '@/app/components/HomeActions';
+import { StartCase, StartReview } from '@/app/components/HomeActions';
 import SimRunner from '@/app/components/SimRunner';
 
 export const dynamic = 'force-dynamic';
@@ -49,12 +49,17 @@ export default async function Parent() {
         </table>
       </div>
 
+      <div className="panel row" style={{ marginTop: 16, gap: 12 }}>
+        <span>📋 <strong>Supervisor review:</strong> quick recall questions on closed cases. It shows up for Abi after every 2 closed cases.</span>
+        <StartReview label="Test a review" test />
+      </div>
+
       <h2 className="label" style={{ fontSize: 14, marginTop: 32 }}>Abi&apos;s sessions</h2>
       {real.length === 0 ? <p className="muted">None yet.</p> : (
         <div className="stack" style={{ gap: 6 }}>
           {real.map((s) => (
             <Link key={s.id} href={`/parent/session/${s.id}`}>
-              {new Date(s.updatedAt).toLocaleString()} · {s.caseId === 'inquiry' ? 'Question' : `Case ${s.caseId}`}: {s.title} · {s.status}
+              {new Date(s.updatedAt).toLocaleString()} · {s.caseId === 'inquiry' ? 'Question' : s.caseId === 'review' ? '📋 Review' : `Case ${s.caseId}`}: {s.title} · {s.status}
             </Link>
           ))}
         </div>

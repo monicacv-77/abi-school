@@ -15,7 +15,7 @@ export default async function ParentSession({ params }: { params: Promise<{ id: 
         <Link href="/parent">← Dashboard</Link>
         <span>{s.isTest ? 'Test run' : 'Abi'} · {s.status}</span>
       </div>
-      <h1 className="title" style={{ fontSize: 40 }}>{s.caseId === 'inquiry' ? 'Question' : `Case ${s.caseId}`}: {s.title}</h1>
+      <h1 className="title" style={{ fontSize: 40 }}>{s.caseId === 'inquiry' ? 'Question' : s.caseId === 'review' ? '📋 Review' : `Case ${s.caseId}`}: {s.title}</h1>
       <p className="muted">Started {new Date(s.startedAt).toLocaleString()} · case version {s.caseVersion} · stage {s.stage}</p>
       {!s.isTest && <div style={{ marginBottom: 16 }}><MarkTest sessionId={s.id} /></div>}
 

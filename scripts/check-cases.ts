@@ -58,6 +58,9 @@ function checkCase(file: string) {
   hint(c.endReveal?.vocabulary?.length >= 2, 'endReveal: add 2+ vocabulary terms for the Case Summary');
   hint(c.skills?.length >= 2, 'list 2+ skills for the Case Summary');
   need((c.followUpSeeds?.length ?? 0) >= 3, 'needs 3+ followUpSeeds (directions for Keep exploring)');
+  hint((c.standards?.length ?? 0) >= 2, 'list 2+ standards this case covers (shown on the Case Summary)');
+  hint(c.mode === 'challenge' || c.primarySource || !/real|history|histor/i.test(c.realOrConstructed + c.unit), 'history case with no primarySource: add one short, verified real source');
+  if (c.primarySource) need(c.primarySource.original && c.primarySource.modern && c.primarySource.href && c.primarySource.when, 'primarySource needs original, modern, href and when');
   for (const n of c.facilitatorNotes ?? []) for (const [re, why] of FRAMEWORK_NOTES) if (re.test(n.trim())) warn.push(`note "${n.slice(0, 40)}…": ${why}`);
 
   // ---------- by mode

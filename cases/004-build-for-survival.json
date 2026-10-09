@@ -7,7 +7,7 @@
   "location": "Early colonial Virginia (Tidewater)",
   "realOrConstructed": "Constructed challenge in a historically grounded setting",
   "status": "READY",
-  "version": 11,
+  "version": 12,
   "bigUnderstanding": "Shelter is an engineering tradeoff: speed, weather protection, stability, fire safety, labor, scarce imported materials, and repairability. There is no single right design. Early Jamestown builders used local wood and clay (mud-and-stud, daub, thatch) because it was fast and local, but it needed constant maintenance in Virginia weather.",
   "winCondition": "Design shelter for about 105 people, including 15 families with children, that is fast, dry, stable, safe and buildable with what you have. Then survive the tests and fix whatever breaks.",
   "opening": {
@@ -562,5 +562,32 @@
   },
   "wrapUpQuestions": [
     "Would you approve this shelter system for the settlement's first year? Why?"
-  ]
+  ],
+  "standards": [
+    {
+      "code": "MS-ETS1-1",
+      "label": "Define a design problem: criteria and constraints (NGSS)"
+    },
+    {
+      "code": "MS-ETS1-2",
+      "label": "Evaluate competing design solutions (NGSS)"
+    },
+    {
+      "code": "MS-ETS1-3",
+      "label": "Use test data to combine the best parts of designs (NGSS)"
+    },
+    {
+      "code": "CA HSS 5.4.1",
+      "label": "How location and physical setting shaped the founding of the colonies (California)"
+    }
+  ],
+  "primarySource": {
+    "author": "John Smith",
+    "title": "The Generall Historie of Virginia",
+    "year": "1624 (describing May 1607)",
+    "original": "Now falleth every man to worke, the Councell contriue the Fort, the rest cut downe trees to make place to pitch their Tents; some provide clapbord to relade the ships, some make gardens, some nets, &c. … The Presidents overweening iealousie would admit no exercise at armes, or fortification, but the boughs of trees cast together in the forme of a halfe moone by the extraordinary paines and diligence of Captaine Kendall.",
+    "modern": "Now every man got to work. The leaders planned the fort, and the others cut down trees to make room for their tents. Some made boards to load onto the ships, some made gardens, some made nets. … The president was so jealous and suspicious that he didn't allow any military training or real walls, only tree branches piled up in a half-moon shape, which Captain Kendall worked very hard to build.",
+    "href": "https://encyclopediavirginia.org/entries/chapter-1-book-3-of-the-generall-historie-of-virginia-new-england-and-the-summer-isles-by-john-smith-1624/",
+    "when": "early on, when Abi asks what the first settlers actually did when they landed, or before her first design if she wants to know how they started"
+  }
 }

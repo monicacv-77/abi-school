@@ -7,7 +7,7 @@
   "location": "James River, Virginia",
   "realOrConstructed": "Real history and science; Abi's assignment is invented",
   "status": "READY",
-  "version": 6,
+  "version": 7,
   "bigUnderstanding": "Food is a system: crop, soil, water, timing, tools, knowledge and labor. The English failed because they brought the wrong crops, farmed the wrong ground the wrong way at the wrong time, without the people or knowledge to do it, during a drought. The Powhatan succeeded with crops and methods refined over generations, including corn, beans and squash planted together, which work as a living system. Sets up why Jamestown depended on Powhatan corn in the simulation.",
   "opening": {
     "intro": "Jamestown, summer 1609. Outside the fort, the English fields look neat: straight rows of wheat and barley brought from England. But the plants are thin and yellow, the ground between them is cracked, and the colony is going hungry.\n\nA few miles upriver, a Powhatan town's fields look like a jungle: corn, beans and squash all tangled together. Yet they're so full of food that the town trades away the extra. Same sun, same rain. The Virginia Company wants to know why its colony can't feed itself. Find at least three reasons, and back each one with evidence.",
@@ -262,5 +262,32 @@
     "credit": "John White, “The town of Secoton,” about 1585 · British Museum · public domain",
     "href": "https://commons.wikimedia.org/wiki/File:John_White_-_The_town_of_Secoton,_1906,0509.1.7.jpg",
     "position": "center 40%"
+  },
+  "standards": [
+    {
+      "code": "MS-LS1-5",
+      "label": "Explain with evidence how environment affects how organisms grow (NGSS)"
+    },
+    {
+      "code": "MS-LS2-2",
+      "label": "Explain patterns of interactions among organisms (NGSS)"
+    },
+    {
+      "code": "RH.6-8.1",
+      "label": "Cite evidence from sources (Common Core Literacy)"
+    },
+    {
+      "code": "D2.His.14.6-8",
+      "label": "Explain multiple causes and effects (C3 Framework)"
+    }
+  ],
+  "primarySource": {
+    "author": "Thomas Harriot",
+    "title": "A Briefe and True Report of the New Found Land of Virginia",
+    "year": "1588",
+    "original": "First for their corne, beginning in one corner of the plot, with a pecker they make a hole, wherein they put foure graines with that care they touch not one another, (about an inch asunder) and couer them with the moulde againe … By this meanes there is a yarde spare ground betwene euery hole: where according to discretion here and there, they set as many Beanes and Peaze",
+    "modern": "To plant their corn, they start in one corner of the field. They use a digging stick to make a hole and put in four seeds, about an inch apart so they don't touch, then cover them with soil… That leaves a yard of open ground between each hole, and here and there in those spaces they plant beans and peas.",
+    "href": "https://gutenberg.org/cache/epub/4247/pg4247-images.html",
+    "when": "when Abi is looking at how the Powhatan field is planted, or asks how Native farmers plant. Note: Harriot described Algonquian farmers near Roanoke (1585–86), the Powhatan's neighbors with the same farming system, not Jamestown itself; say so if it matters. He says beans go in the spaces between the corn holes, not in the same hole"
   }
 }

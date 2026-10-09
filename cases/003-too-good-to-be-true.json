@@ -7,7 +7,7 @@
   "location": "London and Jamestown, Virginia",
   "realOrConstructed": "Real people and evidence in an imagined courtroom",
   "status": "READY",
-  "version": 9,
+  "version": 10,
   "bigUnderstanding": "Who made a claim, and what they wanted, shapes what they say. The Virginia Company needed money and settlers, so it sold Virginia as paradise; the people who actually went told a very different story. The gap between the ad and reality cost lives. Quietly builds the habit Abi needs for modern ads and influencers: who's paying, what do they want me to do, who was actually there? Also sets up the investor pressure in the Jamestown simulation.",
   "opening": {
     "intro": "London, 1610. The courtroom is packed and loud. On one side sit families whose sons, brothers and husbands sailed to Virginia after reading ads that promised a rich, easy paradise. Hundreds of them never came home. On the other side sit the well-dressed men of the Virginia Company, who sold those ads.\n\nOrder in the court! You're the judge. Call witnesses, examine the evidence, and decide: who told the truth, and why did the other side say what it did? Back your ruling with at least three pieces of evidence.",
@@ -270,5 +270,32 @@
     "credit": "“Nova Britannia,” London, 1609 · public domain",
     "href": "https://commons.wikimedia.org/wiki/File:Nova_Britannia_Cover.jpg",
     "fit": "contain"
+  },
+  "standards": [
+    {
+      "code": "RH.6-8.6",
+      "label": "Identify an author's point of view or purpose (Common Core Literacy)"
+    },
+    {
+      "code": "RH.6-8.8",
+      "label": "Tell fact from opinion and reasoned judgment (Common Core Literacy)"
+    },
+    {
+      "code": "D2.His.6.6-8",
+      "label": "Analyze how people's perspectives shaped the sources they created (C3 Framework)"
+    },
+    {
+      "code": "D2.Eco.1.6-8",
+      "label": "Explain how economic decisions affect people and society (C3 Framework)"
+    }
+  ],
+  "primarySource": {
+    "author": "Robert Johnson",
+    "title": "Nova Britannia",
+    "year": "1609",
+    "original": "The country it selfe is large and great assuredly, though as yet, no exact discouerie can bee made of all, It is also commendable, and hopefull euerie way, the ayre and clymate most sweete and wholsome, much warmer then England, and very agreeable to our Natures:",
+    "modern": "The country itself is certainly large and great, though no one has explored all of it yet. It is also good and promising in every way. The air and climate are very sweet and healthy, much warmer than England, and very well suited to us.",
+    "href": "https://ota.bodleian.ox.ac.uk/repository/xmlui/bitstream/handle/20.500.12024/A04581/A04581.html?sequence=5&isAllowed=y",
+    "when": "when Abi examines the pamphlet or questions Robert Johnson about what he wrote"
   }
 }

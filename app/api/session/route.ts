@@ -2,8 +2,8 @@ import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { PARENT_COOKIE, parentToken } from '@/lib/auth';
 import { getCase } from '@/lib/cases';
-import { startCaseSession, startInquiry } from '@/lib/sessions';
-import { startInquiryTurn } from '@/lib/engine';
+import { startCaseSession, startInquiry, startReview } from '@/lib/sessions';
+import { startInquiryTurn, startReviewTurn } from '@/lib/engine';
 
 export const maxDuration = 120;
 
@@ -18,9 +18,15 @@ export async function POST(req: Request) {
 }
 
 async function start(req: Request) {
-  const body = (await req.json().catch(() => ({}))) as { caseId?: string; question?: string; wonderId?: string; test?: boolean };
+  const body = (await req.json().catch(() => ({}))) as { caseId?: string; question?: string; wonderId?: string; test?: boolean; review?: boolean };
   const isParent = (await cookies()).get(PARENT_COOKIE)?.value === (await parentToken());
   const isTest = Boolean(body.test && isParent);
+
+  if (body.review) {
+    const s = await startReview(isTest);
+    await startReviewTurn(s);
+    return NextResponse.json({ id: s.id });
+  }
 
   if (body.question) {
     const q = body.question.trim();

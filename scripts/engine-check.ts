@@ -12,7 +12,7 @@ function fakeClient(script: any[][]) {
 }
 const tu = (name: string, input: any) => ({ type: 'tool_use', id: 'tu_' + Math.random().toString(36).slice(2), name, input });
 const tx = (text: string) => ({ type: 'text', text });
-const close = (extra = {}) => tu('close_case', { abi_final_words: 'x', hook: 'h', quote: 'q', quote_label: 'l', visual: { kind: 'list', title: 't', items: ['a'] }, found_title: 'f', found: ['a'], follow_ups: ['a?', 'b?', 'c?'], parent_what_happened: 'p', ...extra });
+const close = (extra = {}) => tu('close_case', { abi_final_words: 'x', in_your_words: 'The fields failed because of the crop, the method and the ground.', hook: 'h', quote: 'q', quote_label: 'l', visual: { kind: 'list', title: 't', items: ['a'] }, found_title: 'f', found: ['a'], follow_ups: ['a?', 'b?', 'c?'], parent_what_happened: 'p', ...extra });
 async function step(s: any, tool: any) {
   await runTurn(s, 'go', fakeClient([[tool], [tx('.')]]));
   const fresh = (await getSession(s.id))!;
@@ -92,6 +92,30 @@ async function main() {
     await step(q, tu('add_key_point', { point: 'Fun = your brain rewarding you.' }));
     await step(q, tu('add_key_point', { point: 'Dopamine signals "do that again!"', replaces_index: 2 }));
     expect('inquiry: key points on screen', JSON.stringify((await import('../lib/view')).toView(q).keyPoints), 'do that again');
+  }
+
+  // --- In your words, standards, primary source, supervisor review
+  {
+    const f: any = await startCaseSession('002', true);
+    for (const e of ['english_field', 'powhatan_field', 'soil_test']) await step(f, tu('examine', { evidence_id: e })).catch(() => '');
+    await step(f, tu('show_source', {}));
+    expect('source card appears in chat', JSON.stringify(f.display.filter((m: any) => m.source).map((m: any) => m.source.author)), 'Thomas Harriot');
+    expect('source only once', await step(f, tu('show_source', {})), 'Already shown');
+    const ev = (f.caseSnapshot.data.evidence as any[]).map((e) => e.id);
+    for (const e of ev.slice(0, 3)) await step(f, tu('examine', { evidence_id: e }));
+    await step(f, tu('record_theory', { theory: 'crop + method + ground', supporting: ev.slice(0, 3) }));
+    expect('no close without In your words', await step(f, close({ in_your_words: '' })), 'In your words');
+    expect('closes with In your words', await step(f, close()), 'Case closed');
+    expect('summary keeps her words and standards', JSON.stringify({ w: f.summary.inYourWords, s: f.summary.standards?.[0]?.code }), 'MS-LS1-5');
+    const { startReview } = await import('../lib/sessions');
+    const r: any = await startReview(true);
+    expect('review picks closed cases', JSON.stringify(r.state.reviewCases.map((x: any) => x.caseId)), '"');
+    const n = r.state.questionCount;
+    expect('review cannot finish early', await step(r, tu('finish_review', { verdict: 'x' })), 'Keep going');
+    for (let i = 0; i < n; i++) await step(r, tu('record_answer', { case_id: r.state.reviewCases[0].caseId, question: 'q' + i, result: i ? 'got_it' : 'missed' }));
+    await step(r, tu('finish_review', { verdict: 'Not bad, detective.' }));
+    expect('review closes with a parent record', JSON.stringify({ st: r.status, p: r.parent?.whatHappened }), `${n - 1} of ${n} remembered`);
+    expect('review panel shows marks', JSON.stringify((await import('../lib/view')).toView(r).review?.answers?.[0]), 'missed');
   }
 
   // --- A wordless turn never shows '…'

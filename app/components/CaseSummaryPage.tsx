@@ -35,6 +35,13 @@ export default function CaseSummaryPage({ s }: { s: CaseSummary }) {
         </div>
       </div>
 
+      {s.inYourWords && (
+        <div className="sum-words">
+          <div className="label">✍️ In my words</div>
+          <p>{s.inYourWords}</p>
+        </div>
+      )}
+
       {s.visual.items.length > 0 && (
         <div className="stack" style={{ gap: 10 }}>
           <div className="label">{s.visual.title}</div>
@@ -98,6 +105,12 @@ export default function CaseSummaryPage({ s }: { s: CaseSummary }) {
           <div className="label" style={{ fontSize: 11, color: 'var(--ink)' }}>Real or constructed?</div>
           {s.realOrConstructed}
           <div style={{ marginTop: 4 }}>Closed {closed}</div>
+          {s.standards && s.standards.length > 0 && (
+            <div style={{ marginTop: 6 }} title={s.standards.map((x) => `${x.code}: ${x.label}`).join('\n')}>
+              <span className="label" style={{ fontSize: 11, color: 'var(--ink)' }}>Standards: </span>
+              {s.standards.map((x) => x.code).join(' · ')}
+            </div>
+          )}
         </div>
       </div>
     </article>

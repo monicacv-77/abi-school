@@ -16,6 +16,7 @@ const METHOD: Record<Session['mode'], string> = {
   investigation: 'Investigation',
   simulation: 'Simulation',
   inquiry: 'Inquiry',
+  review: 'Review',
 };
 
 function caseSpec(c: CaseDef): string {
@@ -33,6 +34,7 @@ function caseSpec(c: CaseDef): string {
     `Skills for the summary: ${c.skills.join(', ')}`,
     c.wrapUpQuestions?.length ? `WRAP-UP QUESTIONS (the very end, after everything else; ask exactly these, one at a time, no follow-ups):\n${c.wrapUpQuestions.map((q, i) => `Q${i + 1}. ${q}`).join('\n')}` : '',
     c.followUpSeeds?.length ? `Follow-up directions for the 'Keep exploring' questions at close: ${c.followUpSeeds.join('; ')}` : '',
+    c.primarySource ? `PRIMARY SOURCE (real, ${c.primarySource.author}, ${c.primarySource.year}): show it once with show_source ${c.primarySource.when}. Modern version: "${c.primarySource.modern}"` : '',
     c.timelineEvents?.length ? `Timeline events you may pin when they come up: ${c.timelineEvents.map((t) => `${t.year} — ${t.label}`).join('; ')}` : '',
     `CASE DATA\n${(ENGINES[c.mode] as { spec: (c: CaseDef) => string }).spec(c)}`,
   ]
@@ -43,7 +45,7 @@ function caseSpec(c: CaseDef): string {
 function buildSystem(s: Session, c: CaseDef | undefined): Anthropic.Messages.TextBlockParam[] {
   const engine = ENGINES[s.mode];
   const staticPart =
-    `${engine.rules}\n\n` + (c ? caseSpec(c) : (ENGINES.inquiry.spec as (c: null, s: Session) => string)(null, s));
+    `${engine.rules}\n\n` + (c ? caseSpec(c) : (ENGINES[s.mode].spec as (c: null, s: Session) => string)(null, s));
   const last = s.display.length ? new Date(s.display[s.display.length - 1].at).getTime() : 0;
   const resumed = last && Date.now() - last > RESUME_GAP_MS;
   const status = (engine.status as (s: Session, c: CaseDef) => string)(s, c as CaseDef);
@@ -86,6 +88,8 @@ function buildSummary(s: Session, c: CaseDef | undefined, input: any): CaseSumma
     skills: Array.isArray(input.skills) && input.skills.length ? input.skills.map(String) : c ? c.skills : ['Asking Questions', 'Reasoning'],
     realOrConstructed: c ? `${c.endReveal.realVsConstructed.real.split('.')[0]}. Invented: ${c.endReveal.realVsConstructed.constructed.split('.')[0].toLowerCase()}.` : 'A real question, explored with real science and history.',
     closedAt: new Date().toISOString(),
+    inYourWords: String(input.in_your_words ?? '').trim() || undefined,
+    standards: c?.standards,
   };
 }
 
@@ -93,6 +97,14 @@ async function runTool(s: Session, c: CaseDef | undefined, name: string, input: 
   if (name === 'save_wonder') {
     await addWonder(String(input.question ?? ''));
     return { result: 'Saved to the Wonder List.' };
+  }
+  if (name === 'show_source') {
+    const src = c?.primarySource;
+    if (!src) return { result: 'This case has no primary source.', isError: true };
+    if (s.state.sourceShown) return { result: 'Already shown.', isError: true };
+    s.state.sourceShown = true;
+    s.state.showSource = true;
+    return { result: `The source card is now on her screen above your message: ${src.author}, "${src.title}" (${src.year}). Modern version: "${src.modern}" Don't repeat or read it out (she can tap read-aloud). Say one short line introducing who wrote it, then ask ONE question: what does it tell us, and should we trust it?` };
   }
   if (name === 'pin_to_timeline') {
     await addTimeline({ year: String(input.year), label: String(input.label), caseId: s.caseId, caseTitle: c?.title ?? s.title });
@@ -103,6 +115,8 @@ async function runTool(s: Session, c: CaseDef | undefined, name: string, input: 
     if (s.status === 'closed') return { result: 'Already closed.', isError: true };
     const blocker = (ENGINES[s.mode].canClose as (s: Session, c: CaseDef) => string | null)(s, c as CaseDef);
     if (blocker) return { result: `Can't close yet: ${blocker}`, isError: true };
+    if (!String(input.in_your_words ?? '').trim())
+      return { result: "Can't close yet: ask for her ✍️ In your words paragraph first (see CLOSING A CASE), then close with it word for word.", isError: true };
     s.summary = buildSummary(s, c, input);
     s.parent = {
       whatHappened: String(input.parent_what_happened ?? ''),
@@ -149,7 +163,7 @@ export async function runTurn(s: Session, userText: string, client = new Anthrop
   });
 
   const system = buildSystem(s, c);
-  const tools = toolsFor(s.mode);
+  const tools = toolsFor(s.mode).filter((t) => t.name !== 'show_source' || Boolean(c?.primarySource));
   const replyParts: string[] = [];
   const choicesBefore = Array.isArray(s.state.choices) ? s.state.choices.length : 0;
 
@@ -234,9 +248,22 @@ export async function runTurn(s: Session, userText: string, client = new Anthrop
   const shown = Array.isArray(s.state.showImages) ? (s.state.showImages as DisplayMessage['image'][]) : [];
   for (const image of shown) if (image) s.display.push({ role: 'guide', text: '', image, at: new Date().toISOString() });
   s.state.showImages = [];
+  if (s.state.showSource && c?.primarySource) {
+    const { author, title, year, original, modern, href } = c.primarySource;
+    s.display.splice(s.display.length, 0, { role: 'guide', text: '', source: { author, title, year, original, modern, href }, at: new Date().toISOString() });
+    s.state.showSource = false;
+  }
   s.display.push({ role: 'guide', text: reply, at: new Date().toISOString() });
   await saveSession(s);
   return { reply, session: s };
+}
+
+/** The Supervisor opens a review: a hidden first prompt, so the review starts with the Supervisor talking. */
+export async function startReviewTurn(s: Session, client?: Anthropic) {
+  const r = await runTurn(s, '[Abi opens the door. Introduce yourself in 1–2 sentences, say which cases you are reviewing and how many questions, then ask Question 1.]', client);
+  if (s.display[0]?.role === 'abi') s.display.shift();
+  await saveSession(s);
+  return r;
 }
 
 /** The very first message of an Inquiry: Abi's question goes in as her first turn. */
