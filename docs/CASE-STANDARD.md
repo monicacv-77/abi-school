@@ -11,6 +11,7 @@ What every new case needs, learned from building and testing Unit 1. Use it when
 - **Timeline.** Real events get pinned to her timeline automatically.
 - **Pictures.** Evidence and measurement images show in the chat when revealed.
 - **Wrap-up.** The guide says up front how many key questions there are, then shows each as its own "Question 2 of 4" card, one at a time, with no follow-ups. The case closes after the last answer. Keep exploring questions and the Case Summary follow.
+- **Layout.** Every mode uses two columns. On the left: a live panel (Budget, Colony, Theory board with evidence found, or Key points for Open Questions) and the briefs. On the right: the story and chat.
 - **Challenge.** Building blocks with no prices; specs only when she asks. The live Budget panel. Fair tests that follow physics, run straight through: a pass moves on to the next test, a failure means a redesign and a retest, and testing ends only when every test passes.
 - **Simulation.** A–D decision buttons with tradeoffs. A short "What changed" list after each choice. The Colony panel with ↑ ↓ → arrows. Real events on schedule. The built-in debrief: final outcome, yours vs. the real one, biggest difference, then the wrap-up questions.
 
@@ -19,7 +20,7 @@ What every new case needs, learned from building and testing Unit 1. Use it when
 | Piece | Standard |
 |---|---|
 | **Opening paragraph** | Two short paragraphs. First: the scene (place, time, what it looks, sounds or smells like, who's there). Second: her job and the goal in one or two sentences. This is the hook, and the goal lives here, not on a separate "win" card. |
-| **Brief cards** | 3–7 cards, each with an emoji, a short label, and 1–2 sentences (≤40 words). People's voices work well ("A mother of three"). |
+| **Brief cards** | 3–7 cards, each with an emoji, a short label, 1–2 sentences (≤40 words), and a kind. They show in this order: **brief** (the project brief / her job) → the Toolbox (Challenges) → **place** (setting and background) → **voice** (reports from experts and witnesses, e.g. "A mother of three"). |
 | **Picture** | A real, credited image at the top (Wikimedia Commons or public domain). |
 | **Real vs. constructed** | Say exactly what's real and what's invented. Abi learns it at the end. |
 | **Notes** | Only what's special about *this* case: history facts to get right, sensitive topics, what not to give away. |

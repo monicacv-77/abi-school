@@ -7,7 +7,7 @@
   "location": "Roanoke Island, North Carolina",
   "realOrConstructed": "Real historical case",
   "status": "HOLD",
-  "version": 4,
+  "version": 5,
   "bigUnderstanding": "Historians reason from evidence, like scientists, and some questions are still open. A strong answer is the one the evidence best supports, stated with the right confidence. Also plants seeds for Jamestown: supply ships, relationships with Native nations, and drought.",
   "opening": {
     "intro": "In 1587, 115 English men, women and children landed on an island off North Carolina. Three years later, every single one of them was gone. Nobody has proven what happened. Yet.",
@@ -19,28 +19,40 @@
     },
     "cards": [
       {
+        "label": "Your job",
+        "text": "Figure out what most likely happened to 115 people. You win by making a strong case for your answer, using the evidence. Nobody has the official answer.",
+        "kind": "brief",
+        "icon": "🔎"
+      },
+      {
         "label": "Why England was here",
-        "text": "Spain was getting rich from its American colonies. Queen Elizabeth wanted England in the game, so she let Sir Walter Raleigh try to start England's first colony."
+        "text": "Spain was getting rich from its American colonies. Queen Elizabeth wanted England in the game, so she let Sir Walter Raleigh try to start England's first colony.",
+        "kind": "place",
+        "icon": "👑"
       },
       {
         "label": "Try #1 (1585)",
-        "text": "About 100 soldiers built a fort on Roanoke Island. They ran short of food, fought with the local tribes, and went home a year later."
+        "text": "About 100 soldiers built a fort on Roanoke Island. They ran short of food, fought with the local tribes, and went home a year later.",
+        "kind": "place",
+        "icon": "🏕️"
       },
       {
         "label": "Try #2 (1587)",
-        "text": "This time: families. Their governor was John White, an artist. They planned to settle farther north, but the ship's pilot dropped them back at Roanoke."
+        "text": "This time: families. Their governor was John White, an artist. They planned to settle farther north, but the ship's pilot dropped them back at Roanoke.",
+        "kind": "place",
+        "icon": "👪"
       },
       {
         "label": "Who already lived here",
-        "text": "Algonquian-speaking nations, like the Roanoke, Secotan and Croatoan peoples. They'd lived on this coast for centuries."
+        "text": "Algonquian-speaking nations, like the Roanoke, Secotan and Croatoan peoples. They'd lived on this coast for centuries.",
+        "kind": "place",
+        "icon": "🏞️"
       },
       {
         "label": "1590: White returns",
-        "text": "White sailed home for supplies and got stuck in England for three years. When he finally came back, he saw smoke on the island. He fired a cannon. No answer."
-      },
-      {
-        "label": "Your job",
-        "text": "Figure out what most likely happened to 115 people. You win by making a strong case for your answer, using the evidence. Nobody has the official answer."
+        "text": "White sailed home for supplies and got stuck in England for three years. When he finally came back, he saw smoke on the island. He fired a cannon. No answer.",
+        "kind": "place",
+        "icon": "⛵"
       }
     ],
     "prompt": "What do you want to look at first?"

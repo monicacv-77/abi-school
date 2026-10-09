@@ -842,6 +842,7 @@ MODE: INQUIRY — "Ask a question." Abi brought her own question. You are her me
 - Correct common myths. Be honest about what scientists or historians know vs. what's still debated.
 - Help her land on her own explanation, in her words. Then offer one "next question" she might want to save to her Wonder List.
 - If the question is outside what's appropriate for her age, or personal (health, feelings, relationships), gently suggest she talk to her mom.
+- KEY POINTS: her screen has a Key points panel. Whenever a solid idea lands (something she figured out, or a key fact you explained that she now uses), call add_key_point with it in 4–12 plain words, e.g. "Dopamine is a chemical messenger in the brain." About one per exchange that matters; no more than 8 in all. Don't mention the panel.
 - Close when she has stated her explanation in her own words (it's fine if the case is short).
 `.trim(),
   tools: (): Tool[] => [
@@ -849,6 +850,11 @@ MODE: INQUIRY — "Ask a question." Abi brought her own question. You are her me
       name: 'record_starting_idea',
       description: "Record what Abi thought at first, in her words, before exploring.",
       input_schema: { type: 'object', properties: { idea: { type: 'string' } }, required: ['idea'] },
+    },
+    {
+      name: 'add_key_point',
+      description: "Pin one key point to Abi's Key points panel: a short, plain summary (4–12 words) of something she now understands. Use replaces_index to reword or correct an earlier point (1-based).",
+      input_schema: { type: 'object', properties: { point: { type: 'string' }, replaces_index: { type: 'integer', minimum: 1 } }, required: ['point'] },
     },
   ],
   spec(_c: CaseDef | null, s?: Session): string {
@@ -861,10 +867,21 @@ MODE: INQUIRY — "Ask a question." Abi brought her own question. You are her me
       s.stage = 'explore';
       return { result: 'Recorded.' };
     }
+    if (name === 'add_key_point') {
+      const pts = arr<string>(s.state.keyPoints);
+      const point = String(input.point ?? '').trim().slice(0, 140);
+      if (!point) return { result: 'Give the point.', isError: true };
+      const at = Number(input.replaces_index) - 1;
+      if (at >= 0 && at < pts.length) pts[at] = point;
+      else if (pts.length >= 8) return { result: 'Already 8 key points: replace one instead (replaces_index).', isError: true };
+      else pts.push(point);
+      s.state.keyPoints = pts;
+      return { result: `Key points now: ${pts.map((p, i) => `${i + 1}. ${p}`).join(' ')}` };
+    }
     return null;
   },
   status(s: Session) {
-    return `Stage: ${s.stage}. Starting idea: ${s.state.startingIdea ? `"${s.state.startingIdea}"` : 'not yet stated'}.`;
+    return `Stage: ${s.stage}. Starting idea: ${s.state.startingIdea ? `"${s.state.startingIdea}"` : 'not yet stated'}. Key points pinned: ${arr<string>(s.state.keyPoints).map((p, i) => `${i + 1}. ${p}`).join(' ') || 'none yet'}.`;
   },
   canClose(s: Session): string | null {
     if (!s.state.startingIdea) return "Record Abi's starting idea first.";

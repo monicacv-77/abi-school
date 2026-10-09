@@ -166,3 +166,10 @@ textarea { resize: none; }
 .question-card { margin: 12px 0 0; padding: 12px 14px; border-radius: 12px; border: 2px solid var(--accent); background: var(--accent-soft); }
 .q-num { font-size: 14px; font-weight: 800; color: var(--accent-ink); letter-spacing: 0.02em; margin-bottom: 4px; }
 .q-text { font-size: 20px; font-weight: 700; line-height: 1.4; }
+
+.brief-group { font-size: 13px; font-weight: 700; color: var(--muted); margin: 8px 0 0; padding-bottom: 2px; border-bottom: 2px solid var(--ink); }
+.key-start { background: var(--paper-2); border-radius: 8px; padding: 8px 10px; font-size: 16px; margin-bottom: 10px; }
+.key-start .label { display: block; font-size: 13px; color: var(--muted); }
+.key-points { margin: 0; padding-left: 24px; font-size: 17px; line-height: 1.4; }
+.key-points li { padding: 5px 0; border-bottom: 1px solid var(--rule); }
+.key-points li:last-child { border-bottom: none; }

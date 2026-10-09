@@ -14,19 +14,22 @@
     "intro": "SCENE: place, time, what it looks/sounds/smells like, who's there (3–4 short sentences).\n\nYOUR JOB: who Abi is and what she has to do, in 1–2 sentences.",
     "cards": [
       {
-        "icon": "🧑‍🌾",
-        "label": "A person's voice",
-        "text": "1–2 short sentences in their words (≤40 words)."
+        "icon": "📋",
+        "label": "Project brief",
+        "text": "Her job and goal in 1–2 sentences.",
+        "kind": "brief"
       },
       {
         "icon": "🌧️",
         "label": "The place",
-        "text": "Physical facts only."
+        "text": "Setting and physical facts only.",
+        "kind": "place"
       },
       {
-        "icon": "🎯",
-        "label": "Your goal",
-        "text": "What counts as success."
+        "icon": "🧑‍🌾",
+        "label": "A person's voice",
+        "text": "An expert or witness, 1–2 short sentences in their words (≤40 words).",
+        "kind": "voice"
       }
     ],
     "prompt": "The hand-off question, e.g. 'Where do you want to start?'"

@@ -12,7 +12,10 @@ export interface SessionView {
   display: Session['display'];
   number: string;
   classification: string;
-  opening?: { intro: string; video?: { title: string; youtubeId: string; minutes: number; source: string }; cards: { icon?: string; label: string; text: string }[]; prompt: string };
+  opening?: { intro: string; video?: { title: string; youtubeId: string; minutes: number; source: string }; cards: { icon?: string; label: string; text: string; kind?: 'brief' | 'place' | 'voice' }[]; prompt: string };
+  evidence?: string[];
+  startingIdea?: string;
+  keyPoints?: string[];
   image?: { src: string; alt: string; credit: string; href: string; fit?: 'cover' | 'contain'; position?: string };
   blocks?: { name: string; examples: string }[];
   budget?: number;
@@ -59,8 +62,13 @@ export function toView(s: Session): SessionView {
     followUps: s.followUps,
     winCondition: c ? c.winCondition ?? (c.data as InvestigationData).winCondition : 'Figure it out and explain it in your own words.',
   };
+  if (s.mode === 'inquiry') {
+    v.startingIdea = s.state.startingIdea ? String(s.state.startingIdea) : undefined;
+    v.keyPoints = Array.isArray(s.state.keyPoints) ? (s.state.keyPoints as string[]) : [];
+  }
   if (c) {
-    v.opening = c.opening;
+    const rank = { brief: 0, place: 1, voice: 2 } as const;
+    v.opening = { ...c.opening, cards: [...c.opening.cards].sort((a, b) => rank[a.kind ?? 'voice'] - rank[b.kind ?? 'voice']) };
     v.image = c.image;
   }
   if (c?.data.kind === 'challenge') {
@@ -101,7 +109,10 @@ export function toView(s: Session): SessionView {
     }
   }
   if (c?.data.kind === 'investigation') {
-    v.board = (s.state.board as SessionView['board']) ?? [];
+    const d = c.data as InvestigationData;
+    const named = (x: string) => d.evidence.find((e) => e.id === x)?.label ?? x;
+    v.board = ((s.state.board as SessionView['board']) ?? []).map((b) => ({ ...b, supporting: b.supporting.map(named), problems: b.problems.map(named) }));
+    v.evidence = (Array.isArray(s.state.examined) ? (s.state.examined as string[]) : []).map((id) => d.evidence.find((e) => e.id === id)?.label ?? id);
   }
   if (c?.data.kind === 'simulation') {
     const d = c.data as SimulationData;

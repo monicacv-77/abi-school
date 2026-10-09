@@ -68,6 +68,17 @@ async function main() {
   for (const t of ['rainy_season', 'access', 'recontamination']) { await step(ch2, tu('run_stress_test', { test_id: t })); await step(ch2, tu('judge_test', { test_id: t, passed: true })); }
   expect('challenge: all-pass needs all tests', await step(ch2, close()), "Testing isn't finished");
 
+  // --- Inquiry: key points collect in the side panel
+  {
+    const { startInquiry } = await import('../lib/sessions');
+    const q: any = await startInquiry('What happens in my brain when I have fun?', undefined, true);
+    await step(q, tu('record_starting_idea', { idea: 'Happy chemicals' }));
+    await step(q, tu('add_key_point', { point: 'Dopamine is a chemical messenger in the brain.' }));
+    await step(q, tu('add_key_point', { point: 'Fun = your brain rewarding you.' }));
+    await step(q, tu('add_key_point', { point: 'Dopamine signals "do that again!"', replaces_index: 2 }));
+    expect('inquiry: key points on screen', JSON.stringify((await import('../lib/view')).toView(q).keyPoints), 'do that again');
+  }
+
   // --- A wordless turn never shows '…'
   {
     const fx: any = await startCaseSession('002', true);

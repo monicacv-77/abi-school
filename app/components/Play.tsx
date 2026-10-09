@@ -287,7 +287,7 @@ export default function Play({ initial }: { initial: SessionView }) {
   }
 
   const closed = view.status === 'closed';
-  const twoCol = (view.mode === 'challenge' && Boolean(view.budgetBox)) || (view.mode === 'simulation' && Boolean(view.stats));
+  const twoCol = (view.mode === 'challenge' && Boolean(view.budgetBox)) || (view.mode === 'simulation' && Boolean(view.stats)) || (view.mode === 'investigation' && Boolean(view.opening)) || view.mode === 'inquiry';
 
   const heroEl = view.image && (
     <figure className={`hero${view.image.fit === 'contain' ? ' contain' : ''}`}>
@@ -326,15 +326,57 @@ export default function Play({ initial }: { initial: SessionView }) {
     </>
   );
 
-  const sideEl = twoCol && view.opening && (
+  const sideEl = twoCol && (
     <aside className="play-side no-print" aria-label="Briefs and status">
       {view.budgetBox && <BudgetPanel b={view.budgetBox} />}
       {view.mode === 'simulation' && view.stats && <ColonyPanel v={view} />}
+      {view.mode === 'investigation' && (
+        <section className="budget" aria-label="Theory board">
+          <div className="side-h">📌 Theory board</div>
+          {view.board && view.board.length > 0 ? (
+            <div className="stack" style={{ gap: 12 }}>
+              {view.board.map((b) => (
+                <div key={b.theory} style={{ borderLeft: '4px solid var(--accent)', paddingLeft: 10 }}>
+                  <div style={{ fontWeight: 700 }}>{b.theory}</div>
+                  {b.supporting.length > 0 && <div style={{ fontSize: 15 }}><span style={{ color: '#1f6b3a', fontWeight: 700 }}>✔ Backs it up:</span> {b.supporting.join(' · ')}</div>}
+                  {b.problems.length > 0 && <div style={{ fontSize: 15 }}><span style={{ color: 'var(--rust)', fontWeight: 700 }}>✘ Doesn&apos;t fit:</span> {b.problems.join(' · ')}</div>}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="muted" style={{ fontSize: 15 }}>No theories yet. When you have one, say it and it gets pinned here.</div>
+          )}
+          {view.evidence && view.evidence.length > 0 && (
+            <>
+              <div className="colony-sep">🔎 Evidence you&apos;ve found ({view.evidence.length})</div>
+              <ul className="choice-log" style={{ paddingLeft: 20, marginTop: 6 }}>
+                {view.evidence.map((e) => <li key={e}>{e}</li>)}
+              </ul>
+            </>
+          )}
+        </section>
+      )}
+      {view.mode === 'inquiry' && (
+        <section className="budget" aria-label="Key points">
+          <div className="side-h">💡 Key points</div>
+          {view.startingIdea && (
+            <div className="key-start"><span className="label">🌱 What you thought at first</span><div>{view.startingIdea}</div></div>
+          )}
+          {view.keyPoints && view.keyPoints.length > 0 ? (
+            <ol className="key-points">
+              {view.keyPoints.map((k, i) => <li key={i}>{k}</li>)}
+            </ol>
+          ) : (
+            <div className="muted" style={{ fontSize: 15 }}>The big ideas you figure out will collect here.</div>
+          )}
+        </section>
+      )}
+      {view.opening && (
       <section>
         <div className="side-h">📋 Briefs</div>
-        <div className="stack" style={{ gap: 6 }}>
-          {view.opening.cards.map((c, i) => (
-            <details key={i} className="brief">
+        {(() => {
+          const card = (c: NonNullable<SessionView['opening']>['cards'][number], i: number) => (
+            <details key={`${c.label}-${i}`} className="brief">
               <summary>
                 {c.icon && <span className="ic" aria-hidden="true">{c.icon}</span>}
                 <span style={{ flex: 1 }}>{c.label}</span>
@@ -344,23 +386,36 @@ export default function Play({ initial }: { initial: SessionView }) {
                 <button aria-label={`Read ${c.label} aloud`} onClick={() => speak(`${c.label}. ${c.text}`)} className="icon-btn"><SpeakerIcon /></button>
               </div>
             </details>
-          ))}
-          {view.blocks && (
-            <details className="brief">
-              <summary>
-                <span className="ic" aria-hidden="true">🧰</span>
-                <span style={{ flex: 1 }}>Building blocks</span>
-              </summary>
-              <div className="brief-body" style={{ display: 'block' }}>
-                {view.blocks.map((b) => (
-                  <div key={b.name} style={{ marginBottom: 6 }}><strong>{b.name}:</strong> <span className="muted">{b.examples}</span></div>
-                ))}
-                <div className="muted" style={{ fontSize: 15 }}>Ask for any cost or spec. Got another idea? Propose it.</div>
-              </div>
-            </details>
-          )}
-        </div>
+          );
+          const cards = view.opening!.cards;
+          const briefs = cards.filter((c) => c.kind === 'brief');
+          const places = cards.filter((c) => c.kind === 'place');
+          const voices = cards.filter((c) => !c.kind || c.kind === 'voice');
+          return (
+            <div className="stack" style={{ gap: 6 }}>
+              {briefs.map(card)}
+              {view.blocks && (
+                <details className="brief">
+                  <summary>
+                    <span className="ic" aria-hidden="true">🧰</span>
+                    <span style={{ flex: 1 }}>Toolbox</span>
+                  </summary>
+                  <div className="brief-body" style={{ display: 'block' }}>
+                    {view.blocks.map((b) => (
+                      <div key={b.name} style={{ marginBottom: 6 }}><strong>{b.name}:</strong> <span className="muted">{b.examples}</span></div>
+                    ))}
+                    <div className="muted" style={{ fontSize: 15 }}>Ask for any cost or spec. Got another idea? Propose it.</div>
+                  </div>
+                </details>
+              )}
+              {places.map(card)}
+              {voices.length > 0 && <div className="brief-group">🗣️ Reports</div>}
+              {voices.map(card)}
+            </div>
+          );
+        })()}
       </section>
+      )}
       {view.choices && view.choices.length > 0 && (
         <section>
           <div className="side-h">📜 Your choices</div>
@@ -437,7 +492,7 @@ export default function Play({ initial }: { initial: SessionView }) {
         </section>
       )}
 
-      {view.board && view.board.length > 0 && (
+      {!twoCol && view.board && view.board.length > 0 && (
         <section className="panel" style={{ padding: 12, marginBottom: 14 }} aria-label="Theory board">
           <div className="label" style={{ marginBottom: 8 }}>📌 Theory board</div>
           <div className="stack" style={{ gap: 10 }}>

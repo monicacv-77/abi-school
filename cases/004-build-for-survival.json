@@ -7,46 +7,53 @@
   "location": "Early colonial Virginia (Tidewater)",
   "realOrConstructed": "Constructed challenge in a historically grounded setting",
   "status": "READY",
-  "version": 7,
+  "version": 8,
   "bigUnderstanding": "Shelter is an engineering tradeoff: speed, weather protection, stability, fire safety, labor, scarce imported materials, and repairability. There is no single right design. Early Jamestown builders used local wood and clay (mud-and-stud, daub, thatch) because it was fast and local, but it needed constant maintenance in Virginia weather.",
   "winCondition": "Design shelter for about 105 people, including 15 families with children, that is fast, dry, stable, safe and buildable with what you have. Then survive the tests and fix whatever breaks.",
   "opening": {
     "intro": "Spring, on the coast of Virginia. Your ships have just dropped anchor in a wide, brown river. Behind the muddy shore: thick forest, marsh grass taller than you, and clouds of mosquitoes. About 105 tired people are standing on the bank with their bags: soldiers and workmen, a few gentlemen, and 15 families with 25 children, from babies to 14-year-olds. Every one of them needs a roof before the storms and cold nights come.\n\nYou can't ship houses across an ocean, so you'll build with what's here. Design shelter that's fast, dry, stable, safe from fire, and buildable with your people and tools. Then test it, and fix whatever fails.",
     "cards": [
       {
-        "label": "Carpenter",
-        "text": "We can cut trees, but every beam takes work. Nails are precious. I know ways to join wood with pegs instead.",
-        "icon": "🪚"
-      },
-      {
-        "label": "Quartermaster",
-        "text": "We've got axes, saws, hammers, shovels, rope, a few kegs of nails, and some old sail canvas. Hardly any boards, bricks or glass.",
-        "icon": "📦"
-      },
-      {
-        "label": "Settlement leader",
-        "text": "Every person building is a person not fishing, farming or standing guard. We also need somewhere dry for food and tools.",
-        "icon": "🧑‍✈️"
-      },
-      {
-        "icon": "👩‍👧‍👦",
-        "label": "A mother of three",
-        "text": "My children can't sleep in a room with fifty strangers. We need our own space, a safe fire to cook on, and somewhere dry for the baby."
+        "label": "Your targets",
+        "text": "FAST · DRY · STABLE · SAFE (fire!) · BUILDABLE · REPAIRABLE. Shelter for about 105 people, including 25 children. About 30 builders at a time, and only 6 kegs of nails. Then it gets tested.",
+        "icon": "🎯",
+        "kind": "brief"
       },
       {
         "label": "What's around you",
         "text": "Forest, young saplings, clay-rich mud, marsh reeds and grasses, dirt, and oyster shells along the shore.",
-        "icon": "🌲"
+        "icon": "🌲",
+        "kind": "place"
       },
       {
         "label": "The place",
         "text": "Hot, sticky summers. Hard rain and storms. Cold nights later in the year. Low, damp ground near the river.",
-        "icon": "🌧️"
+        "icon": "🌧️",
+        "kind": "place"
       },
       {
-        "label": "Your targets",
-        "text": "FAST · DRY · STABLE · SAFE (fire!) · BUILDABLE · REPAIRABLE. Shelter for about 105 people, including 25 children. About 30 builders at a time, and only 6 kegs of nails. Then it gets tested.",
-        "icon": "🎯"
+        "label": "Carpenter",
+        "text": "We can cut trees, but every beam takes work. Nails are precious. I know ways to join wood with pegs instead.",
+        "icon": "🪚",
+        "kind": "voice"
+      },
+      {
+        "label": "Quartermaster",
+        "text": "We've got axes, saws, hammers, shovels, rope, a few kegs of nails, and some old sail canvas. Hardly any boards, bricks or glass.",
+        "icon": "📦",
+        "kind": "voice"
+      },
+      {
+        "label": "Settlement leader",
+        "text": "Every person building is a person not fishing, farming or standing guard. We also need somewhere dry for food and tools.",
+        "icon": "🧑‍✈️",
+        "kind": "voice"
+      },
+      {
+        "icon": "👩‍👧‍👦",
+        "label": "A mother of three",
+        "text": "My children can't sleep in a room with fifty strangers. We need our own space, a safe fire to cook on, and somewhere dry for the baby.",
+        "kind": "voice"
       }
     ],
     "prompt": "What do you want to know, or what are you thinking of building?"

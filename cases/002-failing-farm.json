@@ -7,25 +7,28 @@
   "location": "James River, Virginia",
   "realOrConstructed": "Real history and science; Abi's assignment is invented",
   "status": "READY",
-  "version": 5,
+  "version": 6,
   "bigUnderstanding": "Food is a system: crop, soil, water, timing, tools, knowledge and labor. The English failed because they brought the wrong crops, farmed the wrong ground the wrong way at the wrong time, without the people or knowledge to do it, during a drought. The Powhatan succeeded with crops and methods refined over generations, including corn, beans and squash planted together, which work as a living system. Sets up why Jamestown depended on Powhatan corn in the simulation.",
   "opening": {
     "intro": "Jamestown, summer 1609. Outside the fort, the English fields look neat: straight rows of wheat and barley brought from England. But the plants are thin and yellow, the ground between them is cracked, and the colony is going hungry.\n\nA few miles upriver, a Powhatan town's fields look like a jungle: corn, beans and squash all tangled together. Yet they're so full of food that the town trades away the extra. Same sun, same rain. The Virginia Company wants to know why its colony can't feed itself. Find at least three reasons, and back each one with evidence.",
     "cards": [
       {
+        "label": "Your job",
+        "text": "The Virginia Company sent you to find out why its colony can't feed itself. Give them at least 3 reasons the English fields fail and the Powhatan fields thrive, each backed by evidence.",
+        "icon": "📜",
+        "kind": "brief"
+      },
+      {
         "label": "The English field",
         "text": "Neat rows of wheat and barley from England. Thin, yellow, patchy. Bare dirt baked hard between the rows.",
-        "icon": "🌾"
+        "icon": "🌾",
+        "kind": "place"
       },
       {
         "label": "The Powhatan field",
         "text": "Looks messy: corn in little hills, beans climbing the stalks, giant squash leaves covering the ground. And it's loaded with food.",
-        "icon": "🌽"
-      },
-      {
-        "label": "Your job",
-        "text": "The Virginia Company sent you to find out why its colony can't feed itself. Give them at least 3 reasons the English fields fail and the Powhatan fields thrive, each backed by evidence.",
-        "icon": "📜"
+        "icon": "🌽",
+        "kind": "place"
       }
     ],
     "prompt": "What do you want to check first?"

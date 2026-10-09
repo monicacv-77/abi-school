@@ -7,25 +7,28 @@
   "location": "London and Jamestown, Virginia",
   "realOrConstructed": "Real people and evidence in an imagined courtroom",
   "status": "READY",
-  "version": 8,
+  "version": 9,
   "bigUnderstanding": "Who made a claim, and what they wanted, shapes what they say. The Virginia Company needed money and settlers, so it sold Virginia as paradise; the people who actually went told a very different story. The gap between the ad and reality cost lives. Quietly builds the habit Abi needs for modern ads and influencers: who's paying, what do they want me to do, who was actually there? Also sets up the investor pressure in the Jamestown simulation.",
   "opening": {
     "intro": "London, 1610. The courtroom is packed and loud. On one side sit families whose sons, brothers and husbands sailed to Virginia after reading ads that promised a rich, easy paradise. Hundreds of them never came home. On the other side sit the well-dressed men of the Virginia Company, who sold those ads.\n\nOrder in the court! You're the judge. Call witnesses, examine the evidence, and decide: who told the truth, and why did the other side say what it did? Back your ruling with at least three pieces of evidence.",
     "cards": [
       {
+        "label": "Your court",
+        "text": "Call any witness. Ask for any document. Witnesses only know what they saw, and every one of them wants something. Your ruling must name who told the truth, explain why the other side said what it did, and cite 3 pieces of evidence.",
+        "icon": "🔨",
+        "kind": "brief"
+      },
+      {
         "label": "The charge",
         "text": "The families: the Company promised paradise to raise money. People believed it, went, and died.",
-        "icon": "⚖️"
+        "icon": "⚖️",
+        "kind": "voice"
       },
       {
         "label": "The defense",
         "text": "The Company: Virginia is rich. The settlers were lazy, quarrelsome, and hit by a hurricane. Not our fault.",
-        "icon": "🛡️"
-      },
-      {
-        "label": "Your court",
-        "text": "Call any witness. Ask for any document. Witnesses only know what they saw, and every one of them wants something. Your ruling must name who told the truth, explain why the other side said what it did, and cite 3 pieces of evidence.",
-        "icon": "🔨"
+        "icon": "🛡️",
+        "kind": "voice"
       }
     ],
     "prompt": "Who do you call first, Your Honor?"

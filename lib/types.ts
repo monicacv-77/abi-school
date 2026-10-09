@@ -16,6 +16,7 @@ export interface OpeningCard {
   icon?: string; // an emoji
   label: string; // e.g. "WATER TECHNICIAN"
   text: string; // one or two short sentences
+  kind?: 'brief' | 'place' | 'voice'; // brief = her job/goal; place = setting & background; voice = experts, witnesses, people. Shown in that order.
 }
 
 export interface Opening {

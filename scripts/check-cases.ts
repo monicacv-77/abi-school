@@ -45,9 +45,11 @@ function checkCase(file: string) {
   need(c.opening?.prompt, 'missing opening.prompt (the hand-off question)');
   const cards = c.opening?.cards ?? [];
   need(cards.length >= 2, 'needs at least 2 brief cards');
+  hint(cards.some((k) => k.kind === 'brief'), 'no card with kind "brief": add a project brief / your job card (it shows first)');
   hint(cards.length <= 8, `${cards.length} brief cards: more than 8 is a lot to open`);
   for (const k of cards) {
     hint(k.icon, `card "${k.label}" has no emoji icon`);
+    hint(k.kind, `card "${k.label}" has no kind (brief = her job, place = setting, voice = experts/witnesses): it will sort last`);
     hint(words(k.text) <= 40, `card "${k.label}" is ${words(k.text)} words: keep cards to 1–2 short sentences (≤40 words)`);
   }
   need(c.image?.src && c.image.credit && c.image.href, 'needs a hero image with credit and link');
