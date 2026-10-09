@@ -32,7 +32,10 @@ export interface SessionView {
     ready?: boolean;
   };
   decision?: { when: string; number: number; title: string; options: { letter: string; label: string; detail?: string }[] };
-  stats?: { label: string; value: number; count?: boolean; delta?: number; word?: string }[];
+  stats?: { label: string; value: number; count?: boolean; delta?: number; word?: string; dir?: 'up' | 'down' | 'same' }[];
+  story?: { label: string; value: string; dir?: 'up' | 'down' | 'same' }[];
+  lastChoice?: string;
+  choices?: { n: number; label: string }[];
   winCondition?: string;
   board?: { theory: string; supporting: string[]; problems: string[] }[];
   question?: string;
@@ -113,7 +116,50 @@ export function toView(s: Session): SessionView {
         title: String(s.state.pendingTitle || ''),
         options: pendOpts?.length ? pendOpts.map((o) => ({ letter: o.letter, label: o.label, detail: o.detail })) : pend.options.map((o, i) => ({ letter: 'ABCD'[i], label: o.label })),
       };
-    v.stats = d.stats.map((x) => ({ label: x.label, value: stats[x.id] ?? x.start, count: x.kind === 'count', delta: delta[x.id], word: x.kind === 'count' ? undefined : statWord(x, stats[x.id] ?? x.start) }));
+    const started = Array.isArray(s.state.choices) && s.state.choices.length > 0;
+    v.stats = d.stats.map((x) => {
+      const dv = delta[x.id];
+      return { label: x.label, value: stats[x.id] ?? x.start, count: x.kind === 'count', delta: dv, word: x.kind === 'count' ? undefined : statWord(x, stats[x.id] ?? x.start), dir: !started ? undefined : dv > 0 ? 'up' : dv < 0 ? 'down' : 'same' };
+    });
+    v.lastChoice = s.state.lastChoice ? String(s.state.lastChoice) : undefined;
+    v.choices = (Array.isArray(s.state.choices) ? (s.state.choices as { choice: string }[]) : []).map((ch, i) => ({ n: i + 1, label: ch.choice }));
+    v.story = storyLines(s.display.map((m) => m.text));
   }
   return v;
+}
+
+// The guide's latest "Your Colony" card holds story lines the game doesn't count (water, settlement…).
+// Pull those out for the side panel. Lines the game already tracks are skipped.
+const TRACKED = /colonist|people|^food$|health|powhatan|investor/i;
+function parseCard(text: string): { label: string; value: string; tag?: string }[] | null {
+  const paras = text.split(/\n{2,}/);
+  for (let i = paras.length - 1; i >= 0; i--) {
+    const lines = paras[i].split('\n');
+    if (!/your colony/i.test(lines[0].replace(/\*/g, ''))) continue;
+    const out: { label: string; value: string; tag?: string }[] = [];
+    for (const l of lines.slice(1)) {
+      const m = l.replace(/\*/g, '').match(/^\s*(.+?):\s*(.+?)\s*(?:\((better|worse|same)\))?\s*$/i);
+      if (!m) continue;
+      const bare = m[1].replace(/[^\p{L}\s]/gu, '').trim();
+      if (TRACKED.test(bare)) continue;
+      out.push({ label: m[1].trim(), value: m[2].trim(), tag: m[3]?.toLowerCase() });
+    }
+    return out.length ? out : null;
+  }
+  return null;
+}
+function storyLines(texts: string[]): SessionView['story'] {
+  const cards: { label: string; value: string; tag?: string }[][] = [];
+  for (const t of texts) {
+    const c = t ? parseCard(t) : null;
+    if (c) cards.push(c);
+  }
+  const last = cards.at(-1);
+  if (!last) return undefined;
+  const prev = cards.at(-2);
+  return last.map((l) => {
+    const before = prev?.find((p) => p.label === l.label);
+    const dir = l.tag === 'better' ? 'up' : l.tag === 'worse' ? 'down' : l.tag === 'same' ? 'same' : before && before.value === l.value ? 'same' : undefined;
+    return { label: l.label, value: l.value, dir };
+  });
 }

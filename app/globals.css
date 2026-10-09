@@ -147,3 +147,18 @@ textarea { resize: none; }
 }
 
 [data-msg] { scroll-margin-top: 16px; }
+
+/* ---------- Colony side panel ---------- */
+.colony-rows { display: flex; flex-direction: column; }
+.colony-row { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto 46px; align-items: center; gap: 6px; padding: 7px 0; border-bottom: 1px solid var(--rule); font-size: 16px; }
+.colony-row:last-child { border-bottom: none; }
+.c-ic { font-size: 18px; text-align: center; }
+.c-name { line-height: 1.25; }
+.c-val { font-weight: 800; text-align: right; line-height: 1.25; max-width: 130px; }
+.arrow { font-weight: 800; font-size: 17px; text-align: center; border-radius: 6px; padding: 1px 0; }
+.arrow.up { color: #1f6b3a; background: #e2f1e6; }
+.arrow.down { color: var(--rust); background: #f7e3de; }
+.arrow.same { color: var(--muted); background: var(--paper-2); }
+.colony-sep { font-size: 13px; font-weight: 700; color: var(--muted); border-bottom: 2px solid var(--ink); padding: 10px 0 4px; }
+.choice-log { margin: 0; padding-left: 24px; font-size: 16px; line-height: 1.4; }
+.choice-log li { padding: 3px 0; }

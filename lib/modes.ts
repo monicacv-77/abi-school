@@ -489,7 +489,9 @@ const statsLine = (d: SimulationData, stats: Record<string, number>) => d.stats.
 // Apply stat changes, then fire any threshold consequences (each fires once; knock-ons can chain).
 function applyStats(d: SimulationData, s: Session, effects: Record<string, number>): { changes: string[]; triggered: string[] } {
   const stats = (s.state.stats ?? {}) as Record<string, number>;
-  const delta: Record<string, number> = {};
+  // Arrows show everything that changed this turn (a choice plus any event it led to).
+  const delta: Record<string, number> = s.state.deltaFresh ? {} : { ...((s.state.lastDelta ?? {}) as Record<string, number>) };
+  s.state.deltaFresh = false;
   const changes: string[] = [];
   const triggered: string[] = [];
   const apply = (eff: Record<string, number>) => {
@@ -537,15 +539,18 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
 - When she picks, call make_choice with the base option id (or custom_choice for a new idea) and choice_label = her choice as shown.
 - EACH TURN after she chooses, in this order, as short paragraphs:
   1. "**You choose B: <short name>**" then the consequence in 3–5 vivid sentences, weaving in real history (people, places, events) where it fits.
-  2. A status card, exactly in this shape (one line each, plain words; use the tool's status words for food, health, relations and investors; describe water, food production and settlement from her story):
+  2. A status card, exactly in this shape (one line each, plain words). The first five lines use the tool's numbers and status words; the last four come from her story:
      **Your Colony**
-     ❤️ Colonists: 104 → 91
-     🍞 Food: Low
-     💧 Water: Poor
-     🌽 Food production: Started
-     🏠 Settlement: Fort built
-     🤝 Powhatan relations: Cautious trade
-     💰 Profit: None
+     👥 Colonists: 104 → 91
+     🌽 Food: Low
+     ❤️ Health: Fair
+     🤝 Powhatan relations: Tense
+     💰 Investors: Waiting
+     💧 Water: Poor (worse)
+     🌾 Food production: Started (better)
+     🏠 Settlement: Fort built (same)
+     🪙 Profit: None (same)
+     End each of the four story lines with (better), (worse) or (same) compared with the last card. Abi's side panel turns these into arrows.
   3. If a real event happens next, call advance_time and give it its own bold emoji heading (e.g. "**⛵ The First Supply Arrives**") and 2–4 sentences, then an updated status card if numbers changed.
   4. Then the next decision (present_decision).
 - TOOLS FIRST, THEN WRITE: on a turn where she chooses, call make_choice, then advance_time if an event is due, then present_decision for the next one, and only after all of those results are back, write the whole turn (steps 1–4) as ONE message. Never send just a fragment.
@@ -678,6 +683,7 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
       } else return { result: 'Give option_id or custom_choice.', isError: true };
       const { changes, triggered } = applyStats(d, s, effects);
       s.state.choices = [...arr(s.state.choices), { decision: dp.id, option: input.option_id ? String(input.option_id) : 'custom', choice: label }];
+      s.state.lastChoice = label;
       if (s.state.pendingDecision === dp.id) {
         s.state.pendingDecision = null;
         s.state.pendingOptions = null;

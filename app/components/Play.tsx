@@ -63,6 +63,56 @@ function Rich({ text }: { text: string }) {
   );
 }
 
+const ARROW = { up: '↑', down: '↓', same: '→' } as const;
+const ARROW_WORD = { up: 'up', down: 'down', same: 'no change' } as const;
+function Arrow({ dir, amount }: { dir?: 'up' | 'down' | 'same'; amount?: number }) {
+  if (!dir) return <span className="arrow" />;
+  return (
+    <span className={`arrow ${dir}`} aria-label={ARROW_WORD[dir]} title={ARROW_WORD[dir]}>
+      {ARROW[dir]}{amount && dir !== 'same' ? Math.abs(amount) : ''}
+    </span>
+  );
+}
+
+function ColonyPanel({ v }: { v: SessionView }) {
+  const split = (label: string) => {
+    const m = label.match(/^(\P{L}+)\s*(.*)$/u);
+    return m ? { icon: m[1].trim(), name: m[2] } : { icon: '', name: label };
+  };
+  return (
+    <section className="budget colony" aria-label="Your colony">
+      <div className="side-h">🧭 Your Colony</div>
+      {v.lastChoice ? <div className="muted" style={{ fontSize: 14, marginTop: -4, marginBottom: 6 }}>Arrows show the last turn: <strong>{v.lastChoice}</strong></div> : null}
+      <div className="colony-rows">
+        {v.stats!.map((st) => {
+          const { icon, name } = split(st.label);
+          const low = !st.count && st.value <= 3;
+          return (
+            <div key={st.label} className="colony-row">
+              <span className="c-ic" aria-hidden="true">{icon}</span>
+              <span className="c-name">{name}</span>
+              <span className="c-val" style={{ color: low ? 'var(--rust)' : undefined }}>{st.count ? st.value : st.word}</span>
+              <Arrow dir={st.dir} amount={st.count ? st.delta : undefined} />
+            </div>
+          );
+        })}
+        {v.story && v.story.length > 0 && <div className="colony-sep">From the story</div>}
+        {v.story?.map((st) => {
+          const { icon, name } = split(st.label);
+          return (
+            <div key={st.label} className="colony-row">
+              <span className="c-ic" aria-hidden="true">{icon}</span>
+              <span className="c-name">{name}</span>
+              <span className="c-val">{st.value}</span>
+              <Arrow dir={st.dir} />
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 type BudgetBox = NonNullable<SessionView['budgetBox']>;
 
 function BudgetPanel({ b }: { b: BudgetBox }) {
@@ -229,7 +279,7 @@ export default function Play({ initial }: { initial: SessionView }) {
   }
 
   const closed = view.status === 'closed';
-  const twoCol = view.mode === 'challenge' && Boolean(view.budgetBox);
+  const twoCol = (view.mode === 'challenge' && Boolean(view.budgetBox)) || (view.mode === 'simulation' && Boolean(view.stats));
 
   const heroEl = view.image && (
     <figure className={`hero${view.image.fit === 'contain' ? ' contain' : ''}`}>
@@ -269,8 +319,9 @@ export default function Play({ initial }: { initial: SessionView }) {
   );
 
   const sideEl = twoCol && view.opening && (
-    <aside className="play-side no-print" aria-label="Briefs and budget">
+    <aside className="play-side no-print" aria-label="Briefs and status">
       {view.budgetBox && <BudgetPanel b={view.budgetBox} />}
+      {view.mode === 'simulation' && view.stats && <ColonyPanel v={view} />}
       <section>
         <div className="side-h">📋 Briefs</div>
         <div className="stack" style={{ gap: 6 }}>
@@ -302,6 +353,14 @@ export default function Play({ initial }: { initial: SessionView }) {
           )}
         </div>
       </section>
+      {view.choices && view.choices.length > 0 && (
+        <section>
+          <div className="side-h">📜 Your choices</div>
+          <ol className="choice-log">
+            {view.choices.map((ch) => <li key={ch.n}>{ch.label}</li>)}
+          </ol>
+        </section>
+      )}
     </aside>
   );
 
@@ -397,7 +456,7 @@ export default function Play({ initial }: { initial: SessionView }) {
         </div>
       )}
 
-      {view.stats && (
+      {!twoCol && view.stats && (
         <div className="row" style={{ gap: 8, marginBottom: 14 }} aria-label="Colony status">
           {view.stats.map((s) => (
             <div key={s.label} className="panel" style={{ padding: '6px 10px', fontSize: 14 }}>
