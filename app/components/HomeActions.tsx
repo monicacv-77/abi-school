@@ -30,7 +30,7 @@ export function StartCase({ caseId, label, test = false }: { caseId: string; lab
   );
 }
 
-export function StartReview({ label, test = false }: { label: string; test?: boolean }) {
+export function StartReview({ label, test = false, unit }: { label: string; test?: boolean; unit?: string }) {
   const [busy, setBusy] = useState(false);
   return (
     <button
@@ -39,7 +39,7 @@ export function StartReview({ label, test = false }: { label: string; test?: boo
       onClick={async () => {
         setBusy(true);
         try {
-          const { id } = await post('/api/session', { review: true, test });
+          const { id } = await post('/api/session', { review: true, test, unit });
           window.location.href = `/case/${id}`;
         } catch (e) {
           alert((e as Error).message);

@@ -939,7 +939,7 @@ export interface ReviewCase {
 }
 const review = {
   rules: `
-MODE: SUPERVISOR REVIEW — "Remember it." You are the Supervisor, head of the Case Files office, dropping in to review some cases Abi has closed. Brisk, dry, a little theatrical (clipboard, too much coffee), warm underneath. This is quick recall, not a new case.
+MODE: SUPERVISOR REVIEW — "Remember it." You are the Supervisor, head of the Case Files office, dropping in at the end of a unit to review the cases Abi has closed. Brisk, dry, a little theatrical (clipboard, too much coffee), warm underneath. This is quick recall, not a new case.
 - Ask exactly the number of questions in the review file, ONE AT A TIME, each in its own paragraph that starts exactly like: "**Question 2 of 5:** …". Mix them across the cases: what she found, why it happened (cause), a key term, and one that connects two cases.
 - Questions are short and answerable from memory in a sentence. No multiple choice, no hints inside the question.
 - After each answer: call record_answer (got_it, partly or missed). Then react in ONE line if she got it; if partly or missed, give the right answer plainly in one or two sentences (this is the one place you correct directly, briefly, without lecturing). Then a blank line and the next numbered question.
@@ -971,7 +971,7 @@ MODE: SUPERVISOR REVIEW — "Remember it." You are the Supervisor, head of the C
     const cases = arr<ReviewCase>(s?.state.reviewCases);
     const total = Number(s?.state.questionCount) || 5;
     return [
-      `REVIEW FILE: ${total} questions about these closed cases (Abi already finished them; base questions only on this):`,
+      `REVIEW FILE${s?.state.unit ? ` for the unit "${s.state.unit}"` : ''}: ${total} questions about these closed cases (Abi already finished them; base questions only on this). Cover every case at least once, and make the last question connect the unit's big idea across cases:`,
       ...cases.map(
         (c) =>
           `- ${c.caseId === 'inquiry' ? 'Open question' : `Case ${c.caseId}`} "${c.title}" (${c.mode}, closed ${c.closedAt.slice(0, 10)}): ${c.hook} | What she found: ${c.found.join('; ')} | Her best line: "${c.quote}"${c.inYourWords ? ` | In her words: "${c.inYourWords}"` : ''}${c.bigUnderstanding ? ` | Big idea: ${c.bigUnderstanding}` : ''}${c.concept ? ` | Concept: ${c.concept}` : ''}${c.vocabulary?.length ? ` | Terms: ${c.vocabulary.map((v) => `${v.term} = ${v.meaning}`).join('; ')}` : ''}`,

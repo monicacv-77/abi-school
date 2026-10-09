@@ -57,9 +57,9 @@ export default async function Home() {
       {(activeReview || rev.due) && (
         <section className="panel" style={{ marginTop: 20, borderColor: 'var(--accent)', borderWidth: 2, background: 'var(--accent-soft)', ...modeVars('review') }}>
           <div className="stack" style={{ gap: 8 }}>
-            <div className="label" style={{ color: 'var(--accent-ink)' }}>📋 The Supervisor stopped by</div>
-            <p style={{ margin: 0 }}>{activeReview ? 'Your review is still open. The Supervisor is waiting, coffee in hand.' : `You've closed ${rev.since} cases since your last review. The Supervisor wants a quick word about them.`}</p>
-            <div>{activeReview ? <Link className="btn" href={`/case/${activeReview.id}`}>Back to the review</Link> : <StartReview label="Start the review" />}</div>
+            <div className="label" style={{ color: 'var(--accent-ink)' }}>📋 Unit review: the Supervisor stopped by</div>
+            <p style={{ margin: 0 }}>{activeReview ? 'Your review is still open. The Supervisor is waiting, coffee in hand.' : `You finished every case in ${rev.unit}! Before the next unit, the Supervisor wants to go over it with you.`}</p>
+            <div>{activeReview ? <Link className="btn" href={`/case/${activeReview.id}`}>Back to the review</Link> : <StartReview label="Start the unit review" unit={rev.unit} />}</div>
           </div>
         </section>
       )}

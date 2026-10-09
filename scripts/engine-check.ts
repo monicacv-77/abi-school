@@ -107,9 +107,10 @@ async function main() {
     expect('no close without In your words', await step(f, close({ in_your_words: '' })), 'In your words');
     expect('closes with In your words', await step(f, close()), 'Case closed');
     expect('summary keeps her words and standards', JSON.stringify({ w: f.summary.inYourWords, s: f.summary.standards?.[0]?.code }), 'MS-LS1-5');
-    const { startReview } = await import('../lib/sessions');
+    const { startReview, reviewStatus } = await import('../lib/sessions');
+    expect('unit review not due until the whole unit is done', JSON.stringify(await reviewStatus()), '"due":false');
     const r: any = await startReview(true);
-    expect('review picks closed cases', JSON.stringify(r.state.reviewCases.map((x: any) => x.caseId)), '"');
+    expect('review covers the unit', JSON.stringify({ t: r.title, c: r.state.reviewCases.map((x: any) => x.caseId) }), 'Unit review: Early Settlements');
     const n = r.state.questionCount;
     expect('review cannot finish early', await step(r, tu('finish_review', { verdict: 'x' })), 'Keep going');
     for (let i = 0; i < n; i++) await step(r, tu('record_answer', { case_id: r.state.reviewCases[0].caseId, question: 'q' + i, result: i ? 'got_it' : 'missed' }));

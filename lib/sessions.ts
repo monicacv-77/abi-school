@@ -102,24 +102,32 @@ export async function startInquiry(question: string, wonderId?: string, isTest =
   return s;
 }
 
-// ---- Supervisor review
-/** How many cases Abi has closed since her last review (test runs don't count). The Supervisor drops in at 2. */
+// ---- Supervisor review (once per unit, after every case in the unit is closed)
+const reviewTitle = (unit: string) => `Unit review: ${unit}`;
+const unitCases = (unit: string) => CASES.filter((c) => c.unit === unit && c.status === 'READY');
+
+/** The first unit Abi has fully finished but not yet reviewed (test runs don't count). */
 export async function reviewStatus() {
-  const sessions = (await listSessions()).filter((x) => !x.isTest && x.status === 'closed');
-  const lastReview = sessions.filter((x) => x.caseId === 'review').sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))[0];
-  const cases = sessions.filter((x) => x.caseId !== 'review');
-  const since = cases.filter((x) => !lastReview || x.updatedAt > lastReview.updatedAt).length;
-  return { due: cases.length >= 2 && since >= 2, closedCases: cases.length, since };
+  const sessions = await listSessions();
+  const closed = sessions.filter((x) => !x.isTest && x.status === 'closed');
+  const units = [...new Set(CASES.filter((c) => c.status === 'READY').map((c) => c.unit))];
+  for (const unit of units) {
+    const done = unitCases(unit).every((c) => closed.some((x) => x.caseId === c.id));
+    const reviewed = closed.some((x) => x.caseId === 'review' && x.title === reviewTitle(unit));
+    if (done && !reviewed) return { due: true, unit, count: unitCases(unit).length };
+  }
+  return { due: false as const, unit: undefined, count: 0 };
 }
 
-export async function startReview(isTest = false): Promise<Session> {
+export async function startReview(isTest = false, unitArg?: string): Promise<Session> {
   const all = await listSessions();
-  const pool = all.filter((x) => x.status === 'closed' && x.caseId !== 'review' && (isTest || !x.isTest));
-  // When was each case last reviewed? Least-recently reviewed (then oldest) come first.
-  const reviews = (await Promise.all(all.filter((x) => x.caseId === 'review' && x.status === 'closed').map((x) => getSession(x.id)))).filter(Boolean) as Session[];
-  const lastSeen = new Map<string, string>();
-  for (const r of reviews) for (const rc of (r.state.reviewCases as ReviewCase[]) ?? []) if ((lastSeen.get(rc.sessionId) ?? '') < r.updatedAt) lastSeen.set(rc.sessionId, r.updatedAt);
-  const picked = pool.sort((a, b) => (lastSeen.get(a.id) ?? '').localeCompare(lastSeen.get(b.id) ?? '') || a.updatedAt.localeCompare(b.updatedAt)).slice(0, 3);
+  const closed = all.filter((x) => x.status === 'closed' && x.caseId !== 'review' && (isTest || !x.isTest)).sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+  // Which unit? The one asked for, or (for a parent test) the unit of the most recently closed case.
+  const recent = closed.find((x) => CASES.some((k) => k.id === x.caseId));
+  const unit = unitArg ?? (recent ? getCase(recent.caseId)?.unit : undefined);
+  const picked = unit
+    ? unitCases(unit).map((c) => closed.find((x) => x.caseId === c.id)).filter((x): x is NonNullable<typeof x> => Boolean(x))
+    : closed.slice(0, 5);
   if (!picked.length) throw new Error('No closed cases to review yet.');
   const reviewCases: ReviewCase[] = [];
   for (const p of picked) {
@@ -148,14 +156,14 @@ export async function startReview(isTest = false): Promise<Session> {
     caseId: 'review',
     caseVersion: 1,
     mode: 'review',
-    title: `Supervisor review: ${reviewCases.map((r) => r.title).join(', ')}`,
+    title: unit ? reviewTitle(unit) : `Supervisor review: ${reviewCases.map((r) => r.title).join(', ')}`,
     status: 'active',
     startedAt: now,
     updatedAt: now,
     stage: FIRST_STAGE.review,
     api: [],
     display: [],
-    state: { answers: [], reviewCases, questionCount: reviewCases.length === 1 ? 3 : reviewCases.length === 2 ? 4 : 5 },
+    state: { answers: [], reviewCases, unit, questionCount: Math.min(6, Math.max(3, reviewCases.length + 1)) },
     isTest,
   };
   await saveSession(s);

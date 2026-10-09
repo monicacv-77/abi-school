@@ -18,12 +18,12 @@ export async function POST(req: Request) {
 }
 
 async function start(req: Request) {
-  const body = (await req.json().catch(() => ({}))) as { caseId?: string; question?: string; wonderId?: string; test?: boolean; review?: boolean };
+  const body = (await req.json().catch(() => ({}))) as { caseId?: string; question?: string; wonderId?: string; test?: boolean; review?: boolean; unit?: string };
   const isParent = (await cookies()).get(PARENT_COOKIE)?.value === (await parentToken());
   const isTest = Boolean(body.test && isParent);
 
   if (body.review) {
-    const s = await startReview(isTest);
+    const s = await startReview(isTest, body.unit);
     await startReviewTurn(s);
     return NextResponse.json({ id: s.id });
   }

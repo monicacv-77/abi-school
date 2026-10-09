@@ -50,7 +50,7 @@ export default async function Parent() {
       </div>
 
       <div className="panel row" style={{ marginTop: 16, gap: 12 }}>
-        <span>📋 <strong>Supervisor review:</strong> quick recall questions on closed cases. It shows up for Abi after every 2 closed cases.</span>
+        <span>📋 <strong>Supervisor review:</strong> recall questions on a whole unit. It shows up for Abi once she has closed every case in a unit. The test uses the unit of your most recent closed case.</span>
         <StartReview label="Test a review" test />
       </div>
 
