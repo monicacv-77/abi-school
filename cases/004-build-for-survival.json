@@ -7,7 +7,7 @@
   "location": "Early colonial Virginia (Tidewater)",
   "realOrConstructed": "Constructed challenge in a historically grounded setting",
   "status": "READY",
-  "version": 9,
+  "version": 10,
   "bigUnderstanding": "Shelter is an engineering tradeoff: speed, weather protection, stability, fire safety, labor, scarce imported materials, and repairability. There is no single right design. Early Jamestown builders used local wood and clay (mud-and-stud, daub, thatch) because it was fast and local, but it needed constant maintenance in Virginia weather.",
   "winCondition": "Design shelter for about 105 people, including 15 families with children, that is fast, dry, stable, safe and buildable with what you have. Then survive the tests and fix whatever breaks.",
   "opening": {
@@ -15,7 +15,7 @@
     "cards": [
       {
         "label": "Your targets",
-        "text": "FAST · DRY · STABLE · SAFE (fire!) · BUILDABLE · REPAIRABLE. Shelter for about 105 people, including 25 children. About 30 builders at a time, and only 6 kegs of nails. Then it gets tested.",
+        "text": "FAST · DRY · STABLE · SAFE (fire!) · BUILDABLE · REPAIRABLE. Homes for about 105 people (25 are children), plus a way to cook, latrines, storage and water. 30 builders, 6 kegs of nails.",
         "icon": "🎯",
         "kind": "brief"
       },
@@ -199,6 +199,10 @@
       {
         "name": "Layout",
         "examples": "how many buildings, how big, and where"
+      },
+      {
+        "name": "Other buildings",
+        "examples": "cooking, latrines, storage, water"
       }
     ],
     "toolbox": [
@@ -303,6 +307,24 @@
         "cost": 1,
         "capacity": 4,
         "provides": "Up in an hour. Leaks, blows apart in storms."
+      },
+      {
+        "id": "well",
+        "name": "Dug well",
+        "cost": 25,
+        "provides": "A well dug inside the settlement and lined with timber."
+      },
+      {
+        "id": "latrine",
+        "name": "Pit latrine",
+        "cost": 3,
+        "provides": "A dug pit with a simple screen around it. One serves about 20 people."
+      },
+      {
+        "id": "hearth",
+        "name": "Open hearth (fire pit)",
+        "cost": 1,
+        "provides": "A ring of stones for a cooking and heating fire, inside or beside a building."
       },
       {
         "id": "storehouse",
@@ -468,7 +490,50 @@
         "passesIf": "Passes if repairs can be done locally with what they have (clay, reeds, timber), without waiting for England. Designs that depend on nails, boards or canvas struggle."
       }
     ],
-    "designFor": "About 105 people: about 50 single men plus 15 families (15 couples and 25 children, from babies to 14-year-olds)."
+    "designFor": "About 105 people: about 50 single men plus 15 families (15 couples and 25 children, from babies to 14-year-olds).",
+    "needs": [
+      {
+        "icon": "🛏️",
+        "label": "Homes for all 105 people",
+        "anyOf": [
+          "frame_pegged",
+          "frame_nailed",
+          "yehakin_section",
+          "lean_to"
+        ],
+        "fullCapacity": true
+      },
+      {
+        "icon": "🍲",
+        "label": "A way to cook",
+        "anyOf": [
+          "hearth",
+          "clay_chimney",
+          "cookhouse"
+        ]
+      },
+      {
+        "icon": "🚻",
+        "label": "Latrines (bathrooms)",
+        "anyOf": [
+          "latrine"
+        ]
+      },
+      {
+        "icon": "📦",
+        "label": "Storage for food, tools and gunpowder",
+        "anyOf": [
+          "storehouse"
+        ]
+      },
+      {
+        "icon": "💧",
+        "label": "Drinking water",
+        "anyOf": [
+          "well"
+        ]
+      }
+    ]
   },
   "image": {
     "src": "https://upload.wikimedia.org/wikipedia/commons/2/23/Jamestown_VA_houses.JPG",

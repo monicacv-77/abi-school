@@ -234,6 +234,7 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
         const { u, fmtCost, capLabel, minCap } = unitsOf(d);
         return `Budget: ${fmtCost(d.budget)}.${u?.scarce ? ` Scarce: ${u.scarce.limit} ${u.scarce.label} total.` : ''}${minCap ? ` Minimum target: ${minCap.toLocaleString()} ${capLabel}.` : ''}${u?.workers ? ` About ${u.workers} workers available, so ${u.workers} ${u.cost} ≈ 1 day of building.` : ''}`;
       })(),
+      d.needs?.length ? `EVERYTHING THE DESIGN MUST INCLUDE (Abi sees this checklist under her budget; it ticks off as her plan covers each one; a design missing any is not finished): ${d.needs.map((n) => `${n.label} (any of: ${n.anyOf.join(', ')})`).join('; ')}. Don't tell her which item fills a need; when she proposes a way, price it.` : '',
       d.capacityRule ? `WHAT COUNTS TOWARD THE TARGET: ${d.capacityRule}` : '',
       d.designFor ? `WHO IT'S FOR (Abi knows this; every design and test must account for these people): ${d.designFor}` : '',
       `Success targets:\n${d.targets.map((t) => `- ${t.label}: ${t.check}`).join('\n')}`,
@@ -345,13 +346,15 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
         lines.push(`custom: ${ci.name} = ${fmtCost(ci.cost)}${cap ? `, ${cap} ${counts ? capLabel : `${capLabel.replace(/^.*?(L\/day).*$/, '$1')} that does NOT count (${d.capacityRule ?? "doesn't meet the target"})`}` : ''}`);
       }
       scarce = +scarce.toFixed(2);
+      const have = new Set([...chosen.keys(), ...covers]);
+      for (const n of d.needs ?? []) if (!n.anyOf.some((id) => have.has(id))) missing.push(`nothing for "${n.label}" yet`);
       const overBudget = cost > d.budget;
       const overScarce = u?.scarce ? scarce > u.scarce.limit : false;
       const underTarget = minCap ? capacity < minCap : false;
       const valid = !overBudget && !overScarce && !underTarget && missing.length === 0;
       const days = u?.workers ? Math.ceil(cost / u.workers) : 0;
       const line = [fmtCost(cost), u?.scarce ? `${scarce} ${u.scarce.label}` : '', `${capacity.toLocaleString()} ${capLabel}`, days ? `~${days} days to build` : ''].filter(Boolean).join(' · ');
-      const customs = arr<{ name: string; cost: number; capacity?: number; liters_per_day?: number; scarce?: number }>(input.custom_items).map((ci) => ({ name: ci.name, cost: ci.cost, scarce: ci.scarce ?? 0 }));
+      const customs = arr<{ name: string; cost: number; capacity?: number; liters_per_day?: number; scarce?: number; counts_as?: string[] }>(input.custom_items).map((ci) => ({ name: ci.name, cost: ci.cost, scarce: ci.scarce ?? 0, counts_as: arr<string>(ci.counts_as) }));
       s.state.plan = [...chosen].map(([id, qty]) => ({ id, qty }));
       s.state.planCustom = customs;
       const key = planKey(s.state.plan as { id: string; qty: number }[], customs);

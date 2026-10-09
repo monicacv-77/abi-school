@@ -77,6 +77,7 @@ function checkCase(file: string) {
       for (const l of t.limitedBy ?? []) if (!ids.has(l)) bad.push(`toolbox "${t.id}" limitedBy unknown id "${l}"`);
     }
     hint(d.stressTests.some((t) => t.checks?.length), 'no stress test lists required pieces (checks): add them so a design missing something essential fails for sure');
+    for (const n of d.needs ?? []) for (const id of n.anyOf) if (!ids.has(id)) bad.push(`need "${n.label}" refers to unknown id "${id}"`);
     for (const t of d.stressTests) for (const ch of t.checks ?? []) for (const id of ch.anyOf) if (!ids.has(id)) bad.push(`stress test "${t.id}" check refers to unknown id "${id}"`);
     hint(d.capacityRule || !d.toolbox.some((t) => /untreated|not safe|raw/i.test(t.provides)), 'some items make raw/untreated output: add a capacityRule saying what counts toward the target');
     for (const m of d.measurements) if (LEADING.test(m.result)) warn.push(`measurement "${m.id}" result sounds like commentary: state the facts only`);

@@ -96,6 +96,7 @@ export interface ChallengeData {
   minCapacity?: number; // generic target; water case uses minLitersPerDay
   designFor?: string; // exactly who the design serves (how many people, ages, families, needs)
   capacityRule?: string; // what counts toward the target, e.g. only SAFE water counts
+  needs?: { icon: string; label: string; anyOf: string[]; fullCapacity?: boolean }[]; // fullCapacity: only ticks when these items' capacity reaches the target // everything the design must include (shown as a checklist under the budget); a design missing one isn't finished
   targets: { id: string; label: string; check: string }[];
   minLitersPerDay?: number;
   buildingBlocks: { name: string; examples: string }[]; // what Abi sees: categories, no prices

@@ -32,6 +32,7 @@ export interface SessionView {
     days?: number;
     workers?: number;
     designed: boolean; // the list matches her last submitted design
+    needs?: { icon: string; label: string; ok: boolean }[];
     ready?: boolean;
   };
   decision?: { when: string; number: number; title: string; options: { letter: string; label: string; detail?: string }[] };
@@ -100,6 +101,18 @@ export function toView(s: Session): SessionView {
       capacity: designed && des ? { value: des.capacity ?? 0, target: des.target ?? 0, label: d.units?.capacity ?? 'L/day of safe water' } : undefined,
       days: designed && des?.days ? des.days : undefined,
       ready: designed ? Boolean(des?.valid) : undefined,
+      needs: d.needs?.map((n) => {
+        const have = new Set([...plan.map((p) => p.id), ...custom.flatMap((c) => (c as { counts_as?: string[] }).counts_as ?? [])]);
+        if (n.fullCapacity) {
+          const cap = plan.reduce((sum, p) => {
+            const t = d.toolbox.find((x) => x.id === p.id);
+            return n.anyOf.includes(p.id) && t ? sum + (t.capacity ?? t.capacityLitersPerDay ?? 0) * Math.min(p.qty, t.max ?? p.qty) : sum;
+          }, 0);
+          const target = d.minCapacity ?? d.minLitersPerDay ?? 0;
+          return { icon: n.icon, label: `${n.label}${cap ? ` (${cap.toLocaleString('en-US')} so far)` : ''}`, ok: cap >= target && cap > 0 };
+        }
+        return { icon: n.icon, label: n.label, ok: n.anyOf.some((id) => have.has(id)) };
+      }),
     };
     if (plan.length) {
       const cost = plan.reduce((sum, p) => sum + (d.toolbox.find((t) => t.id === p.id)?.cost ?? 0) * p.qty, 0);

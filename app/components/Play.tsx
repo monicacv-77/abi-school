@@ -139,6 +139,19 @@ function BudgetPanel({ b }: { b: BudgetBox }) {
       </div>
       <div className="meter" aria-hidden="true"><span style={{ width: `${pct}%`, background: over ? 'var(--rust)' : 'var(--accent)' }} /></div>
       <div className="muted" style={{ fontSize: 15 }}>{money(b.spent)} of {money(b.budget)} {b.unit ? unitWord : ''} used</div>
+      {b.needs && b.needs.length > 0 && (
+        <>
+          <div className="colony-sep">✅ What your settlement needs</div>
+          <ul className="needs">
+            {b.needs.map((n) => (
+              <li key={n.label} className={n.ok ? 'ok' : ''}>
+                <span className="need-mark" aria-label={n.ok ? 'covered' : 'not yet'}>{n.ok ? '✔' : '○'}</span>
+                <span aria-hidden="true">{n.icon}</span> {n.label}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
 
       {b.items.length ? (
         <table className="budget-table">

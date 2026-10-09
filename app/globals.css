@@ -173,3 +173,8 @@ textarea { resize: none; }
 .key-points { margin: 0; padding-left: 24px; font-size: 17px; line-height: 1.4; }
 .key-points li { padding: 5px 0; border-bottom: 1px solid var(--rule); }
 .key-points li:last-child { border-bottom: none; }
+.needs { list-style: none; margin: 6px 0 4px; padding: 0; font-size: 16px; }
+.needs li { display: flex; align-items: center; gap: 6px; padding: 5px 0; color: var(--ink-2); }
+.need-mark { width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; border: 2px solid var(--rule); color: var(--muted); flex: 0 0 auto; }
+.needs li.ok { color: var(--ink); }
+.needs li.ok .need-mark { background: #e2f1e6; border-color: #1f6b3a; color: #1f6b3a; }

@@ -62,6 +62,16 @@ async function main() {
   expect('challenge: test reports the missing piece', await (async () => { await step(ch4, tu('run_stress_test', { test_id: 'recontamination' })); const m = [...ch4.api].reverse().find((x: any) => x.role === 'user' && Array.isArray(x.content)) as any; return String(m.content[0].content); })(), '✘ Water stays safe at home');
   expect('challenge: cannot pass a test with a missing piece', await step(ch4, tu('judge_test', { test_id: 'recontamination', passed: true })), "Can't pass");
 
+  // --- Challenge: settlement needs checklist
+  {
+    const sh: any = await startCaseSession('004', true);
+    const r = await step(sh, tu('submit_design', { description: 'homes only', items: [{ id: 'frame_pegged', qty: 21 }, { id: 'wall_daub', qty: 21 }, { id: 'roof_thatch', qty: 21 }] }));
+    const res = [...sh.api].reverse().find((x: any) => x.role === 'user' && Array.isArray(x.content)) as any;
+    expect('needs: homes-only design is not finished', String(res.content[0].content), 'nothing for "Latrines (bathrooms)" yet');
+    expect('needs: checklist ticks homes', JSON.stringify((await import('../lib/view')).toView(sh).budgetBox?.needs?.slice(0, 2)), '"label":"Homes for all 105 people (105 so far)","ok":true},{"icon":"🍲","label":"A way to cook","ok":false');
+    void r;
+  }
+
   // --- Challenge: perfect design must run all tests
   const ch2: any = await startCaseSession('001', true);
   await step(ch2, design(1));
