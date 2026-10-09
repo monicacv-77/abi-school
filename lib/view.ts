@@ -1,6 +1,6 @@
 // What the browser is allowed to see about a session (never the raw model conversation or hidden data).
 import { caseFor } from './cases';
-import { planKey, statWord } from './modes';
+import { needCoverage, planKey, statWord } from './modes';
 import type { ChallengeData, InvestigationData, Session, SimulationData } from './types';
 
 export interface SessionView {
@@ -102,16 +102,9 @@ export function toView(s: Session): SessionView {
       days: designed && des?.days ? des.days : undefined,
       ready: designed ? Boolean(des?.valid) : undefined,
       needs: d.needs?.map((n) => {
-        const have = new Set([...plan.map((p) => p.id), ...custom.flatMap((c) => (c as { counts_as?: string[] }).counts_as ?? [])]);
-        if (n.fullCapacity) {
-          const cap = plan.reduce((sum, p) => {
-            const t = d.toolbox.find((x) => x.id === p.id);
-            return n.anyOf.includes(p.id) && t ? sum + (t.capacity ?? t.capacityLitersPerDay ?? 0) * Math.min(p.qty, t.max ?? p.qty) : sum;
-          }, 0);
-          const target = d.minCapacity ?? d.minLitersPerDay ?? 0;
-          return { icon: n.icon, label: `${n.label}${cap ? ` (${cap.toLocaleString('en-US')} so far)` : ''}`, ok: cap >= target && cap > 0 };
-        }
-        return { icon: n.icon, label: n.label, ok: n.anyOf.some((id) => have.has(id)) };
+        const covered = new Set(custom.flatMap((c) => (c as { counts_as?: string[] }).counts_as ?? []));
+        const cov = needCoverage(d, n, (id) => plan.find((p) => p.id === id)?.qty ?? (covered.has(id) ? 1 : 0));
+        return { icon: n.icon, label: n.perUnit && cov.served ? `${n.label} (${cov.served.toLocaleString('en-US')} of ${cov.target.toLocaleString('en-US')})` : n.label, ok: cov.ok };
       }),
     };
     if (plan.length) {

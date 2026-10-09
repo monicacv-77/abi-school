@@ -7,7 +7,7 @@
   "location": "Early colonial Virginia (Tidewater)",
   "realOrConstructed": "Constructed challenge in a historically grounded setting",
   "status": "READY",
-  "version": 10,
+  "version": 11,
   "bigUnderstanding": "Shelter is an engineering tradeoff: speed, weather protection, stability, fire safety, labor, scarce imported materials, and repairability. There is no single right design. Early Jamestown builders used local wood and clay (mud-and-stud, daub, thatch) because it was fast and local, but it needed constant maintenance in Virginia weather.",
   "winCondition": "Design shelter for about 105 people, including 15 families with children, that is fast, dry, stable, safe and buildable with what you have. Then survive the tests and fix whatever breaks.",
   "opening": {
@@ -312,25 +312,25 @@
         "id": "well",
         "name": "Dug well",
         "cost": 25,
-        "provides": "A well dug inside the settlement and lined with timber."
+        "provides": "A well dug inside the settlement and lined with timber. Enough water for about 150 people."
       },
       {
         "id": "latrine",
         "name": "Pit latrine",
         "cost": 3,
-        "provides": "A dug pit with a simple screen around it. One serves about 20 people."
+        "provides": "A dug pit with a simple screen around it. Serves about 20 people."
       },
       {
         "id": "hearth",
         "name": "Open hearth (fire pit)",
         "cost": 1,
-        "provides": "A ring of stones for a cooking and heating fire, inside or beside a building."
+        "provides": "A ring of stones for a cooking and heating fire, inside or beside a building. Cooks for one family (about 4 people)."
       },
       {
         "id": "storehouse",
         "name": "Storehouse section for food and tools",
         "cost": 16,
-        "provides": "A frame, walls and roof section for supplies (sleeps no one)."
+        "provides": "A frame, walls and roof section for supplies (sleeps no one). Holds food, tools and powder for about 60 people."
       },
       {
         "id": "raised_floor",
@@ -365,14 +365,14 @@
         "name": "Clay-lined chimney or fire hood, one building",
         "cost": 5,
         "hidden": true,
-        "provides": "A clay-lined chimney over a hearth."
+        "provides": "A clay-lined chimney over a hearth. Cooks for one family (about 4 people)."
       },
       {
         "id": "cookhouse",
         "name": "Separate outdoor cookhouse",
         "cost": 12,
         "hidden": true,
-        "provides": "A small separate building for cooking."
+        "provides": "A small separate building with a big hearth. Cooks for about 35 people."
       },
       {
         "id": "firebreak",
@@ -494,44 +494,63 @@
     "needs": [
       {
         "icon": "🛏️",
-        "label": "Homes for all 105 people",
+        "label": "Homes for everyone",
         "anyOf": [
           "frame_pegged",
           "frame_nailed",
           "yehakin_section",
           "lean_to"
         ],
-        "fullCapacity": true
+        "perUnit": {
+          "frame_pegged": 5,
+          "frame_nailed": 5,
+          "yehakin_section": 5,
+          "lean_to": 4
+        }
       },
       {
         "icon": "🍲",
-        "label": "A way to cook",
+        "label": "Cooking for everyone",
         "anyOf": [
           "hearth",
           "clay_chimney",
           "cookhouse"
-        ]
+        ],
+        "perUnit": {
+          "hearth": 4,
+          "clay_chimney": 4,
+          "cookhouse": 35
+        }
       },
       {
         "icon": "🚻",
         "label": "Latrines (bathrooms)",
         "anyOf": [
           "latrine"
-        ]
+        ],
+        "perUnit": {
+          "latrine": 20
+        }
       },
       {
         "icon": "📦",
         "label": "Storage for food, tools and gunpowder",
         "anyOf": [
           "storehouse"
-        ]
+        ],
+        "perUnit": {
+          "storehouse": 60
+        }
       },
       {
         "icon": "💧",
         "label": "Drinking water",
         "anyOf": [
           "well"
-        ]
+        ],
+        "perUnit": {
+          "well": 150
+        }
       }
     ]
   },

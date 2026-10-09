@@ -107,6 +107,19 @@ export function planKey(plan: { id: string; qty: number }[], custom: { name: str
   return [...plan.map((p) => `${p.id}:${p.qty}`).sort(), ...custom.map((c) => `custom:${c.name}:${c.cost}`).sort()].join('|');
 }
 
+/** How far a plan covers one need: counted needs (perUnit) must reach the target; others just need one item. */
+export function needCoverage(d: ChallengeData, n: NonNullable<ChallengeData['needs']>[number], qtyOf: (id: string) => number) {
+  const target = d.minCapacity ?? d.minLitersPerDay ?? 0;
+  if (n.perUnit) {
+    const served = Object.entries(n.perUnit).reduce((sum, [id, per]) => {
+      const t = d.toolbox.find((x) => x.id === id);
+      return sum + per * Math.min(qtyOf(id), t?.max ?? Infinity);
+    }, 0);
+    return { ok: served >= target && served > 0, served, target };
+  }
+  return { ok: n.anyOf.some((id) => qtyOf(id) > 0), served: 0, target: 0 };
+}
+
 /** Required pieces a stress test looks for in the current design. */
 function testChecks(t: ChallengeData['stressTests'][number], s: Session, d: ChallengeData) {
   const ids = arr<string>((s.state.design as { ids?: string[] } | null)?.ids);
@@ -234,7 +247,7 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
         const { u, fmtCost, capLabel, minCap } = unitsOf(d);
         return `Budget: ${fmtCost(d.budget)}.${u?.scarce ? ` Scarce: ${u.scarce.limit} ${u.scarce.label} total.` : ''}${minCap ? ` Minimum target: ${minCap.toLocaleString()} ${capLabel}.` : ''}${u?.workers ? ` About ${u.workers} workers available, so ${u.workers} ${u.cost} ≈ 1 day of building.` : ''}`;
       })(),
-      d.needs?.length ? `EVERYTHING THE DESIGN MUST INCLUDE (Abi sees this checklist under her budget; it ticks off as her plan covers each one; a design missing any is not finished): ${d.needs.map((n) => `${n.label} (any of: ${n.anyOf.join(', ')})`).join('; ')}. Don't tell her which item fills a need; when she proposes a way, price it.` : '',
+      d.needs?.length ? `EVERYTHING THE DESIGN MUST INCLUDE (Abi sees this checklist under her budget; it ticks off as her plan covers each one; a design missing any is not finished): ${d.needs.map((n) => (n.perUnit ? `${n.label} (must serve all ${d.minCapacity ?? ''}; people per unit: ${Object.entries(n.perUnit).map(([id, per]) => `${id} ${per}`).join(', ')})` : `${n.label} (any of: ${n.anyOf.join(', ')})`)).join('; ')}. Don't tell her which item fills a need; when she proposes a way, price it.` : '',
       d.capacityRule ? `WHAT COUNTS TOWARD THE TARGET: ${d.capacityRule}` : '',
       d.designFor ? `WHO IT'S FOR (Abi knows this; every design and test must account for these people): ${d.designFor}` : '',
       `Success targets:\n${d.targets.map((t) => `- ${t.label}: ${t.check}`).join('\n')}`,
@@ -347,7 +360,10 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
       }
       scarce = +scarce.toFixed(2);
       const have = new Set([...chosen.keys(), ...covers]);
-      for (const n of d.needs ?? []) if (!n.anyOf.some((id) => have.has(id))) missing.push(`nothing for "${n.label}" yet`);
+      for (const n of d.needs ?? []) {
+        const cov = needCoverage(d, n, (id) => chosen.get(id) ?? (have.has(id) ? 1 : 0));
+        if (!cov.ok) missing.push(cov.served ? `"${n.label}" covers only ${cov.served} of ${cov.target} people` : `nothing for "${n.label}" yet`);
+      }
       const overBudget = cost > d.budget;
       const overScarce = u?.scarce ? scarce > u.scarce.limit : false;
       const underTarget = minCap ? capacity < minCap : false;

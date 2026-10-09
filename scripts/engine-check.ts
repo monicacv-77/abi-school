@@ -68,7 +68,11 @@ async function main() {
     const r = await step(sh, tu('submit_design', { description: 'homes only', items: [{ id: 'frame_pegged', qty: 21 }, { id: 'wall_daub', qty: 21 }, { id: 'roof_thatch', qty: 21 }] }));
     const res = [...sh.api].reverse().find((x: any) => x.role === 'user' && Array.isArray(x.content)) as any;
     expect('needs: homes-only design is not finished', String(res.content[0].content), 'nothing for "Latrines (bathrooms)" yet');
-    expect('needs: checklist ticks homes', JSON.stringify((await import('../lib/view')).toView(sh).budgetBox?.needs?.slice(0, 2)), '"label":"Homes for all 105 people (105 so far)","ok":true},{"icon":"🍲","label":"A way to cook","ok":false');
+    expect('needs: checklist ticks homes', JSON.stringify((await import('../lib/view')).toView(sh).budgetBox?.needs?.slice(0, 2)), '"label":"Homes for everyone (105 of 105)","ok":true},{"icon":"🍲","label":"Cooking for everyone","ok":false');
+    await step(sh, tu('update_plan', { plan: [{ id: 'frame_pegged', qty: 21 }, { id: 'wall_daub', qty: 21 }, { id: 'roof_thatch', qty: 21 }, { id: 'hearth', qty: 15 }] }));
+    expect('needs: family hearths alone do not feed the bunkhouse', JSON.stringify((await import('../lib/view')).toView(sh).budgetBox?.needs?.[1]), '"label":"Cooking for everyone (60 of 105)","ok":false');
+    await step(sh, tu('update_plan', { plan: [{ id: 'frame_pegged', qty: 21 }, { id: 'wall_daub', qty: 21 }, { id: 'roof_thatch', qty: 21 }, { id: 'hearth', qty: 15 }, { id: 'cookhouse', qty: 2 }] }));
+    expect('needs: plus two cookhouses feeds everyone', JSON.stringify((await import('../lib/view')).toView(sh).budgetBox?.needs?.[1]), '"ok":true');
     void r;
   }
 

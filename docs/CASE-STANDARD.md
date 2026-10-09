@@ -39,7 +39,7 @@ What every new case needs, learned from building and testing Unit 1. Use it when
 ## Challenge — "Make it work"
 
 - **Who it's for (`designFor`).** Exactly who the design serves: how many people, ages, families, special needs. Families and children change what gets built.
-- **Everything it must include (`needs`).** The full list of what a working design needs, not just the main thing (e.g. homes, a way to cook, latrines, storage, water). It shows as a checklist under the Budget that ticks off as her plan covers each one, and a design missing one isn't finished.
+- **Everything it must include (`needs`).** The full list of what a working design needs, not just the main thing (e.g. homes, a way to cook, latrines, storage, water). Give each item that fills a need a "serves about N people" number (`perUnit`, and in its description) so a need ticks only when it covers everyone; e.g. a family hearth cooks for 4, a cookhouse for 35. It shows as a checklist under the Budget, and a design missing one isn't finished.
 - **One budget unit** (dollars or worker-days) and any scarce resource with a hard limit (e.g. kegs of nails).
 - **Building blocks.** 3–6 categories Abi sees, no prices.
 - **Toolbox.** Priced items for the guide, plus a few hidden ones for good ideas she might invent. Describe each item neutrally: what it is, its size or capacity, its upkeep. Never what it protects against or why it's smart ("keeps sparks off the thatch"); that's what the tests reveal.
