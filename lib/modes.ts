@@ -975,7 +975,7 @@ MODE: SUPERVISOR REVIEW — "Remember the big ideas." You are the Supervisor, he
     const unit = getUnit(String(s?.state.unit ?? ''));
     return [
       `UNIT REVIEW${unit ? `: ${unit.title}` : ''}. ${total} questions.`,
-      unit ? `THE UNIT'S BIG IDEAS (ask about these, one per question, each connecting the cases listed):\n${unit.bigIdeas.map((b, i) => `${i + 1}. ${b.idea} (cases ${b.cases.join(', ')})`).join('\n')}` : '',
+      unit ? `THE UNIT'S BIG IDEAS (ask about these, one per question, each connecting the cases listed):\n${unit.bigIdeas.map((b, i) => `${i + 1}. ${b.idea} (cases ${b.cases.join(', ')})${unit.thin?.includes(i + 1) ? ' [ONLY LIGHTLY COVERED SO FAR: if you ask about it, keep it to what her cases showed, and count a reasonable try as got_it]' : ''}`).join('\n')}` : '',
       `THE CASES IN THIS UNIT (for examples and context; don't quiz details). Where Abi's own work is shown, use her words in your examples:`,
       ...cases.map(
         (c) =>
