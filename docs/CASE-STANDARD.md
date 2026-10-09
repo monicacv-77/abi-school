@@ -12,7 +12,7 @@ What every new case needs, learned from building and testing Unit 1. Use it when
 - **Pictures.** Evidence and measurement images show in the chat when revealed.
 - **Wrap-up.** The guide says up front how many key questions there are, then shows each as its own "Question 2 of 4" card, one at a time, with no follow-ups. The case closes after the last answer. Keep exploring questions and the Case Summary follow.
 - **Layout.** Every mode uses two columns. On the left: a live panel (Budget, Colony, Theory board with evidence found, or Key points for Open Questions) and the briefs. On the right: the story and chat.
-- **Challenge.** Building blocks with no prices; specs only when she asks. The live Budget panel. Fair tests that follow physics, run straight through: a pass moves on to the next test, a failure means a redesign and a retest, and testing ends only when every test passes.
+- **Challenge.** Abi designs; the guide only prices what she names, never picks materials or sizes for her or does her sizing math. Building blocks with no prices; specs only when she asks. The live Budget panel. Fair tests that follow physics, run straight through: a pass moves on to the next test, a failure means a redesign and a retest, and testing ends only when every test passes.
 - **Simulation.** A–D decision buttons with tradeoffs. A short "What changed" list after each choice. The Colony panel with ↑ ↓ → arrows. Real events on schedule. The built-in debrief: final outcome, yours vs. the real one, biggest difference, then the wrap-up questions.
 
 ## Every case
@@ -41,7 +41,7 @@ What every new case needs, learned from building and testing Unit 1. Use it when
 - **Who it's for (`designFor`).** Exactly who the design serves: how many people, ages, families, special needs. Families and children change what gets built.
 - **One budget unit** (dollars or worker-days) and any scarce resource with a hard limit (e.g. kegs of nails).
 - **Building blocks.** 3–6 categories Abi sees, no prices.
-- **Toolbox.** Priced items for the guide, plus a few hidden ones for good ideas she might invent.
+- **Toolbox.** Priced items for the guide, plus a few hidden ones for good ideas she might invent. Describe each item neutrally: what it is, its size or capacity, its upkeep. Never what it protects against or why it's smart ("keeps sparks off the thatch"); that's what the tests reveal.
 - **3+ measurements** she has to ask for.
 - **3–5 stress tests,** each with a clear pass rule, plus **required pieces** (`checks`) where a test depends on something being in the design (e.g. safe storage at home). A design missing a required piece fails that test automatically.
 - **What counts (`capacityRule`).** Say what counts toward the target if some items produce something that doesn't, e.g. untreated river water isn't safe water until it's treated.

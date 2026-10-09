@@ -7,7 +7,7 @@
   "location": "Early colonial Virginia (Tidewater)",
   "realOrConstructed": "Constructed challenge in a historically grounded setting",
   "status": "READY",
-  "version": 8,
+  "version": 9,
   "bigUnderstanding": "Shelter is an engineering tradeoff: speed, weather protection, stability, fire safety, labor, scarce imported materials, and repairability. There is no single right design. Early Jamestown builders used local wood and clay (mud-and-stud, daub, thatch) because it was fast and local, but it needed constant maintenance in Virginia weather.",
   "winCondition": "Design shelter for about 105 people, including 15 families with children, that is fast, dry, stable, safe and buildable with what you have. Then survive the tests and fix whatever breaks.",
   "opening": {
@@ -315,49 +315,49 @@
         "name": "Raised floor or sleeping platforms, one section",
         "cost": 3,
         "hidden": true,
-        "provides": "Keeps people and supplies off the damp ground."
+        "provides": "A wooden floor built up off the ground on short posts."
       },
       {
         "id": "drainage",
         "name": "Drainage ditch around one building",
         "cost": 3,
         "hidden": true,
-        "provides": "Carries rain away from the walls and floor."
+        "provides": "Ditches dug around and between buildings."
       },
       {
         "id": "eaves",
         "name": "Deep overhanging eaves, one section",
         "cost": 1,
         "hidden": true,
-        "provides": "Roof edge sticks out to keep rain off the walls."
+        "provides": "Roof edges built to stick out past the walls."
       },
       {
         "id": "bracing",
         "name": "Diagonal bracing, one section",
         "cost": 1,
         "hidden": true,
-        "provides": "Stops the frame racking over in wind."
+        "provides": "Diagonal braces added to the frame."
       },
       {
         "id": "clay_chimney",
         "name": "Clay-lined chimney or fire hood, one building",
         "cost": 5,
         "hidden": true,
-        "provides": "Keeps sparks away from thatch and walls."
+        "provides": "A clay-lined chimney over a hearth."
       },
       {
         "id": "cookhouse",
         "name": "Separate outdoor cookhouse",
         "cost": 12,
         "hidden": true,
-        "provides": "Moves cooking fires away from sleeping buildings."
+        "provides": "A small separate building for cooking."
       },
       {
         "id": "firebreak",
         "name": "Fire spacing and water buckets",
         "cost": 4,
         "hidden": true,
-        "provides": "Gaps between buildings plus filled buckets and a fire watch."
+        "provides": "Cleared gaps between buildings, buckets of water and a person on watch."
       },
       {
         "id": "yehakin_section",

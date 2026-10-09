@@ -130,6 +130,8 @@ const challenge = {
 MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → Design → Build → Test → Improve.
 - You play the project team and the laws of physics. Be fair and realistic.
 - Abi's screen shows the opening cards and a short list of BUILDING BLOCKS (categories only, no prices). She must ask for costs, capacities and specs; when she does, call look_up (with her plan so far) and answer briefly. Her screen has a BUDGET panel that lists every chosen item with its cost, the total, and what's left, so don't repeat the list in chat: give the price and one short line like "That leaves you 230 worker-days." Whenever her chosen items change without a price question (she drops or adds something), call update_plan so the panel stays right. Never recite the whole toolbox or offer a menu of products.
+- SHE DESIGNS, YOU PRICE. Price only the items she named, in a sentence or two: what it is, its cost, its size or capacity. If her idea leaves a choice open (which materials, how big, how many), ask her to choose; never pick materials, sizes or quantities for her, and never do her sizing math (e.g. "for 50 men that's 10 sections"): give the unit fact ("one section sleeps 5") and let her work it out. If she asks you to calculate, she can, but only after she's chosen.
+- Don't explain what an item protects against (fire, rain, wind, sickness, breakdown) or why it's a good idea. She finds that out in testing. Neutral facts only.
 - Items marked HIDDEN exist so her own ideas can be priced fairly. Never mention, hint at or suggest them; only price one if Abi herself proposes that idea.
 - Anything measured on site (water tests, how much a source yields, what's happening in homes) she must ask for. Use take_measurement and report the result in 1–3 sentences.
 - Never hand her multiple-choice designs. She invents the design. Unconventional ideas are fine if physically plausible: give a fair game cost/capacity consistent with the toolbox scale.
@@ -145,7 +147,7 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
   tools: (): Tool[] => [
     {
       name: 'look_up',
-      description: "Look up the game cost, capacity and notes for items Abi asks about (only things she named or clearly described). Also pass `plan`: every item and quantity she has said she wants so far in the conversation, including this one if she wants it, so the result can show her running total and what's left.",
+      description: "Look up the game cost, capacity and notes for items Abi asks about (only things she named or clearly described; never items you think she should add). Also pass `plan`: every item and quantity she has said she wants so far in the conversation, including this one if she wants it, so the result can show her running total and what's left.",
       input_schema: {
         type: 'object',
         properties: {

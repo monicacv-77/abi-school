@@ -7,7 +7,7 @@
   "location": "Eastern Province, Zambia",
   "realOrConstructed": "Constructed case in a real setting",
   "status": "READY",
-  "version": 10,
+  "version": 11,
   "bigUnderstanding": "Safe water is a system: source, treatment, access, transport and storage, sanitation, and maintenance. A good filter can still be part of a failed system. Abi should discover this by engineering, not be told.",
   "opening": {
     "intro": "Chisomo Village, eastern Zambia. It's the dry season. The dirt paths are red and dusty, and the sun is already hot by breakfast. Every morning, families walk to the river or the shallow wells with yellow plastic jerrycans, and some walk for an hour each way. Kids keep getting sick, and nobody is sure which water is safe.\n\nYour team has $30,000 and one job: design a water system that gets safe water to all 1,000 people, holds up through the rainy season, and keeps working after you leave. Then test it, and fix whatever breaks.",
@@ -250,28 +250,28 @@
         "id": "safe_containers",
         "name": "Covered safe-storage containers for every home",
         "cost": 2000,
-        "provides": "Lidded containers with taps, so water isn't dipped into.",
+        "provides": "Lidded water containers with a tap.",
         "hidden": true
       },
       {
         "id": "drainage",
         "name": "Drainage at water points",
         "cost": 2000,
-        "provides": "Drains and soak pits so spilled water doesn't pool.",
+        "provides": "Drains and soak pits around taps and pumps.",
         "hidden": true
       },
       {
         "id": "sanitation",
         "name": "Sanitation improvements",
         "cost": 5000,
-        "provides": "Latrines placed safely away from water sources.",
+        "provides": "Latrines.",
         "hidden": true
       },
       {
         "id": "maintenance_fund",
         "name": "Maintenance training & spare parts fund",
         "cost": 2000,
-        "provides": "Trains local repair people, stocks spare parts, supplies water test kits.",
+        "provides": "Training for local repair people, spare parts and water test kits.",
         "hidden": true
       }
     ],
