@@ -30,11 +30,14 @@ function CaseCard({ c, kicker, action }: { c: CaseDef; kicker: string; action: R
 
 const RANKS = [
   { at: 0, name: 'Rookie Investigator', badge: '🐣' },
-  { at: 1, name: 'Junior Investigator', badge: '🔍' },
-  { at: 3, name: 'Field Agent', badge: '🕵️' },
-  { at: 5, name: 'Senior Investigator', badge: '🎖️' },
-  { at: 8, name: 'Chief Investigator', badge: '🏆' },
-];
+  { at: 3, name: 'Junior Investigator', badge: '🔍' },
+  { at: 10, name: 'Investigator', badge: '🔎' },
+  { at: 20, name: 'Field Agent', badge: '🕵️' },
+  { at: 35, name: 'Senior Investigator', badge: '🎖️' },
+  { at: 50, name: 'Lead Investigator', badge: '🧭' },
+  { at: 70, name: 'Chief Investigator', badge: '🏅' },
+  { at: 100, name: 'Legend of the Case Files', badge: '🏆' },
+]
 const QUIPS = [
   "Today's forecast: 90% chance of evidence.",
   'The coffee is cold. The case files are hot.',
@@ -61,7 +64,7 @@ export default async function Home() {
   const openWonders = wonders.filter((w) => w.status === 'open');
   const casesClosed = closed.filter((s) => s.caseId !== 'inquiry');
   const questionsDone = closed.filter((s) => s.caseId === 'inquiry').length;
-  const rank = rankFor(casesClosed.length);
+  const rank = rankFor(closed.length); // cases and open questions both count
   const quip = QUIPS[Math.floor(Date.now() / 86400000) % QUIPS.length];
   // Case board: the unit Abi is working on now.
   const boardUnit = (activeCase ?? next ?? getCase(casesClosed[0]?.caseId ?? ''))?.unit ?? CASES[0]?.unit;
@@ -83,7 +86,7 @@ export default async function Home() {
         <div className="hq-badge" aria-hidden="true">{rank.badge}</div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div className="hq-hello">Hey, Agent Abi</div>
-          <div className="hq-rank">{rank.name}{rank.next ? <span className="muted"> · {rank.toGo} more case{rank.toGo === 1 ? '' : 's'} to {rank.next.name}</span> : null}</div>
+          <div className="hq-rank">{rank.name}{rank.next ? <span className="muted"> · {rank.toGo} more to {rank.next.name}</span> : null}</div>
           <div className="hq-quip">{quip}</div>
         </div>
       </section>
