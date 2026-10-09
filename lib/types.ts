@@ -252,6 +252,7 @@ export interface SessionIndexEntry {
   startedAt: string;
   updatedAt: string;
   isTest?: boolean;
+  closedAt?: string; // when the case was closed (follow-up chat after closing doesn't move it)
 }
 
 export interface WonderItem {

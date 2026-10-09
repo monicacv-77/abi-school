@@ -249,3 +249,11 @@ textarea { resize: none; }
 .q-bubble { display: inline-block; border: 2px solid var(--accent); background: var(--card); color: var(--ink); border-radius: 18px 18px 18px 4px; padding: 8px 14px; font-size: 16px; text-decoration: none; max-width: 100%; }
 .q-bubble.done { background: var(--accent-soft); }
 @media (max-width: 560px) { .tl-card { flex-direction: column; gap: 4px; } .tl-years { min-width: 0; } }
+.hq { flex-wrap: wrap; }
+.hq-week { text-align: center; background: #fff; border: 2px solid #c9a227; border-radius: 12px; padding: 8px 12px; min-width: 170px; }
+.hq-streak { font-weight: 800; font-size: 17px; }
+.hq-dots { display: flex; justify-content: center; gap: 6px; margin: 6px 0 4px; }
+.hq-dots span { width: 18px; height: 18px; border-radius: 50%; border: 2px solid #c9a227; background: #fff; }
+.hq-dots span.on { background: #e8892b; border-color: #c4661a; }
+.hq-weeknote { font-size: 13px; color: var(--ink-2); font-weight: 600; }
+@media (max-width: 560px) { .hq-week { width: 100%; } }

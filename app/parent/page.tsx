@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { CASES, PLANNED } from '@/lib/cases';
 import { listSessions, listWonders } from '@/lib/sessions';
 import { StartCase, StartReview } from '@/app/components/HomeActions';
+import { weeklyStats } from '@/lib/streak';
 import SimRunner from '@/app/components/SimRunner';
 
 export const dynamic = 'force-dynamic';
@@ -53,6 +54,23 @@ export default async function Parent() {
         <span>📋 <strong>Supervisor review:</strong> recall questions on a whole unit. It shows up for Abi once she has closed every case in a unit. The test uses the unit of your most recent closed case.</span>
         <StartReview label="Test a review" test />
       </div>
+
+      {(() => {
+        const wk = weeklyStats(sessions);
+        return (
+          <div className="panel" style={{ marginTop: 16 }}>
+            <div className="label" style={{ marginBottom: 8 }}>🔥 Weekly goal: {wk.goal} cases · current streak {wk.streak} week{wk.streak === 1 ? '' : 's'}</div>
+            <div className="row" style={{ gap: 8 }}>
+              {wk.recent.map((w, i) => (
+                <div key={w.week} style={{ textAlign: 'center', minWidth: 64, padding: '6px 8px', borderRadius: 8, border: '1px solid var(--rule)', background: w.count >= wk.goal ? '#e2f1e6' : i === 0 ? '#fdf8ea' : 'var(--card)' }}>
+                  <div className="muted" style={{ fontSize: 12 }}>{i === 0 ? 'This week' : `Wk of ${new Date(w.week + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`}</div>
+                  <div style={{ fontWeight: 800, fontSize: 18 }}>{w.count}/{wk.goal}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })()}
 
       <h2 className="label" style={{ fontSize: 14, marginTop: 32 }}>Abi&apos;s sessions</h2>
       {real.length === 0 ? <p className="muted">None yet.</p> : (

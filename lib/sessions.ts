@@ -32,6 +32,7 @@ export async function saveSession(s: Session): Promise<void> {
     startedAt: s.startedAt,
     updatedAt: s.updatedAt,
     isTest: s.isTest,
+    closedAt: s.summary?.closedAt ?? (s.status === 'closed' ? index.find((e) => e.id === s.id)?.closedAt ?? s.updatedAt : undefined),
   };
   const i = index.findIndex((e) => e.id === s.id);
   if (i >= 0) index[i] = entry;

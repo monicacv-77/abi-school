@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { CASES, getCase } from '@/lib/cases';
 import { UNITS, getUnit } from '@/lib/units';
+import { weeklyStats } from '@/lib/streak';
 import { listSessions, listWonders, nextCase, reviewStatus } from '@/lib/sessions';
 import { AskDoor, ExploreWonder, StartCase, StartReview } from './components/HomeActions';
 import { lookFor, modeVars } from '@/lib/look';
@@ -66,6 +67,7 @@ export default async function Home() {
   const questionsDone = closed.filter((s) => s.caseId === 'inquiry').length;
   const unitsDone = UNITS.filter((u) => !u.planned && CASES.some((c) => c.unit === u.name && c.status === 'READY') && CASES.filter((c) => c.unit === u.name && c.status === 'READY').every((c) => closed.some((s) => s.caseId === c.id))).length;
   const rank = rankFor(closed.length); // cases and open questions both count
+  const wk = weeklyStats(sessions);
   const quip = QUIPS[Math.floor(Date.now() / 86400000) % QUIPS.length];
   // Case board: the unit Abi is working on now.
   const boardUnit = (activeCase ?? next ?? getCase(casesClosed[0]?.caseId ?? ''))?.unit ?? CASES[0]?.unit;
@@ -89,6 +91,15 @@ export default async function Home() {
           <div className="hq-hello">Hey, Agent Abi</div>
           <div className="hq-rank">{rank.name}{rank.next ? <span className="muted"> · {rank.toGo} more to {rank.next.name}</span> : null}</div>
           <div className="hq-quip">{quip}</div>
+        </div>
+        <div className="hq-week" aria-label={`This week: ${wk.thisCount} of ${wk.goal} cases`}>
+          <div className="hq-streak">{wk.streak > 0 ? `🔥 ${wk.streak}-week streak` : '🔥 Start a streak'}</div>
+          <div className="hq-dots">
+            {Array.from({ length: wk.goal }, (_, i) => <span key={i} className={i < wk.thisCount ? 'on' : ''} />)}
+          </div>
+          <div className="hq-weeknote">
+            {wk.thisCount >= wk.goal ? '✅ Week done!' : wk.weekend ? `${wk.goal - wk.thisCount} more to keep the streak. Weekend catch-up!` : `This week: ${wk.thisCount} of ${wk.goal} cases`}
+          </div>
         </div>
       </section>
       <div className="hq-stats">

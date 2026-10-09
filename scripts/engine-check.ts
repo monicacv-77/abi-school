@@ -120,6 +120,19 @@ async function main() {
     expect('review panel shows marks', JSON.stringify((await import('../lib/view')).toView(r).review?.answers?.[0]), 'missed');
   }
 
+  // --- Weekly streak: 5 cases a week (Mon–Sun, LA time); weekends count; current week doesn't break it
+  {
+    const { weekKey, weeklyStats } = await import('../lib/streak');
+    expect('Sunday 11:30pm LA belongs to that week', weekKey('2026-10-12T06:30:00Z'), '2026-10-05');
+    const mk = (iso: string, caseId = '001'): any => ({ id: Math.random().toString(), caseId, title: '', mode: 'challenge', status: 'closed', startedAt: iso, updatedAt: iso, closedAt: iso });
+    const full = (mon: string) => ['T17:00:00Z', 'T18:00:00Z', 'T19:00:00Z', 'T20:00:00Z', 'T21:00:00Z'].map((t) => mk(mon + t));
+    const now = new Date('2026-10-14T18:00:00Z'); // Wed Oct 14
+    const st = weeklyStats([...full('2026-10-05'), ...full('2026-09-28'), mk('2026-10-13T18:00:00Z'), mk('2026-10-13T19:00:00Z', 'inquiry')], now);
+    expect('streak counts finished weeks; questions do not count', JSON.stringify({ s: st.streak, n: st.thisCount }), '{"s":2,"n":1}');
+    const gap = weeklyStats([...full('2026-10-05'), ...full('2026-09-21')], now);
+    expect('a missed week breaks the streak', String(gap.streak), '1');
+  }
+
   // --- A wordless turn never shows '…'
   {
     const fx: any = await startCaseSession('002', true);
