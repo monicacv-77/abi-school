@@ -63,6 +63,67 @@ function Rich({ text }: { text: string }) {
   );
 }
 
+type BudgetBox = NonNullable<SessionView['budgetBox']>;
+
+function BudgetPanel({ b }: { b: BudgetBox }) {
+  const n = (x: number) => x.toLocaleString('en-US');
+  const money = (x: number) => (b.unit ? n(x) : `$${n(x)}`);
+  const left = b.budget - b.spent;
+  const over = left < 0;
+  const pct = Math.min(100, Math.round((b.spent / b.budget) * 100));
+  const unitWord = b.unit ?? 'dollars';
+  return (
+    <section className="budget" aria-label="Budget">
+      <div className="side-h">💰 Budget</div>
+      <div className="budget-left" style={{ color: over ? 'var(--rust)' : 'var(--accent-ink)' }}>
+        <span className="big">{money(Math.abs(left))}</span>
+        <span>{b.unit ? `${unitWord} ` : ''}{over ? 'over budget!' : 'left'}</span>
+      </div>
+      <div className="meter" aria-hidden="true"><span style={{ width: `${pct}%`, background: over ? 'var(--rust)' : 'var(--accent)' }} /></div>
+      <div className="muted" style={{ fontSize: 15 }}>{money(b.spent)} of {money(b.budget)} {b.unit ? unitWord : ''} used</div>
+
+      {b.items.length ? (
+        <table className="budget-table">
+          <thead>
+            <tr><th scope="col">Item</th><th scope="col" className="num">{b.unit ?? 'Cost'}</th></tr>
+          </thead>
+          <tbody>
+            {b.items.map((it, i) => (
+              <tr key={i}>
+                <td><span className="qty">{it.qty}×</span> {it.name}</td>
+                <td className="num">{money(it.cost)}</td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot>
+            <tr><td>Total</td><td className="num">{money(b.spent)}</td></tr>
+          </tfoot>
+        </table>
+      ) : (
+        <div className="muted" style={{ fontSize: 15, marginTop: 10 }}>Nothing picked yet. Ask what things cost.</div>
+      )}
+
+      {b.scarce && (
+        <div className="budget-row" style={{ color: b.scarce.used > b.scarce.limit ? 'var(--rust)' : undefined }}>
+          <span>🔩 {b.scarce.label[0].toUpperCase() + b.scarce.label.slice(1)}</span>
+          <strong>{b.scarce.used} of {b.scarce.limit}</strong>
+        </div>
+      )}
+      {b.capacity && (
+        <div className="budget-row" style={{ color: b.capacity.target && b.capacity.value < b.capacity.target ? 'var(--rust)' : undefined }}>
+          <span>📐 Design {b.unit ? 'holds' : 'makes'}</span>
+          <strong>{n(b.capacity.value)}{b.capacity.target ? ` of ${n(b.capacity.target)}` : ''}</strong>
+        </div>
+      )}
+      {b.capacity && <div className="muted" style={{ fontSize: 14, textAlign: 'right' }}>{b.capacity.label}</div>}
+      {b.days ? (
+        <div className="budget-row"><span>⏱️ Build time</span><strong>~{b.days} days</strong></div>
+      ) : null}
+      {b.designed && <div className="budget-status" data-ok={b.ready ? '1' : '0'}>{b.ready ? '✅ Design ready to test' : '🚧 Design not done yet'}</div>}
+    </section>
+  );
+}
+
 type Recog = { start: () => void; stop: () => void; onresult: ((e: any) => void) | null; onend: (() => void) | null; interimResults: boolean; lang: string };
 
 export default function Play({ initial }: { initial: SessionView }) {
@@ -146,9 +207,84 @@ export default function Play({ initial }: { initial: SessionView }) {
   }
 
   const closed = view.status === 'closed';
+  const twoCol = view.mode === 'challenge' && Boolean(view.budgetBox);
+
+  const heroEl = view.image && (
+    <figure className={`hero${view.image.fit === 'contain' ? ' contain' : ''}`}>
+      <img src={view.image.src} alt={view.image.alt} loading="lazy" style={view.image.position ? { objectPosition: view.image.position } : undefined} />
+      <figcaption>
+        <a href={view.image.href} target="_blank" rel="noreferrer">{view.image.credit}</a>
+      </figcaption>
+    </figure>
+  );
+
+  const introEl = view.opening && (
+    <>
+      <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+        <div style={{ flex: 1, fontSize: 21, lineHeight: 1.5 }}>
+          {view.opening.intro.split(/\n{2,}/).map((para, i) => (
+            <p key={i} style={{ margin: i ? '12px 0 0' : 0 }}>{para}</p>
+          ))}
+        </div>
+        <button aria-label="Read the opening aloud" onClick={() => speak(view.opening!.intro)} style={{ border: 'none', background: 'transparent', color: 'var(--accent)', minHeight: 44, minWidth: 44 }}><SpeakerIcon /></button>
+      </div>
+      {view.opening.video && (
+        <details className="panel" style={{ padding: 12 }}>
+          <summary style={{ cursor: 'pointer', fontWeight: 600, minHeight: 32 }}>Watch first: {view.opening.video.title} ({view.opening.video.minutes} min)</summary>
+          <div style={{ position: 'relative', paddingTop: '56.25%', marginTop: 10, background: '#000', borderRadius: 6, overflow: 'hidden' }}>
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${view.opening.video.youtubeId}?rel=0`}
+              title={view.opening.video.title}
+              loading="lazy"
+              allow="encrypted-media; picture-in-picture; fullscreen"
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0 }}
+            />
+          </div>
+          <div className="muted" style={{ fontSize: 13, marginTop: 6 }}>Video: {view.opening.video.source}</div>
+        </details>
+      )}
+    </>
+  );
+
+  const sideEl = twoCol && view.opening && (
+    <aside className="play-side no-print" aria-label="Briefs and budget">
+      {view.budgetBox && <BudgetPanel b={view.budgetBox} />}
+      <section>
+        <div className="side-h">📋 Briefs</div>
+        <div className="stack" style={{ gap: 6 }}>
+          {view.opening.cards.map((c, i) => (
+            <details key={i} className="brief">
+              <summary>
+                {c.icon && <span className="ic" aria-hidden="true">{c.icon}</span>}
+                <span style={{ flex: 1 }}>{c.label}</span>
+              </summary>
+              <div className="brief-body">
+                <span style={{ flex: 1 }}>{c.text}</span>
+                <button aria-label={`Read ${c.label} aloud`} onClick={() => speak(`${c.label}. ${c.text}`)} className="icon-btn"><SpeakerIcon /></button>
+              </div>
+            </details>
+          ))}
+          {view.blocks && (
+            <details className="brief">
+              <summary>
+                <span className="ic" aria-hidden="true">🧰</span>
+                <span style={{ flex: 1 }}>Building blocks</span>
+              </summary>
+              <div className="brief-body" style={{ display: 'block' }}>
+                {view.blocks.map((b) => (
+                  <div key={b.name} style={{ marginBottom: 6 }}><strong>{b.name}:</strong> <span className="muted">{b.examples}</span></div>
+                ))}
+                <div className="muted" style={{ fontSize: 15 }}>Ask for any cost or spec. Got another idea? Propose it.</div>
+              </div>
+            </details>
+          )}
+        </div>
+      </section>
+    </aside>
+  );
 
   return (
-    <main className="wrap" style={{ paddingBottom: 200, ...modeVars(view.mode) }}>
+    <main className={`wrap${twoCol ? ' wide' : ''}`} style={{ paddingBottom: 200, ...modeVars(view.mode) }}>
       <div className="topbar no-print">
         <Link href="/">← Case Files</Link>
         <span>{view.caseId === 'inquiry' ? 'Question' : `Case ${view.number}`}</span>
@@ -160,40 +296,16 @@ export default function Play({ initial }: { initial: SessionView }) {
         <h1 className="title" style={{ fontSize: 40 }}>{view.mode === 'inquiry' ? view.question : view.title}</h1>
       </header>
 
-      {view.image && (
-        <figure className={`hero${view.image.fit === 'contain' ? ' contain' : ''}`}>
-          <img src={view.image.src} alt={view.image.alt} loading="lazy" style={view.image.position ? { objectPosition: view.image.position } : undefined} />
-          <figcaption>
-            <a href={view.image.href} target="_blank" rel="noreferrer">{view.image.credit}</a>
-          </figcaption>
-        </figure>
-      )}
+      <div className={twoCol ? 'play-grid' : undefined}>
+      {sideEl}
+      <div className="play-main">
+      {heroEl}
 
       {view.opening && (
         <section className="stack" style={{ gap: 10, marginBottom: 18 }}>
-          <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-            <div style={{ flex: 1, fontSize: 21, lineHeight: 1.5 }}>
-              {view.opening.intro.split(/\n{2,}/).map((para, i) => (
-                <p key={i} style={{ margin: i ? '12px 0 0' : 0 }}>{para}</p>
-              ))}
-            </div>
-            <button aria-label="Read the opening aloud" onClick={() => speak(view.opening!.intro)} style={{ border: 'none', background: 'transparent', color: 'var(--accent)', minHeight: 44, minWidth: 44 }}><SpeakerIcon /></button>
-          </div>
-          {view.opening.video && (
-            <details className="panel" style={{ padding: 12 }}>
-              <summary style={{ cursor: 'pointer', fontWeight: 600, minHeight: 32 }}>Watch first: {view.opening.video.title} ({view.opening.video.minutes} min)</summary>
-              <div style={{ position: 'relative', paddingTop: '56.25%', marginTop: 10, background: '#000', borderRadius: 6, overflow: 'hidden' }}>
-                <iframe
-                  src={`https://www.youtube-nocookie.com/embed/${view.opening.video.youtubeId}?rel=0`}
-                  title={view.opening.video.title}
-                  loading="lazy"
-                  allow="encrypted-media; picture-in-picture; fullscreen"
-                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0 }}
-                />
-              </div>
-              <div className="muted" style={{ fontSize: 13, marginTop: 6 }}>Video: {view.opening.video.source}</div>
-            </details>
-          )}
+          {introEl}
+          {!twoCol && (
+            <>
           <div className="row" style={{ gap: 8 }}>
             {view.opening.cards.map((c, i) => (
               <button key={i} className="card-btn" aria-expanded={Boolean(open[i])} onClick={() => setOpen((o) => ({ ...o, [i]: !o[i] }))}>
@@ -230,10 +342,11 @@ export default function Play({ initial }: { initial: SessionView }) {
               <div className="muted" style={{ fontSize: 15, marginTop: 8 }}>Ask for any cost or spec. Got another idea? Propose it.</div>
             </div>
           )}
+            </>
+          )}
           <p style={{ margin: 0, fontWeight: 600 }}>{view.opening.prompt}</p>
         </section>
       )}
-
 
       {view.board && view.board.length > 0 && (
         <section className="panel" style={{ padding: 12, marginBottom: 14 }} aria-label="Theory board">
@@ -250,13 +363,13 @@ export default function Play({ initial }: { initial: SessionView }) {
         </section>
       )}
 
-      {view.planLine && !view.design && (
+      {!twoCol && view.planLine && !view.design && (
         <div className="panel" style={{ padding: 12, marginBottom: 14, fontSize: 16 }}>
           <span className="label">💰 Plan so far</span> · {view.planLine}
         </div>
       )}
 
-      {view.design && (
+      {!twoCol && view.design && (
         <div className="panel" style={{ padding: 12, marginBottom: 14, fontSize: 15 }}>
           <span className="label">📐 Your design</span> · {view.design.line ?? `$${view.design.cost.toLocaleString()} · ~${view.design.liters.toLocaleString()} L/day`} · {view.design.valid ? 'ready' : 'not done yet'}
         </div>
@@ -335,9 +448,11 @@ export default function Play({ initial }: { initial: SessionView }) {
         {closed && view.followUps && view.followUps.length > 0 && <KeepExploring questions={view.followUps} />}
         <div ref={bottom} />
       </section>
+      </div>
+      </div>
 
       <form onSubmit={send} className="no-print" style={{ position: 'fixed', left: 0, right: 0, bottom: 22, background: 'var(--paper)', borderTop: '2px solid var(--ink)', padding: '10px 16px' }}>
-        <div style={{ maxWidth: 760, margin: '0 auto' }} className="stack">
+        <div style={{ maxWidth: twoCol ? 1180 : 760, margin: '0 auto' }} className={`stack${twoCol ? ' form-two' : ''}`}>
           {err && <div role="alert" style={{ color: 'var(--rust)', fontSize: 15 }}>{err}</div>}
           <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end' }}>
             <label htmlFor="msg" style={{ position: 'absolute', left: -9999 }}>Your message</label>

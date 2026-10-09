@@ -103,12 +103,16 @@ function unitsOf(d: ChallengeData) {
   return { u, fmtCost, capLabel, capOf, minCap };
 }
 
+export function planKey(plan: { id: string; qty: number }[], custom: { name: string; cost: number }[] = []) {
+  return [...plan.map((p) => `${p.id}:${p.qty}`).sort(), ...custom.map((c) => `custom:${c.name}:${c.cost}`).sort()].join('|');
+}
+
 // ---------------------------------------------------------------- CHALLENGE
 const challenge = {
   rules: `
 MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → Design → Build → Test → Improve.
 - You play the project team and the laws of physics. Be fair and realistic.
-- Abi's screen shows the opening cards and a short list of BUILDING BLOCKS (categories only, no prices). She must ask for costs, capacities and specs; when she does, call look_up (with her plan so far) and answer briefly, then show the budget breakdown as a short list: what she's chosen with costs, total so far, budget, and what's left. Never recite the whole toolbox or offer a menu of products.
+- Abi's screen shows the opening cards and a short list of BUILDING BLOCKS (categories only, no prices). She must ask for costs, capacities and specs; when she does, call look_up (with her plan so far) and answer briefly. Her screen has a BUDGET panel that lists every chosen item with its cost, the total, and what's left, so don't repeat the list in chat: give the price and one short line like "That leaves you 230 worker-days." Whenever her chosen items change without a price question (she drops or adds something), call update_plan so the panel stays right. Never recite the whole toolbox or offer a menu of products.
 - Items marked HIDDEN exist so her own ideas can be priced fairly. Never mention, hint at or suggest them; only price one if Abi herself proposes that idea.
 - Anything measured on site (water tests, how much a source yields, what's happening in homes) she must ask for. Use take_measurement and report the result in 1–3 sentences.
 - Never hand her multiple-choice designs. She invents the design. Unconventional ideas are fine if physically plausible: give a fair game cost/capacity consistent with the toolbox scale.
@@ -134,6 +138,20 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
           },
         },
         required: ['item_ids'],
+      },
+    },
+    {
+      name: 'update_plan',
+      description: "Update the running budget on Abi's screen when her list of chosen items changes without a price question (she adds, drops or changes the quantity of something). Pass the whole plan as it now stands.",
+      input_schema: {
+        type: 'object',
+        properties: {
+          plan: {
+            type: 'array',
+            items: { type: 'object', properties: { id: { type: 'string' }, qty: { type: 'integer', minimum: 1 } }, required: ['id', 'qty'] },
+          },
+        },
+        required: ['plan'],
       },
     },
     {
@@ -212,11 +230,14 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
       const plan = arr<{ id: string; qty: number }>(input.plan)
         .map((p) => ({ t: d.toolbox.find((x) => x.id === p.id), qty: Math.max(1, Number(p.qty) || 1) }))
         .filter((p) => p.t) as { t: ChallengeData['toolbox'][number]; qty: number }[];
-      if (plan.length) s.state.plan = plan.map((p) => ({ id: p.t.id, qty: p.qty }));
+      if (plan.length) {
+        s.state.plan = plan.map((p) => ({ id: p.t.id, qty: p.qty }));
+        s.state.planCustom = [];
+      }
       const planCost = plan.reduce((sum, p) => sum + p.t.cost * p.qty, 0);
       const planScarce = +plan.reduce((sum, p) => sum + (p.t.scarce ?? 0) * p.qty, 0).toFixed(2);
       const budgetLines = [
-        'BUDGET BREAKDOWN (always show this to Abi as a short list after the price):',
+        'BUDGET (her screen shows this full list in the Budget panel; in your reply just give the price and how much is left, in one short line):',
         ...(plan.length ? plan.map((p) => `- ${p.qty} × ${p.t.name}: ${fmtCost(p.t.cost * p.qty)}`) : ['- Nothing chosen yet']),
         `- Total so far: ${fmtCost(planCost)}`,
         `- Budget: ${fmtCost(d.budget)}`,
@@ -228,6 +249,15 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
           .map((t) => `${t.name}: ${unitsOf(d).fmtCost(t.cost)}${t.scarce && d.units?.scarce ? ` + ${t.scarce} ${d.units.scarce.label}` : ''}${unitsOf(d).capOf(t) ? `, about ${unitsOf(d).capOf(t).toLocaleString()} ${unitsOf(d).capLabel}` : ''}${t.max ? ` (only ${t.max} available)` : ''}. ${t.provides}${t.needs ? ` Needs: ${t.needs.map((n) => n.replace(/\|/g, ' or ').replace('existing:', '')).join(', ')}.` : ''}${t.maintenance ? ` Upkeep: ${t.maintenance}` : ''}`)
           .join('\n') + '\n\n' + budgetLines.join('\n'),
       };
+    }
+    if (name === 'update_plan') {
+      const bad = arr<{ id: string }>(input.plan).filter((p) => !d.toolbox.find((x) => x.id === p.id));
+      if (bad.length) return { result: `Unknown ids: ${bad.map((b) => b.id).join(', ')}. Valid ids: ${d.toolbox.map((x) => x.id).join(', ')}`, isError: true };
+      s.state.plan = arr<{ id: string; qty: number }>(input.plan).map((p) => ({ id: p.id, qty: Math.max(1, Number(p.qty) || 1) }));
+      s.state.planCustom = [];
+      const { fmtCost } = unitsOf(d);
+      const cost = arr<{ id: string; qty: number }>(s.state.plan).reduce((sum, p) => sum + (d.toolbox.find((x) => x.id === p.id)?.cost ?? 0) * p.qty, 0);
+      return { result: `Budget panel updated. Total ${fmtCost(cost)}, ${fmtCost(d.budget - cost)} left. Her screen shows the full list.` };
     }
     if (name === 'take_measurement') {
       const m = d.measurements.find((x) => x.id === input.measurement_id);
@@ -283,7 +313,11 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
       const valid = !overBudget && !overScarce && !underTarget && missing.length === 0;
       const days = u?.workers ? Math.ceil(cost / u.workers) : 0;
       const line = [fmtCost(cost), u?.scarce ? `${scarce} ${u.scarce.label}` : '', `${capacity.toLocaleString()} ${capLabel}`, days ? `~${days} days to build` : ''].filter(Boolean).join(' · ');
-      s.state.design = { description: input.description, lines, cost, liters: capacity, capacity, scarce, days, line, valid };
+      const customs = arr<{ name: string; cost: number; capacity?: number; liters_per_day?: number; scarce?: number }>(input.custom_items).map((ci) => ({ name: ci.name, cost: ci.cost, scarce: ci.scarce ?? 0 }));
+      s.state.plan = [...chosen].map(([id, qty]) => ({ id, qty }));
+      s.state.planCustom = customs;
+      const key = planKey(s.state.plan as { id: string; qty: number }[], customs);
+      s.state.design = { description: input.description, lines, cost, liters: capacity, capacity, scarce, days, line, valid, key, target: minCap ?? 0, missing };
       s.state.designCount = (Number(s.state.designCount) || 0) + 1;
       s.state.step = (Number(s.state.step) || 0) + 1;
       s.state.lastDesignStep = s.state.step;
