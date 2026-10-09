@@ -38,7 +38,7 @@ function Rich({ text }: { text: string }) {
     <>
       {text.split(/\n{2,}/).map((para, i) => {
         const lines = para.split('\n');
-        const isStatus = /your colony/i.test(lines[0].replace(/\*/g, '')) && lines.length > 2;
+        const isStatus = /your colony|what changed/i.test(lines[0].replace(/\*/g, '')) && lines.length > 1;
         if (isStatus)
           return (
             <div key={i} className="status-card">

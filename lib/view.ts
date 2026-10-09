@@ -123,7 +123,11 @@ export function toView(s: Session): SessionView {
     });
     v.lastChoice = s.state.lastChoice ? String(s.state.lastChoice) : undefined;
     v.choices = (Array.isArray(s.state.choices) ? (s.state.choices as { choice: string }[]) : []).map((ch, i) => ({ n: i + 1, label: ch.choice }));
-    v.story = storyLines(s.display.map((m) => m.text));
+    const st = (s.state.story ?? {}) as Record<string, { value: string; dir?: 'up' | 'down' | 'same' }>;
+    const STORY = [['water', '💧 Water'], ['food_production', '🌾 Food production'], ['settlement', '🏠 Settlement'], ['profit', '🪙 Profit']] as const;
+    v.story = Object.keys(st).length
+      ? STORY.filter(([k]) => st[k]).map(([k, label]) => ({ label, value: st[k].value, dir: st[k].dir }))
+      : storyLines(s.display.map((m) => m.text)); // older games kept these in the chat card
   }
   return v;
 }

@@ -179,7 +179,7 @@ export async function runTurn(s: Session, userText: string, client = new Anthrop
   // Safety net for Simulations: if she made a choice this turn but the reply lost its main text
   // (no colony card), ask once more for the complete turn and use that instead.
   const choseNow = s.mode === 'simulation' && (Array.isArray(s.state.choices) ? s.state.choices.length : 0) > choicesBefore;
-  if (choseNow && !/your colony/i.test(replyParts.join(' '))) {
+  if (choseNow && !/you choose/i.test(replyParts.join(' '))) {
     try {
       const fix = await client.messages.create({
         model: MODEL,
@@ -189,11 +189,11 @@ export async function runTurn(s: Session, userText: string, client = new Anthrop
         tool_choice: { type: 'none' },
         messages: [
           ...(s.api as Anthropic.Messages.MessageParam[]),
-          { role: 'user', content: '[App note, not from Abi: your reply was missing the main part of this turn. Write the complete turn now as one message: "**You choose …**" and the consequence, the **Your Colony** status card, any event that happened, then the next decision heading, situation and question. Use only the tool results above. Do not mention this note, buttons or the screen.]' },
+          { role: 'user', content: '[App note, not from Abi: your reply was missing the main part of this turn. Write the complete turn now as one message: "**You choose …**" and the consequence, the short **What changed** list, any event that happened, then the next decision heading, situation and question. Use only the tool results above. Do not mention this note, buttons or the screen.]' },
         ],
       });
       const fixed = fix.content.filter((b) => b.type === 'text').map((b) => (b as Anthropic.Messages.TextBlock).text.trim()).join('\n\n');
-      if (fixed && /your colony/i.test(fixed)) {
+      if (fixed && /you choose/i.test(fixed)) {
         const last = s.api[s.api.length - 1];
         if (last?.role === 'assistant' && (typeof last.content === 'string' || (Array.isArray(last.content) && (last.content as { type: string }[]).every((b) => b.type !== 'tool_use')))) s.api.pop();
         s.api.push({ role: 'assistant', content: fixed });

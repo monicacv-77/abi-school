@@ -539,19 +539,13 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
 - When she picks, call make_choice with the base option id (or custom_choice for a new idea) and choice_label = her choice as shown.
 - EACH TURN after she chooses, in this order, as short paragraphs:
   1. "**You choose B: <short name>**" then the consequence in 3–5 vivid sentences, weaving in real history (people, places, events) where it fits.
-  2. A status card, exactly in this shape (one line each, plain words). The first five lines use the tool's numbers and status words; the last four come from her story:
-     **Your Colony**
+  2. A short **What changed** list: ONLY the things that changed this turn, one line each, with the old and new value. Use the tool's numbers and status words for the game stats. Skip anything that stayed the same, and skip the list entirely if nothing changed. Abi's side panel always shows the full colony, so never print the whole status. Shape:
+     **What changed**
      👥 Colonists: 104 → 91
-     🌽 Food: Low
-     ❤️ Health: Fair
-     🤝 Powhatan relations: Tense
-     💰 Investors: Waiting
-     💧 Water: Poor (worse)
-     🌾 Food production: Started (better)
-     🏠 Settlement: Fort built (same)
-     🪙 Profit: None (same)
-     End each of the four story lines with (better), (worse) or (same) compared with the last card. Abi's side panel turns these into arrows.
-  3. If a real event happens next, call advance_time and give it its own bold emoji heading (e.g. "**⛵ The First Supply Arrives**") and 2–4 sentences, then an updated status card if numbers changed.
+     🌽 Food: Fair → Low
+     💧 Water: Clear spring → Muddy river
+     Also call update_story whenever water, food production, settlement or profit changes (on the first turn after her first choice, set all four), so her side panel stays right.
+  3. If a real event happens next, call advance_time and give it its own bold emoji heading (e.g. "**⛵ The First Supply Arrives**") and 2–4 sentences, then its own short **What changed** list if anything changed.
   4. Then the next decision (present_decision).
 - TOOLS FIRST, THEN WRITE: on a turn where she chooses, call make_choice, then advance_time if an event is due, then present_decision for the next one, and only after all of those results are back, write the whole turn (steps 1–4) as ONE message. Never send just a fragment.
 - Never mention buttons, the screen, tools or "options shown". Just ask the decision's question in the story.
@@ -601,6 +595,19 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
           custom_effects: { type: 'object', description: 'stat id → change, each between -2 and 2', additionalProperties: { type: 'number' } },
         },
         required: ['decision_id'],
+      },
+    },
+    {
+      name: 'update_story',
+      description: "Update the four story lines on Abi's side panel (things the game doesn't count). Give only the ones that changed, each with a short value (2–4 words) and whether it got better, worse or stayed the same.",
+      input_schema: {
+        type: 'object',
+        properties: Object.fromEntries(
+          ['water', 'food_production', 'settlement', 'profit'].map((k) => [
+            k,
+            { type: 'object', properties: { value: { type: 'string' }, change: { type: 'string', enum: ['better', 'worse', 'same'] } }, required: ['value'] },
+          ]),
+        ),
       },
     },
     {
@@ -656,7 +663,7 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
       s.state.pendingTitle = input.title ? String(input.title) : '';
       s.state.decisionNumber = arr(s.state.choices).length + 1;
       return {
-        result: `Decision ${arr(s.state.choices).length + 1} (${dp.id}, ${dp.when}) is on her screen as buttons:\n${opts.map((o) => `${o.letter}. ${o.label}: ${o.detail}${o.base ? ` [effects of case option ${o.base}]` : ' [new idea: you set small fair effects]'}`).join('\n')}\nCase anchor situation: ${dp.situation}\nCase anchor options: ${dp.options.map((o) => `${o.id} = ${o.label}`).join(' | ')}\nNow write your full message for this turn. If she just chose, it starts with "**You choose …**", the consequence, the Your Colony card and any event (see the turn order). It ends with a bold heading "**Decision ${arr(s.state.choices).length + 1}: ${input.title ?? '…'}**", the situation in her colony's own story (2–4 short sentences), and one clear question. Don't list the choices in your text and don't mention buttons or the screen.`,
+        result: `Decision ${arr(s.state.choices).length + 1} (${dp.id}, ${dp.when}) is on her screen as buttons:\n${opts.map((o) => `${o.letter}. ${o.label}: ${o.detail}${o.base ? ` [effects of case option ${o.base}]` : ' [new idea: you set small fair effects]'}`).join('\n')}\nCase anchor situation: ${dp.situation}\nCase anchor options: ${dp.options.map((o) => `${o.id} = ${o.label}`).join(' | ')}\nNow write your full message for this turn. If she just chose, it starts with "**You choose …**", the consequence, the short What changed list and any event (see the turn order). It ends with a bold heading "**Decision ${arr(s.state.choices).length + 1}: ${input.title ?? '…'}**", the situation in her colony's own story (2–4 short sentences), and one clear question. Don't list the choices in your text and don't mention buttons or the screen.`,
       };
     }
     if (name === 'make_choice') {
@@ -684,6 +691,10 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
       const { changes, triggered } = applyStats(d, s, effects);
       s.state.choices = [...arr(s.state.choices), { decision: dp.id, option: input.option_id ? String(input.option_id) : 'custom', choice: label }];
       s.state.lastChoice = label;
+      // A new choice starts a new turn for the story arrows too.
+      const st = (s.state.story ?? {}) as Record<string, { value: string; dir?: string }>;
+      for (const k of Object.keys(st)) st[k] = { ...st[k], dir: 'same' };
+      s.state.story = st;
       if (s.state.pendingDecision === dp.id) {
         s.state.pendingDecision = null;
         s.state.pendingOptions = null;
@@ -700,6 +711,20 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
           `Status now: ${statsLine(d, now)}`,
         ].join('\n'),
       };
+    }
+    if (name === 'update_story') {
+      const story = { ...((s.state.story ?? {}) as Record<string, { value: string; dir?: string }>) };
+      const done: string[] = [];
+      for (const k of ['water', 'food_production', 'settlement', 'profit']) {
+        const it = input?.[k];
+        if (!it?.value) continue;
+        const dir = it.change === 'better' ? 'up' : it.change === 'worse' ? 'down' : 'same';
+        story[k] = { value: String(it.value).slice(0, 40), dir };
+        done.push(`${k}: ${it.value}`);
+      }
+      s.state.story = story;
+      s.state.storyTurn = true;
+      return { result: done.length ? `Side panel updated: ${done.join('; ')}.` : 'Nothing to update.' };
     }
     if (name === 'advance_time') {
       const e = d.fixedEvents.find((x) => x.id === input.event_id);
@@ -737,7 +762,9 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
     const nextUp = (d.sequence ?? []).find((id) => !doneIds.includes(id));
     const nextKind = nextUp ? (d.decisions.some((x) => x.id === nextUp) ? 'decision (call present_decision)' : 'real event (call advance_time)') : '';
     const pending = s.state.pendingDecision ? `Decision on screen now, waiting for her choice: ${s.state.pendingDecision}. ` : '';
-    return `${pending}${nextUp ? `NEXT IN ORDER OF PLAY: ${nextUp}, a ${nextKind}. ` : ''}Status: ${statsLine(d, stats)}. Consequences triggered: ${arr<string>(s.state.triggered).join(', ') || 'none'}. Decisions made: ${arr<{ decision: string; choice: string }>(s.state.choices).map((c) => `${c.decision}: ${c.choice}`).join('; ') || 'none'}. Events so far: ${arr<string>(s.state.events).join(', ') || 'none'}. Remaining decisions: ${d.decisions.filter((dp) => !arr<{ decision: string }>(s.state.choices).some((c) => c.decision === dp.id)).map((dp) => dp.id).join(', ') || 'none'}.`;
+    const story = (s.state.story ?? {}) as Record<string, { value: string }>;
+    const storyLine = Object.keys(story).length ? `Side panel story lines: ${Object.entries(story).map(([k, v]) => `${k} = ${v.value}`).join(', ')}. ` : 'Side panel story lines not set yet (set all four with update_story after her first choice). ';
+    return `${pending}${storyLine}${nextUp ? `NEXT IN ORDER OF PLAY: ${nextUp}, a ${nextKind}. ` : ''}Status: ${statsLine(d, stats)}. Consequences triggered: ${arr<string>(s.state.triggered).join(', ') || 'none'}. Decisions made: ${arr<{ decision: string; choice: string }>(s.state.choices).map((c) => `${c.decision}: ${c.choice}`).join('; ') || 'none'}. Events so far: ${arr<string>(s.state.events).join(', ') || 'none'}. Remaining decisions: ${d.decisions.filter((dp) => !arr<{ decision: string }>(s.state.choices).some((c) => c.decision === dp.id)).map((dp) => dp.id).join(', ') || 'none'}.`;
   },
   canClose(s: Session, c: CaseDef): string | null {
     const d = c.data as SimulationData;

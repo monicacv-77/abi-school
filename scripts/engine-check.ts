@@ -77,8 +77,10 @@ async function main() {
   await runTurn(sim, 'go', fakeClient([[tu('make_choice', { decision_id: 'food_labor', option_id: 'trade' })], [tx('.')]]));
   {
     const r = await runTurn(sim, 'A. Envoys', fakeClient([[tu('make_choice', { decision_id: 'supply_ship', option_id: (sim.caseSnapshot!.data as any).decisions.find((x: any) => x.id === 'supply_ship').options[0].id })], [tx('Those are on your screen now. What will you do about the water?')], [tx('**You choose A: Envoys**\nThey trade.\n\n**Your Colony**\n❤️ Colonists: 90\n🍞 Food: Low')]]));
-    expect('jamestown: fragment reply gets repaired', r.reply, 'Your Colony');
+    expect('jamestown: fragment reply gets repaired', r.reply, 'You choose');
     expect('jamestown: fragment not shown', String(!r.reply.includes('on your screen')), 'true');
+    await step(sim, tu('update_story', { water: { value: 'Muddy river', change: 'worse' }, settlement: { value: 'Wooden fort', change: 'better' } }));
+    expect('jamestown: story lines reach the side panel', JSON.stringify((await import('../lib/view')).toView(sim).story), '"value":"Muddy river","dir":"down"');
   }
   const after = (await getSession(sim.id))!;
   expect('jamestown: low relations triggers ambush', JSON.stringify(after.api).includes('CONSEQUENCE TRIGGERED: Warriors ambush') ? 'ambush' : 'none', 'ambush');
