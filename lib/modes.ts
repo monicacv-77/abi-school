@@ -499,9 +499,22 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
 - Real people talk in character, briefly, with personality. A little humor is welcome when it's historically honest.
 - Abi only knows what someone in her role could know. No modern hindsight from characters. If Abi uses what she learned in class, characters react as people of their time would.
 - History is mechanisms: when it matters, let her see WHY things happen (incentives, orders from investors, disease, weather, relationships).
-- MULTIPLE CHOICE IS REQUIRED HERE (this overrides any general rule against options). At every decision point, call present_decision with 3–4 options YOU write, adapted to her colony's story so far (build on her earlier strategy, e.g. a settlement she founded, a policy she set). Use the case's options as anchors and set base_option_id when an option matches one. Then: 2–4 short sentences of situation, one clear question, and the choices listed as A, B, C, D.
+- MULTIPLE CHOICE IS REQUIRED HERE (this overrides any general rule against options). At every decision point, call present_decision with a short title and 3–4 options YOU write, adapted to her colony's story so far (build on her earlier strategy, e.g. a settlement she founded, a policy she set). Each option has a 2–6 word label and a one-or-two-sentence detail with its real tradeoff. Use the case's options as anchors and set base_option_id when an option matches one. The options appear as buttons; don't repeat them in your text.
 - When she picks, call make_choice with the base option id (or custom_choice for a new idea) and choice_label = her choice as shown.
-- CONSEQUENCES: narrate 3–5 sentences, vivid and concrete, weaving in one real person, place or fact from the period when it fits. Show status changes with arrows and words (e.g. 🌽 Food ↓ Low). Then move on to what comes next. She may also propose her own plan. Call make_choice, then give the consequence in 2–4 sentences with the stat changes shown as arrows (e.g. Food ↓1). Never say which choice is historically correct before she chooses. Don't over-praise.
+- EACH TURN after she chooses, in this order, as short paragraphs:
+  1. "**You choose B: <short name>**" then the consequence in 3–5 vivid sentences, weaving in real history (people, places, events) where it fits.
+  2. A status card, exactly in this shape (one line each, plain words; use the tool's status words for food, health, relations and investors; describe water, food production and settlement from her story):
+     **Your Colony**
+     ❤️ Colonists: 104 → 91
+     🍞 Food: Low
+     💧 Water: Poor
+     🌽 Food production: Started
+     🏠 Settlement: Fort built
+     🤝 Powhatan relations: Cautious trade
+     💰 Profit: None
+  3. If a real event happens next, call advance_time and give it its own bold emoji heading (e.g. "**⛵ The First Supply Arrives**") and 2–4 sentences, then an updated status card if numbers changed.
+  4. Then the next decision (present_decision).
+- Explain hard words the moment you use them, in a few words (e.g. "dysentery, a stomach disease that causes severe diarrhea").
 - Real historical events happen on schedule: call advance_time to bring the next fixed event in when the story reaches it.
 - Her choices have knock-on effects: when a tool result says CONSEQUENCE TRIGGERED, that event happens now. Narrate it briefly and let her respond. These are how her earlier decisions shape what comes later.
 - Her version of history may differ from what really happened. The setting and facts stay accurate.
@@ -515,11 +528,20 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
         type: 'object',
         properties: {
           decision_id: { type: 'string' },
+          title: { type: 'string', description: 'short decision title, e.g. "Where will you build?" or "Who works?"' },
           options: {
             type: 'array',
             minItems: 2,
             maxItems: 4,
-            items: { type: 'object', properties: { label: { type: 'string', description: 'under 18 words' }, base_option_id: { type: 'string' } }, required: ['label'] },
+            items: {
+              type: 'object',
+              properties: {
+                label: { type: 'string', description: 'the choice in 2–6 words, e.g. "River peninsula" or "Back Smith"' },
+                detail: { type: 'string', description: "one or two short sentences: what it means and its tradeoff, e.g. \"Ships can pull close and it's easier to defend. But the land is marshy and the water may be a problem.\"" },
+                base_option_id: { type: 'string' },
+              },
+              required: ['label', 'detail'],
+            },
           },
         },
         required: ['decision_id'],
@@ -582,15 +604,18 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
       if (arr<{ decision: string }>(s.state.choices).some((ch) => ch.decision === dp.id)) return { result: 'That decision was already made.', isError: true };
       s.state.pendingDecision = dp.id;
       const letters = 'ABCD';
-      const given = arr<{ label: string; base_option_id?: string }>(input.options).filter((o) => o && o.label).slice(0, 4);
-      const opts = (given.length >= 2 ? given : dp.options.map((o) => ({ label: o.label, base_option_id: o.id }))).map((o, i) => ({
+      const given = arr<{ label: string; detail?: string; base_option_id?: string }>(input.options).filter((o) => o && o.label).slice(0, 4);
+      const opts = (given.length >= 2 ? given : dp.options.map((o) => ({ label: o.label, detail: '', base_option_id: o.id }))).map((o, i) => ({
         letter: letters[i],
         label: String(o.label),
+        detail: o.detail ? String(o.detail) : '',
         base: o.base_option_id && dp.options.some((x) => x.id === o.base_option_id) ? o.base_option_id : null,
       }));
       s.state.pendingOptions = opts;
+      s.state.pendingTitle = input.title ? String(input.title) : '';
+      s.state.decisionNumber = arr(s.state.choices).length + 1;
       return {
-        result: `Decision ${dp.id} (${dp.when}) is on her screen with buttons:\n${opts.map((o) => `${o.letter}. ${o.label}${o.base ? ` [effects of case option ${o.base}]` : ' [new idea: you set small fair effects]'}`).join('\n')}\nCase anchor situation: ${dp.situation}\nCase anchor options: ${dp.options.map((o) => `${o.id} = ${o.label}`).join(' | ')}\nIn your message: set the scene in her colony's own story, ask one clear question, and list the choices as A, B, C, D. She can tap a button or type her own plan.`,
+        result: `Decision ${arr(s.state.choices).length + 1} (${dp.id}, ${dp.when}) is on her screen as buttons:\n${opts.map((o) => `${o.letter}. ${o.label}: ${o.detail}${o.base ? ` [effects of case option ${o.base}]` : ' [new idea: you set small fair effects]'}`).join('\n')}\nCase anchor situation: ${dp.situation}\nCase anchor options: ${dp.options.map((o) => `${o.id} = ${o.label}`).join(' | ')}\nIn your message: a bold heading "**Decision ${arr(s.state.choices).length + 1}: ${input.title ?? '…'}**", then the situation in her colony's own story (2–4 short sentences), then one clear question. DON'T list the choices in your text; they're on the buttons.`,
       };
     }
     if (name === 'make_choice') {
@@ -620,6 +645,7 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
       if (s.state.pendingDecision === dp.id) {
         s.state.pendingDecision = null;
         s.state.pendingOptions = null;
+        s.state.pendingTitle = '';
       }
       s.stage = 'decision';
       const now = (s.state.stats ?? {}) as Record<string, number>;

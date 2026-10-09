@@ -19,7 +19,7 @@ export interface SessionView {
   design?: { description: string; cost: number; liters: number; line?: string; valid: boolean } | null;
   budgetLabel?: string;
   planLine?: string;
-  decision?: { when: string; options: { letter: string; label: string }[] };
+  decision?: { when: string; number: number; title: string; options: { letter: string; label: string; detail?: string }[] };
   stats?: { label: string; value: number; count?: boolean; delta?: number; word?: string }[];
   winCondition?: string;
   board?: { theory: string; supporting: string[]; problems: string[] }[];
@@ -70,8 +70,14 @@ export function toView(s: Session): SessionView {
     const stats = (s.state.stats ?? {}) as Record<string, number>;
     const delta = (s.state.lastDelta ?? {}) as Record<string, number>;
     const pend = s.state.pendingDecision ? d.decisions.find((x) => x.id === s.state.pendingDecision) : undefined;
-    const pendOpts = Array.isArray(s.state.pendingOptions) ? (s.state.pendingOptions as { letter: string; label: string }[]) : null;
-    if (pend) v.decision = { when: pend.when, options: pendOpts?.length ? pendOpts.map((o) => ({ letter: o.letter, label: o.label })) : pend.options.map((o, i) => ({ letter: 'ABCD'[i], label: o.label })) };
+    const pendOpts = Array.isArray(s.state.pendingOptions) ? (s.state.pendingOptions as { letter: string; label: string; detail?: string }[]) : null;
+    if (pend)
+      v.decision = {
+        when: pend.when,
+        number: Number(s.state.decisionNumber) || (Array.isArray(s.state.choices) ? s.state.choices.length + 1 : 1),
+        title: String(s.state.pendingTitle || ''),
+        options: pendOpts?.length ? pendOpts.map((o) => ({ letter: o.letter, label: o.label, detail: o.detail })) : pend.options.map((o, i) => ({ letter: 'ABCD'[i], label: o.label })),
+      };
     v.stats = d.stats.map((x) => ({ label: x.label, value: stats[x.id] ?? x.start, count: x.kind === 'count', delta: delta[x.id], word: x.kind === 'count' ? undefined : statWord(x, stats[x.id] ?? x.start) }));
   }
   return v;

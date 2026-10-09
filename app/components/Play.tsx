@@ -23,16 +23,42 @@ function plain(text: string) {
   return text.replace(/\*\*/g, '').replace(/[#_`>]/g, '');
 }
 
+function Inline({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(/(\*\*[^*]+\*\*)/g).map((part, j) =>
+        part.startsWith('**') && part.endsWith('**') ? <strong key={j}>{part.slice(2, -2)}</strong> : <span key={j}>{part}</span>,
+      )}
+    </>
+  );
+}
+
 function Rich({ text }: { text: string }) {
   return (
     <>
-      {text.split(/\n{2,}/).map((para, i) => (
-        <p key={i} style={{ margin: i ? '10px 0 0' : 0 }}>
-          {para.split(/(\*\*[^*]+\*\*)/g).map((part, j) =>
-            part.startsWith('**') && part.endsWith('**') ? <strong key={j}>{part.slice(2, -2)}</strong> : <span key={j}>{part.split('\n').map((l, k) => (k ? [<br key={k} />, l] : l))}</span>,
-          )}
-        </p>
-      ))}
+      {text.split(/\n{2,}/).map((para, i) => {
+        const lines = para.split('\n');
+        const isStatus = /your colony/i.test(lines[0].replace(/\*/g, '')) && lines.length > 2;
+        if (isStatus)
+          return (
+            <div key={i} className="status-card">
+              <div className="label">{lines[0].replace(/\*/g, '')}</div>
+              {lines.slice(1).map((l, k) => (
+                <div key={k}><Inline text={l} /></div>
+              ))}
+            </div>
+          );
+        return (
+          <p key={i} style={{ margin: i ? '10px 0 0' : 0 }}>
+            {lines.map((l, k) => (
+              <span key={k}>
+                {k ? <br /> : null}
+                <Inline text={l} />
+              </span>
+            ))}
+          </p>
+        );
+      })}
     </>
   );
 }
@@ -286,11 +312,14 @@ export default function Play({ initial }: { initial: SessionView }) {
         {busy && <div className="muted" style={{ fontFamily: 'var(--mono)', fontSize: 14 }}>{THINKING[thinkIdx]}</div>}
         {view.decision && !busy && !closed && (
           <div className="panel stack" style={{ borderColor: 'var(--accent)', borderWidth: 2, background: 'var(--accent-soft)', gap: 10 }} role="group" aria-label="Your choices">
-            <div className="label" style={{ color: 'var(--accent-ink)' }}>🧭 Your decision · {view.decision.when}</div>
+            <div className="label" style={{ color: 'var(--accent-ink)' }}>🧭 Decision {view.decision.number}{view.decision.title ? `: ${view.decision.title}` : ''} · {view.decision.when}</div>
             {view.decision.options.map((o) => (
               <button key={o.letter} className="choice-btn" onClick={() => send(undefined, `${o.letter}. ${o.label}`)}>
                 <span className="choice-letter">{o.letter}</span>
-                <span>{o.label}</span>
+                <span>
+                  <strong>{o.label}</strong>
+                  {o.detail ? <span style={{ display: 'block', color: 'var(--ink-2)', fontSize: 16 }}>{o.detail}</span> : null}
+                </span>
               </button>
             ))}
             <div className="muted" style={{ fontSize: 15 }}>Or type your own plan below.</div>
