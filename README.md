@@ -19,3 +19,5 @@ Environment variables (see `.env.example`):
 Local: `npm install`, add a `.env.local`, then `npm run dev`. Without a Blob token, data saves to `.data/`.
 
 Offline engine check (no API key needed): `npx tsx scripts/engine-check.ts`.
+
+Writing a new case: follow `docs/CASE-STANDARD.md`, start from a template in `docs/templates/`, then run `npm run check-cases -- <id>` before marking it READY.

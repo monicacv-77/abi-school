@@ -121,7 +121,10 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
 - After each stress test, once Abi has reasoned it through, call judge_test with whether her design passed.
 - IMPROVE is required: after a failed test, Abi redesigns (submit_design again) and you retest that weakness. Don't fix it for her.
 - If her design passes every test, run ALL the stress tests (a perfect design should prove it).
-- Finish with the case's final question, get her reasoning, then close.
+- Ask only for the missing design decisions that matter for testing (sizes, materials, how it stands, drains, where fire is, who goes where). Don't quiz her on details that won't be tested.
+- Tests follow physics and the stated environment, never invented to defeat her. If an earlier choice already handles a later test, say it passes and why.
+- Real historical methods are resources, not the required answer. Any physically plausible design using available materials is allowed; price it fairly as a custom item.
+- Finish with the case's wrap-up questions (see the Facilitator Guide), then close.
 `.trim(),
   tools: (): Tool[] => [
     {
@@ -204,6 +207,7 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
         const { u, fmtCost, capLabel, minCap } = unitsOf(d);
         return `Budget: ${fmtCost(d.budget)}.${u?.scarce ? ` Scarce: ${u.scarce.limit} ${u.scarce.label} total.` : ''}${minCap ? ` Minimum target: ${minCap.toLocaleString()} ${capLabel}.` : ''}${u?.workers ? ` About ${u.workers} workers available, so ${u.workers} ${u.cost} ≈ 1 day of building.` : ''}`;
       })(),
+      d.designFor ? `WHO IT'S FOR (Abi knows this; every design and test must account for these people): ${d.designFor}` : '',
       `Success targets:\n${d.targets.map((t) => `- ${t.label}: ${t.check}`).join('\n')}`,
       `Existing resources:\n${d.existingResources.map((r) => `- ${r}`).join('\n')}`,
       `Environment (physical facts shown to Abi):\n${d.environment.map((r) => `- ${r}`).join('\n')}`,
@@ -216,7 +220,7 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
         .sort((a, b) => a.order - b.order)
         .map((s) => `- ${s.id}: ${s.name}`)
         .join('\n')}`,
-    ].join('\n\n');
+    ].filter(Boolean).join('\n\n');
   },
   initialState: () => ({ revealed: [], design: null, testsRun: [], designCount: 0, results: [], step: 0 }),
   handle(name: string, input: any, s: Session, c: CaseDef): ToolOutcome | null {
@@ -553,7 +557,15 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
 - Real historical events happen on schedule: call advance_time to bring the next fixed event in when the story reaches it.
 - Her choices have knock-on effects: when a tool result says CONSEQUENCE TRIGGERED, that event happens now. Narrate it briefly and let her respond. These are how her earlier decisions shape what comes later.
 - Her version of history may differ from what really happened. The setting and facts stay accurate.
-- At the end, run the case's debrief exactly as described in its notes. The wrap-up questions are a straight run: ask each one once, react to her answer in one short sentence, then ask the next. Never add follow-up questions or ask her to explain more. After the last answer, close the case.
+- Don't force the real outcome and don't protect her people: survival should feel uncertain. Reward plausible good choices; let poor ones make things worse.
+- Choices have tradeoffs; never imply one is virtuous, and don't say which is historically correct before she chooses.
+- No modern hindsight from characters. If Abi uses what she learned in class, people react as people of their time would, but let her plan work if it's plausible.
+- If she asks a history question mid-game, answer briefly without telling her what to decide. A plausible idea outside the options is allowed (make_choice with custom_choice).
+- DEBRIEF, after the last decision (unless the case's notes say otherwise), in short labeled sections:
+  1. 🏁 YOUR FINAL OUTCOME: a short status list in words.
+  2. 🔀 YOURS vs. THE REAL ONE: for each debrief topic, 1–2 sentences: what she did, what really happened, how it changed things.
+  3. ⭐ THE BIGGEST DIFFERENCE: 2–3 sentences, including how problems combined and made each other worse (or how her choices broke that chain).
+  Then the case's wrap-up questions as a straight run (see the Facilitator Guide), then close.
 `.trim(),
   tools: (): Tool[] => [
     {
@@ -633,6 +645,7 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
         .map((dp) => `- ${dp.id} (${dp.when}): ${dp.situation}\n  Options: ${dp.options.map((o) => `${o.id} = ${o.label}`).join(' | ')}`)
         .join('\n')}`,
       `For the ending comparison (don't reveal early): ${d.historyComparison}`,
+      d.debriefTopics?.length ? `Debrief topics for YOURS vs. THE REAL ONE: ${d.debriefTopics.join(', ')}` : '',
     ]
       .filter(Boolean)
       .join('\n\n');

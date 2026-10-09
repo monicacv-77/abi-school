@@ -7,7 +7,7 @@
   "location": "Jamestown, Virginia",
   "realOrConstructed": "Real historical setting with alternate outcomes",
   "status": "READY",
-  "version": 7,
+  "version": 8,
   "bigUnderstanding": "Monica's design: Jamestown's survival was shaped by real pressures (water, food, labor, disease, relations with the Powhatan, supply ships, investor expectations, population growth, the search for profit). Abi learns them through decisions and consequences, not exposition. This is the unit finale: she may transfer ideas from Clean Water, The Failing Farm, Too Good to Be True and Build for Survival; never prompt her to.",
   "winCondition": "Lead your colony through its first three years. Then explain what mattered most to its survival, and why.",
   "opening": {
@@ -44,19 +44,13 @@
   "facilitatorNotes": [
     "ROLE: Abi is President of the Council, the colony's leader, named in the Company's sealed orders (this really happened; the real first president was Edward Wingfield, so here Wingfield is a resentful councilor). Characters address her as 'President.' Don't make an issue of her name or gender; if she gives a name, use it.",
     "PRESSURE: she carries real responsibility. Company letters are addressed to her. Councilors argue, scheme and blame her. Deaths are her problem. Keep it serious but not grim, with dry humor where history allows (gentlemen refusing to dig, worthless 'gold').",
-    "TURN SHAPE: situation in 2–4 short sentences, one clear question, choices A–D (you adapt them to her story via present_decision). After she chooses: 3–5 sentences of vivid consequence, status changes with arrows and words, then move on quickly. Let her bigger strategies carry forward: if she founds a second settlement, sets a work rule, or makes a trade alliance, later situations and options should build on it.",
     "Follow the ORDER OF PLAY. Call advance_time for each real event when the story reaches it; their severity depends on her earlier choices (the tool result says how). Narrate from the numbers.",
-    "Do not force the real outcome, and do not protect the colony. Survival should feel uncertain. Reward plausible good choices; let poor ones make things worse.",
-    "Choices have tradeoffs; never imply one is virtuous. Don't say which is historically correct before she chooses.",
     "Powhatan nations are organized societies with their own interests, politics and food systems, not props and not rescuers. Cooperation is never guaranteed. Trade never creates unlimited food.",
     "Investors are not cartoon villains: the Company paid for ships, supplies and people across an ocean and needs the venture to pay for itself. Abi should feel SURVIVE NOW vs. BECOME USEFUL.",
-    "No modern hindsight for her character. If she uses what she learned in class, characters react as 1607 people would, but let her plan work if it's plausible.",
-    "If she asks a history question, answer briefly without telling her what to decide.",
     "Starving Time: describe honestly but not graphically (eating horses, dogs, rats, boiled leather). Archaeology also found evidence of at least one case of survival cannibalism: mention it only if Abi asks directly, in one plain sentence, no detail.",
     "Pocahontas (about 11 in 1607) really visited the fort. The famous 'rescue' of John Smith is his own story, told years later; historians debate it.",
     "Tobacco became Virginia's money crop only after 1612. Don't let it rescue the early colony.",
-    "If she proposes something outside the options that's plausible for 1607, allow it with make_choice custom_choice.",
-    "DEBRIEF (after the last decision), in this order, using short labeled sections with emoji:\n1. 🏁 YOUR FINAL COLONY: a short status list (survivors, food, water, food production, settlement, Powhatan relations, profit), in words.\n2. 🔀 YOUR JAMESTOWN vs. THE REAL JAMESTOWN: topic by topic (Location, Food, Work, Powhatan relations, Profit, Expansion if she expanded, The Starving Time, Rescue), 1–2 sentences each: what she did, what really happened, how it changed things. Mention tobacco (John Rolfe, from 1612) as the long-term answer, and its cost in land, labor and conflict.\n3. ⭐ THE BIGGEST DIFFERENCE: 2–3 sentences, including that Jamestown's disaster wasn't one bad decision; problems combined and made each other worse.\nThen ask these FOUR questions, ONE AT A TIME, exactly as written. After each answer: one short sentence that reflects her answer back as cause and effect, then the next question in the same message. NO follow-up questions, no 'can you say more', no corrections or mini-lessons, even if an answer is short. Any answer counts.\nQ1. What's one important decision you made differently from the real colonists?\nQ2. How did that decision affect what happened to your colony later?\nQ3. What do you think were the biggest causes of the real Jamestown's problems?\nQ4. What surprised you most about what actually happened at Jamestown?\nAfter her answer to Q4, close the case right away in that same turn (Case Summary visual: compare, My Jamestown vs. Real Jamestown; quote her best cause-and-effect line)."
+    "Debrief extras: the final outcome list covers survivors, food, water, food production, settlement, Powhatan relations and profit. In the comparison, mention tobacco (John Rolfe, from 1612) as the long-term answer, and its cost in land, labor and conflict. Case Summary visual: compare, My Jamestown vs. Real Jamestown; quote her best cause-and-effect line."
   ],
   "justInTimeConcepts": [
     "Joint-stock company: investors share the costs and hope to share profits.",
@@ -70,7 +64,7 @@
     "Where will your food come from if this goes wrong?",
     "Who pays the price if this choice backfires?"
   ],
-  "completion": "Abi has made the major decisions through the Starving Time, reached a final colony outcome, heard the Your Jamestown vs. Real Jamestown comparison, and answered the four wrap-up questions in her own words (any answer counts; no follow-ups).",
+  "completion": "Abi has made the major decisions through the Starving Time, reached a final colony outcome, heard the debrief, and answered the wrap-up questions.",
   "endReveal": {
     "concept": "Cause and effect in history: Jamestown's disasters came from real pressures stacking up (bad water, too few workers, investor demands, dependence on supply ships and on Powhatan food, drought, more mouths to feed). Its survival was never guaranteed.",
     "vocabulary": [
@@ -1092,12 +1086,28 @@
         ]
       }
     ],
-    "historyComparison": "Real Jamestown: built on the swampy island; gold hunting and gentlemen refusing work cost months; brackish water, disease and drought killed about two-thirds of the first colonists by January 1608 (about 38 of 104 survived); the colony leaned on Powhatan corn and supply ships; Smith's 'work or don't eat' rule helped in 1608–09; then the Third Supply's crowds, rats, Smith's departure and war with the Powhatan brought the Starving Time (about 500 fell to about 60). In June 1610 the survivors abandoned Jamestown and were sailing away when Lord De La Warr's fleet arrived. Tobacco (John Rolfe, from 1612) finally made Virginia profitable."
+    "historyComparison": "Real Jamestown: built on the swampy island; gold hunting and gentlemen refusing work cost months; brackish water, disease and drought killed about two-thirds of the first colonists by January 1608 (about 38 of 104 survived); the colony leaned on Powhatan corn and supply ships; Smith's 'work or don't eat' rule helped in 1608–09; then the Third Supply's crowds, rats, Smith's departure and war with the Powhatan brought the Starving Time (about 500 fell to about 60). In June 1610 the survivors abandoned Jamestown and were sailing away when Lord De La Warr's fleet arrived. Tobacco (John Rolfe, from 1612) finally made Virginia profitable.",
+    "debriefTopics": [
+      "Location",
+      "Food",
+      "Work",
+      "Powhatan relations",
+      "Profit",
+      "Expansion (only if she expanded)",
+      "The Starving Time",
+      "Rescue"
+    ]
   },
   "image": {
     "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/US_Navy_070424-N-1317P-002_A_Navy_patrol_vessel_secures_the_water_around_one_of_the_three_replicas_of_the_Jamestown_Settlement_ships%2C_the_Susan_Constant%2C_Godspeed%2C_and_Discovery_as_the_vessels_transit_the_James_River.jpg/960px-US_Navy_070424-N-1317P-002_A_Navy_patrol_vessel_secures_the_water_around_one_of_the_three_replicas_of_the_Jamestown_Settlement_ships%2C_the_Susan_Constant%2C_Godspeed%2C_and_Discovery_as_the_vessels_transit_the_James_River.jpg",
     "alt": "A replica of one of the three Jamestown ships sailing on the James River",
     "credit": "Replica Jamestown ship on the James River · U.S. Navy photo · public domain",
     "href": "https://commons.wikimedia.org/wiki/File:US_Navy_070424-N-1317P-002_A_Navy_patrol_vessel_secures_the_water_around_one_of_the_three_replicas_of_the_Jamestown_Settlement_ships,_the_Susan_Constant,_Godspeed,_and_Discovery_as_the_vessels_transit_the_James_River.jpg"
-  }
+  },
+  "wrapUpQuestions": [
+    "What's one important decision you made differently from the real colonists?",
+    "How did that decision affect what happened to your colony later?",
+    "What do you think were the biggest causes of the real Jamestown's problems?",
+    "What surprised you most about what actually happened at Jamestown?"
+  ]
 }

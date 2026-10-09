@@ -7,7 +7,7 @@
   "location": "Early colonial Virginia (Tidewater)",
   "realOrConstructed": "Constructed challenge in a historically grounded setting",
   "status": "READY",
-  "version": 4,
+  "version": 5,
   "bigUnderstanding": "Shelter is an engineering tradeoff: speed, weather protection, stability, fire safety, labor, scarce imported materials, and repairability. There is no single right design. Early Jamestown builders used local wood and clay (mud-and-stud, daub, thatch) because it was fast and local, but it needed constant maintenance in Virginia weather.",
   "winCondition": "Design shelter for about 105 people, including 15 families with children, that is fast, dry, stable, safe and buildable with what you have. Then survive the tests and fix whatever breaks.",
   "opening": {
@@ -53,14 +53,10 @@
   },
   "facilitatorNotes": [
     "Monica's design notes: the problem is NOT 'draw a house.' Abi balances speed, weather, stability, fire, labor, scarce nails, repairability and housing many people.",
-    "WHO'S HERE: about 50 single men plus 15 families (15 couples, 25 children from babies to 14). This is a constructed settlement: the real first Jamestown group (1607) was all men and boys; English women and families came from 1608 on, and the 1587 Roanoke colony included families. Families change the design: privacy (one big barracks with families and single men together will cause real trouble), each family wanting its own hearth to cook and keep warm (more fires = more fire risk), children near hearths, babies needing warm dry beds, and more roofs and walls to build. Let Abi weigh it; don't tell her the answer.",
-    "Historical methods are resources, not the required answer. Allow any physically and historically plausible design (using available materials), even if Jamestown didn't build it that way. Price it fairly as a custom item.",
+    "WHO'S HERE (constructed): the real first Jamestown group (1607) was all men and boys; English women and families came from 1608 on, and the 1587 Roanoke colony included families. Families change the design: privacy (one big barracks with families and single men together will cause real trouble), each family wanting its own hearth (more fires = more fire risk), children near hearths, babies needing warm dry beds, and more roofs and walls. Let Abi weigh it; don't tell her the answer.",
     "Never show the toolbox as a menu. If she asks what's possible, describe a few techniques briefly, not prices.",
-    "BUILD: once she proposes a design, ask only for missing decisions that matter for testing: number/size of buildings, wall and roof materials, how it stands up, how rain drains, where fires/cooking happen, how many people per building. No drawings or unnecessary math.",
     "Engineering tradeoffs to judge by: one big barracks is fast and shares walls, but crowds people and one fire or failure hits everyone. Many small buildings isolate fire and failure but need more roofs and labor. Nails simplify joints but are scarce. Daub uses local stuff but needs labor and upkeep. Thatch is local and light but burns and needs repair.",
-    "Tests follow physics and the stated environment, never invented to defeat her. If her design already handles a test, say it passed and why. Do not automatically burn down a well-designed settlement.",
     "Abi's mom is an architect; Abi may know some building terms. Don't assume she does; don't over-explain either.",
-    "Final question: 'Would you approve this shelter system for the settlement's first year? Why?'",
     "End reveal: archaeologists at Jamestown found early colonists built with local wood and clay using mud-and-stud construction. Daub mixed clay with plant fibers, and early roofs could be thatch. Fast, local, but high-maintenance in Virginia weather. The real fort burned in January 1608. Make clear her settlement, design and tests were constructed."
   ],
   "justInTimeConcepts": [
@@ -444,12 +440,16 @@
         "scenario": "After months of weather, some daub has cracked and washed out, thatch needs patching, and wood touching the ground is going soft.",
         "passesIf": "Passes if repairs can be done locally with what they have (clay, reeds, timber), without waiting for England. Designs that depend on nails, boards or canvas struggle."
       }
-    ]
+    ],
+    "designFor": "About 105 people: about 50 single men plus 15 families (15 couples and 25 children, from babies to 14-year-olds)."
   },
   "image": {
     "src": "https://upload.wikimedia.org/wikipedia/commons/2/23/Jamestown_VA_houses.JPG",
     "alt": "Reconstructed thatched houses inside the fort at Jamestown Settlement",
     "credit": "Reconstructed houses, Jamestown Settlement · Tasma3197 · CC BY-SA 3.0",
     "href": "https://commons.wikimedia.org/wiki/File:Jamestown_VA_houses.JPG"
-  }
+  },
+  "wrapUpQuestions": [
+    "Would you approve this shelter system for the settlement's first year? Why?"
+  ]
 }

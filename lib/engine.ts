@@ -31,6 +31,7 @@ function caseSpec(c: CaseDef): string {
     `Completion criteria: ${c.completion}`,
     `End reveal (after close only): ${c.endReveal.concept}\nVocabulary: ${c.endReveal.vocabulary.map((v) => `${v.term} = ${v.meaning}`).join('; ')}\nReal: ${c.endReveal.realVsConstructed.real}\nConstructed: ${c.endReveal.realVsConstructed.constructed}`,
     `Skills for the summary: ${c.skills.join(', ')}`,
+    c.wrapUpQuestions?.length ? `WRAP-UP QUESTIONS (the very end, after everything else; ask exactly these, one at a time, no follow-ups):\n${c.wrapUpQuestions.map((q, i) => `Q${i + 1}. ${q}`).join('\n')}` : '',
     c.followUpSeeds?.length ? `Follow-up directions for the 'Keep exploring' questions at close: ${c.followUpSeeds.join('; ')}` : '',
     c.timelineEvents?.length ? `Timeline events you may pin when they come up: ${c.timelineEvents.map((t) => `${t.year} — ${t.label}`).join('; ')}` : '',
     `CASE DATA\n${(ENGINES[c.mode] as { spec: (c: CaseDef) => string }).spec(c)}`,

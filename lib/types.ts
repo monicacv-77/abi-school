@@ -47,6 +47,7 @@ export interface CaseDef {
   skills: string[];
   timelineEvents?: { year: string; label: string }[];
   followUpSeeds?: string[]; // directions for the end-of-case 'Keep exploring' questions
+  wrapUpQuestions?: string[]; // asked one at a time at the very end, no follow-ups; case closes after the last answer
   winCondition: string; // shown to Abi on screen, for every case type
   data: ChallengeData | InvestigationData | SimulationData;
 }
@@ -91,6 +92,7 @@ export interface ChallengeData {
     workers?: number; // to turn cost into days
   };
   minCapacity?: number; // generic target; water case uses minLitersPerDay
+  designFor?: string; // exactly who the design serves (how many people, ages, families, needs)
   targets: { id: string; label: string; check: string }[];
   minLitersPerDay?: number;
   buildingBlocks: { name: string; examples: string }[]; // what Abi sees: categories, no prices
@@ -171,6 +173,7 @@ export interface SimulationData {
   decisions: DecisionPoint[];
   scienceHooks?: string[];
   historyComparison: string; // for the end
+  debriefTopics?: string[]; // topics for 'Yours vs. the real one', e.g. Location, Food, Work
 }
 
 // ---------- Sessions ----------

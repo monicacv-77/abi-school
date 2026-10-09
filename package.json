@@ -5,7 +5,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check-cases": "tsx scripts/check-cases.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.132.0",

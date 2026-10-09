@@ -39,6 +39,14 @@ function Rich({ text }: { text: string }) {
       {text.split(/\n{2,}/).map((para, i) => {
         const lines = para.split('\n');
         const isStatus = /your colony|what changed/i.test(lines[0].replace(/\*/g, '')) && lines.length > 1;
+        const q = para.replace(/\*/g, '').match(/^\s*Question\s+(\d+)\s+of\s+(\d+)\s*[:.]\s*([\s\S]+)$/i);
+        if (q)
+          return (
+            <div key={i} className="question-card">
+              <div className="q-num">❓ Question {q[1]} of {q[2]}</div>
+              <div className="q-text">{q[3].trim()}</div>
+            </div>
+          );
         if (isStatus)
           return (
             <div key={i} className="status-card">

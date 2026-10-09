@@ -1,0 +1,153 @@
+{
+  "id": "0XX",
+  "title": "Short catchy title",
+  "mode": "challenge",
+  "classification": "Design Problem",
+  "unit": "Unit N: Name",
+  "location": "Place, region",
+  "realOrConstructed": "What's real, what's invented (one line)",
+  "status": "DRAFT",
+  "version": 1,
+  "bigUnderstanding": "HIDDEN: the one idea Abi should walk away with",
+  "winCondition": "Her goal in one sentence (also said in the opening paragraph)",
+  "opening": {
+    "intro": "SCENE: place, time, what it looks/sounds/smells like, who's there (3–4 short sentences).\n\nYOUR JOB: who Abi is and what she has to do, in 1–2 sentences.",
+    "cards": [
+      {
+        "icon": "🧑‍🌾",
+        "label": "A person's voice",
+        "text": "1–2 short sentences in their words (≤40 words)."
+      },
+      {
+        "icon": "🌧️",
+        "label": "The place",
+        "text": "Physical facts only."
+      },
+      {
+        "icon": "🎯",
+        "label": "Your goal",
+        "text": "What counts as success."
+      }
+    ],
+    "prompt": "The hand-off question, e.g. 'Where do you want to start?'"
+  },
+  "image": {
+    "src": "https://upload.wikimedia.org/...",
+    "alt": "What the picture shows",
+    "credit": "Title · Author · License",
+    "href": "https://commons.wikimedia.org/wiki/File:..."
+  },
+  "facilitatorNotes": [
+    "Only what's special about THIS case: history to get right, sensitive topics, what not to give away."
+  ],
+  "justInTimeConcepts": [
+    "Concept to explain only when she needs it"
+  ],
+  "scaffolds": [
+    "Light hint",
+    "Stronger hint",
+    "Strongest hint"
+  ],
+  "completion": "What must have happened before the case can close",
+  "endReveal": {
+    "concept": "The concept name, revealed at the end",
+    "vocabulary": [
+      {
+        "term": "word",
+        "meaning": "plain meaning"
+      },
+      {
+        "term": "word",
+        "meaning": "plain meaning"
+      }
+    ],
+    "realVsConstructed": {
+      "real": "What's real",
+      "constructed": "What's invented"
+    }
+  },
+  "skills": [
+    "Skill one",
+    "Skill two"
+  ],
+  "timelineEvents": [
+    {
+      "year": "1607",
+      "label": "Real event"
+    }
+  ],
+  "followUpSeeds": [
+    "Direction 1",
+    "Direction 2",
+    "Direction 3"
+  ],
+  "wrapUpQuestions": [
+    "Would you approve this ___ for ___? Why?"
+  ],
+  "data": {
+    "kind": "challenge",
+    "budget": 1000,
+    "units": {
+      "cost": "worker-days",
+      "capacity": "people sheltered",
+      "scarce": {
+        "label": "kegs of nails",
+        "limit": 6
+      },
+      "workers": 30
+    },
+    "designFor": "Exactly who: how many people, ages, families, special needs",
+    "minCapacity": 100,
+    "targets": [
+      {
+        "id": "enough",
+        "label": "ENOUGH",
+        "check": "How to judge it"
+      }
+    ],
+    "buildingBlocks": [
+      {
+        "name": "Category",
+        "examples": "a few examples, no prices"
+      }
+    ],
+    "toolbox": [
+      {
+        "id": "item_a",
+        "name": "Item name",
+        "cost": 10,
+        "capacity": 5,
+        "provides": "what it does"
+      },
+      {
+        "id": "secret_idea",
+        "name": "Good idea she might invent",
+        "cost": 20,
+        "provides": "what it does",
+        "hidden": true
+      }
+    ],
+    "measurements": [
+      {
+        "id": "m1",
+        "label": "How she'd ask for it",
+        "result": "Plain facts only, no commentary"
+      }
+    ],
+    "stressTests": [
+      {
+        "id": "t1",
+        "order": 1,
+        "name": "Test name",
+        "scenario": "What happens",
+        "passesIf": "How to judge"
+      }
+    ],
+    "existingResources": [
+      "What's already there"
+    ],
+    "environment": [
+      "Physical facts only"
+    ]
+  }
+}

@@ -1,0 +1,202 @@
+{
+  "id": "0XX",
+  "title": "Short catchy title",
+  "mode": "simulation",
+  "classification": "Critical Decision",
+  "unit": "Unit N: Name",
+  "location": "Place, region",
+  "realOrConstructed": "What's real, what's invented (one line)",
+  "status": "DRAFT",
+  "version": 1,
+  "bigUnderstanding": "HIDDEN: the one idea Abi should walk away with",
+  "winCondition": "Her goal in one sentence (also said in the opening paragraph)",
+  "opening": {
+    "intro": "SCENE: place, time, what it looks/sounds/smells like, who's there (3–4 short sentences).\n\nYOUR JOB: who Abi is and what she has to do, in 1–2 sentences.",
+    "cards": [
+      {
+        "icon": "🧑‍🌾",
+        "label": "A person's voice",
+        "text": "1–2 short sentences in their words (≤40 words)."
+      },
+      {
+        "icon": "🌧️",
+        "label": "The place",
+        "text": "Physical facts only."
+      },
+      {
+        "icon": "🎯",
+        "label": "Your goal",
+        "text": "What counts as success."
+      }
+    ],
+    "prompt": "The hand-off question, e.g. 'Where do you want to start?'"
+  },
+  "image": {
+    "src": "https://upload.wikimedia.org/...",
+    "alt": "What the picture shows",
+    "credit": "Title · Author · License",
+    "href": "https://commons.wikimedia.org/wiki/File:..."
+  },
+  "facilitatorNotes": [
+    "Only what's special about THIS case: history to get right, sensitive topics, what not to give away."
+  ],
+  "justInTimeConcepts": [
+    "Concept to explain only when she needs it"
+  ],
+  "scaffolds": [
+    "Light hint",
+    "Stronger hint",
+    "Strongest hint"
+  ],
+  "completion": "What must have happened before the case can close",
+  "endReveal": {
+    "concept": "The concept name, revealed at the end",
+    "vocabulary": [
+      {
+        "term": "word",
+        "meaning": "plain meaning"
+      },
+      {
+        "term": "word",
+        "meaning": "plain meaning"
+      }
+    ],
+    "realVsConstructed": {
+      "real": "What's real",
+      "constructed": "What's invented"
+    }
+  },
+  "skills": [
+    "Skill one",
+    "Skill two"
+  ],
+  "timelineEvents": [
+    {
+      "year": "1607",
+      "label": "Real event"
+    }
+  ],
+  "followUpSeeds": [
+    "Direction 1",
+    "Direction 2",
+    "Direction 3"
+  ],
+  "wrapUpQuestions": [
+    "What's one important decision you made differently from the real people?",
+    "What do you think were the biggest causes of what really happened?",
+    "If you could redo one choice, which would it be and why?",
+    "What surprised you most about what actually happened?"
+  ],
+  "data": {
+    "kind": "simulation",
+    "role": "An important role with real pressure (a leader who gets blamed)",
+    "setting": "Where and when",
+    "canKnow": "What someone in her role could know",
+    "cannotKnow": "Hindsight she can't have",
+    "people": [
+      {
+        "name": "Name",
+        "who": "who they are",
+        "voice": "how they talk",
+        "real": true
+      }
+    ],
+    "dailyLife": [
+      "Small true sensory detail"
+    ],
+    "stats": [
+      {
+        "id": "people",
+        "label": "👥 People",
+        "start": 100,
+        "kind": "count"
+      },
+      {
+        "id": "food",
+        "label": "🌽 Food",
+        "start": 5,
+        "scale": [
+          "Gone",
+          "Very low",
+          "Low",
+          "Fair",
+          "Good"
+        ]
+      }
+    ],
+    "decisions": [
+      {
+        "id": "d1",
+        "when": "Date",
+        "situation": "The situation",
+        "options": [
+          {
+            "id": "a",
+            "label": "Option",
+            "effects": {
+              "food": 1
+            },
+            "consequence": "What happens"
+          },
+          {
+            "id": "b",
+            "label": "Option",
+            "effects": {
+              "people": -5
+            },
+            "consequence": "What happens"
+          },
+          {
+            "id": "c",
+            "label": "Option",
+            "effects": {},
+            "consequence": "What happens"
+          }
+        ]
+      }
+    ],
+    "fixedEvents": [
+      {
+        "id": "ev1",
+        "when": "Date",
+        "event": "Real event",
+        "effects": {
+          "people": -10
+        },
+        "modifiers": [
+          {
+            "ifChoice": "d1:a",
+            "effects": {
+              "people": 5
+            },
+            "note": "Why her choice softened it"
+          }
+        ]
+      }
+    ],
+    "triggers": [
+      {
+        "id": "famine",
+        "stat": "food",
+        "below": 1,
+        "event": "What happens when food runs out",
+        "effects": {
+          "people": -10
+        }
+      }
+    ],
+    "sequence": [
+      "d1",
+      "ev1"
+    ],
+    "requiredDecisions": [
+      "d1"
+    ],
+    "historyComparison": "What really happened, briefly",
+    "debriefTopics": [
+      "Topic 1",
+      "Topic 2",
+      "Topic 3"
+    ]
+  }
+}
