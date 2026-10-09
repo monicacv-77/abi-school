@@ -7,7 +7,7 @@
   "location": "James River, Virginia",
   "realOrConstructed": "Real history and science; Abi's assignment is invented",
   "status": "READY",
-  "version": 7,
+  "version": 8,
   "bigUnderstanding": "Food is a system: crop, soil, water, timing, tools, knowledge and labor. The English failed because they brought the wrong crops, farmed the wrong ground the wrong way at the wrong time, without the people or knowledge to do it, during a drought. The Powhatan succeeded with crops and methods refined over generations, including corn, beans and squash planted together, which work as a living system. Sets up why Jamestown depended on Powhatan corn in the simulation.",
   "opening": {
     "intro": "Jamestown, summer 1609. Outside the fort, the English fields look neat: straight rows of wheat and barley brought from England. But the plants are thin and yellow, the ground between them is cracked, and the colony is going hungry.\n\nA few miles upriver, a Powhatan town's fields look like a jungle: corn, beans and squash all tangled together. Yet they're so full of food that the town trades away the extra. Same sun, same rain. The Virginia Company wants to know why its colony can't feed itself. Find at least three reasons, and back each one with evidence.",
@@ -39,7 +39,8 @@
     "Treat Powhatan farmers, mostly women, as experts with generations of knowledge, not as 'simple' or 'natural.' Their system was sophisticated technology.",
     "Kemps and Tassore were Powhatan men held captive at Jamestown when they taught the English to plant corn. If she asks, be honest about that.",
     "The rats evidence is about stored food, not the fields. If she uses it to explain failing fields, let her notice the difference.",
-    "Abi may know about fertilizer from earlier work. Don't remind her; let her connect it herself."
+    "Abi may know about fertilizer from earlier work. Don't remind her; let her connect it herself.",
+    "COLUMBIAN EXCHANGE: the livestock evidence and the 'where each crop comes from' evidence are about plants and animals crossing the Atlantic. Livestock didn't make the English fields fail (it hurt the Powhatan fields), so it isn't one of the causes; if Abi offers it as one, let the evidence sort it out. At the end reveal, name the idea in one or two sentences: the Columbian Exchange, when plants, animals, people and diseases crossed the ocean both ways (corn, beans and squash to Europe and the world; wheat, pigs, cattle, horses and diseases like smallpox to the Americas), helping some peoples and devastating others."
   ],
   "justInTimeConcepts": [
     "Nitrogen: a nutrient plants need to grow; corn uses a lot.",
@@ -71,6 +72,10 @@
       {
         "term": "Drought",
         "meaning": "A long stretch of much less rain than normal."
+      },
+      {
+        "term": "Columbian Exchange",
+        "meaning": "Plants, animals, people and diseases crossing the Atlantic both ways after 1492."
       }
     ],
     "realVsConstructed": {
@@ -94,6 +99,7 @@
     }
   ],
   "followUpSeeds": [
+    "the Columbian Exchange: what else crossed the ocean (horses, potatoes, diseases) and what it changed",
     "Native American farming technology, like how corn was bred from a wild grass called teosinte",
     "how modern farms get nitrogen today, fertilizer, and what happens when it runs off",
     "how farmers deal with drought now: irrigation, seed banks, drought-proof crops",
@@ -186,6 +192,12 @@
         "label": "What happened when the English copied Powhatan methods",
         "howToGet": "records",
         "result": "In 1609 two Powhatan men held at Jamestown, Kemps and Tassore, showed the colonists how to plant corn their way. John Smith reported the colony planted 30 to 40 acres of corn that year."
+      },
+      {
+        "id": "livestock",
+        "label": "What's been trampling the Powhatan field's edge",
+        "howToGet": "inspect / ask a Powhatan farmer",
+        "result": "Hoof prints and torn-up corn hills along the edge of the Powhatan field. English pigs and cattle roam loose in the woods; the English don't fence them in. The Powhatan fields have no fences either. Before Europeans came, there were no pigs, cows or horses anywhere in the Americas. A Powhatan woman says the English pigs come for the corn at night."
       },
       {
         "id": "rats",
