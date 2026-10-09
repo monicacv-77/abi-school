@@ -1,6 +1,7 @@
 import Link from 'next/link';
-import { getCase } from '@/lib/cases';
-import { listSessions, listWonders, nextCase, reviewStatus } from '@/lib/sessions';
+import { CASES, getCase } from '@/lib/cases';
+import { getUnit } from '@/lib/units';
+import { listSessions, listTimeline, listWonders, nextCase, reviewStatus } from '@/lib/sessions';
 import { AskDoor, ExploreWonder, StartCase, StartReview } from './components/HomeActions';
 import { lookFor, modeVars } from '@/lib/look';
 import type { CaseDef } from '@/lib/types';
@@ -26,12 +27,47 @@ function CaseCard({ c, kicker, action }: { c: CaseDef; kicker: string; action: R
   );
 }
 
+
+const RANKS = [
+  { at: 0, name: 'Rookie Investigator', badge: '🐣' },
+  { at: 1, name: 'Junior Investigator', badge: '🔍' },
+  { at: 3, name: 'Field Agent', badge: '🕵️' },
+  { at: 5, name: 'Senior Investigator', badge: '🎖️' },
+  { at: 8, name: 'Chief Investigator', badge: '🏆' },
+];
+const QUIPS = [
+  "Today's forecast: 90% chance of evidence.",
+  'The coffee is cold. The case files are hot.',
+  "Rule #1: always ask who's telling the story.",
+  'No case too weird. Some cases very weird.',
+  'Every mystery is just a question that hasn\'t met you yet.',
+  'Investigating is hungry work. Snacks are allowed.',
+  'History called. It left a lot of clues.',
+  'Trust the evidence. Question the ads.',
+];
+
+function rankFor(n: number) {
+  let r = RANKS[0];
+  for (const x of RANKS) if (n >= x.at) r = x;
+  const next = RANKS.find((x) => x.at > n);
+  return { ...r, next, toGo: next ? next.at - n : 0 };
+}
+
 export default async function Home() {
-  const [{ active, next }, sessions, wonders, rev] = await Promise.all([nextCase(), listSessions(), listWonders(), reviewStatus()]);
+  const [{ active, next }, sessions, wonders, rev, timeline] = await Promise.all([nextCase(), listSessions(), listWonders(), reviewStatus(), listTimeline()]);
   const activeReview = sessions.filter((s) => s.caseId === 'review' && s.status === 'active' && !s.isTest).sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))[0];
   const closed = sessions.filter((s) => s.status === 'closed' && !s.isTest && s.caseId !== 'review').sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
   const activeCase = active ? getCase(active.caseId) : undefined;
   const openWonders = wonders.filter((w) => w.status === 'open');
+  const casesClosed = closed.filter((s) => s.caseId !== 'inquiry');
+  const questionsDone = closed.filter((s) => s.caseId === 'inquiry').length;
+  const rank = rankFor(casesClosed.length);
+  const quip = QUIPS[Math.floor(Date.now() / 86400000) % QUIPS.length];
+  // Case board: the unit Abi is working on now.
+  const boardUnit = (activeCase ?? next ?? getCase(casesClosed[0]?.caseId ?? ''))?.unit ?? CASES[0]?.unit;
+  const unitDef = getUnit(boardUnit);
+  const boardCases = CASES.filter((c) => c.unit === boardUnit && c.status === 'READY').sort((a, b) => a.id.localeCompare(b.id));
+  const reviewDone = sessions.some((s) => s.caseId === 'review' && s.status === 'closed' && !s.isTest && s.title === `Unit review: ${boardUnit}`);
 
   return (
     <main className="wrap">
@@ -41,6 +77,21 @@ export default async function Home() {
           <Link href="/timeline">🕰️ Timeline</Link>
           <Link href="/files">🗂️ Archive</Link>
         </span>
+      </div>
+
+      <section className="hq">
+        <div className="hq-badge" aria-hidden="true">{rank.badge}</div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div className="hq-hello">Hey, Agent Abi</div>
+          <div className="hq-rank">{rank.name}{rank.next ? <span className="muted"> · {rank.toGo} more case{rank.toGo === 1 ? '' : 's'} to {rank.next.name}</span> : null}</div>
+          <div className="hq-quip">{quip}</div>
+        </div>
+      </section>
+      <div className="hq-stats">
+        <span>🗂️ <strong>{casesClosed.length}</strong> {casesClosed.length === 1 ? 'case' : 'cases'} closed</span>
+        <span>💡 <strong>{questionsDone}</strong> {questionsDone === 1 ? 'question' : 'questions'} explored</span>
+        <span>🕰️ <strong>{timeline.length}</strong> timeline {timeline.length === 1 ? 'pin' : 'pins'}</span>
+        <span>✨ <strong>{openWonders.length}</strong> {openWonders.length === 1 ? 'wonder' : 'wonders'} saved</span>
       </div>
 
       {active && activeCase ? (
@@ -60,6 +111,35 @@ export default async function Home() {
             <div className="label" style={{ color: 'var(--accent-ink)' }}>📋 Unit review: the Supervisor stopped by</div>
             <p style={{ margin: 0 }}>{activeReview ? 'Your review is still open. The Supervisor is waiting, coffee in hand.' : `You finished every case in ${rev.unit}! Before the next unit, the Supervisor wants to go over it with you.`}</p>
             <div>{activeReview ? <Link className="btn" href={`/case/${activeReview.id}`}>Back to the review</Link> : <StartReview label="Start the unit review" unit={rev.unit} />}</div>
+          </div>
+        </section>
+      )}
+
+      {boardCases.length > 0 && (
+        <section style={{ marginTop: 24 }}>
+          <div className="label" style={{ borderBottom: '1px solid var(--ink)', paddingBottom: 6, marginBottom: 10 }}>📌 Case board · {unitDef?.title ?? boardUnit}</div>
+          <div className="board">
+            {boardCases.map((c) => {
+              const done = closed.find((s) => s.caseId === c.id);
+              const isNow = active?.caseId === c.id || (!active && next?.id === c.id);
+              const look = lookFor(c.mode);
+              const tile = (
+                <div className={`tile${done ? ' done' : isNow ? ' now' : ' locked'}`} style={modeVars(c.mode)}>
+                  <div className="tile-ic" aria-hidden="true">{done || isNow ? look.emoji : '🔒'}</div>
+                  <div className="tile-num">Case {c.id}</div>
+                  <div className="tile-title">{c.title}</div>
+                  {done && <div className="tile-stamp">CLOSED</div>}
+                  {isNow && !done && <div className="tile-now">{active?.caseId === c.id ? 'In progress' : 'Up next'}</div>}
+                </div>
+              );
+              return done ? <Link key={c.id} href={`/files/${done.id}`} className="tile-link">{tile}</Link> : <div key={c.id}>{tile}</div>;
+            })}
+            <div className={`tile ${reviewDone ? 'done' : rev.due ? 'now' : 'locked'}`} style={modeVars('review')}>
+              <div className="tile-ic" aria-hidden="true">{reviewDone || rev.due ? '📋' : '🔒'}</div>
+              <div className="tile-num">Finale</div>
+              <div className="tile-title">Unit review</div>
+              {reviewDone && <div className="tile-stamp">DONE</div>}
+            </div>
           </div>
         </section>
       )}
