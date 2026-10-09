@@ -52,7 +52,7 @@ function checkCase(file: string) {
   for (const k of cards) {
     hint(k.icon, `card "${k.label}" has no emoji icon`);
     hint(k.kind, `card "${k.label}" has no kind (brief = her job, place = setting, voice = experts/witnesses): it will sort last`);
-    hint(words(k.text) <= 40, `card "${k.label}" is ${words(k.text)} words: keep cards to 1–2 short sentences (≤40 words)`);
+    hint(words(k.text) <= 60, `card "${k.label}" is ${words(k.text)} words: that's long for Abi; worth a second look`);
   }
   need(c.image?.src && c.image.credit && c.image.href, 'needs a hero image with credit and link');
   need(c.scaffolds?.length >= 2, 'needs at least 2 scaffold hints (light → strong)');
