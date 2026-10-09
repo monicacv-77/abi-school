@@ -140,7 +140,16 @@
         "order": 1,
         "name": "Test name",
         "scenario": "What happens",
-        "passesIf": "How to judge"
+        "passesIf": "How to judge",
+        "checks": [
+          {
+            "label": "A piece the design must have to pass",
+            "anyOf": [
+              "item_a",
+              "secret_idea"
+            ]
+          }
+        ]
       }
     ],
     "existingResources": [
@@ -148,6 +157,7 @@
     ],
     "environment": [
       "Physical facts only"
-    ]
+    ],
+    "capacityRule": "What counts toward the target (e.g. only SAFE water counts; untreated water adds nothing until treated)"
   }
 }

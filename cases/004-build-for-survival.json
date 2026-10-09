@@ -7,7 +7,7 @@
   "location": "Early colonial Virginia (Tidewater)",
   "realOrConstructed": "Constructed challenge in a historically grounded setting",
   "status": "READY",
-  "version": 5,
+  "version": 7,
   "bigUnderstanding": "Shelter is an engineering tradeoff: speed, weather protection, stability, fire safety, labor, scarce imported materials, and repairability. There is no single right design. Early Jamestown builders used local wood and clay (mud-and-stud, daub, thatch) because it was fast and local, but it needed constant maintenance in Virginia weather.",
   "winCondition": "Design shelter for about 105 people, including 15 families with children, that is fast, dry, stable, safe and buildable with what you have. Then survive the tests and fix whatever breaks.",
   "opening": {
@@ -72,7 +72,7 @@
     "If one building catches fire, what else goes with it?",
     "What will need fixing after a few months, and what will you fix it with?"
   ],
-  "completion": "A valid design that shelters at least 105 people within the labor and nail limits; at least 3 stress tests run and judged; if anything failed, at least one redesign and retest (if nothing failed, all 5 tests); then her answer to 'Would you approve this shelter system for the settlement's first year? Why?'",
+  "completion": "A valid design that shelters at least 105 people within the labor and nail limits; every stress test passed with her final design (testing runs straight through; any failure means a redesign and retest); then her answer to 'Would you approve this shelter system for the settlement's first year? Why?'",
   "endReveal": {
     "concept": "Engineering tradeoffs: every design choice buys something and costs something. Early Jamestown used mud-and-stud buildings: fast and local, but they needed constant upkeep.",
     "vocabulary": [
@@ -410,7 +410,17 @@
         "order": 1,
         "name": "Heavy rain",
         "scenario": "Several days of hard rain.",
-        "passesIf": "Check roof shedding and leaks, wall erosion (daub washes out if walls stay wet), ground drainage, stored food and tools, damp sleeping areas. Credit drainage, steep roofs, overhangs, raised floors or storage, higher ground. Check where the babies and small children sleep: damp, cold beds make them sick fast."
+        "passesIf": "Check roof shedding and leaks, wall erosion (daub washes out if walls stay wet), ground drainage, stored food and tools, damp sleeping areas. Credit drainage, steep roofs, overhangs, raised floors or storage, higher ground. Check where the babies and small children sleep: damp, cold beds make them sick fast.",
+        "checks": [
+          {
+            "label": "Something that sheds rain and keeps water away (drainage ditches, eaves/overhangs, or raised floors)",
+            "anyOf": [
+              "drainage",
+              "eaves",
+              "raised_floor"
+            ]
+          }
+        ]
       },
       {
         "id": "storm",
@@ -424,7 +434,17 @@
         "order": 3,
         "name": "Fire",
         "scenario": "At night, a spark escapes from a cooking or heating fire.",
-        "passesIf": "Check thatch and wood exposure, spacing between buildings, where hearths are, whether there's water and a plan, and whether one fire could destroy all shelter and stores. A well-designed settlement may lose one building, not everything. Check where children sleep relative to hearths and whether families have a safe place to cook. Many family hearths means many chances for a spark."
+        "passesIf": "Check thatch and wood exposure, spacing between buildings, where hearths are, whether there's water and a plan, and whether one fire could destroy all shelter and stores. A well-designed settlement may lose one building, not everything. Check where children sleep relative to hearths and whether families have a safe place to cook. Many family hearths means many chances for a spark.",
+        "checks": [
+          {
+            "label": "A plan to keep one fire from spreading (clay chimneys, a separate cookhouse, or a firebreak between buildings)",
+            "anyOf": [
+              "clay_chimney",
+              "cookhouse",
+              "firebreak"
+            ]
+          }
+        ]
       },
       {
         "id": "labor",

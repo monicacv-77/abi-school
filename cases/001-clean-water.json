@@ -7,7 +7,7 @@
   "location": "Eastern Province, Zambia",
   "realOrConstructed": "Constructed case in a real setting",
   "status": "READY",
-  "version": 7,
+  "version": 9,
   "bigUnderstanding": "Safe water is a system: source, treatment, access, transport and storage, sanitation, and maintenance. A good filter can still be part of a failed system. Abi should discover this by engineering, not be told.",
   "opening": {
     "intro": "Chisomo Village, eastern Zambia. It's the dry season. The dirt paths are red and dusty, and the sun is already hot by breakfast. Every morning, families walk to the river or the shallow wells with yellow plastic jerrycans, and some walk for an hour each way. Kids keep getting sick, and nobody is sure which water is safe.\n\nYour team has $30,000 and one job: design a water system that gets safe water to all 1,000 people, holds up through the rainy season, and keeps working after you leave. Then test it, and fix whatever breaks.",
@@ -65,7 +65,7 @@
     "Which of the success targets does your design not address yet?",
     "Follow a single liter of water from the source to someone's cup. Where could it go wrong?"
   ],
-  "completion": "A valid design within budget that meets 10,000 L/day; at least 3 stress tests run and judged; if anything failed, at least one redesign and retest (if nothing failed, all 5 tests); then her answer to 'Would you approve this system? Why?'",
+  "completion": "A valid design within budget that meets 10,000 L/day; every stress test passed with her final design (testing runs straight through; any failure means a redesign and retest); then her answer to 'Would you approve this system? Why?'",
   "endReveal": {
     "concept": "Systems engineering: safe water depends on the whole chain — source → treatment → distribution → transport/storage → sanitation/hygiene → maintenance.",
     "vocabulary": [
@@ -209,13 +209,23 @@
         "provides": "Buried pipe carrying water from the tank to taps. Homes sit up to 3 km out."
       },
       {
+        "id": "river_intake",
+        "name": "River intake pump",
+        "cost": 3000,
+        "provides": "Pumps raw river water up into a tank. The water is NOT safe to drink until it's treated.",
+        "needs": [
+          "existing:river",
+          "storage_tank"
+        ]
+      },
+      {
         "id": "river_treatment",
         "name": "Central river treatment system",
         "cost": 8000,
         "capacityLitersPerDay": 12000,
-        "provides": "Filters and disinfects about 12,000 L/day of river water.",
+        "provides": "Filters and disinfects about 12,000 L/day of river water pumped from the intake.",
         "needs": [
-          "existing:river"
+          "river_intake"
         ],
         "maintenance": "Needs a trained operator, regular chemicals and cleaning."
       },
@@ -331,7 +341,17 @@
         "order": 2,
         "name": "Access",
         "scenario": "The health worker reports: families near the safe water use it every day, but many families 2–3 km away still use the old wells and river.",
-        "passesIf": "Passes if her design brings safe water reasonably close to the far clusters (extra taps, piping, a second borehole out there, household treatment, etc.). Safe but far away is not success."
+        "passesIf": "Passes if her design brings safe water reasonably close to the far clusters (extra taps, piping, a second borehole out there, household treatment, etc.). Safe but far away is not success.",
+        "checks": [
+          {
+            "label": "Safe water reaches the far clusters (taps out there, a second borehole, or household treatment)",
+            "anyOf": [
+              "tap_stand",
+              "new_borehole",
+              "household_filters"
+            ]
+          }
+        ]
       },
       {
         "id": "recontamination",
@@ -339,7 +359,16 @@
         "name": "Recontamination",
         "scenario": "Water tested at the taps is safe. But samples from several homes are contaminated.",
         "passesIf": "Passes if she already provided safe storage or household treatment. Otherwise she should figure out why.",
-        "hiddenDetail": "Families carry and store water in open buckets and dip cups and hands in."
+        "hiddenDetail": "Families carry and store water in open buckets and dip cups and hands in.",
+        "checks": [
+          {
+            "label": "Water stays safe at home (safe containers or household treatment)",
+            "anyOf": [
+              "safe_containers",
+              "household_filters"
+            ]
+          }
+        ]
       },
       {
         "id": "mosquito",
@@ -354,7 +383,24 @@
         "order": 5,
         "name": "Breakdown",
         "scenario": "Six months in, the main pump (or the most critical part of her system) fails.",
-        "passesIf": "Passes if there's a backup (second source, hand pump, stored water, household filters) and local people can repair it (maintenance fund/training, spare parts). Fails if everyone has to go back to the river and wait for outside help."
+        "passesIf": "Passes if there's a backup (second source, hand pump, stored water, household filters) and local people can repair it (maintenance fund/training, spare parts). Fails if everyone has to go back to the river and wait for outside help.",
+        "checks": [
+          {
+            "label": "A backup if the main pump breaks",
+            "anyOf": [
+              "hand_pump",
+              "new_borehole",
+              "household_filters",
+              "river_treatment"
+            ]
+          },
+          {
+            "label": "Local people can repair it (training, spare parts)",
+            "anyOf": [
+              "maintenance_fund"
+            ]
+          }
+        ]
       }
     ],
     "buildingBlocks": [
@@ -379,7 +425,8 @@
         "examples": "tap stands and pipes"
       }
     ],
-    "designFor": "About 1,000 people in Chisomo Village: families with children, some living 2–3 km from the center. They carry water home in jerrycans, so safe water must stay safe at home."
+    "designFor": "About 1,000 people in Chisomo Village: families with children, some living 2–3 km from the center. They carry water home in jerrycans, so safe water must stay safe at home.",
+    "capacityRule": "Only SAFE drinking water counts toward the 10,000 L/day. Borehole groundwater is safe. River and shallow-well water is NOT safe until it is filtered and disinfected (river_treatment) or filtered at home (household_filters), so raw river or well water adds nothing until it's treated."
   },
   "followUpSeeds": [
     "how water filters and disinfection actually kill germs",

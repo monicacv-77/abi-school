@@ -107,6 +107,23 @@ export function planKey(plan: { id: string; qty: number }[], custom: { name: str
   return [...plan.map((p) => `${p.id}:${p.qty}`).sort(), ...custom.map((c) => `custom:${c.name}:${c.cost}`).sort()].join('|');
 }
 
+/** Required pieces a stress test looks for in the current design. */
+function testChecks(t: ChallengeData['stressTests'][number], s: Session, d: ChallengeData) {
+  const ids = arr<string>((s.state.design as { ids?: string[] } | null)?.ids);
+  const name = (id: string) => d.toolbox.find((x) => x.id === id)?.name ?? id;
+  return (t.checks ?? []).map((ch) => {
+    const hit = ch.anyOf.find((id) => ids.includes(id));
+    return { label: ch.label, ok: Boolean(hit), via: hit ? name(hit) : '' };
+  });
+}
+
+/** First test (in order) whose most recent result isn't a pass. Earlier passes still count after a redesign. */
+function nextUnpassed(d: ChallengeData, s: Session): string | undefined {
+  const latest = new Map<string, boolean>();
+  for (const r of arr<{ test: string; passed: boolean }>(s.state.results)) latest.set(r.test, r.passed);
+  return [...d.stressTests].sort((a, b) => a.order - b.order).find((t) => latest.get(t.id) !== true)?.id;
+}
+
 // ---------------------------------------------------------------- CHALLENGE
 const challenge = {
   rules: `
@@ -117,10 +134,9 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
 - Anything measured on site (water tests, how much a source yields, what's happening in homes) she must ask for. Use take_measurement and report the result in 1–3 sentences.
 - Never hand her multiple-choice designs. She invents the design. Unconventional ideas are fine if physically plausible: give a fair game cost/capacity consistent with the toolbox scale.
 - When she proposes a design, call submit_design. Report cost, daily capacity and any missing pieces. If it's over budget or under target, tell her the engineering result and let her fix it.
-- After a valid design, say it's ready and ask if she wants to test it. Then run stress tests in order with run_stress_test, one at a time. Narrate the scenario briefly, ask what happens to her system, let her reason, then judge fairly using the test's pass rule. If her design already handles a test, say so: don't manufacture failure.
-- After each stress test, once Abi has reasoned it through, call judge_test with whether her design passed.
-- IMPROVE is required: after a failed test, Abi redesigns (submit_design again) and you retest that weakness. Don't fix it for her.
-- If her design passes every test, run ALL the stress tests (a perfect design should prove it).
+- TESTING IS ONE CONTINUOUS RUN. Once her design is valid, say it's ready and start the first stress test (run_stress_test). Run them in order, one at a time: narrate the scenario briefly, ask what happens to her system, let her reason, then judge fairly with judge_test using the test's pass rule. If her design already handles a test, say it passes and why: don't manufacture failure.
+- After a PASS, go straight on: in the same message, give the one-line result and start the next test. Never ask what she wants to do next, never offer to stop or skip testing.
+- Testing stops for only two reasons: (1) a FAIL: say what broke, then Abi redesigns (submit_design again; don't fix it for her). After her new design, retest the failed test first, then continue through every remaining test. (2) Every test has passed with her current design: then go to the wrap-up questions.
 - Ask only for the missing design decisions that matter for testing (sizes, materials, how it stands, drains, where fire is, who goes where). Don't quiz her on details that won't be tested.
 - Tests follow physics and the stated environment, never invented to defeat her. If an earlier choice already handles a later test, say it passes and why.
 - Real historical methods are resources, not the required answer. Any physically plausible design using available materials is allowed; price it fairly as a custom item.
@@ -177,7 +193,16 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
             type: 'array',
             items: {
               type: 'object',
-              properties: { name: { type: 'string' }, cost: { type: 'number' }, liters_per_day: { type: 'number' }, capacity: { type: 'number' }, scarce: { type: 'number' }, provides: { type: 'string' } },
+              properties: {
+                name: { type: 'string' },
+                cost: { type: 'number' },
+                liters_per_day: { type: 'number' },
+                capacity: { type: 'number' },
+                counts_toward_target: { type: 'boolean', description: "Does its capacity meet the case's capacity rule? e.g. untreated river or well water is false (it only counts once treated)." },
+                counts_as: { type: 'array', items: { type: 'string' }, description: 'toolbox ids this item does the same job as (e.g. lidded buckets → safe_containers), so tests can credit it' },
+                scarce: { type: 'number' },
+                provides: { type: 'string' },
+              },
               required: ['name', 'cost'],
             },
           },
@@ -207,6 +232,7 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
         const { u, fmtCost, capLabel, minCap } = unitsOf(d);
         return `Budget: ${fmtCost(d.budget)}.${u?.scarce ? ` Scarce: ${u.scarce.limit} ${u.scarce.label} total.` : ''}${minCap ? ` Minimum target: ${minCap.toLocaleString()} ${capLabel}.` : ''}${u?.workers ? ` About ${u.workers} workers available, so ${u.workers} ${u.cost} ≈ 1 day of building.` : ''}`;
       })(),
+      d.capacityRule ? `WHAT COUNTS TOWARD THE TARGET: ${d.capacityRule}` : '',
       d.designFor ? `WHO IT'S FOR (Abi knows this; every design and test must account for these people): ${d.designFor}` : '',
       `Success targets:\n${d.targets.map((t) => `- ${t.label}: ${t.check}`).join('\n')}`,
       `Existing resources:\n${d.existingResources.map((r) => `- ${r}`).join('\n')}`,
@@ -304,11 +330,17 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
         if (!needsMet) missing.push(`${t.name} won't work without: ${(t.needs ?? []).map((n) => n.replace(/\|/g, ' or ')).join(' and ')}`);
         lines.push(`${qty} × ${t.name} = ${fmtCost(t.cost * qty)}${t.scarce && u?.scarce ? ` + ${+(t.scarce * qty).toFixed(2)} ${u.scarce.label}` : ''}`);
       }
-      for (const ci of arr<{ name: string; cost: number; liters_per_day?: number; capacity?: number; scarce?: number }>(input.custom_items)) {
+      const covers: string[] = [];
+      for (const ci of arr<{ name: string; cost: number; liters_per_day?: number; capacity?: number; scarce?: number; counts_toward_target?: boolean; counts_as?: string[] }>(input.custom_items)) {
+        const cap = ci.capacity ?? ci.liters_per_day ?? 0;
+        if (cap && d.capacityRule && ci.counts_toward_target === undefined)
+          return { result: `Custom item "${ci.name}" has capacity: say whether it meets the rule (counts_toward_target). Rule: ${d.capacityRule}`, isError: true };
+        const counts = ci.counts_toward_target !== false;
         cost += ci.cost;
-        capacity += ci.capacity ?? ci.liters_per_day ?? 0;
+        if (counts) capacity += cap;
         scarce += ci.scarce ?? 0;
-        lines.push(`custom: ${ci.name} = ${fmtCost(ci.cost)}${(ci.capacity ?? ci.liters_per_day) ? `, ${ci.capacity ?? ci.liters_per_day} ${capLabel}` : ''}`);
+        for (const id of arr<string>(ci.counts_as)) if (d.toolbox.some((t) => t.id === id)) covers.push(id);
+        lines.push(`custom: ${ci.name} = ${fmtCost(ci.cost)}${cap ? `, ${cap} ${counts ? capLabel : `${capLabel.replace(/^.*?(L\/day).*$/, '$1')} that does NOT count (${d.capacityRule ?? "doesn't meet the target"})`}` : ''}`);
       }
       scarce = +scarce.toFixed(2);
       const overBudget = cost > d.budget;
@@ -321,7 +353,7 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
       s.state.plan = [...chosen].map(([id, qty]) => ({ id, qty }));
       s.state.planCustom = customs;
       const key = planKey(s.state.plan as { id: string; qty: number }[], customs);
-      s.state.design = { description: input.description, lines, cost, liters: capacity, capacity, scarce, days, line, valid, key, target: minCap ?? 0, missing };
+      s.state.design = { description: input.description, lines, cost, liters: capacity, capacity, scarce, days, line, valid, key, target: minCap ?? 0, missing, ids: [...new Set([...chosen.keys(), ...covers])] };
       s.state.designCount = (Number(s.state.designCount) || 0) + 1;
       s.state.step = (Number(s.state.step) || 0) + 1;
       s.state.lastDesignStep = s.state.step;
@@ -344,6 +376,9 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
     }
     if (name === 'judge_test') {
       if (!arr<string>(s.state.testsRun).includes(String(input.test_id))) return { result: 'Run that stress test first.', isError: true };
+      const jt = d.stressTests.find((x) => x.id === input.test_id);
+      const missing = jt ? testChecks(jt, s, d).filter((x) => !x.ok) : [];
+      if (input.passed && missing.length) return { result: `Can't pass: her design is missing ${missing.map((x) => x.label).join('; ')}. This test fails; call judge_test with passed=false.`, isError: true };
       s.state.step = (Number(s.state.step) || 0) + 1;
       const results = arr<{ test: string; passed: boolean; note: string; step: number }>(s.state.results);
       results.push({ test: String(input.test_id), passed: Boolean(input.passed), note: String(input.note ?? ''), step: Number(s.state.step) });
@@ -351,9 +386,14 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
       if (!input.passed) {
         s.state.lastFailStep = s.state.step;
         s.stage = 'improve';
-        return { result: 'Recorded: failed. Let Abi figure out what to change; then submit_design and retest.' };
+        return { result: `Recorded: FAILED. Testing pauses here. Tell her what broke in 1–2 sentences, then let Abi figure out what to change (submit_design). After her new design, retest "${String(input.test_id)}" first, then continue through the remaining tests.` };
       }
-      return { result: 'Recorded: passed.' };
+      const nextTest = nextUnpassed(d, s);
+      return {
+        result: nextTest
+          ? `Recorded: passed. KEEP GOING in this same message: give the one-line result, then call run_stress_test for "${nextTest}" and present it. Don't ask what she wants to do.`
+          : 'Recorded: passed. EVERY stress test has now passed with her current design. Testing is complete: move on to the wrap-up questions.',
+      };
     }
     if (name === 'run_stress_test') {
       const design = s.state.design as { valid?: boolean } | null;
@@ -367,7 +407,12 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
       pushUnique(s.state, 'testsRun', t.id);
       s.stage = 'test';
       return {
-        result: `STRESS TEST — ${t.name}\nScenario (narrate briefly): ${t.scenario}\nHow to judge: ${t.passesIf}${t.hiddenDetail ? `\nOnly if Abi investigates, reveal: ${t.hiddenDetail}` : ''}\nTests remaining after this: ${sorted.filter((x) => !arr<string>(s.state.testsRun).includes(x.id)).map((x) => x.id).join(', ') || 'none'}`,
+        result: `STRESS TEST — ${t.name}\nScenario (narrate briefly): ${t.scenario}\nHow to judge: ${t.passesIf}${(() => {
+          const ch = testChecks(t, s, d);
+          if (!ch.length) return '';
+          const miss = ch.filter((x) => !x.ok);
+          return `\nDESIGN CHECK (from her actual design): ${ch.map((x) => (x.ok ? `✔ ${x.label} (${x.via})` : `✘ ${x.label}: MISSING`)).join('; ')}${miss.length ? `\nThis test FAILS because her design is missing: ${miss.map((x) => x.label).join('; ')}. Narrate the scenario so the gap shows; let her work out what's missing (don't name the fix), then judge_test passed=false.` : ''}`;
+        })()}${t.hiddenDetail ? `\nOnly if Abi investigates, reveal: ${t.hiddenDetail}` : ''}\nTests remaining after this: ${sorted.filter((x) => !arr<string>(s.state.testsRun).includes(x.id)).map((x) => x.id).join(', ') || 'none'}`,
       };
     }
     return null;
@@ -377,19 +422,16 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
     const design = s.state.design as { description: string; line?: string; valid: boolean } | null;
     return `Stage: ${s.stage}. Measurements taken: ${arr<string>(s.state.revealed).join(', ') || 'none'}. ${
       design ? `Current design: "${design.description}" (${design.line ?? ''}), ${design.valid ? 'valid' : 'not valid'}.` : 'No design yet.'
-    } Stress tests run: ${arr<string>(s.state.testsRun).join(', ') || 'none'} of ${d.stressTests.length}. Results: ${arr<{ test: string; passed: boolean }>(s.state.results).map((r) => `${r.test} ${r.passed ? 'passed' : 'FAILED'}`).join(', ') || 'none yet'}. Redesigns: ${Math.max(0, (Number(s.state.designCount) || 0) - 1)}.`;
+    } Stress tests run: ${arr<string>(s.state.testsRun).join(', ') || 'none'} of ${d.stressTests.length}.${design?.valid ? (() => { const n = nextUnpassed(d, s); const lf = Number(s.state.lastFailStep) || 0; return lf && (Number(s.state.lastDesignStep) || 0) < lf ? ' WAITING FOR HER REDESIGN.' : n ? ` NEXT TEST TO RUN: ${n} (testing continues until every test passes).` : ' ALL TESTS PASSED: go to the wrap-up questions.'; })() : ''} Results: ${arr<{ test: string; passed: boolean }>(s.state.results).map((r) => `${r.test} ${r.passed ? 'passed' : 'FAILED'}`).join(', ') || 'none yet'}. Redesigns: ${Math.max(0, (Number(s.state.designCount) || 0) - 1)}.`;
   },
   canClose(s: Session, c: CaseDef): string | null {
     const d = c.data as ChallengeData;
     const design = s.state.design as { valid?: boolean } | null;
     if (!design?.valid) return 'There is no valid design yet.';
-    const need = Math.min(3, d.stressTests.length);
-    if (arr(s.state.testsRun).length < need) return `Run at least ${need} stress tests first (run so far: ${arr(s.state.testsRun).length}).`;
-    const results = arr<{ passed: boolean }>(s.state.results);
-    if (results.length < need) return `Judge the stress tests you ran (judge_test). Judged so far: ${results.length}.`;
     const lastFail = Number(s.state.lastFailStep) || 0;
     if (lastFail && (Number(s.state.lastDesignStep) || 0) < lastFail) return 'Her design failed a test and she has not improved it yet. Let her redesign (submit_design), then retest.';
-    if (!lastFail && arr(s.state.testsRun).length < d.stressTests.length) return 'Her design has passed everything so far. Run all the stress tests before closing.';
+    const open = nextUnpassed(d, s);
+    if (open) return `Testing isn't finished: "${open}" hasn't passed yet. Keep testing until every stress test passes.`;
     return null;
   },
 };

@@ -81,6 +81,7 @@ export interface StressTest {
   scenario: string; // short, for the facilitator to narrate
   passesIf: string; // how to judge
   hiddenDetail?: string; // revealed only if Abi investigates
+  checks?: { label: string; anyOf: string[] }[]; // pieces the design MUST contain to pass (toolbox ids); missing any = automatic fail
 }
 export interface ChallengeData {
   kind: 'challenge';
@@ -93,6 +94,7 @@ export interface ChallengeData {
   };
   minCapacity?: number; // generic target; water case uses minLitersPerDay
   designFor?: string; // exactly who the design serves (how many people, ages, families, needs)
+  capacityRule?: string; // what counts toward the target, e.g. only SAFE water counts
   targets: { id: string; label: string; check: string }[];
   minLitersPerDay?: number;
   buildingBlocks: { name: string; examples: string }[]; // what Abi sees: categories, no prices

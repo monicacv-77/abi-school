@@ -30,25 +30,43 @@ function expect(label: string, got: string, contains: string) {
 async function main() {
   // --- Challenge: improve is required after a failure
   const ch: any = await startCaseSession('001', true);
-  const design = (n: number) => tu('submit_design', { description: 'design ' + n, items: [{ id: 'repair_borehole', qty: 1 }, { id: 'solar_pump', qty: 1 }, { id: 'storage_tank', qty: 1 }, { id: 'tap_stand', qty: 6 }, { id: 'pipe_km', qty: 3 }] });
+  const design = (n: number) => tu('submit_design', { description: 'design ' + n, items: [{ id: 'repair_borehole', qty: 1 }, { id: 'solar_pump', qty: 1 }, { id: 'storage_tank', qty: 1 }, { id: 'tap_stand', qty: 6 }, { id: 'pipe_km', qty: n > 1 ? 2 : 3 }, ...(n > 1 ? [{ id: 'safe_containers', qty: 1 }, { id: 'maintenance_fund', qty: 1 }, { id: 'hand_pump', qty: 1 }] : [])] });
   await step(ch, tu('look_up', { item_ids: ['solar_pump'], plan: [{ id: 'repair_borehole', qty: 1 }, { id: 'solar_pump', qty: 1 }] }));
   const lk = [...ch.api].reverse().find((m: any) => m.role === 'user' && Array.isArray(m.content)) as any;
   expect('challenge: cost lookup shows budget left', String(lk.content[0].content), '- Left: $22,000');
   expect('challenge: design priced', await step(ch, design(1)), 'Design: design 1');
   for (const t of ['rainy_season', 'access', 'recontamination']) await step(ch, tu('run_stress_test', { test_id: t }));
-  expect('challenge: must judge tests', await step(ch, close()), 'Judge the stress tests');
+  expect('challenge: must judge tests', await step(ch, close()), "Testing isn't finished");
   await step(ch, tu('judge_test', { test_id: 'rainy_season', passed: true }));
-  await step(ch, tu('judge_test', { test_id: 'access', passed: true }));
+  const keepGoing = await (async () => { await step(ch, tu('judge_test', { test_id: 'access', passed: true })); const m = [...ch.api].reverse().find((x: any) => x.role === 'user' && Array.isArray(x.content)) as any; return String(m.content[0].content); })();
+  expect('challenge: a pass moves straight to the next test', keepGoing, 'KEEP GOING');
   await step(ch, tu('judge_test', { test_id: 'recontamination', passed: false, note: 'open buckets' }));
   expect('challenge: must improve after failure', await step(ch, close()), 'has not improved it yet');
   await step(ch, design(2));
-  expect('challenge: closes after redesign', await step(ch, close()), 'Case closed');
+  expect('challenge: redesign alone is not enough', await step(ch, close()), '"recontamination" hasn\'t passed');
+  for (const [t, ok] of [['recontamination', true], ['mosquito', true], ['breakdown', true]] as const) { await step(ch, tu('run_stress_test', { test_id: t })); await step(ch, tu('judge_test', { test_id: t, passed: ok })); }
+  expect('challenge: closes once every test passes', await step(ch, close()), 'Case closed');
+
+  // --- Challenge: necessary pieces are checked from the real design
+  const ch3: any = await startCaseSession('001', true);
+  expect('challenge: untreated river water does not count', await (async () => {
+    await step(ch3, tu('submit_design', { description: 'river pump to taps', items: [{ id: 'river_intake', qty: 1 }, { id: 'storage_tank', qty: 1 }, { id: 'tap_stand', qty: 6 }, { id: 'pipe_km', qty: 3 }] }));
+    return JSON.stringify(ch3.state.design);
+  })(), '"capacity":0');
+  expect('challenge: custom raw water must say if it counts', await step(ch3, tu('submit_design', { description: 'well pumps', items: [{ id: 'storage_tank', qty: 1 }], custom_items: [{ name: 'Motor pump on shallow wells', cost: 2000, liters_per_day: 12000 }] })), 'counts_toward_target');
+  await step(ch3, tu('submit_design', { description: 'well pumps', items: [{ id: 'storage_tank', qty: 1 }], custom_items: [{ name: 'Motor pump on shallow wells', cost: 2000, liters_per_day: 12000, counts_toward_target: false }] }));
+  expect('challenge: untreated custom water adds nothing', JSON.stringify(ch3.state.design), '"capacity":0');
+  const ch4: any = await startCaseSession('001', true);
+  await step(ch4, design(1));
+  for (const t of ['rainy_season', 'access']) { await step(ch4, tu('run_stress_test', { test_id: t })); await step(ch4, tu('judge_test', { test_id: t, passed: true })); }
+  expect('challenge: test reports the missing piece', await (async () => { await step(ch4, tu('run_stress_test', { test_id: 'recontamination' })); const m = [...ch4.api].reverse().find((x: any) => x.role === 'user' && Array.isArray(x.content)) as any; return String(m.content[0].content); })(), '✘ Water stays safe at home');
+  expect('challenge: cannot pass a test with a missing piece', await step(ch4, tu('judge_test', { test_id: 'recontamination', passed: true })), "Can't pass");
 
   // --- Challenge: perfect design must run all tests
   const ch2: any = await startCaseSession('001', true);
   await step(ch2, design(1));
   for (const t of ['rainy_season', 'access', 'recontamination']) { await step(ch2, tu('run_stress_test', { test_id: t })); await step(ch2, tu('judge_test', { test_id: t, passed: true })); }
-  expect('challenge: all-pass needs all tests', await step(ch2, close()), 'Run all the stress tests');
+  expect('challenge: all-pass needs all tests', await step(ch2, close()), "Testing isn't finished");
 
   // --- Investigation: blocker tells the guide to record testimony
   const inv: any = await startCaseSession('003', true);
