@@ -3,6 +3,7 @@ import { randomUUID } from 'crypto';
 import { readJSON, writeJSON } from './store';
 import { CASES, caseFor, getCase } from './cases';
 import { ENGINES, FIRST_STAGE, type ReviewCase } from './modes';
+import { getUnit } from './units';
 import type { Session, SessionIndexEntry, WonderItem } from './types';
 
 const INDEX = 'sessions/index.json';
@@ -160,7 +161,7 @@ export async function startReview(isTest = false, unitArg?: string): Promise<Ses
     stage: FIRST_STAGE.review,
     api: [],
     display: [],
-    state: { answers: [], reviewCases, unit, questionCount: 5 },
+    state: { answers: [], reviewCases, unit, questionCount: Math.min(5, Math.max(3, (getUnit(unit)?.bigIdeas.length ?? 4))) },
     isTest,
   };
   await saveSession(s);
