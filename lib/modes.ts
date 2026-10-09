@@ -548,6 +548,8 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
      💰 Profit: None
   3. If a real event happens next, call advance_time and give it its own bold emoji heading (e.g. "**⛵ The First Supply Arrives**") and 2–4 sentences, then an updated status card if numbers changed.
   4. Then the next decision (present_decision).
+- TOOLS FIRST, THEN WRITE: on a turn where she chooses, call make_choice, then advance_time if an event is due, then present_decision for the next one, and only after all of those results are back, write the whole turn (steps 1–4) as ONE message. Never send just a fragment.
+- Never mention buttons, the screen, tools or "options shown". Just ask the decision's question in the story.
 - Explain hard words the moment you use them, in a few words (e.g. "dysentery, a stomach disease that causes severe diarrhea").
 - Real historical events happen on schedule: call advance_time to bring the next fixed event in when the story reaches it.
 - Her choices have knock-on effects: when a tool result says CONSEQUENCE TRIGGERED, that event happens now. Narrate it briefly and let her respond. These are how her earlier decisions shape what comes later.
@@ -649,7 +651,7 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
       s.state.pendingTitle = input.title ? String(input.title) : '';
       s.state.decisionNumber = arr(s.state.choices).length + 1;
       return {
-        result: `Decision ${arr(s.state.choices).length + 1} (${dp.id}, ${dp.when}) is on her screen as buttons:\n${opts.map((o) => `${o.letter}. ${o.label}: ${o.detail}${o.base ? ` [effects of case option ${o.base}]` : ' [new idea: you set small fair effects]'}`).join('\n')}\nCase anchor situation: ${dp.situation}\nCase anchor options: ${dp.options.map((o) => `${o.id} = ${o.label}`).join(' | ')}\nIn your message: a bold heading "**Decision ${arr(s.state.choices).length + 1}: ${input.title ?? '…'}**", then the situation in her colony's own story (2–4 short sentences), then one clear question. DON'T list the choices in your text; they're on the buttons.`,
+        result: `Decision ${arr(s.state.choices).length + 1} (${dp.id}, ${dp.when}) is on her screen as buttons:\n${opts.map((o) => `${o.letter}. ${o.label}: ${o.detail}${o.base ? ` [effects of case option ${o.base}]` : ' [new idea: you set small fair effects]'}`).join('\n')}\nCase anchor situation: ${dp.situation}\nCase anchor options: ${dp.options.map((o) => `${o.id} = ${o.label}`).join(' | ')}\nNow write your full message for this turn. If she just chose, it starts with "**You choose …**", the consequence, the Your Colony card and any event (see the turn order). It ends with a bold heading "**Decision ${arr(s.state.choices).length + 1}: ${input.title ?? '…'}**", the situation in her colony's own story (2–4 short sentences), and one clear question. Don't list the choices in your text and don't mention buttons or the screen.`,
       };
     }
     if (name === 'make_choice') {

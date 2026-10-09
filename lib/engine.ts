@@ -149,6 +149,7 @@ export async function runTurn(s: Session, userText: string, client = new Anthrop
   const system = buildSystem(s, c);
   const tools = toolsFor(s.mode);
   const replyParts: string[] = [];
+  const choicesBefore = Array.isArray(s.state.choices) ? s.state.choices.length : 0;
 
   for (let step = 0; step < MAX_STEPS; step++) {
     const res = await client.messages.create({
@@ -173,6 +174,35 @@ export async function runTurn(s: Session, userText: string, client = new Anthrop
   // Keep the conversation well-formed if we stopped mid tool loop.
   const lastMsg = s.api[s.api.length - 1];
   if (lastMsg?.role === 'user') s.api.push({ role: 'assistant', content: replyParts.at(-1) ?? 'Okay.' });
+
+  // Safety net for Simulations: if she made a choice this turn but the reply lost its main text
+  // (no colony card), ask once more for the complete turn and use that instead.
+  const choseNow = s.mode === 'simulation' && (Array.isArray(s.state.choices) ? s.state.choices.length : 0) > choicesBefore;
+  if (choseNow && !/your colony/i.test(replyParts.join(' '))) {
+    try {
+      const fix = await client.messages.create({
+        model: MODEL,
+        max_tokens: 1500,
+        system,
+        tools,
+        tool_choice: { type: 'none' },
+        messages: [
+          ...(s.api as Anthropic.Messages.MessageParam[]),
+          { role: 'user', content: '[App note, not from Abi: your reply was missing the main part of this turn. Write the complete turn now as one message: "**You choose …**" and the consequence, the **Your Colony** status card, any event that happened, then the next decision heading, situation and question. Use only the tool results above. Do not mention this note, buttons or the screen.]' },
+        ],
+      });
+      const fixed = fix.content.filter((b) => b.type === 'text').map((b) => (b as Anthropic.Messages.TextBlock).text.trim()).join('\n\n');
+      if (fixed && /your colony/i.test(fixed)) {
+        const last = s.api[s.api.length - 1];
+        if (last?.role === 'assistant' && (typeof last.content === 'string' || (Array.isArray(last.content) && (last.content as { type: string }[]).every((b) => b.type !== 'tool_use')))) s.api.pop();
+        s.api.push({ role: 'assistant', content: fixed });
+        replyParts.length = 0;
+        replyParts.push(fixed);
+      }
+    } catch {
+      // keep the original reply
+    }
+  }
 
   const reply = replyParts.join('\n\n') || '…';
   const shown = Array.isArray(s.state.showImages) ? (s.state.showImages as DisplayMessage['image'][]) : [];
