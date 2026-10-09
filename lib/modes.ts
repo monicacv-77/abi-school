@@ -5,6 +5,7 @@
 //  - spec(): the case text the AI sees (hidden results are NOT included; they come back only through tools)
 //  - canClose(): what must have happened before the case can close
 import type Anthropic from '@anthropic-ai/sdk';
+import { getUnit } from './units';
 import type {
   CaseDef,
   ChallengeData,
@@ -939,11 +940,12 @@ export interface ReviewCase {
 }
 const review = {
   rules: `
-MODE: SUPERVISOR REVIEW — "Remember it." You are the Supervisor, head of the Case Files office, dropping in at the end of a unit to review the cases Abi has closed. Brisk, dry, a little theatrical (clipboard, too much coffee), warm underneath. This is quick recall, not a new case.
-- Ask exactly the number of questions in the review file, ONE AT A TIME, each in its own paragraph that starts exactly like: "**Question 2 of 5:** …". Mix them across the cases: what she found, why it happened (cause), a key term, and one that connects two cases.
-- Questions are short and answerable from memory in a sentence. No multiple choice, no hints inside the question.
-- After each answer: call record_answer (got_it, partly or missed). Then react in ONE line if she got it; if partly or missed, give the right answer plainly in one or two sentences (this is the one place you correct directly, briefly, without lecturing). Then a blank line and the next numbered question.
-- After the last answer: a **Review report** card, one line per question: "✅ Q1 Clean Water: …", "🟡 …" or "❌ …" (a few words each), then one sentence of verdict in character. Then call finish_review.
+MODE: SUPERVISOR REVIEW — "Remember the big ideas." You are the Supervisor, head of the Case Files office, dropping in at the end of a unit. Brisk, dry, a little theatrical (clipboard, too much coffee), warm underneath.
+- This review is about the unit's BIG IDEAS, not details. Never ask her to recall a name, date, number, price or a specific line from a case. Ask "why" and "what's the pattern" questions.
+- Ask exactly the number of questions in the review file, ONE AT A TIME, each in its own paragraph that starts exactly like: "**Question 2 of 5:** …". Each question targets a different big idea, and whenever possible connects two or more cases (e.g. "Your water system and your settlement both had a weak spot that wasn't the main thing you built. What's the pattern?"). Spread the questions across the whole unit, not one case.
+- Questions are short and answerable in a sentence or two of her own reasoning. No multiple choice, no hints inside the question.
+- After each answer: call record_answer (got_it if she has the idea in her own words, even roughly; partly; missed). Then react in ONE line if she got it; if partly or missed, say the big idea plainly in one sentence with one quick example from a case she played. Then a blank line and the next numbered question.
+- After the last answer: a **Review report** card, one line per question naming the big idea: "✅ Systems: …", "🟡 …", "❌ …", then one sentence of verdict in character. Then call finish_review.
 - Never shame. Missing something is why reviews exist.
 `.trim(),
   tools: (): Tool[] => [
@@ -970,13 +972,18 @@ MODE: SUPERVISOR REVIEW — "Remember it." You are the Supervisor, head of the C
   spec(_c: CaseDef | null, s?: Session): string {
     const cases = arr<ReviewCase>(s?.state.reviewCases);
     const total = Number(s?.state.questionCount) || 5;
+    const unit = getUnit(String(s?.state.unit ?? ''));
     return [
-      `REVIEW FILE${s?.state.unit ? ` for the unit "${s.state.unit}"` : ''}: ${total} questions about these closed cases (Abi already finished them; base questions only on this). Cover every case at least once, and make the last question connect the unit's big idea across cases:`,
+      `UNIT REVIEW${unit ? `: ${unit.title}` : ''}. ${total} questions.`,
+      unit ? `THE UNIT'S BIG IDEAS (ask about these, one per question, each connecting the cases listed):\n${unit.bigIdeas.map((b, i) => `${i + 1}. ${b.idea} (cases ${b.cases.join(', ')})`).join('\n')}` : '',
+      `THE CASES IN THIS UNIT (for examples and context; don't quiz details). Where Abi's own work is shown, use her words in your examples:`,
       ...cases.map(
         (c) =>
-          `- ${c.caseId === 'inquiry' ? 'Open question' : `Case ${c.caseId}`} "${c.title}" (${c.mode}, closed ${c.closedAt.slice(0, 10)}): ${c.hook} | What she found: ${c.found.join('; ')} | Her best line: "${c.quote}"${c.inYourWords ? ` | In her words: "${c.inYourWords}"` : ''}${c.bigUnderstanding ? ` | Big idea: ${c.bigUnderstanding}` : ''}${c.concept ? ` | Concept: ${c.concept}` : ''}${c.vocabulary?.length ? ` | Terms: ${c.vocabulary.map((v) => `${v.term} = ${v.meaning}`).join('; ')}` : ''}`,
+          `- Case ${c.caseId} "${c.title}" (${c.mode}): ${c.bigUnderstanding ?? ''}${c.inYourWords ? ` | In her words: "${c.inYourWords}"` : ''}${c.quote ? ` | Her best line: "${c.quote}"` : ''}${c.closedAt ? '' : ' | (not closed yet: keep questions general for this one)'}`,
       ),
-    ].join('\n');
+    ]
+      .filter(Boolean)
+      .join('\n');
   },
   initialState: () => ({ answers: [], reviewCases: [], questionCount: 5 }),
   handle(name: string, input: any, s: Session): ToolOutcome | null {

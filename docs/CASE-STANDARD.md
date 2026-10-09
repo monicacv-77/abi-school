@@ -10,7 +10,7 @@ What every new case needs, learned from building and testing Unit 1. Use it when
 - **Real peoples, real societies.** Native nations are organized societies with their own interests and technology, never props or rescuers.
 - **Timeline.** Real events get pinned to her timeline automatically.
 - **✍️ In your words.** Every case ends with Abi writing or saying 2–3 sentences: her answer plus two pieces of evidence. It goes on her Case Summary word for word.
-- **📋 Supervisor review.** When Abi has closed every case in a unit, the Supervisor drops in for a unit review: one question per case plus one that connects the unit's big idea (up to 6), with ✅/🟡/❌ and a short correction when she misses one. Results go to the Parent dashboard.
+- **📋 Supervisor review.** When Abi has closed every case in a unit, the Supervisor reviews the unit's big ideas: 5 "why" and "what's the pattern" questions that connect cases, never names, dates or numbers. ✅/🟡/❌ with a one-sentence correction when she misses one. Results go to the Parent dashboard.
 - **Pictures.** Evidence and measurement images show in the chat when revealed.
 - **Wrap-up.** The guide says up front how many key questions there are, then shows each as its own "Question 2 of 4" card, one at a time, with no follow-ups. The case closes after the last answer. Keep exploring questions and the Case Summary follow.
 - **Layout.** Every mode uses two columns. On the left: a live panel (Budget, Colony, Theory board with evidence found, or Key points for Open Questions) and the briefs. On the right: the story and chat.
@@ -31,6 +31,10 @@ What every new case needs, learned from building and testing Unit 1. Use it when
 | **Primary source** (history cases) | One short, verified real excerpt (1–3 sentences): the original wording, a modern version, a link to the transcription, and when to show it. Never invent or paraphrase the original. |
 | **Keep exploring** | 3–5 directions (e.g. Native farming technology, modern farming). |
 | **Wrap-up questions** | The last questions, asked straight through. Required for Challenges and Simulations. |
+
+## Every unit
+
+- **4–6 big ideas** the whole unit is really about, each tied to the cases where Abi meets it (written in the app's unit list). The unit review asks about these. Write them before drafting the cases, so every case serves at least one.
 
 ## Investigation — "Figure it out"
 

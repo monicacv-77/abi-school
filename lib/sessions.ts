@@ -122,34 +122,31 @@ export async function reviewStatus() {
 export async function startReview(isTest = false, unitArg?: string): Promise<Session> {
   const all = await listSessions();
   const closed = all.filter((x) => x.status === 'closed' && x.caseId !== 'review' && (isTest || !x.isTest)).sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
-  // Which unit? The one asked for, or (for a parent test) the unit of the most recently closed case.
+  // Which unit? The one asked for, or (for a parent test) the unit of the most recently closed case, or the first unit.
   const recent = closed.find((x) => CASES.some((k) => k.id === x.caseId));
-  const unit = unitArg ?? (recent ? getCase(recent.caseId)?.unit : undefined);
-  const picked = unit
-    ? unitCases(unit).map((c) => closed.find((x) => x.caseId === c.id)).filter((x): x is NonNullable<typeof x> => Boolean(x))
-    : closed.slice(0, 5);
-  if (!picked.length) throw new Error('No closed cases to review yet.');
+  const unit = unitArg ?? (recent ? getCase(recent.caseId)?.unit : undefined) ?? CASES.find((c) => c.status === 'READY')?.unit;
+  if (!unit) throw new Error('No unit to review yet.');
+  // The review covers the WHOLE unit, using Abi's own work wherever she has a closed case.
   const reviewCases: ReviewCase[] = [];
-  for (const p of picked) {
-    const full = await getSession(p.id);
-    if (!full?.summary) continue;
-    const c = caseFor(full);
+  for (const c of unitCases(unit)) {
+    const done = closed.find((x) => x.caseId === c.id);
+    const full = done ? await getSession(done.id) : null;
     reviewCases.push({
-      sessionId: full.id,
-      caseId: full.caseId,
-      title: c?.title ?? full.title,
-      mode: full.mode,
-      closedAt: full.updatedAt,
-      hook: full.summary.hook,
-      found: full.summary.found,
-      quote: full.summary.quote,
-      inYourWords: full.summary.inYourWords,
-      bigUnderstanding: c?.bigUnderstanding,
-      concept: c?.endReveal.concept,
-      vocabulary: c?.endReveal.vocabulary,
+      sessionId: full?.id ?? '',
+      caseId: c.id,
+      title: c.title,
+      mode: c.mode,
+      closedAt: full?.updatedAt ?? '',
+      hook: full?.summary?.hook ?? '',
+      found: full?.summary?.found ?? [],
+      quote: full?.summary?.quote ?? '',
+      inYourWords: full?.summary?.inYourWords,
+      bigUnderstanding: c.bigUnderstanding,
+      concept: c.endReveal.concept,
+      vocabulary: c.endReveal.vocabulary,
     });
   }
-  if (!reviewCases.length) throw new Error('No closed cases to review yet.');
+  if (!reviewCases.length) throw new Error('No cases in that unit yet.');
   const now = new Date().toISOString();
   const s: Session = {
     id: randomUUID(),
@@ -163,7 +160,7 @@ export async function startReview(isTest = false, unitArg?: string): Promise<Ses
     stage: FIRST_STAGE.review,
     api: [],
     display: [],
-    state: { answers: [], reviewCases, unit, questionCount: Math.min(6, Math.max(3, reviewCases.length + 1)) },
+    state: { answers: [], reviewCases, unit, questionCount: 5 },
     isTest,
   };
   await saveSession(s);

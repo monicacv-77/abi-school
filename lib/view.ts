@@ -1,6 +1,7 @@
 // What the browser is allowed to see about a session (never the raw model conversation or hidden data).
 import { caseFor } from './cases';
 import { needCoverage, nextUnpassed, planKey, statWord } from './modes';
+import { getUnit } from './units';
 import type { ChallengeData, InvestigationData, Session, SimulationData } from './types';
 
 export interface SessionView {
@@ -16,7 +17,7 @@ export interface SessionView {
   evidence?: string[];
   startingIdea?: string;
   keyPoints?: string[];
-  review?: { cases: { caseId: string; title: string }[]; answers: { caseId: string; result: string }[]; total: number };
+  review?: { unitTitle?: string; cases: { caseId: string; title: string }[]; answers: { caseId: string; result: string }[]; total: number };
   nextTest?: { n: number; total: number; name: string; retest: boolean };
   image?: { src: string; alt: string; credit: string; href: string; fit?: 'cover' | 'contain'; position?: string };
   blocks?: { name: string; examples: string }[];
@@ -67,6 +68,7 @@ export function toView(s: Session): SessionView {
   };
   if (s.mode === 'review') {
     v.review = {
+      unitTitle: getUnit(String(s.state.unit ?? ''))?.title,
       cases: (Array.isArray(s.state.reviewCases) ? (s.state.reviewCases as { caseId: string; title: string }[]) : []).map((r) => ({ caseId: r.caseId, title: r.title })),
       answers: Array.isArray(s.state.answers) ? (s.state.answers as { caseId: string; result: string }[]).map((a) => ({ caseId: a.caseId, result: a.result })) : [],
       total: Number(s.state.questionCount) || 5,

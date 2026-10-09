@@ -4,6 +4,7 @@
 // ❌ = must fix before READY.  ⚠️ = worth a look.  See docs/CASE-STANDARD.md for the why.
 import fs from 'node:fs';
 import path from 'node:path';
+import { getUnit } from '../lib/units';
 import type { CaseDef, ChallengeData, InvestigationData, SimulationData } from '../lib/types';
 
 const dir = path.join(__dirname, '..', 'cases');
@@ -36,6 +37,7 @@ function checkCase(file: string) {
   for (const k of ['id', 'title', 'mode', 'classification', 'unit', 'realOrConstructed', 'status', 'version', 'bigUnderstanding', 'winCondition', 'completion'] as const)
     need(c[k] !== undefined && c[k] !== '', `missing "${k}"`);
   need(registry.includes(file.replace(/\.json$/, '')), `not registered in lib/cases.ts`);
+  if (c.status === 'READY' || c.status === 'PILOT') need(getUnit(c.unit), `unit "${c.unit}" isn't in lib/units.ts: add it with its big ideas (the unit review asks about them)`);
 
   const intro = c.opening?.intro ?? '';
   need(intro, 'missing opening.intro');

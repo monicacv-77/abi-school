@@ -110,7 +110,8 @@ async function main() {
     const { startReview, reviewStatus } = await import('../lib/sessions');
     expect('unit review not due until the whole unit is done', JSON.stringify(await reviewStatus()), '"due":false');
     const r: any = await startReview(true);
-    expect('review covers the unit', JSON.stringify({ t: r.title, c: r.state.reviewCases.map((x: any) => x.caseId) }), 'Unit review: Early Settlements');
+    expect('review covers the whole unit', JSON.stringify({ t: r.title, c: r.state.reviewCases.map((x: any) => x.caseId) }), '"c":["001","002","003","004","005"]');
+    expect('review asks about big ideas', (await import('../lib/modes')).ENGINES.review.spec(null, r), 'Survival depends on whole systems');
     const n = r.state.questionCount;
     expect('review cannot finish early', await step(r, tu('finish_review', { verdict: 'x' })), 'Keep going');
     for (let i = 0; i < n; i++) await step(r, tu('record_answer', { case_id: r.state.reviewCases[0].caseId, question: 'q' + i, result: i ? 'got_it' : 'missed' }));

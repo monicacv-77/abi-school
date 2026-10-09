@@ -380,7 +380,7 @@ export default function Play({ initial }: { initial: SessionView }) {
       {view.review && (
         <section className="budget" aria-label="Review">
           <div className="side-h">📋 Supervisor&apos;s review</div>
-          <div className="muted" style={{ fontSize: 14, marginTop: -4, marginBottom: 8 }}>Cases on the clipboard:</div>
+          <div className="muted" style={{ fontSize: 14, marginTop: -4, marginBottom: 8 }}>Big ideas from {view.review.unitTitle ?? 'this unit'}, across these cases:</div>
           <ul className="choice-log" style={{ paddingLeft: 20 }}>
             {view.review.cases.map((c) => <li key={c.caseId + c.title}>{c.caseId === 'inquiry' ? 'Question' : `Case ${c.caseId}`}: {c.title}</li>)}
           </ul>
@@ -475,7 +475,7 @@ export default function Play({ initial }: { initial: SessionView }) {
       <header style={{ marginBottom: 16 }}>
         <span className="tag mode"><span aria-hidden="true">{lookFor(view.mode).emoji}</span> {lookFor(view.mode).name}</span>
         <span className="tag">{view.classification}</span>
-        <h1 className="title" style={{ fontSize: 40 }}>{view.mode === 'inquiry' ? view.question : view.mode === 'review' ? 'The Supervisor Stopped By' : view.title}</h1>
+        <h1 className="title" style={{ fontSize: 40 }}>{view.mode === 'inquiry' ? view.question : view.mode === 'review' ? (view.review?.unitTitle ? `Unit Review: ${view.review.unitTitle.replace(/^Unit \d+: /, '')}` : 'The Supervisor Stopped By') : view.title}</h1>
       </header>
 
       <div className={twoCol ? 'play-grid' : undefined}>
