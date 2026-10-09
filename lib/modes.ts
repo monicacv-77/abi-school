@@ -559,7 +559,7 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
 - Real historical events happen on schedule: call advance_time to bring the next fixed event in when the story reaches it.
 - Her choices have knock-on effects: when a tool result says CONSEQUENCE TRIGGERED, that event happens now. Narrate it briefly and let her respond. These are how her earlier decisions shape what comes later.
 - Her version of history may differ from what really happened. The setting and facts stay accurate.
-- At the end, run the case's debrief exactly as described in its notes.
+- At the end, run the case's debrief exactly as described in its notes. The wrap-up questions are a straight run: ask each one once, react to her answer in one short sentence, then ask the next. Never add follow-up questions or ask her to explain more. After the last answer, close the case.
 `.trim(),
   tools: (): Tool[] => [
     {
