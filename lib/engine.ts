@@ -156,13 +156,15 @@ export async function runTurn(s: Session, userText: string, client = new Anthrop
   for (let step = 0; step < MAX_STEPS; step++) {
     const res = await client.messages.create({
       model: MODEL,
-      max_tokens: 1200,
+      max_tokens: 4000, // room for the Case Summary at close
       system,
       tools,
       messages: s.api as Anthropic.Messages.MessageParam[],
     });
-    s.api.push({ role: 'assistant', content: res.content });
-    for (const b of res.content) if (b.type === 'text' && b.text.trim()) replyParts.push(b.text.trim());
+    // If the model ran out of room mid tool call, drop the half-written call (it can't be run).
+    const content = res.stop_reason === 'max_tokens' ? res.content.filter((b) => b.type !== 'tool_use') : res.content;
+    if (content.length) s.api.push({ role: 'assistant', content });
+    for (const b of content) if (b.type === 'text' && b.text.trim()) replyParts.push(b.text.trim());
     if (res.stop_reason !== 'tool_use') break;
     const results: Anthropic.Messages.ToolResultBlockParam[] = [];
     for (const b of res.content) {
@@ -171,6 +173,28 @@ export async function runTurn(s: Session, userText: string, client = new Anthrop
       results.push({ type: 'tool_result', tool_use_id: b.id, content: out.result, is_error: out.isError });
     }
     s.api.push({ role: 'user', content: results });
+  }
+
+  // Safety net: never leave Abi with an empty reply. If the turn produced no words (it only ran
+  // tools, or ran out of room), ask once more for the message to Abi, with tools switched off.
+  if (!replyParts.length) {
+    try {
+      const msgs = [...(s.api as Anthropic.Messages.MessageParam[])];
+      if (msgs.at(-1)?.role === 'assistant') msgs.push({ role: 'user', content: '[App note, not from Abi: your last turn had no message for Abi. Write it now, based on the tool results above. If the case just closed, give the short end reveal. Do not mention this note.]' });
+      else if (msgs.at(-1)?.role === 'user' && Array.isArray(msgs.at(-1)!.content)) {
+        // tool results are last: the note rides along with them
+        msgs[msgs.length - 1] = { role: 'user', content: [...(msgs.at(-1)!.content as Anthropic.Messages.ContentBlockParam[]), { type: 'text', text: '[App note, not from Abi: now write your message to Abi based on these results. Do not mention this note.]' }] };
+      }
+      const fix = await client.messages.create({ model: MODEL, max_tokens: 2000, system, tools, tool_choice: { type: 'none' }, messages: msgs });
+      const text = fix.content.filter((b) => b.type === 'text').map((b) => (b as Anthropic.Messages.TextBlock).text.trim()).join('\n\n');
+      if (text) {
+        replyParts.push(text);
+        if (s.api.at(-1)?.role === 'assistant') s.api.pop(); // replace the wordless turn
+        s.api.push({ role: 'assistant', content: text });
+      }
+    } catch {
+      // fall through to the friendly fallback below
+    }
   }
 
   // Keep the conversation well-formed if we stopped mid tool loop.
@@ -206,7 +230,7 @@ export async function runTurn(s: Session, userText: string, client = new Anthrop
     }
   }
 
-  const reply = replyParts.join('\n\n') || '…';
+  const reply = replyParts.join('\n\n') || "Hmm, I lost my train of thought there. Could you send that again?";
   const shown = Array.isArray(s.state.showImages) ? (s.state.showImages as DisplayMessage['image'][]) : [];
   for (const image of shown) if (image) s.display.push({ role: 'guide', text: '', image, at: new Date().toISOString() });
   s.state.showImages = [];

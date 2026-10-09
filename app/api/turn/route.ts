@@ -3,7 +3,7 @@ import { getSession } from '@/lib/sessions';
 import { runTurn } from '@/lib/engine';
 import { toView } from '@/lib/view';
 
-export const maxDuration = 120;
+export const maxDuration = 300;
 
 export async function POST(req: Request) {
   const { sessionId, text } = (await req.json().catch(() => ({}))) as { sessionId?: string; text?: string };

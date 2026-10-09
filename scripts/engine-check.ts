@@ -68,6 +68,17 @@ async function main() {
   for (const t of ['rainy_season', 'access', 'recontamination']) { await step(ch2, tu('run_stress_test', { test_id: t })); await step(ch2, tu('judge_test', { test_id: t, passed: true })); }
   expect('challenge: all-pass needs all tests', await step(ch2, close()), "Testing isn't finished");
 
+  // --- A wordless turn never shows '…'
+  {
+    const fx: any = await startCaseSession('002', true);
+    const r1 = await runTurn(fx, 'They grew better crops together in better soil.', fakeClient([[tu('record_theory', { theory: 'crops, method, ground', supporting: [] })], [], [tx('That is your ruling, detective.')]]));
+    expect('empty reply is rescued', r1.reply, 'That is your ruling');
+    const r2 = await runTurn(fx, 'hello?', fakeClient([[], [], []]));
+    expect('never shows bare dots', String(r2.reply !== '…'), 'true');
+    const last = fx.api.at(-1);
+    expect('conversation stays well-formed', String(last.role), 'assistant');
+  }
+
   // --- Investigation: blocker tells the guide to record testimony
   const inv: any = await startCaseSession('003', true);
   await step(inv, tu('examine', { evidence_id: 'pamphlet', via: 'testimony of Robert Johnson' }));
