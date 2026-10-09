@@ -145,7 +145,29 @@ export default function Play({ initial }: { initial: SessionView }) {
     setCanTalk(Boolean(W.SpeechRecognition || W.webkitSpeechRecognition));
     try { setAutoRead(localStorage.getItem('abi-autoread') === '1'); } catch {}
   }, []);
-  useEffect(() => { bottom.current?.scrollIntoView({ behavior: 'smooth' }); }, [view.display.length, busy]);
+  const seen = useRef(initial.display.length);
+  useEffect(() => {
+    const prev = seen.current;
+    seen.current = view.display.length;
+    if (view.display.length <= prev) return;
+    // A new reply: show it from its first line, not its last.
+    let first = -1;
+    for (let i = prev; i < view.display.length; i++) if (view.display[i].role !== 'abi' || view.display[i].image) { first = i; break; }
+    if (first >= 0) {
+      document.querySelector(`[data-msg="${first}"]`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      bottom.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [view.display]);
+  useEffect(() => {
+    // Coming back to a case: start at the top of the last reply.
+    const d = initial.display;
+    let last = -1;
+    for (let i = d.length - 1; i >= 0; i--) if (d[i].role === 'guide') { last = i; break; }
+    if (last > 0) document.querySelector(`[data-msg="${last}"]`)?.scrollIntoView({ block: 'start' });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => { if (busy) bottom.current?.scrollIntoView({ behavior: 'smooth' }); }, [busy]);
   useEffect(() => {
     if (!busy) return;
     const t = setInterval(() => setThinkIdx((i) => (i + 1) % THINKING.length), 2200);
@@ -404,7 +426,7 @@ export default function Play({ initial }: { initial: SessionView }) {
       <section className="stack" aria-live="polite">
         {view.display.map((m, i) =>
           m.image ? (
-            <figure key={i} className="exhibit">
+            <figure key={i} data-msg={i} className="exhibit">
               <div className="label" style={{ color: 'var(--accent-ink)', padding: '8px 12px 0' }}>🖼️ Exhibit</div>
               <img src={m.image.src} alt={m.image.alt} style={{ objectFit: m.image.fit ?? 'cover' }} />
               <figcaption>
@@ -412,9 +434,9 @@ export default function Play({ initial }: { initial: SessionView }) {
               </figcaption>
             </figure>
           ) : m.role === 'abi' ? (
-            <div key={i} style={{ alignSelf: 'flex-end', maxWidth: '85%', background: 'var(--ink)', color: 'var(--paper)', padding: '10px 14px', borderRadius: '14px 14px 2px 14px' }}>{m.text}</div>
+            <div key={i} data-msg={i} style={{ alignSelf: 'flex-end', maxWidth: '85%', background: 'var(--ink)', color: 'var(--paper)', padding: '10px 14px', borderRadius: '14px 14px 2px 14px' }}>{m.text}</div>
           ) : (
-            <div key={i} style={{ alignSelf: 'flex-start', maxWidth: '92%', display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+            <div key={i} data-msg={i} style={{ alignSelf: 'flex-start', maxWidth: '92%', display: 'flex', gap: 8, alignItems: 'flex-start' }}>
               <div style={{ background: 'var(--card)', border: '1px solid var(--rule)', borderLeft: '4px solid var(--accent)', padding: '10px 14px', borderRadius: '14px 14px 14px 2px', fontSize: 19 }}>
                 <Rich text={m.text} />
               </div>

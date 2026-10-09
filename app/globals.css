@@ -145,3 +145,5 @@ textarea { resize: none; }
   .play-grid { grid-template-columns: 1fr; }
   .play-side { position: static; max-height: none; overflow: visible; }
 }
+
+[data-msg] { scroll-margin-top: 16px; }
