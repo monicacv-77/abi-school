@@ -82,7 +82,8 @@ const SAVE_WONDER: Tool = {
   input_schema: { type: 'object', properties: { question: { type: 'string' } }, required: ['question'] },
 };
 
-const PIN_TIMELINE: Tool = {
+// Retired: the timeline now shows whole units, not single events.
+export const PIN_TIMELINE: Tool = {
   name: 'pin_to_timeline',
   description:
     "Pin a real historical event to Abi's timeline when it genuinely comes up in the case (real history only, never invented events). Keep the label under 10 words.",
@@ -1025,7 +1026,7 @@ export const ENGINES = { challenge, investigation, simulation, inquiry, review }
 
 export function toolsFor(mode: Mode): Tool[] {
   if (mode === 'review') return [...ENGINES.review.tools(), SAVE_WONDER];
-  return [...ENGINES[mode].tools(), PIN_TIMELINE, SAVE_WONDER, SHOW_SOURCE, CLOSE_CASE];
+  return [...ENGINES[mode].tools(), SAVE_WONDER, SHOW_SOURCE, CLOSE_CASE];
 }
 
 export const FIRST_STAGE: Record<Mode, string> = {

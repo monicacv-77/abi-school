@@ -226,3 +226,26 @@ textarea { resize: none; }
 .tile-stamp { position: absolute; right: 6px; bottom: 10px; transform: rotate(-12deg); border: 2px solid var(--rust); color: var(--rust); font-weight: 800; font-size: 12px; letter-spacing: 0.1em; padding: 1px 6px; border-radius: 4px; background: rgba(255,255,255,0.6); }
 .tile-now { margin-top: 6px; display: inline-block; background: var(--accent); color: #fff; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
 @media (max-width: 560px) { .hq-hello { font-size: 24px; } .hq-badge { width: 56px; height: 56px; font-size: 34px; } }
+
+/* ---------- Timeline ---------- */
+.tl-strip { position: relative; height: 54px; margin: 18px 0 26px; }
+.tl-axis { position: absolute; left: 0; right: 0; top: 20px; height: 4px; background: var(--rule); border-radius: 2px; }
+.tl-tick { position: absolute; top: 32px; transform: translateX(-50%); font-size: 12px; color: var(--muted); font-weight: 700; }
+.tl-dot { position: absolute; top: 13px; height: 18px; border-radius: 9px; background: var(--paper-2); border: 2px dashed var(--muted); }
+.tl-dot.done { background: #2c7a4b; border: 2px solid #2c7a4b; }
+.tl-dot.now, .tl-dot.next { background: #c9a227; border: 2px solid #8a6a10; }
+.tl-units { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.tl-gap { text-align: center; color: var(--muted); font-weight: 700; font-size: 14px; margin: 6px 0 4px; }
+.tl-card { display: flex; gap: 16px; align-items: flex-start; background: var(--card); border: 2px solid var(--ink); border-radius: 14px; padding: 14px 16px; }
+.tl-card.planned { border-style: dashed; border-color: var(--muted); background: var(--paper-2); color: var(--muted); }
+.tl-card.done { border-color: #2c7a4b; }
+.tl-card.now, .tl-card.next { border-color: #c9a227; box-shadow: 0 0 0 4px #fbf1cf; }
+.tl-years { font-family: var(--display); font-weight: 800; font-size: 22px; min-width: 112px; line-height: 1.1; }
+.tl-title { font-family: var(--display); font-weight: 800; font-size: 24px; margin: 0; }
+.tl-state { font-size: 14px; font-weight: 700; white-space: nowrap; }
+.tl-chip { display: inline-block; border: 2px solid var(--accent); background: var(--card); color: var(--accent-ink); border-radius: 999px; padding: 4px 10px; font-size: 14px; font-weight: 700; }
+.tl-chip.done { background: var(--accent-soft); }
+.q-cloud { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.q-bubble { display: inline-block; border: 2px solid var(--accent); background: var(--card); color: var(--ink); border-radius: 18px 18px 18px 4px; padding: 8px 14px; font-size: 16px; text-decoration: none; max-width: 100%; }
+.q-bubble.done { background: var(--accent-soft); }
+@media (max-width: 560px) { .tl-card { flex-direction: column; gap: 4px; } .tl-years { min-width: 0; } }

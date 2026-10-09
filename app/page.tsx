@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { CASES, getCase } from '@/lib/cases';
-import { getUnit } from '@/lib/units';
-import { listSessions, listTimeline, listWonders, nextCase, reviewStatus } from '@/lib/sessions';
+import { UNITS, getUnit } from '@/lib/units';
+import { listSessions, listWonders, nextCase, reviewStatus } from '@/lib/sessions';
 import { AskDoor, ExploreWonder, StartCase, StartReview } from './components/HomeActions';
 import { lookFor, modeVars } from '@/lib/look';
 import type { CaseDef } from '@/lib/types';
@@ -57,13 +57,14 @@ function rankFor(n: number) {
 }
 
 export default async function Home() {
-  const [{ active, next }, sessions, wonders, rev, timeline] = await Promise.all([nextCase(), listSessions(), listWonders(), reviewStatus(), listTimeline()]);
+  const [{ active, next }, sessions, wonders, rev] = await Promise.all([nextCase(), listSessions(), listWonders(), reviewStatus()]);
   const activeReview = sessions.filter((s) => s.caseId === 'review' && s.status === 'active' && !s.isTest).sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))[0];
   const closed = sessions.filter((s) => s.status === 'closed' && !s.isTest && s.caseId !== 'review').sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
   const activeCase = active ? getCase(active.caseId) : undefined;
   const openWonders = wonders.filter((w) => w.status === 'open');
   const casesClosed = closed.filter((s) => s.caseId !== 'inquiry');
   const questionsDone = closed.filter((s) => s.caseId === 'inquiry').length;
+  const unitsDone = UNITS.filter((u) => !u.planned && CASES.some((c) => c.unit === u.name && c.status === 'READY') && CASES.filter((c) => c.unit === u.name && c.status === 'READY').every((c) => closed.some((s) => s.caseId === c.id))).length;
   const rank = rankFor(closed.length); // cases and open questions both count
   const quip = QUIPS[Math.floor(Date.now() / 86400000) % QUIPS.length];
   // Case board: the unit Abi is working on now.
@@ -93,7 +94,7 @@ export default async function Home() {
       <div className="hq-stats">
         <span>🗂️ <strong>{casesClosed.length}</strong> {casesClosed.length === 1 ? 'case' : 'cases'} closed</span>
         <span>💡 <strong>{questionsDone}</strong> {questionsDone === 1 ? 'question' : 'questions'} explored</span>
-        <span>🕰️ <strong>{timeline.length}</strong> timeline {timeline.length === 1 ? 'pin' : 'pins'}</span>
+        <span>🏁 <strong>{unitsDone}</strong> {unitsDone === 1 ? 'unit' : 'units'} finished</span>
         <span>✨ <strong>{openWonders.length}</strong> {openWonders.length === 1 ? 'wonder' : 'wonders'} saved</span>
       </div>
 

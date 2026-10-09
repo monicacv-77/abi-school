@@ -35,7 +35,6 @@ function caseSpec(c: CaseDef): string {
     c.wrapUpQuestions?.length ? `WRAP-UP QUESTIONS (the very end, after everything else; ask exactly these, one at a time, no follow-ups):\n${c.wrapUpQuestions.map((q, i) => `Q${i + 1}. ${q}`).join('\n')}` : '',
     c.followUpSeeds?.length ? `Follow-up directions for the 'Keep exploring' questions at close: ${c.followUpSeeds.join('; ')}` : '',
     c.primarySource ? `PRIMARY SOURCE (real, ${c.primarySource.author}, ${c.primarySource.year}): show it once with show_source ${c.primarySource.when}. Modern version: "${c.primarySource.modern}"` : '',
-    c.timelineEvents?.length ? `Timeline events you may pin when they come up: ${c.timelineEvents.map((t) => `${t.year} — ${t.label}`).join('; ')}` : '',
     `CASE DATA\n${(ENGINES[c.mode] as { spec: (c: CaseDef) => string }).spec(c)}`,
   ]
     .filter(Boolean)
