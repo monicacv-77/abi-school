@@ -131,7 +131,7 @@ function testChecks(t: ChallengeData['stressTests'][number], s: Session, d: Chal
 }
 
 /** First test (in order) whose most recent result isn't a pass. Earlier passes still count after a redesign. */
-function nextUnpassed(d: ChallengeData, s: Session): string | undefined {
+export function nextUnpassed(d: ChallengeData, s: Session): string | undefined {
   const latest = new Map<string, boolean>();
   for (const r of arr<{ test: string; passed: boolean }>(s.state.results)) latest.set(r.test, r.passed);
   return [...d.stressTests].sort((a, b) => a.order - b.order).find((t) => latest.get(t.id) !== true)?.id;
@@ -149,13 +149,12 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
 - Anything measured on site (water tests, how much a source yields, what's happening in homes) she must ask for. Use take_measurement and report the result in 1–3 sentences.
 - Never hand her multiple-choice designs. She invents the design. Unconventional ideas are fine if physically plausible: give a fair game cost/capacity consistent with the toolbox scale.
 - When she proposes a design, call submit_design. Report cost, daily capacity and any missing pieces. If it's over budget or under target, tell her the engineering result and let her fix it.
-- TESTING IS A TEST REPORT, NOT A QUIZ. Once her design is valid, say it's ready and start testing. Don't ask her what will happen or whether it works. For each test in order: call run_stress_test, judge it yourself right away with judge_test using the test's pass rule and the design check, then move to the next. You can judge one test and start the next in the same step. Keep going in this same turn until a test FAILS or every test has passed. If her design already handles a test, it passes: don't manufacture failure.
-- Then write ONE message with a **Test results** card, one line per test run this turn, e.g.:
-  **Test results**
-  ✅ Heavy rain: passed. Steep thatch shed the water and the ditches carried it off.
-  ❌ Fire: FAILED. A spark from a family hearth caught the thatch next door.
-  After a failure, add a short error report (2–3 sentences): what happened, what broke and what it cost the people, in plain physical terms. Don't name the fix or hint at it. End with one question: what will she change?
-- After she redesigns (submit_design), test again the same way: the failed test first, then the rest that haven't passed. When every test has passed, say so and go to the wrap-up questions.
+- TESTING IS A TEST REPORT, NOT A QUIZ, ONE TEST PER MESSAGE. Once her design is valid, say it's ready; her screen shows a "Run next test" button. Each time she asks for the next test: call run_stress_test for the next test in order, judge it yourself right away with judge_test (pass rule + design check), then report just that one test. Don't ask her what will happen or whether it works, and don't run a second test in the same message. If her design already handles a test, it passes: don't manufacture failure.
+- Report shape (short):
+  **🧪 Test 2 of 5: Storm**
+  ✅ Passed. One or two sentences on what happened to her settlement and why it held.
+  For a failure: "❌ Failed." then a short error report (2–3 sentences): what happened, what broke, what it cost the people, in plain physical terms. Don't name the fix or hint at it. End with one question: what will she change?
+- After she redesigns (submit_design), the button retests the failed test first, then the rest. When every test has passed, say so and go to the wrap-up questions.
 - Ask only for the missing design decisions that matter for testing (sizes, materials, how it stands, drains, where fire is, who goes where). Don't quiz her on details that won't be tested.
 - Tests follow physics and the stated environment, never invented to defeat her. If an earlier choice already handles a later test, say it passes and why.
 - Real historical methods are resources, not the required answer. Any physically plausible design using available materials is allowed; price it fairly as a custom item.
@@ -411,13 +410,13 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
       if (!input.passed) {
         s.state.lastFailStep = s.state.step;
         s.stage = 'improve';
-        return { result: `Recorded: FAILED. Stop testing for now. Write the Test results card for every test run this turn, then a short error report on this failure (what happened, what broke, what it cost the people; don't name the fix), then ask what she'll change. After her redesign, retest "${String(input.test_id)}" first, then the rest.` };
+        return { result: `Recorded: FAILED. Write the report for this test: heading, ❌ Failed, then a short error report (what happened, what broke, what it cost the people; don't name the fix), then ask what she'll change. After her redesign, "${String(input.test_id)}" is retested first.` };
       }
       const nextTest = nextUnpassed(d, s);
       return {
         result: nextTest
-          ? `Recorded: passed. KEEP GOING: call run_stress_test for "${nextTest}" now and judge it. Write nothing to Abi until a test fails or all have passed.`
-          : 'Recorded: passed. EVERY stress test has now passed with her current design. Write the Test results card for the tests run this turn, say testing is complete, then go to the wrap-up questions.',
+          ? `Recorded: passed. Now write the report for THIS test only (heading, ✅ Passed, what happened). Don't start "${nextTest}": her screen shows a button for the next test.`
+          : 'Recorded: passed. EVERY stress test has now passed with her current design. Report this test, say testing is complete, then go to the wrap-up questions.',
       };
     }
     if (name === 'run_stress_test') {
@@ -432,7 +431,7 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
       pushUnique(s.state, 'testsRun', t.id);
       s.stage = 'test';
       return {
-        result: `STRESS TEST — ${t.name}\nScenario (narrate briefly): ${t.scenario}\nHow to judge: ${t.passesIf}${(() => {
+        result: `STRESS TEST ${sorted.findIndex((x) => x.id === t.id) + 1} of ${sorted.length} — ${t.name}\nScenario (narrate briefly): ${t.scenario}\nHow to judge: ${t.passesIf}${(() => {
           const ch = testChecks(t, s, d);
           if (!ch.length) return '';
           const miss = ch.filter((x) => !x.ok);

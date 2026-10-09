@@ -38,7 +38,7 @@ function Rich({ text }: { text: string }) {
     <>
       {text.split(/\n{2,}/).map((para, i) => {
         const lines = para.split('\n');
-        const isStatus = /your colony|what changed|test results/i.test(lines[0].replace(/\*/g, '')) && lines.length > 1;
+        const isStatus = (/your colony|what changed|test results/i.test(lines[0].replace(/\*/g, '')) || /test \d+ of \d+/i.test(lines[0])) && lines.length > 1;
         const q = para.replace(/\*/g, '').match(/^\s*Question\s+(\d+)\s+of\s+(\d+)\s*[:.]\s*([\s\S]+)$/i);
         if (q)
           return (
@@ -596,6 +596,14 @@ export default function Play({ initial }: { initial: SessionView }) {
           </div>
         )}
 
+        {view.nextTest && !busy && !closed && (
+          <div className="panel" style={{ borderColor: 'var(--accent)', borderWidth: 2, background: 'var(--accent-soft)', display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+            <button className="btn" style={{ background: 'var(--accent)', borderColor: 'var(--accent)' }} onClick={() => send(undefined, view.nextTest!.retest ? `Retest: ${view.nextTest!.name}` : `Run test ${view.nextTest!.n}: ${view.nextTest!.name}`)}>
+              ▶ {view.nextTest.retest ? 'Retest' : view.nextTest.n === 1 ? 'Start testing' : 'Run next test'}
+            </button>
+            <span style={{ fontWeight: 700, color: 'var(--accent-ink)' }}>🧪 Test {view.nextTest.n} of {view.nextTest.total}: {view.nextTest.name}</span>
+          </div>
+        )}
         {closed && (
           <div className="panel stack" style={{ borderColor: 'var(--rust)', borderWidth: 2 }}>
             <div className="label" style={{ color: 'var(--rust)' }}>Case closed</div>

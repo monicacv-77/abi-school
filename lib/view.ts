@@ -1,6 +1,6 @@
 // What the browser is allowed to see about a session (never the raw model conversation or hidden data).
 import { caseFor } from './cases';
-import { needCoverage, planKey, statWord } from './modes';
+import { needCoverage, nextUnpassed, planKey, statWord } from './modes';
 import type { ChallengeData, InvestigationData, Session, SimulationData } from './types';
 
 export interface SessionView {
@@ -16,6 +16,7 @@ export interface SessionView {
   evidence?: string[];
   startingIdea?: string;
   keyPoints?: string[];
+  nextTest?: { n: number; total: number; name: string; retest: boolean };
   image?: { src: string; alt: string; credit: string; href: string; fit?: 'cover' | 'contain'; position?: string };
   blocks?: { name: string; examples: string }[];
   budget?: number;
@@ -78,6 +79,14 @@ export function toView(s: Session): SessionView {
     v.budgetLabel = d.units ? `${d.budget.toLocaleString('en-US')} ${d.units.cost}${d.units.scarce ? ` · ${d.units.scarce.limit} ${d.units.scarce.label}` : ''}` : `$${d.budget.toLocaleString('en-US')}`;
     v.blocks = d.buildingBlocks;
     v.design = (s.state.design as SessionView['design']) ?? null;
+    const lf = Number(s.state.lastFailStep) || 0;
+    const waitingRedesign = lf > 0 && (Number(s.state.lastDesignStep) || 0) < lf;
+    const nt = v.design?.valid && !waitingRedesign && s.status !== 'closed' ? nextUnpassed(d, s) : undefined;
+    if (nt) {
+      const sorted = [...d.stressTests].sort((a, b) => a.order - b.order);
+      const results = Array.isArray(s.state.results) ? (s.state.results as { test: string }[]) : [];
+      v.nextTest = { n: sorted.findIndex((t) => t.id === nt) + 1, total: sorted.length, name: sorted.find((t) => t.id === nt)!.name, retest: results.some((r) => r.test === nt) };
+    }
     const plan = Array.isArray(s.state.plan) ? (s.state.plan as { id: string; qty: number }[]) : [];
     const custom = Array.isArray(s.state.planCustom) ? (s.state.planCustom as { name: string; cost: number; scarce?: number }[]) : [];
     const short = (n: string) => n.replace(/\s*\([^)]*\)\s*$/, '');

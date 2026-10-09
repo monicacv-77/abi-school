@@ -39,7 +39,8 @@ async function main() {
   expect('challenge: must judge tests', await step(ch, close()), "Testing isn't finished");
   await step(ch, tu('judge_test', { test_id: 'rainy_season', passed: true }));
   const keepGoing = await (async () => { await step(ch, tu('judge_test', { test_id: 'access', passed: true })); const m = [...ch.api].reverse().find((x: any) => x.role === 'user' && Array.isArray(x.content)) as any; return String(m.content[0].content); })();
-  expect('challenge: a pass moves straight to the next test', keepGoing, 'KEEP GOING');
+  expect('challenge: a pass reports just that test', keepGoing, 'THIS test only');
+  expect('challenge: next-test button on screen', JSON.stringify((await import('../lib/view')).toView(ch).nextTest), '"name":"Recontamination"');
   await step(ch, tu('judge_test', { test_id: 'recontamination', passed: false, note: 'open buckets' }));
   expect('challenge: must improve after failure', await step(ch, close()), 'has not improved it yet');
   await step(ch, design(2));
