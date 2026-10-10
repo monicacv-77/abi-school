@@ -7,7 +7,7 @@
   "location": "Jamestown, Virginia",
   "realOrConstructed": "Real historical setting with alternate outcomes",
   "status": "READY",
-  "version": 11,
+  "version": 13,
   "bigUnderstanding": "Monica's design: Jamestown's survival was shaped by real pressures (water, food, labor, disease, relations with the Powhatan, supply ships, investor expectations, population growth, the search for profit). Abi learns them through decisions and consequences, not exposition. This is the unit finale: she may transfer ideas from Clean Water, The Failing Farm, Too Good to Be True and Build for Survival; never prompt her to.",
   "winCondition": "Lead your colony through its first three years. Then explain what mattered most to its survival, and why.",
   "opening": {
@@ -57,7 +57,9 @@
     "Tobacco became Virginia's money crop only after 1612. Don't let it rescue the early colony.",
     "Debrief extras: the final outcome list covers survivors, food, water, food production, settlement, Powhatan relations and profit. In the comparison, mention tobacco (John Rolfe, from 1612) as the long-term answer, and its cost in land, labor and conflict. Case Summary visual: compare, My Jamestown vs. Real Jamestown; quote her best cause-and-effect line.",
     "THE POWHATAN SIDE (do this at least twice during play): after a choice that takes Powhatan land, food or people, or brings more English (new settlers, a new settlement, forcing corn trades), show a short moment from the Powhatan side under a bold heading like \"**🏹 Meanwhile, at Werowocomoco**\": 2–3 sentences of Wahunsenacah, Opechancanough or a town's werowance (leader) weighing what the English mean for THEM: their corn stores, hunting grounds, safety, and the English who keep coming. They are a powerful nation acting in their own interest: never villains, victims or rescuers. Real anchors: in 1609 Wahunsenacah moved his capital inland, away from the English; when the English pushed new settlements onto Powhatan land (Nansemond, near the falls of the James) in 1609, fighting followed, and war lasted until 1614.",
-    "DEBRIEF, 'The Powhatan side': 2–3 sentences on what Jamestown meant for the Powhatan: land, corn and hunting grounds taken, new diseases, years of war (1609–1614); later, as tobacco farms spread, Opechancanough's 1622 attack, and by the end of the century most Powhatan land was gone. Say plainly that every settlement story has at least two sides: what the English called expansion meant losing land, safety and self-rule for the people already there."
+    "DEBRIEF, 'The Powhatan side': 2–3 sentences on what Jamestown meant for the Powhatan: land, corn and hunting grounds taken, new diseases, years of war (1609–1614); later, as tobacco farms spread, Opechancanough's 1622 attack, and by the end of the century most Powhatan land was gone. Say plainly that every settlement story has at least two sides: what the English called expansion meant losing land, safety and self-rule for the people already there.",
+    "TONE AND CAST: lots of dry, sarcastic banter. Wingfield is pompous and allergic to work; Smith is a blunt braggart; Percy is a gloomy aristocrat who sighs a lot; Ratcliffe schemes; the councilors blame each other and the President. Keep each line short and in character. Humor never touches deaths, hunger or Powhatan suffering: say those plainly.",
+    "THE MESSENGER: real events (advance_time) and triggered consequences are announced by Nat Pickett, the President's page boy (invented), bursting in out of breath, e.g. \"📯 Nat skids in: 'President! The storehouse! There are… rats. A LOT of rats.'\" or \"🔥 Nat: 'Small fire! Medium fire. It's a large fire, President.'\". Then the facts plainly in the next beat. He can also deliver Company letters and ship sightings."
   ],
   "justInTimeConcepts": [
     "Joint-stock company: investors share the costs and hope to share profits.",
@@ -191,6 +193,12 @@
         "who": "Wahunsenacah's younger brother, a powerful war leader, deeply suspicious of the English",
         "voice": "Few words, cold, watches everything",
         "real": true
+      },
+      {
+        "name": "Nat Pickett",
+        "who": "the President's page boy, about 12 (invented); delivers news, especially bad news",
+        "voice": "Breathless, dramatic, terrible at breaking news gently ('Good news! …No, wait, it's bad news.'), mangles long words",
+        "real": false
       }
     ],
     "dailyLife": [
@@ -1149,6 +1157,7 @@
     "original": "Our men were destroyed with cruell diseases as Swellings, Flixes, Burning Fevers, and by warres, and some departed suddenly, but for the most part they died of meere famine. There were never Englishmen left in a forreigne Countrey in such miserie as wee were in this new discovered Virginia.",
     "modern": "Our men were killed by terrible diseases like swelling, severe diarrhea and high fevers, and by fighting. Some died suddenly, but most of them simply starved to death. No English people had ever been left in a foreign country in such misery as we were in newly discovered Virginia.",
     "href": "https://encyclopediavirginia.org/entries/the-dying-time-an-excerpt-from-observations-gathered-out-of-a-discourse-of-the-plantation-of-the-southerne-colonie-in-virginia-by-george-percy-1625/",
-    "when": "right after the August–September 1607 sickness event (advance_time sickness). Percy really was there; in this game he can be a councilor"
+    "when": "right after the August–September 1607 sickness event (advance_time sickness)",
+    "inDialogue": true
   }
 }

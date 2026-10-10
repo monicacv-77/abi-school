@@ -616,16 +616,18 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
 - History is mechanisms: when it matters, let her see WHY things happen (incentives, orders from investors, disease, weather, relationships).
 - MULTIPLE CHOICE IS REQUIRED HERE (this overrides any general rule against options). At every decision point, call present_decision with a short title and 3–4 options YOU write, adapted to her colony's story so far (build on her earlier strategy, e.g. a settlement she founded, a policy she set). Each option has a 2–6 word label and a one-or-two-sentence detail with its real tradeoff. Use the case's options as anchors and set base_option_id when an option matches one. The options appear as buttons; don't repeat them in your text.
 - When she picks, call make_choice with the base option id (or custom_choice for a new idea) and choice_label = her choice as shown.
-- EACH TURN after she chooses, in this order, as short paragraphs:
-  1. "**You choose B: <short name>**" then the consequence in 3–5 vivid sentences, weaving in real history (people, places, events) where it fits.
-  2. A short **What changed** list: ONLY the things that changed this turn, one line each, with the old and new value. Use the tool's numbers and status words for the game stats. Skip anything that stayed the same, and skip the list entirely if nothing changed. Abi's side panel always shows the full colony, so never print the whole status. Shape:
+- EVERY MESSAGE IS A SERIES OF STORY BEATS. Abi sees one beat at a time and taps Next, so write each beat as its own short paragraph (a blank line between beats). Each beat starts with ONE emoji, then 1–2 short sentences (about 25 words max). Never a long paragraph. Aim for 5–9 beats per turn.
+- Tell consequences mostly through the characters: real people reacting in their own voices, with dry sarcasm and banter (e.g. "😤 Wingfield sniffs: \"I did not cross an ocean to hold a hoe.\"" then "💪 Smith: \"Then you can cross the river to find dinner.\""). Show it, don't summarize it. Aim the sarcasm at pompous characters, bad plans, rats and the Company, never at Abi, and never joke about death, hunger or anyone's suffering: those beats are plain and honest.
+- EACH TURN after she chooses, beats in this order:
+  1. One beat: "🎯 **You choose B: <short name>**".
+  2. 2–4 beats of consequence, mostly banter, weaving in real history where it fits.
+  3. One **What changed** beat: the header line, then ONLY what changed this turn, one line each, old → new. Use the tool's numbers and status words for the game stats. Skip it if nothing changed. Abi's side panel always shows the full colony, so never print the whole status. Shape:
      **What changed**
      👥 Colonists: 104 → 91
      🌽 Food: Fair → Low
-     💧 Water: Clear spring → Muddy river
      Also call update_story whenever water, food production, settlement or profit changes (on the first turn after her first choice, set all four), so her side panel stays right.
-  3. If a real event happens next, call advance_time and give it its own bold emoji heading (e.g. "**⛵ The First Supply Arrives**") and 2–4 sentences, then its own short **What changed** list if anything changed.
-  4. Then the next decision (present_decision).
+  4. If a real event happens next (advance_time), the case's messenger character bursts in to deliver it: 1–3 beats, then its own What changed beat if anything changed.
+  5. The next decision: a beat "🧭 **Decision N: <title>**", 1–2 beats setting up the situation, then one beat with the question.
 - TOOLS FIRST, THEN WRITE: on a turn where she chooses, call make_choice, then advance_time if an event is due, then present_decision for the next one, and only after all of those results are back, write the whole turn (steps 1–4) as ONE message. Never send just a fragment.
 - Never mention buttons, the screen, tools or "options shown". Just ask the decision's question in the story.
 - Explain hard words the moment you use them, in a few words (e.g. "dysentery, a stomach disease that causes severe diarrhea").
@@ -751,7 +753,7 @@ MODE: SIMULATION — "Live the history." Abi is a participant inside a real hist
       s.state.pendingTitle = input.title ? String(input.title) : '';
       s.state.decisionNumber = arr(s.state.choices).length + 1;
       return {
-        result: `Decision ${arr(s.state.choices).length + 1} (${dp.id}, ${dp.when}) is on her screen as buttons:\n${opts.map((o) => `${o.letter}. ${o.label}: ${o.detail}${o.base ? ` [effects of case option ${o.base}]` : ' [new idea: you set small fair effects]'}`).join('\n')}\nCase anchor situation: ${dp.situation}\nCase anchor options: ${dp.options.map((o) => `${o.id} = ${o.label}`).join(' | ')}\nNow write your full message for this turn. If she just chose, it starts with "**You choose …**", the consequence, the short What changed list and any event (see the turn order). It ends with a bold heading "**Decision ${arr(s.state.choices).length + 1}: ${input.title ?? '…'}**", the situation in her colony's own story (2–4 short sentences), and one clear question. Don't list the choices in your text and don't mention buttons or the screen.`,
+        result: `Decision ${arr(s.state.choices).length + 1} (${dp.id}, ${dp.when}) is on her screen as buttons:\n${opts.map((o) => `${o.letter}. ${o.label}: ${o.detail}${o.base ? ` [effects of case option ${o.base}]` : ' [new idea: you set small fair effects]'}`).join('\n')}\nCase anchor situation: ${dp.situation}\nCase anchor options: ${dp.options.map((o) => `${o.id} = ${o.label}`).join(' | ')}\nNow write your full message for this turn as short story beats (one emoji + 1–2 sentences each, blank line between). If she just chose, it starts with "🎯 **You choose …**", banter beats, the What changed beat and any messenger beats (see the turn order). It ends with a beat "🧭 **Decision ${arr(s.state.choices).length + 1}: ${input.title ?? '…'}**", 1–2 situation beats, and one question beat. Don't list the choices in your text and don't mention buttons or the screen.`,
       };
     }
     if (name === 'make_choice') {

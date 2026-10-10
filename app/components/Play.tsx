@@ -203,6 +203,21 @@ function BudgetPanel({ b }: { b: BudgetBox }) {
   );
 }
 
+// Story beats (Simulations): each paragraph is a beat; a leading emoji is shown big.
+function splitBeats(text: string) {
+  return text.split(/\n{2,}/).map((b) => b.trim()).filter(Boolean);
+}
+const LEAD_EMOJI = /^((?:\p{Extended_Pictographic}|\p{Regional_Indicator})(?:\uFE0F|\u200D|\p{Extended_Pictographic}|\p{Emoji_Modifier})*)\s*/u;
+function Beat({ text }: { text: string }) {
+  const m = text.match(LEAD_EMOJI);
+  return (
+    <div className="beat">
+      <span className="beat-ic" aria-hidden="true">{m ? m[1] : /what changed/i.test(text) ? '📊' : '📜'}</span>
+      <div className="beat-text"><Rich text={m ? text.slice(m[0].length) : text} /></div>
+    </div>
+  );
+}
+
 type Recog = { start: () => void; stop: () => void; onresult: ((e: any) => void) | null; onend: (() => void) | null; interimResults: boolean; lang: string };
 
 export default function Play({ initial }: { initial: SessionView }) {
@@ -216,6 +231,8 @@ export default function Play({ initial }: { initial: SessionView }) {
   const [listening, setListening] = useState(false);
   const [thinkIdx, setThinkIdx] = useState(0);
   const [canTalk, setCanTalk] = useState(false);
+  const [fresh, setFresh] = useState(-1); // the newest Simulation reply, revealed beat by beat
+  const [shown, setShown] = useState(1);
   const recog = useRef<Recog | null>(null);
   const bottom = useRef<HTMLDivElement>(null);
 
@@ -229,6 +246,13 @@ export default function Play({ initial }: { initial: SessionView }) {
     const prev = seen.current;
     seen.current = view.display.length;
     if (view.display.length <= prev) return;
+    // Simulations: the newest guide reply is revealed one beat at a time.
+    if (view.mode === 'simulation') {
+      for (let i = view.display.length - 1; i >= prev; i--) {
+        const m = view.display[i];
+        if (m.role === 'guide' && m.text && !m.image && !m.source) { setFresh(i); setShown(1); break; }
+      }
+    }
     // A new reply: show it from its first line, not its last.
     let first = -1;
     for (let i = prev; i < view.display.length; i++) if (view.display[i].role !== 'abi' || view.display[i].image) { first = i; break; }
@@ -297,7 +321,7 @@ export default function Play({ initial }: { initial: SessionView }) {
       if (!r.ok) throw new Error(data.error || 'Something went wrong');
       setView(data.view);
       const last = data.view.display[data.view.display.length - 1];
-      if (autoRead && last?.role === 'guide') speak(last.text);
+      if (autoRead && last?.role === 'guide') speak(data.view.mode === 'simulation' ? splitBeats(last.text)[0] ?? last.text : last.text);
     } catch (ex) {
       setErr((ex as Error).message);
       if (!override) setText(t);
@@ -308,6 +332,7 @@ export default function Play({ initial }: { initial: SessionView }) {
   }
 
   const closed = view.status === 'closed';
+  const beatsDone = fresh < 0 || !view.display[fresh] || shown >= splitBeats(view.display[fresh].text).length;
   const twoCol = (view.mode === 'challenge' && Boolean(view.budgetBox)) || (view.mode === 'simulation' && Boolean(view.stats)) || (view.mode === 'investigation' && Boolean(view.opening)) || view.mode === 'inquiry' || view.mode === 'review';
 
   const heroEl = view.image && (
@@ -611,6 +636,32 @@ export default function Play({ initial }: { initial: SessionView }) {
             </figure>
           ) : m.role === 'abi' ? (
             <div key={i} data-msg={i} style={{ alignSelf: 'flex-end', maxWidth: '85%', background: 'var(--ink)', color: 'var(--paper)', padding: '10px 14px', borderRadius: '14px 14px 2px 14px' }}>{m.text}</div>
+          ) : view.mode === 'simulation' ? (
+            (() => {
+              const beats = splitBeats(m.text);
+              const n = i === fresh ? Math.min(shown, beats.length) : beats.length;
+              return (
+                <div key={i} data-msg={i} className="beats">
+                  {beats.slice(0, n).map((b, k) => (
+                    <div key={k} data-beat={`${i}-${k}`} className={i === fresh && k === n - 1 && n > 1 ? 'beat-in' : undefined}>
+                      <Beat text={b} />
+                    </div>
+                  ))}
+                  {n < beats.length && (
+                    <button
+                      className="btn next-beat"
+                      onClick={() => {
+                        setShown(n + 1);
+                        if (autoRead) speak(beats[n]);
+                        setTimeout(() => (document.querySelector('.next-beat') ?? document.querySelector('[aria-label="Your choices"]') ?? document.querySelector(`[data-beat="${i}-${n}"]`))?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 60);
+                      }}
+                    >
+                      ▶ Next <span className="muted" style={{ color: 'inherit', opacity: 0.75, fontSize: 14 }}>({n} of {beats.length})</span>
+                    </button>
+                  )}
+                </div>
+              );
+            })()
           ) : (
             <div key={i} data-msg={i} style={{ alignSelf: 'flex-start', maxWidth: '92%', display: 'flex', gap: 8, alignItems: 'flex-start' }}>
               <div style={{ background: 'var(--card)', border: '1px solid var(--rule)', borderLeft: '4px solid var(--accent)', padding: '10px 14px', borderRadius: '14px 14px 14px 2px', fontSize: 19 }}>
@@ -621,7 +672,7 @@ export default function Play({ initial }: { initial: SessionView }) {
           ),
         )}
         {busy && <div className="muted" style={{ fontFamily: 'var(--mono)', fontSize: 14 }}>{THINKING[thinkIdx]}</div>}
-        {view.decision && !busy && !closed && (
+        {view.decision && !busy && !closed && beatsDone && (
           <div className="panel stack" style={{ borderColor: 'var(--accent)', borderWidth: 2, background: 'var(--accent-soft)', gap: 10 }} role="group" aria-label="Your choices">
             <div className="label" style={{ color: 'var(--accent-ink)' }}>🧭 Decision {view.decision.number}{view.decision.title ? `: ${view.decision.title}` : ''} · {view.decision.when}</div>
             {view.decision.options.map((o) => (

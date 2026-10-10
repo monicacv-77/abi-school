@@ -49,7 +49,7 @@ export interface CaseDef {
   timelineEvents?: { year: string; label: string }[];
   followUpSeeds?: string[]; // directions for the end-of-case 'Keep exploring' questions
   standards?: { code: string; label: string }[]; // standards this case covers (shown on the Case Summary)
-  primarySource?: { author: string; title: string; year: string; original: string; modern: string; href: string; when: string }; // one short real source, shown once with show_source
+  primarySource?: { author: string; title: string; year: string; original: string; modern: string; href: string; when: string; inDialogue?: boolean }; // inDialogue: a character says it in the story instead of a card // one short real source, shown once with show_source
   wrapUpQuestions?: string[]; // asked one at a time at the very end, no follow-ups; case closes after the last answer
   winCondition: string; // shown to Abi on screen, for every case type
   data: ChallengeData | InvestigationData | SimulationData;

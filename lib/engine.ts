@@ -34,7 +34,11 @@ function caseSpec(c: CaseDef): string {
     `Skills for the summary: ${c.skills.join(', ')}`,
     c.wrapUpQuestions?.length ? `WRAP-UP QUESTIONS (the very end, after everything else; ask exactly these, one at a time, no follow-ups):\n${c.wrapUpQuestions.map((q, i) => `Q${i + 1}. ${q}`).join('\n')}` : '',
     c.followUpSeeds?.length ? `Follow-up directions for the 'Keep exploring' questions at close: ${c.followUpSeeds.join('; ')}` : '',
-    c.primarySource ? `PRIMARY SOURCE (real, ${c.primarySource.author}, ${c.primarySource.year}): show it once with show_source ${c.primarySource.when}. Modern version: "${c.primarySource.modern}"` : '',
+    c.primarySource
+      ? c.primarySource.inDialogue
+        ? `REAL WORDS IN THE STORY (${c.primarySource.author}, ${c.primarySource.year}): ${c.primarySource.when}, have ${c.primarySource.author} say these real words in character, as one or two beats, close to this modern version: "${c.primarySource.modern}" Then one short beat noting these are his real words, written in 1607. Don't change their meaning.`
+        : `PRIMARY SOURCE (real, ${c.primarySource.author}, ${c.primarySource.year}): show it once with show_source ${c.primarySource.when}. Modern version: "${c.primarySource.modern}"`
+      : '',
     `CASE DATA\n${(ENGINES[c.mode] as { spec: (c: CaseDef) => string }).spec(c)}`,
   ]
     .filter(Boolean)
@@ -162,7 +166,7 @@ export async function runTurn(s: Session, userText: string, client = new Anthrop
   });
 
   const system = buildSystem(s, c);
-  const tools = toolsFor(s.mode).filter((t) => t.name !== 'show_source' || Boolean(c?.primarySource));
+  const tools = toolsFor(s.mode).filter((t) => t.name !== 'show_source' || Boolean(c?.primarySource && !c.primarySource.inDialogue));
   const replyParts: string[] = [];
   const choicesBefore = Array.isArray(s.state.choices) ? s.state.choices.length : 0;
 
