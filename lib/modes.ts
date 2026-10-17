@@ -32,7 +32,7 @@ const CLOSE_CASE: Tool = {
       abi_final_words: { type: 'string', description: "Abi's own final conclusion/decision/explanation, quoted from what she said, lightly cleaned up." },
       in_your_words: { type: 'string', description: "Abi's 'In your words' paragraph EXACTLY as she wrote or said it. Fix spelling only; don't add, reword or improve anything." },
       hook: { type: 'string', description: 'One or two sentences a stranger understands, first person. E.g. "Hundreds of fish suddenly died in Lake Mason. My job was to figure out why."' },
-      quote: { type: 'string', description: "Abi's single best insight, in her words. Under 30 words." },
+      quote: { type: 'string', description: "Abi's single best insight, in her words, under 30 words. Pick a DIFFERENT line from her In your words paragraph (that paragraph is printed separately)." },
       quote_label: { type: 'string', description: 'Label under the quote, e.g. "My conclusion", "My final design", "What I figured out".' },
       visual: {
         type: 'object',

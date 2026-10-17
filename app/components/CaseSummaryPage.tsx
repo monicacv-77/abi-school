@@ -8,7 +8,15 @@ const arrow = (
 
 const METHOD_EMOJI: Record<string, string> = { Investigation: '🔎', Challenge: '🛠️', Simulation: '🧭', Inquiry: '💡' };
 
+const norm = (t = '') => t.toLowerCase().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim();
+function repeats(a?: string, b?: string) {
+  const x = norm(a), y = norm(b);
+  if (!x || !y) return false;
+  return x === y || x.includes(y) || y.includes(x);
+}
+
 export default function CaseSummaryPage({ s }: { s: CaseSummary }) {
+  const showQuote = !repeats(s.quote, s.inYourWords);
   const closed = new Date(s.closedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   return (
     <article className="summary">
@@ -24,16 +32,18 @@ export default function CaseSummaryPage({ s }: { s: CaseSummary }) {
           <span className="tag">{s.classification}</span>
         </div>
         <h1 className="sum-title">{s.title}</h1>
-        <p style={{ margin: 0, fontSize: 17, color: 'var(--ink-2)' }}>{s.hook}</p>
+        <p style={{ margin: 0, fontSize: 20, color: 'var(--ink-2)' }}>{s.hook}</p>
       </div>
 
+      {showQuote && (
       <div className="sum-quote">
-        <div className="qmark">“</div>
-        <div>
-          <p style={{ margin: 0, fontSize: 22, lineHeight: 1.35, fontWeight: 500 }}>{s.quote}</p>
-          <div className="label" style={{ color: '#c9c4b8', marginTop: 10 }}>{s.quoteLabel}</div>
+          <div className="qmark">“</div>
+          <div>
+            <p style={{ margin: 0, fontSize: 24, lineHeight: 1.35, fontWeight: 500 }}>{s.quote}</p>
+            <div className="label" style={{ color: '#c9c4b8', marginTop: 10 }}>{s.quoteLabel}</div>
+          </div>
         </div>
-      </div>
+      )}
 
       {s.inYourWords && (
         <div className="sum-words">
@@ -80,13 +90,13 @@ export default function CaseSummaryPage({ s }: { s: CaseSummary }) {
       <div className="two">
         <div>
           <div className="col-h">{s.foundTitle}</div>
-          <ul style={{ margin: 0, paddingLeft: 18, fontSize: 14, lineHeight: 1.45 }}>
+          <ul style={{ margin: 0, paddingLeft: 20, fontSize: 17, lineHeight: 1.45 }}>
             {s.found.map((f, i) => <li key={i} style={{ marginBottom: 6 }}>{f}</li>)}
           </ul>
         </div>
         <div>
           <div className="col-h">Key ideas</div>
-          <div style={{ fontSize: 14, lineHeight: 1.45 }}>
+          <div style={{ fontSize: 17, lineHeight: 1.45 }}>
             {s.keyIdeas.map((k, i) => (
               <div key={i} style={{ marginBottom: 8 }}><strong>{k.term}</strong> — {k.meaning}</div>
             ))}
@@ -96,18 +106,18 @@ export default function CaseSummaryPage({ s }: { s: CaseSummary }) {
 
       <div className="sum-foot">
         <div>
-          <div className="label" style={{ fontSize: 11, marginBottom: 8 }}>Skills</div>
+          <div className="label" style={{ fontSize: 14, marginBottom: 8 }}>Skills</div>
           <div className="row" style={{ gap: 6 }}>
             {s.skills.map((k) => <span key={k} className="pill">{k}</span>)}
           </div>
         </div>
-        <div style={{ maxWidth: 320, fontSize: 12, lineHeight: 1.45, color: '#4a4c47', textAlign: 'right' }}>
-          <div className="label" style={{ fontSize: 11, color: 'var(--ink)' }}>Real or constructed?</div>
+        <div style={{ maxWidth: 360, fontSize: 14, lineHeight: 1.45, color: '#4a4c47', textAlign: 'right' }}>
+          <div className="label" style={{ fontSize: 14, color: 'var(--ink)' }}>Real or constructed?</div>
           {s.realOrConstructed}
           <div style={{ marginTop: 4 }}>Closed {closed}</div>
           {s.standards && s.standards.length > 0 && (
             <div style={{ marginTop: 6 }} title={s.standards.map((x) => `${x.code}: ${x.label}`).join('\n')}>
-              <span className="label" style={{ fontSize: 11, color: 'var(--ink)' }}>Standards: </span>
+              <span className="label" style={{ fontSize: 14, color: 'var(--ink)' }}>Standards: </span>
               {s.standards.map((x) => x.code).join(' · ')}
             </div>
           )}

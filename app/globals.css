@@ -58,15 +58,15 @@ textarea { resize: none; }
 .sum-quote { display: flex; gap: 20px; background: var(--ink); color: var(--paper); padding: 24px 28px; }
 .qmark { font-family: var(--display); font-weight: 800; font-size: 72px; line-height: 0.7; color: var(--rust); }
 .chain { display: flex; align-items: center; gap: 4px; }
-.chip { flex: 1 1 0; min-width: 0; min-height: 56px; padding: 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: var(--teal-soft); border: 1px solid var(--teal); font-size: 12px; font-weight: 600; line-height: 1.2; color: #153f47; }
+.chip { flex: 1 1 0; min-width: 0; min-height: 60px; padding: 6px; display: flex; align-items: center; justify-content: center; text-align: center; background: var(--teal-soft); border: 1px solid var(--teal); font-size: 15px; font-weight: 600; line-height: 1.2; color: #153f47; }
 .chip.last { background: var(--teal); color: #fff; }
-.steps { margin: 0; padding-left: 22px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 28px; row-gap: 6px; font-size: 14px; }
-.compare { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; font-size: 14px; }
+.steps { margin: 0; padding-left: 22px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 28px; row-gap: 6px; font-size: 17px; }
+.compare { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; font-size: 17px; }
 .compare ul { margin: 0; padding-left: 18px; }
 .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; flex: 1 1 auto; }
-.col-h { font-size: 15px; font-weight: 700; border-bottom: 1px solid var(--ink); padding-bottom: 6px; margin-bottom: 10px; }
+.col-h { font-size: 17px; font-weight: 700; border-bottom: 1px solid var(--ink); padding-bottom: 6px; margin-bottom: 10px; }
 .sum-foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; border-top: 2px solid var(--ink); padding-top: 14px; }
-.pill { background: var(--ink); color: var(--paper); padding: 5px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+.pill { background: var(--ink); color: var(--paper); padding: 5px 12px; border-radius: 999px; font-size: 14px; font-weight: 600; }
 @media (max-width: 700px) {
   .summary { padding: 24px 16px; min-height: 0; }
   .stamp { position: static; align-self: flex-start; transform: rotate(-4deg); font-size: 18px; }
@@ -180,7 +180,7 @@ textarea { resize: none; }
 .needs li.ok .need-mark { background: #e2f1e6; border-color: #1f6b3a; color: #1f6b3a; }
 .review-dot { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--rule); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; color: var(--muted); background: var(--card); }
 .sum-words { border-left: 5px solid var(--accent); background: var(--card); padding: 12px 16px; }
-.sum-words p { margin: 6px 0 0; font-size: 17px; line-height: 1.45; }
+.sum-words p { margin: 6px 0 0; font-size: 20px; line-height: 1.45; }
 .source-card { align-self: flex-start; max-width: 92%; margin: 0; background: #fbf6e9; border: 2px solid #8a6d3b; border-radius: 12px; padding: 12px 16px; }
 .source-head { display: flex; justify-content: space-between; align-items: center; font-weight: 800; font-size: 14px; color: #6b5124; letter-spacing: 0.02em; }
 .source-modern { margin: 6px 0 8px; font-family: var(--display); font-size: 21px; line-height: 1.4; }
@@ -193,13 +193,13 @@ textarea { resize: none; }
   .sum-title { font-size: 38px; }
   .stamp { top: 64px; font-size: 22px; }
   .sum-quote { padding: 14px 20px; gap: 14px; }
-  .sum-quote p { font-size: 18px !important; }
+  .sum-quote p { font-size: 21px !important; }
   .qmark { font-size: 52px; }
   .sum-words { padding: 8px 14px; }
-  .sum-words p { font-size: 15px; margin-top: 4px; }
-  .chip { min-height: 44px; }
+  .sum-words p { font-size: 18px; margin-top: 4px; }
+  .chip { min-height: 48px; font-size: 14px; }
   .two { gap: 24px; }
-  .two ul, .two > div > div { font-size: 13px !important; line-height: 1.35 !important; }
+  .two ul, .two > div > div { font-size: 15.5px !important; line-height: 1.35 !important; }
   .two li, .two > div > div > div { margin-bottom: 4px !important; }
   .sum-foot { padding-top: 10px; }
 }
@@ -285,4 +285,19 @@ textarea { resize: none; }
 @media (max-width: 900px) {
   .dock { position: fixed; left: 0; right: 0; bottom: 20px; margin: 0; padding: 10px 16px; }
   .wrap.wide { padding-bottom: 210px !important; }
+}
+@media print {
+  .summary { gap: 9px; padding: 24px 40px 20px; }
+  .sum-title { font-size: 34px; }
+  .sum-top { padding-bottom: 6px; }
+  .sum-quote { padding: 10px 18px; }
+  .qmark { font-size: 44px; }
+  .sum-words { padding: 6px 12px; }
+  .chip { min-height: 40px; }
+  .col-h { margin-bottom: 6px; padding-bottom: 4px; }
+  .sum-foot { padding-top: 8px; }
+}
+@media print {
+  .summary { gap: 8px; padding-top: 20px; }
+  .two > div > div > div, .two li { margin-bottom: 3px !important; }
 }
