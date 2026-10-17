@@ -269,3 +269,20 @@ textarea { resize: none; }
 .next-beat { align-self: flex-start; background: var(--accent); border-color: var(--accent); }
 .advisor-btn { min-height: 52px; padding: 6px 12px; font-size: 16px; white-space: nowrap; }
 @media (max-width: 560px) { .advisor-label { display: none; } }
+
+/* ---------- Full-height two columns: sidebar pinned, typing box in the right column ---------- */
+.play-side { height: calc(100vh - 36px); max-height: none; overflow: hidden; display: flex; flex-direction: column; gap: 14px; padding-right: 0; }
+.side-top { flex: 1 1 auto; min-height: 90px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; padding-right: 4px; }
+.side-bottom { flex: 0 1 auto; max-height: 68vh; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+.play-main { display: flex; flex-direction: column; min-height: calc(100vh - 210px); }
+.play-main > section[aria-live] { flex: 1 0 auto; }
+.dock { position: sticky; bottom: 20px; z-index: 5; margin-top: 16px; background: var(--paper); border-top: 2px solid var(--ink); padding: 10px 0 6px; }
+@media (max-width: 900px) {
+  .play-side { position: static; height: auto; overflow: visible; }
+  .side-top, .side-bottom { overflow: visible; max-height: none; }
+  .play-main { min-height: 0; }
+}
+@media (max-width: 900px) {
+  .dock { position: fixed; left: 0; right: 0; bottom: 20px; margin: 0; padding: 10px 16px; }
+  .wrap.wide { padding-bottom: 210px !important; }
+}

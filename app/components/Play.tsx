@@ -372,8 +372,95 @@ export default function Play({ initial }: { initial: SessionView }) {
     </>
   );
 
+  const formInner = (
+    <>
+          {err && <div role="alert" style={{ color: 'var(--rust)', fontSize: 15 }}>{err}</div>}
+          <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end' }}>
+            <label htmlFor="msg" style={{ position: 'absolute', left: -9999 }}>Your message</label>
+            <textarea
+              id="msg"
+              rows={2}
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } }}
+              placeholder={closed ? 'Ask a follow-up…' : listening ? 'Listening…' : 'Type or tap the mic…'}
+              style={{ flex: 1 }}
+            />
+            {!closed && view.mode !== 'inquiry' && view.mode !== 'review' && (
+              <button type="button" className="btn ghost advisor-btn" disabled={busy} onClick={() => send(undefined, "🧑‍🏫 I'd like a clue from an advisor.")} aria-label="Ask an advisor for a clue">
+                🧑‍🏫 <span className="advisor-label">Ask an advisor</span>
+              </button>
+            )}
+            {canTalk && (
+              <button type="button" onClick={toggleListen} aria-label={listening ? 'Stop listening' : 'Talk instead of typing'} className="btn ghost" style={{ minWidth: 52, background: listening ? 'var(--rust)' : undefined, color: listening ? '#fff' : undefined }}><MicIcon /></button>
+            )}
+            <button className="btn" type="submit" disabled={busy || !text.trim()}>Send</button>
+          </div>
+          <label className="row muted" style={{ fontSize: 14, gap: 6 }}>
+            <input type="checkbox" checked={autoRead} onChange={(e) => { setAutoRead(e.target.checked); try { localStorage.setItem('abi-autoread', e.target.checked ? '1' : '0'); } catch {} }} />
+            Read replies aloud
+          </label>
+    </>
+  );
+
   const sideEl = twoCol && (
     <aside className="play-side no-print" aria-label="Briefs and status">
+      <div className="side-top">
+      {view.opening && (
+      <section>
+        <div className="side-h">📋 Briefs</div>
+        {(() => {
+          const card = (c: NonNullable<SessionView['opening']>['cards'][number], i: number) => (
+            <details key={`${c.label}-${i}`} className="brief">
+              <summary>
+                {c.icon && <span className="ic" aria-hidden="true">{c.icon}</span>}
+                <span style={{ flex: 1 }}>{c.label}</span>
+              </summary>
+              <div className="brief-body">
+                <span style={{ flex: 1 }}>{c.text}</span>
+                <button aria-label={`Read ${c.label} aloud`} onClick={() => speak(`${c.label}. ${c.text}`)} className="icon-btn"><SpeakerIcon /></button>
+              </div>
+            </details>
+          );
+          const cards = view.opening!.cards;
+          const briefs = cards.filter((c) => c.kind === 'brief');
+          const places = cards.filter((c) => c.kind === 'place');
+          const voices = cards.filter((c) => !c.kind || c.kind === 'voice');
+          return (
+            <div className="stack" style={{ gap: 6 }}>
+              {briefs.map(card)}
+              {view.blocks && (
+                <details className="brief">
+                  <summary>
+                    <span className="ic" aria-hidden="true">🧰</span>
+                    <span style={{ flex: 1 }}>Toolbox</span>
+                  </summary>
+                  <div className="brief-body" style={{ display: 'block' }}>
+                    {view.blocks.map((b) => (
+                      <div key={b.name} style={{ marginBottom: 6 }}><strong>{b.name}:</strong> <span className="muted">{b.examples}</span></div>
+                    ))}
+                    <div className="muted" style={{ fontSize: 15 }}>Ask for any cost or spec. Got another idea? Propose it.</div>
+                  </div>
+                </details>
+              )}
+              {places.map(card)}
+              {voices.length > 0 && <div className="brief-group">🗣️ Reports</div>}
+              {voices.map(card)}
+            </div>
+          );
+        })()}
+      </section>
+      )}
+      {view.choices && view.choices.length > 0 && (
+        <section>
+          <div className="side-h">📜 Your choices</div>
+          <ol className="choice-log">
+            {view.choices.map((ch) => <li key={ch.n}>{ch.label}</li>)}
+          </ol>
+        </section>
+      )}
+      </div>
+      <div className="side-bottom">
       {view.budgetBox && <BudgetPanel b={view.budgetBox} />}
       {view.mode === 'simulation' && view.stats && <ColonyPanel v={view} />}
       {view.mode === 'investigation' && (
@@ -434,64 +521,12 @@ export default function Play({ initial }: { initial: SessionView }) {
           )}
         </section>
       )}
-      {view.opening && (
-      <section>
-        <div className="side-h">📋 Briefs</div>
-        {(() => {
-          const card = (c: NonNullable<SessionView['opening']>['cards'][number], i: number) => (
-            <details key={`${c.label}-${i}`} className="brief">
-              <summary>
-                {c.icon && <span className="ic" aria-hidden="true">{c.icon}</span>}
-                <span style={{ flex: 1 }}>{c.label}</span>
-              </summary>
-              <div className="brief-body">
-                <span style={{ flex: 1 }}>{c.text}</span>
-                <button aria-label={`Read ${c.label} aloud`} onClick={() => speak(`${c.label}. ${c.text}`)} className="icon-btn"><SpeakerIcon /></button>
-              </div>
-            </details>
-          );
-          const cards = view.opening!.cards;
-          const briefs = cards.filter((c) => c.kind === 'brief');
-          const places = cards.filter((c) => c.kind === 'place');
-          const voices = cards.filter((c) => !c.kind || c.kind === 'voice');
-          return (
-            <div className="stack" style={{ gap: 6 }}>
-              {briefs.map(card)}
-              {view.blocks && (
-                <details className="brief">
-                  <summary>
-                    <span className="ic" aria-hidden="true">🧰</span>
-                    <span style={{ flex: 1 }}>Toolbox</span>
-                  </summary>
-                  <div className="brief-body" style={{ display: 'block' }}>
-                    {view.blocks.map((b) => (
-                      <div key={b.name} style={{ marginBottom: 6 }}><strong>{b.name}:</strong> <span className="muted">{b.examples}</span></div>
-                    ))}
-                    <div className="muted" style={{ fontSize: 15 }}>Ask for any cost or spec. Got another idea? Propose it.</div>
-                  </div>
-                </details>
-              )}
-              {places.map(card)}
-              {voices.length > 0 && <div className="brief-group">🗣️ Reports</div>}
-              {voices.map(card)}
-            </div>
-          );
-        })()}
-      </section>
-      )}
-      {view.choices && view.choices.length > 0 && (
-        <section>
-          <div className="side-h">📜 Your choices</div>
-          <ol className="choice-log">
-            {view.choices.map((ch) => <li key={ch.n}>{ch.label}</li>)}
-          </ol>
-        </section>
-      )}
+      </div>
     </aside>
   );
 
   return (
-    <main className={`wrap${twoCol ? ' wide' : ''}`} style={{ paddingBottom: 200, ...modeVars(view.mode) }}>
+    <main className={`wrap${twoCol ? ' wide' : ''}`} style={{ paddingBottom: twoCol ? 28 : 200, ...modeVars(view.mode) }}>
       <div className="topbar no-print">
         <Link href="/">← Dashboard</Link>
         <span>{view.caseId === 'inquiry' ? 'Question' : view.caseId === 'review' ? 'Review' : `Case ${view.number}`}</span>
@@ -705,39 +740,19 @@ export default function Play({ initial }: { initial: SessionView }) {
         {closed && view.followUps && view.followUps.length > 0 && <KeepExploring questions={view.followUps} />}
         <div ref={bottom} />
       </section>
+      {twoCol && (
+        <form onSubmit={send} className="no-print dock">
+          <div className="stack">{formInner}</div>
+        </form>
+      )}
       </div>
       </div>
+      {!twoCol && (
+        <form onSubmit={send} className="no-print" style={{ position: 'fixed', left: 0, right: 0, bottom: 22, background: 'var(--paper)', borderTop: '2px solid var(--ink)', padding: '10px 16px' }}>
+          <div style={{ maxWidth: 760, margin: '0 auto' }} className="stack">{formInner}</div>
+        </form>
+      )}
 
-      <form onSubmit={send} className="no-print" style={{ position: 'fixed', left: 0, right: 0, bottom: 22, background: 'var(--paper)', borderTop: '2px solid var(--ink)', padding: '10px 16px' }}>
-        <div style={{ maxWidth: twoCol ? 1180 : 760, margin: '0 auto' }} className={`stack${twoCol ? ' form-two' : ''}`}>
-          {err && <div role="alert" style={{ color: 'var(--rust)', fontSize: 15 }}>{err}</div>}
-          <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end' }}>
-            <label htmlFor="msg" style={{ position: 'absolute', left: -9999 }}>Your message</label>
-            <textarea
-              id="msg"
-              rows={2}
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } }}
-              placeholder={closed ? 'Ask a follow-up…' : listening ? 'Listening…' : 'Type or tap the mic…'}
-              style={{ flex: 1 }}
-            />
-            {!closed && view.mode !== 'inquiry' && view.mode !== 'review' && (
-              <button type="button" className="btn ghost advisor-btn" disabled={busy} onClick={() => send(undefined, "🧑‍🏫 I'd like a clue from an advisor.")} aria-label="Ask an advisor for a clue">
-                🧑‍🏫 <span className="advisor-label">Ask an advisor</span>
-              </button>
-            )}
-            {canTalk && (
-              <button type="button" onClick={toggleListen} aria-label={listening ? 'Stop listening' : 'Talk instead of typing'} className="btn ghost" style={{ minWidth: 52, background: listening ? 'var(--rust)' : undefined, color: listening ? '#fff' : undefined }}><MicIcon /></button>
-            )}
-            <button className="btn" type="submit" disabled={busy || !text.trim()}>Send</button>
-          </div>
-          <label className="row muted" style={{ fontSize: 14, gap: 6 }}>
-            <input type="checkbox" checked={autoRead} onChange={(e) => { setAutoRead(e.target.checked); try { localStorage.setItem('abi-autoread', e.target.checked ? '1' : '0'); } catch {} }} />
-            Read replies aloud
-          </label>
-        </div>
-      </form>
     </main>
   );
 }
