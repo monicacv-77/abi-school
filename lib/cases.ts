@@ -5,10 +5,9 @@ import c001 from '@/cases/001-clean-water.json';
 import c002 from '@/cases/002-failing-farm.json';
 import c003 from '@/cases/003-too-good-to-be-true.json';
 import c004 from '@/cases/004-build-for-survival.json';
-import b1 from '@/cases/bonus-lost-colony.json';
 import c005 from '@/cases/005-jamestown.json';
 
-export const CASES: CaseDef[] = [c001, c002, c003, c004, c005, b1] as unknown as CaseDef[];
+export const CASES: CaseDef[] = [c001, c002, c003, c004, c005] as unknown as CaseDef[];
 
 // Cases planned for the unit but not written yet (shown on the dashboard).
 export const PLANNED: { id: string; title: string; mode: string; unit: string }[] = [];
