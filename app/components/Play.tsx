@@ -722,6 +722,11 @@ export default function Play({ initial }: { initial: SessionView }) {
               placeholder={closed ? 'Ask a follow-up…' : listening ? 'Listening…' : 'Type or tap the mic…'}
               style={{ flex: 1 }}
             />
+            {!closed && view.mode !== 'inquiry' && view.mode !== 'review' && (
+              <button type="button" className="btn ghost advisor-btn" disabled={busy} onClick={() => send(undefined, "🧑‍🏫 I'd like a clue from an advisor.")} aria-label="Ask an advisor for a clue">
+                🧑‍🏫 <span className="advisor-label">Ask an advisor</span>
+              </button>
+            )}
             {canTalk && (
               <button type="button" onClick={toggleListen} aria-label={listening ? 'Stop listening' : 'Talk instead of typing'} className="btn ghost" style={{ minWidth: 52, background: listening ? 'var(--rust)' : undefined, color: listening ? '#fff' : undefined }}><MicIcon /></button>
             )}

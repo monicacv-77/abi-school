@@ -54,6 +54,7 @@ function buildSystem(s: Session, c: CaseDef | undefined): Anthropic.Messages.Tex
   const status = (engine.status as (s: Session, c: CaseDef) => string)(s, c as CaseDef);
   const dynamic = [
     `CURRENT STATE (updated every turn): ${status}`,
+    Number(s.state.hintsAsked) ? `Advisor clues asked so far: ${Number(s.state.hintsAsked)}. If her latest message is an advisor request, this is clue number ${Number(s.state.hintsAsked)}: use scaffold rung ${Number(s.state.hintsAsked)} (or the strongest one if past the end, adapted to where she's stuck now).` : '',
     resumed ? 'Abi is coming back after a break. Start with a 1–2 sentence recap of where things stand, then continue.' : '',
     s.status === 'closed' ? 'This case is CLOSED. Answer follow-up questions briefly; do not reopen it.' : '',
     `Today: ${new Date().toDateString()}.`,
@@ -125,7 +126,7 @@ async function runTool(s: Session, c: CaseDef | undefined, name: string, input: 
       whatHappened: String(input.parent_what_happened ?? ''),
       scaffoldsUsed: String(input.parent_scaffolds_used ?? ''),
       concepts: Array.isArray(input.parent_concepts) ? input.parent_concepts.map(String) : [],
-      notes: '',
+      notes: Number(s.state.hintsAsked) ? `Advisor clues used: ${Number(s.state.hintsAsked)}` : '',
     };
     s.followUps = (Array.isArray(input.follow_ups) ? input.follow_ups : [])
       .map((q: unknown) => String(q).trim())
@@ -155,6 +156,7 @@ export async function runTurn(s: Session, userText: string, client = new Anthrop
   s.api.push({ role: 'user', content: text });
   s.display.push({ role: 'abi', text, at: now });
   if (s.mode === 'simulation') s.state.deltaFresh = true;
+  if (text.startsWith('🧑‍🏫')) s.state.hintsAsked = (Number(s.state.hintsAsked) || 0) + 1;
 
   // Thinking blocks are sealed to the exact system prompt they were made with. Ours changes every
   // turn (live game state), so drop thinking from earlier turns. Within this turn's tool loop the

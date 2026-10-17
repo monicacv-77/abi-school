@@ -267,3 +267,5 @@ textarea { resize: none; }
 .beat-in { animation: beatIn 0.25s ease-out; }
 @keyframes beatIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 .next-beat { align-self: flex-start; background: var(--accent); border-color: var(--accent); }
+.advisor-btn { min-height: 52px; padding: 6px 12px; font-size: 16px; white-space: nowrap; }
+@media (max-width: 560px) { .advisor-label { display: none; } }

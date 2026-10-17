@@ -76,6 +76,7 @@ function checkCase(file: string) {
     hint(d.toolbox.some((t) => t.hidden), 'no hidden toolbox items: add a few for good ideas Abi might invent');
     need(d.measurements?.length >= 3, 'needs 3+ measurements she can ask for');
     need(d.stressTests?.length >= 3 && d.stressTests.every((t) => t.passesIf), 'needs 3+ stress tests, each with passesIf');
+    hint(d.stressTests.length <= 3, `${d.stressTests.length} stress tests: 3 is plenty for one sitting`);
     need((d.minCapacity ?? d.minLitersPerDay) !== undefined, 'needs a capacity target (minCapacity)');
     for (const t of d.toolbox) {
       for (const n of t.needs ?? []) for (const alt of n.split('|')) if (!alt.startsWith('existing:') && !ids.has(alt)) bad.push(`toolbox "${t.id}" needs unknown id "${alt}"`);

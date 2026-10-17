@@ -7,7 +7,7 @@
   "location": "Early colonial Virginia (Tidewater)",
   "realOrConstructed": "Constructed challenge in a historically grounded setting",
   "status": "READY",
-  "version": 12,
+  "version": 13,
   "bigUnderstanding": "Shelter is an engineering tradeoff: speed, weather protection, stability, fire safety, labor, scarce imported materials, and repairability. There is no single right design. Early Jamestown builders used local wood and clay (mud-and-stud, daub, thatch) because it was fast and local, but it needed constant maintenance in Virginia weather.",
   "winCondition": "Design shelter for about 105 people, including 15 families with children, that is fast, dry, stable, safe and buildable with what you have. Then survive the tests and fix whatever breaks.",
   "opening": {
@@ -435,11 +435,11 @@
     ],
     "stressTests": [
       {
-        "id": "heavy_rain",
+        "id": "storm",
         "order": 1,
-        "name": "Heavy rain",
-        "scenario": "Several days of hard rain.",
-        "passesIf": "Check roof shedding and leaks, wall erosion (daub washes out if walls stay wet), ground drainage, stored food and tools, damp sleeping areas. Credit drainage, steep roofs, overhangs, raised floors or storage, higher ground. Check where the babies and small children sleep: damp, cold beds make them sick fast.",
+        "name": "Storm",
+        "scenario": "A three-day storm: hard rain day and night, and strong winds gusting through the settlement.",
+        "passesIf": "Check roof shedding and leaks, wall erosion (daub washes out if walls stay wet), ground drainage, stored food and tools, damp sleeping areas. Credit drainage, steep roofs, overhangs, raised floors or storage, higher ground. Check where the babies and small children sleep: damp, cold beds make them sick fast. WIND: Check how posts are anchored, how roofs are attached, big flat walls or roofs catching wind, nearby trees that could fall, and bracing. Lean-tos and canvas roofs fare badly.",
         "checks": [
           {
             "label": "Something that sheds rain and keeps water away (drainage ditches, eaves/overhangs, or raised floors)",
@@ -452,15 +452,8 @@
         ]
       },
       {
-        "id": "storm",
-        "order": 2,
-        "name": "Wind and storm",
-        "scenario": "Strong winds hit the settlement.",
-        "passesIf": "Check how posts are anchored, how roofs are attached, big flat walls or roofs catching wind, nearby trees that could fall, and bracing. Lean-tos and canvas roofs fare badly."
-      },
-      {
         "id": "fire",
-        "order": 3,
+        "order": 2,
         "name": "Fire",
         "scenario": "At night, a spark escapes from a cooking or heating fire.",
         "passesIf": "Check thatch and wood exposure, spacing between buildings, where hearths are, whether there's water and a plan, and whether one fire could destroy all shelter and stores. A well-designed settlement may lose one building, not everything. Check where children sleep relative to hearths and whether families have a safe place to cook. Many family hearths means many chances for a spark.",
@@ -476,18 +469,11 @@
         ]
       },
       {
-        "id": "labor",
-        "order": 4,
-        "name": "Labor and time",
-        "scenario": "Food work is falling behind because too many people are still building or repairing.",
-        "passesIf": "Check total work, number of buildings, dependence on scarce nails or boards, build speed and maintenance burden. Designs near the labor limit or heavy on upkeep struggle. Separate family houses mean more roofs and walls; one big barracks is faster but causes privacy fights and spreads sickness and fire."
-      },
-      {
         "id": "maintenance",
-        "order": 5,
-        "name": "Maintenance",
-        "scenario": "After months of weather, some daub has cracked and washed out, thatch needs patching, and wood touching the ground is going soft.",
-        "passesIf": "Passes if repairs can be done locally with what they have (clay, reeds, timber), without waiting for England. Designs that depend on nails, boards or canvas struggle."
+        "order": 3,
+        "name": "Upkeep",
+        "scenario": "After months of weather, some daub has cracked and washed out, thatch needs patching, and wood touching the ground is going soft. Meanwhile food work is falling behind because too many people are still building or repairing.",
+        "passesIf": "Passes if repairs can be done locally with what they have (clay, reeds, timber), without waiting for England. Designs that depend on nails, boards or canvas struggle. LABOR: Check total work, number of buildings, dependence on scarce nails or boards, build speed and maintenance burden. Designs near the labor limit or heavy on upkeep struggle. Separate family houses mean more roofs and walls; one big barracks is faster but causes privacy fights and spreads sickness and fire."
       }
     ],
     "designFor": "About 105 people: about 50 single men plus 15 families (15 couples and 25 children, from babies to 14-year-olds).",

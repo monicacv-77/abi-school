@@ -7,7 +7,7 @@
   "location": "Eastern Province, Zambia",
   "realOrConstructed": "Constructed case in a real setting",
   "status": "READY",
-  "version": 13,
+  "version": 14,
   "bigUnderstanding": "Safe water is a system: source, treatment, access, transport and storage, sanitation, and maintenance. A good filter can still be part of a failed system. Abi should discover this by engineering, not be told.",
   "opening": {
     "intro": "Chisomo Village, eastern Zambia. It's the dry season. The dirt paths are red and dusty, and the sun is already hot by breakfast. Every morning, families walk to the river or the shallow wells with yellow plastic jerrycans, and some walk for an hour each way. Kids keep getting sick, and nobody is sure which water is safe.\n\nYour team has $30,000 and one job: design a water system that gets safe water to all 1,000 people, holds up through the rainy season, and keeps working after you leave. Then test it, and fix whatever breaks.",
@@ -339,15 +339,8 @@
         "id": "rainy_season",
         "order": 1,
         "name": "Rainy season",
-        "scenario": "Heavy rain for several days. The river turns brown with mud and runoff. Bacteria rise in the river and some shallow wells. Cloudy skies for a week.",
-        "passesIf": "Passes if her safe-water source isn't wrecked by runoff (borehole groundwater is fine; river treatment struggles with mud unless she planned for it; filters clog faster with muddy water). Solar pumps make about half on cloudy days: check whether storage/backup covers it."
-      },
-      {
-        "id": "access",
-        "order": 2,
-        "name": "Access",
-        "scenario": "The health worker reports: families near the safe water use it every day, but many families 2–3 km away still use the old wells and river.",
-        "passesIf": "Passes if her design brings safe water reasonably close to the far clusters (extra taps, piping, a second borehole out there, household treatment, etc.). Safe but far away is not success.",
+        "scenario": "Heavy rain for several days. The river turns brown with mud and runoff. Bacteria rise in the river and some shallow wells. Cloudy skies for a week. The paths to the far clusters (2–3 km out) turn to mud, and the health worker says many of those families are back at the old wells and the river.",
+        "passesIf": "Passes if her safe-water source isn't wrecked by runoff (borehole groundwater is fine; river treatment struggles with mud unless she planned for it; filters clog faster with muddy water). Solar pumps make about half on cloudy days: check whether storage/backup covers it. ALSO: safe water must still reach the families 2–3 km out (extra taps or piping out there, a second borehole, or household treatment). Safe but far away is not success.",
         "checks": [
           {
             "label": "Safe water reaches the far clusters (taps out there, a second borehole, or household treatment)",
@@ -361,7 +354,7 @@
       },
       {
         "id": "recontamination",
-        "order": 3,
+        "order": 2,
         "name": "Recontamination",
         "scenario": "Water tested at the taps is safe. But samples from several homes are contaminated.",
         "passesIf": "Passes if she already provided safe storage or household treatment. Otherwise she should figure out why.",
@@ -377,16 +370,8 @@
         ]
       },
       {
-        "id": "mosquito",
-        "order": 4,
-        "name": "Mosquito twist",
-        "scenario": "In the rainy season the clinic sees more fevers, even though drinking water tests stay good.",
-        "passesIf": "Not a drinking-water failure. Passes once she understands malaria is spread by mosquitoes breeding in standing water, and decides whether to add drainage or covers. Credit drainage she already added.",
-        "hiddenDetail": "Puddles around taps and pumps, uncovered containers, and rain pools are breeding mosquitoes."
-      },
-      {
         "id": "breakdown",
-        "order": 5,
+        "order": 3,
         "name": "Breakdown",
         "scenario": "Six months in, the main pump (or the most critical part of her system) fails.",
         "passesIf": "Passes if there's a backup (second source, hand pump, stored water, household filters) and local people can repair it (maintenance fund/training, spare parts). Fails if everyone has to go back to the river and wait for outside help.",

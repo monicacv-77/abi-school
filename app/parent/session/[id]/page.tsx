@@ -24,6 +24,7 @@ export default async function ParentSession({ params }: { params: Promise<{ id: 
           <div className="label">For you</div>
           <p style={{ margin: 0 }}>{s.parent.whatHappened}</p>
           {s.parent.scaffoldsUsed && <p style={{ margin: 0 }}><strong>Hints given:</strong> {s.parent.scaffoldsUsed}</p>}
+          {s.parent.notes && <p style={{ margin: 0 }}><strong>🧑‍🏫 {s.parent.notes}</strong></p>}
           {s.parent.concepts.length > 0 && <p style={{ margin: 0 }}><strong>Concepts:</strong> {s.parent.concepts.join(', ')}</p>}
           {s.summary && <Link href={`/files/${s.id}`}>Abi&apos;s Case Summary</Link>}
         </section>
