@@ -47,6 +47,7 @@ export interface SessionView {
   board?: { theory: string; supporting: string[]; problems: string[] }[];
   question?: string;
   hasSummary: boolean;
+  feedback?: Session['feedback'];
   followUps?: string[];
 }
 
@@ -63,6 +64,7 @@ export function toView(s: Session): SessionView {
     classification: c?.classification ?? (s.mode === 'review' ? 'Memory Check' : 'Open Question'),
     question: s.question,
     hasSummary: Boolean(s.summary),
+    feedback: s.feedback,
     followUps: s.followUps,
     winCondition: c ? c.winCondition ?? (c.data as InvestigationData).winCondition : 'Figure it out and explain it in your own words.',
   };

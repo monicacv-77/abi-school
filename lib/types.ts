@@ -241,6 +241,7 @@ export interface Session {
   parent?: ParentRecord;
   isTest?: boolean; // started from the parent dashboard
   caseSnapshot?: CaseDef; // the case exactly as it was when this session started (version lock)
+  feedback?: { fun?: 'great' | 'ok' | 'meh'; difficulty?: 'easy' | 'right' | 'hard'; comment?: string; at: string }; // Abi's own end-of-case feedback
 }
 
 export interface SessionIndexEntry {

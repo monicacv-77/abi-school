@@ -141,6 +141,21 @@ async function main() {
     expect('advisor clues are counted', String(a.state.hintsAsked), '2');
   }
 
+  // --- How it went (parent insights)
+  {
+    const { sessionInsights } = await import('../lib/insights');
+    const t0 = Date.parse('2026-10-19T20:00:00Z');
+    const at = (min: number) => new Date(t0 + min * 60000).toISOString();
+    const fake: any = { display: [
+      { role: 'guide', text: 'Welcome', at: at(0) }, { role: 'abi', text: 'hi', at: at(1) },
+      { role: 'guide', text: 'Where do you want to start?', at: at(2) }, { role: 'abi', text: '🧑‍🏫 clue', at: at(7) },
+      { role: 'guide', text: 'Try the wells', at: at(8) }, { role: 'abi', text: 'ok', at: at(60) },
+    ], state: { hintsAsked: 1, results: [{ passed: false }, { passed: true }], designCount: 2 } };
+    const ins = sessionInsights(fake);
+    expect('insights: active time caps long breaks', JSON.stringify({ m: ins.minutes, adv: ins.advisor, f: ins.testsFailed, r: ins.redesigns }), '{"m":18,"adv":1,"f":1,"r":1}');
+    expect('insights: longest pause found', JSON.stringify(ins.longestPause), 'Where do you want to start');
+  }
+
   // --- A wordless turn never shows '…'
   {
     const fx: any = await startCaseSession('002', true);

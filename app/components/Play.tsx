@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import type { SessionView } from '@/lib/view';
 import KeepExploring from './KeepExploring';
+import Feedback from './Feedback';
 import { lookFor, modeVars } from '@/lib/look';
 
 const THINKING = ['Thinking…', 'Checking the evidence…', 'Consulting the archive…', 'Doing the math…', 'Hmm…'];
@@ -738,6 +739,7 @@ export default function Play({ initial }: { initial: SessionView }) {
           </div>
         )}
         {closed && view.followUps && view.followUps.length > 0 && <KeepExploring questions={view.followUps} />}
+        {closed && view.mode !== 'review' && <Feedback sessionId={view.id} initial={view.feedback} />}
         <div ref={bottom} />
       </section>
       {twoCol && (

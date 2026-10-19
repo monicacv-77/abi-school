@@ -301,3 +301,8 @@ textarea { resize: none; }
   .summary { gap: 8px; padding-top: 20px; }
   .two > div > div > div, .two li { margin-bottom: 3px !important; }
 }
+
+.fb { border-color: var(--accent); border-width: 2px; }
+.fb-q { font-weight: 700; min-width: 54px; }
+.fb-btn { border: 2px solid var(--accent); background: var(--card); color: var(--ink); border-radius: 999px; padding: 6px 14px; min-height: 42px; font-weight: 600; }
+.fb-btn.on { background: var(--accent); color: #fff; }
