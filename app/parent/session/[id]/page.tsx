@@ -61,10 +61,6 @@ export default async function ParentSession({ params }: { params: Promise<{ id: 
         </section>
       )}
 
-      <section className="panel" style={{ marginBottom: 20, fontSize: 14 }}>
-        <div className="label">Game state</div>
-        <pre style={{ whiteSpace: 'pre-wrap', margin: 0, fontFamily: 'var(--mono)' }}>{JSON.stringify(s.state, null, 2)}</pre>
-      </section>
 
       <section className="stack">
         <div className="label">Transcript</div>
@@ -75,6 +71,11 @@ export default async function ParentSession({ params }: { params: Promise<{ id: 
           </div>
         ))}
       </section>
+
+      <details style={{ marginTop: 28, fontSize: 14 }}>
+        <summary className="muted" style={{ cursor: 'pointer' }}>🔧 Technical details (for troubleshooting)</summary>
+        <pre style={{ whiteSpace: 'pre-wrap', margin: '8px 0 0', fontFamily: 'var(--mono)' }}>{JSON.stringify(s.state, null, 2)}</pre>
+      </details>
     </main>
   );
 }
