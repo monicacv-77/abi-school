@@ -7,34 +7,34 @@
   "location": "James River, Virginia",
   "realOrConstructed": "Real history and science; Abi's assignment is invented",
   "status": "READY",
-  "version": 8,
+  "version": 9,
   "bigUnderstanding": "Food is a system: crop, soil, water, timing, tools, knowledge and labor. The English failed because they brought the wrong crops, farmed the wrong ground the wrong way at the wrong time, without the people or knowledge to do it, during a drought. The Powhatan succeeded with crops and methods refined over generations, including corn, beans and squash planted together, which work as a living system. Sets up why Jamestown depended on Powhatan corn in the simulation.",
   "opening": {
-    "intro": "Jamestown, summer 1609. Outside the fort, the English fields look neat: straight rows of wheat and barley brought from England. But the plants are thin and yellow, the ground between them is cracked, and the colony is going hungry.\n\nA few miles upriver, a Powhatan town's fields look like a jungle: corn, beans and squash all tangled together. Yet they're so full of food that the town trades away the extra. Same sun, same rain. The Virginia Company wants to know why its colony can't feed itself. Find at least three reasons, and back each one with evidence.",
+    "intro": "Jamestown, summer 1609. The colony's fields outside the fort are a sad sight: the plants are thin and yellow, the harvest is coming in small, and people are going hungry. The storehouse gets emptier every week.\n\nA few miles upriver, a Powhatan town has so much food it trades away the extra. Same river, same sun, same rain. The Virginia Company wants to know why its colony can't feed itself. Find four causes, back each one with evidence, and then tell the colony what to do next spring.",
     "cards": [
       {
         "label": "Your job",
-        "text": "The Virginia Company sent you to find out why its colony can't feed itself. Give them at least 3 reasons the English fields fail and the Powhatan fields thrive, each backed by evidence.",
+        "text": "Find 4 causes for why the colony's fields fail and the Powhatan fields thrive. Each cause needs evidence you've checked, and for one of them, explain how it actually works. Then tell the colony what to do next spring.",
         "icon": "📜",
         "kind": "brief"
       },
       {
-        "label": "The English field",
-        "text": "Neat rows of wheat and barley from England. Thin, yellow, patchy. Bare dirt baked hard between the rows.",
-        "icon": "🌾",
+        "label": "The colony's field",
+        "text": "Just outside the fort. Planted this spring. The harvest is small and people are hungry.",
+        "icon": "🏰",
         "kind": "place"
       },
       {
-        "label": "The Powhatan field",
-        "text": "Looks messy: corn in little hills, beans climbing the stalks, giant squash leaves covering the ground. And it's loaded with food.",
-        "icon": "🌽",
+        "label": "The Powhatan town",
+        "text": "A few miles upriver. Same river, same weather. The town has food to spare and trades the extra.",
+        "icon": "🏘️",
         "kind": "place"
       }
     ],
     "prompt": "What do you want to check first?"
   },
   "facilitatorNotes": [
-    "This is a SOLVED case with several real causes. A strong answer names at least 3, backed by evidence. Bonus if she sees the Powhatan field works as a system (each plant helps the others).",
+    "This is a SOLVED case with several real causes. She needs 4 causes, each backed by evidence (the app enforces this). Bonus if she sees the Powhatan field works as a system (each plant helps the others).",
     "Science is the star here. When she digs into beans or squash, let her figure out the mechanism: what nodules do, why shade keeps soil damp, why corn needs lots of nitrogen. Explain only what she needs.",
     "Treat Powhatan farmers, mostly women, as experts with generations of knowledge, not as 'simple' or 'natural.' Their system was sophisticated technology.",
     "Kemps and Tassore were Powhatan men held captive at Jamestown when they taught the English to plant corn. If she asks, be honest about that.",
@@ -53,7 +53,7 @@
     "What does each plant in the Powhatan field do for the others?",
     "Who actually did the farming in each place, and how much did they know?"
   ],
-  "completion": "Abi has examined at least 3 pieces of evidence and explained, in her own words, at least 3 causes for the difference, each backed by evidence.",
+  "completion": "Abi has examined at least 5 pieces of evidence; named 4 causes in her own words, each backed by evidence she examined; explained how at least one works; answered the drought twist; and planned next spring's planting using her evidence.",
   "endReveal": {
     "concept": "Agriculture as a system. Corn, beans and squash grown together (often called the Three Sisters) support each other: corn is the pole, beans feed the soil nitrogen, squash shades and protects the ground.",
     "vocabulary": [
@@ -110,7 +110,7 @@
     "kind": "investigation",
     "question": "Why are the English fields at Jamestown failing while Powhatan fields nearby thrive?",
     "resolved": true,
-    "winCondition": "Explain why the English fields fail and the Powhatan fields thrive: at least 3 causes, each backed by evidence.",
+    "winCondition": "Find 4 causes for why the colony's fields fail and the Powhatan fields thrive, each backed by evidence, explain how one of them works, then plan next spring's planting.",
     "trueExplanation": "Several causes together. (1) Wrong crops: English wheat and barley suit cool, wet England; corn was bred for this land and gives far more food per seed. (2) Wrong ground: Jamestown Island is low, marshy and salty in places; Powhatan fields sit on better-drained ground. (3) Wrong method: bare rows dry out and grow weeds; the Powhatan system of corn, beans and squash in hills keeps soil fertile (bean nodules add nitrogen), shaded and damp, with fewer weeds, and needs no plow. (4) Knowledge and labor: Powhatan women were expert farmers; many English were gentlemen who wouldn't farm, few were farmers, and men were sent hunting gold. (5) Timing: the English planted late. (6) A severe drought hurt everyone, but the Powhatan system handled it better. When colonists learned Powhatan methods in 1609, they grew corn successfully.",
     "causalChain": [
       "English crops from a cool, wet country",
@@ -265,9 +265,23 @@
     ],
     "redHerrings": [
       "Rats: they ruined stored corn, not the growing fields"
-    ]
+    ],
+    "guardrails": {
+      "minEvidence": 5,
+      "findings": 4,
+      "findingWord": "cause",
+      "mechanism": "Ask her how one of her causes actually works, e.g. what each plant does for the others, or why bare dirt dries out.",
+      "twist": {
+        "afterEvidence": 3,
+        "text": "A Company man rushes in waving tree-ring results: the worst drought in about 770 years has hit the whole region (call examine for 'drought' now if she hasn't seen it). He looks relieved: 'So it was the weather all along. Not our fault!'",
+        "question": "If the drought hit both towns, why is the Powhatan town still eating?"
+      },
+      "finale": {
+        "prompt": "Next spring the colony has 30 people who can farm and one field. What should they plant, where, how and when? Use your evidence."
+      }
+    }
   },
-  "winCondition": "Explain why the English fields fail and the Powhatan fields thrive: at least 3 causes, each backed by evidence.",
+  "winCondition": "Find 4 causes for why the colony's fields fail and the Powhatan fields thrive, each backed by evidence, explain how one of them works, then plan next spring's planting.",
   "image": {
     "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/John_White_-_The_town_of_Secoton%2C_1906%2C0509.1.7.jpg/960px-John_White_-_The_town_of_Secoton%2C_1906%2C0509.1.7.jpg",
     "alt": "John White’s painting of the Algonquian town of Secotan, with houses and cornfields",

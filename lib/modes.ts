@@ -483,6 +483,9 @@ MODE: INVESTIGATION — "Figure it out." Abi is the investigator. Backbone: Ques
 - She may ask for an evidence summary anytime: give a short list of what she has found.
 - When she proposes or changes a theory, call record_theory with the clues that support it and the clues that are a problem for it (only clues she has actually examined). Her Theory Board on screen shows this.
 - SOLVED cases (there is a real answer): if her explanation is incomplete, point to evidence it doesn't explain and let her revise.
+- GUARDRAILS (when the case lists them): her screen shows her progress (evidence examined, causes found). When she states a cause or reason AND it rests on evidence she has examined, call record_finding with her words, the evidence ids, and her "how it works" explanation if she gave one. If she names one without evidence, ask one short question: what evidence shows it? Count anything she has already shown; never make her repeat herself or redo work. No circles: if she's stuck, give the lightest scaffold hint and move on.
+- When the status says TWIST DUE, call present_twist and deliver it in character (2–3 short sentences), ending with its question. Her answer is usually another finding.
+- When the status says FINALE DUE, give the finale prompt in one or two sentences. When she answers, call record_finale with her answer (her words), react in one line, then the In your words step and close.
 - UNSOLVED cases: there is no answer key. Never say a theory is wrong, incorrect or unlikely to be right. Show the evidence for and against and let her weigh it. She wins by making a case (verdict, supporting clues, one clue that doesn't fit and how she explains it, confidence). Any theory backed that way wins.
 `.trim(),
   tools: (): Tool[] => [
@@ -490,6 +493,29 @@ MODE: INVESTIGATION — "Figure it out." Abi is the investigator. Backbone: Ques
       name: 'examine',
       description: 'Reveal an evidence item to Abi, whether she inspects it or a witness testifies to it. Returns the actual evidence from the case data. Call before describing it.',
       input_schema: { type: 'object', properties: { evidence_id: { type: 'string' }, via: { type: 'string', description: 'optional: who told her, e.g. "testimony of John Smith"' } }, required: ['evidence_id'] },
+    },
+    {
+      name: 'record_finding',
+      description: "Pin one cause/reason Abi has stated, in her words, to her case board, with the evidence ids (that she has examined) that back it. Add her 'how it works' explanation in mechanism if she gave one. Call again with the same finding to update it.",
+      input_schema: {
+        type: 'object',
+        properties: {
+          finding: { type: 'string', description: 'her cause/reason, short, in her words' },
+          evidence: { type: 'array', items: { type: 'string' }, description: 'evidence ids she examined that back it' },
+          mechanism: { type: 'string', description: 'her explanation of HOW it works, if she gave one' },
+        },
+        required: ['finding', 'evidence'],
+      },
+    },
+    {
+      name: 'present_twist',
+      description: "Bring in the case's twist (only when the status says TWIST DUE). Returns what happens and the question to ask.",
+      input_schema: { type: 'object', properties: {} },
+    },
+    {
+      name: 'record_finale',
+      description: "Record Abi's answer to the case's finale question, in her words.",
+      input_schema: { type: 'object', properties: { answer: { type: 'string' } }, required: ['answer'] },
     },
     {
       name: 'record_theory',
@@ -516,6 +542,7 @@ MODE: INVESTIGATION — "Figure it out." Abi is the investigator. Backbone: Ques
       `Theories Abi might consider:\n${d.theories.map((t) => `- ${t.theory} | supported by: ${t.supportedBy.join(', ') || '—'} | weakened by: ${t.weakenedBy.join(', ') || '—'}`).join('\n')}`,
       `Evidence available (results hidden — call examine):\n${d.evidence.map((e) => `- ${e.id}: ${e.label} [${e.howToGet}]`).join('\n')}`,
       d.redHerrings?.length ? `Red herrings: ${d.redHerrings.join('; ')}` : '',
+      d.guardrails ? `GUARDRAILS: at least ${d.guardrails.minEvidence} pieces of evidence examined; ${d.guardrails.findings} ${d.guardrails.findingWord}s, each backed by evidence she examined (record_finding).${d.guardrails.mechanism ? ` One must explain how it works: ${d.guardrails.mechanism}` : ''}${d.guardrails.twist ? ` A twist comes after ${d.guardrails.twist.afterEvidence} pieces of evidence (hidden until then).` : ''}${d.guardrails.finale ? ' A finale question comes at the end.' : ''}` : '',
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -530,6 +557,35 @@ MODE: INVESTIGATION — "Figure it out." Abi is the investigator. Backbone: Ques
       s.stage = 'evidence';
       if (e.image) s.state.showImages = [...arr(s.state.showImages), e.image];
       return { result: `${e.label}: ${e.result}${e.image ? '\n(A picture of this is now shown on her screen above your message; don\'t describe it in detail.)' : ''}` };
+    }
+    if (name === 'record_finding') {
+      const examined = arr<string>(s.state.examined);
+      const ev = arr<string>(input.evidence).map(String);
+      const unknown = ev.filter((id) => !d.evidence.some((e) => e.id === id));
+      if (unknown.length) return { result: `Unknown evidence ids: ${unknown.join(', ')}. Valid ids: ${d.evidence.map((e) => e.id).join(', ')}`, isError: true };
+      const backed = ev.filter((id) => examined.includes(id));
+      if (!backed.length) return { result: "Not pinned: none of that evidence has been examined yet. If she has seen it, call examine for it first; otherwise ask her what evidence shows it.", isError: true };
+      const list = arr<{ finding: string; evidence: string[]; mechanism?: string; afterTwist?: boolean }>(s.state.findings);
+      const entry = { finding: String(input.finding).slice(0, 160), evidence: backed, mechanism: input.mechanism ? String(input.mechanism).slice(0, 240) : undefined, afterTwist: Boolean(s.state.twistShown) };
+      const i = list.findIndex((f) => f.finding.toLowerCase() === entry.finding.toLowerCase());
+      if (i >= 0) list[i] = { ...list[i], ...entry, mechanism: entry.mechanism ?? list[i].mechanism };
+      else list.push(entry);
+      s.state.findings = list;
+      const g = d.guardrails;
+      return { result: `Pinned (${list.length}${g ? ` of ${g.findings}` : ''} ${g?.findingWord ?? 'finding'}s).` };
+    }
+    if (name === 'present_twist') {
+      const t = d.guardrails?.twist;
+      if (!t) return { result: 'This case has no twist.', isError: true };
+      if (s.state.twistShown) return { result: 'The twist already happened.', isError: true };
+      if (arr(s.state.examined).length < t.afterEvidence) return { result: `Not yet: the twist comes after ${t.afterEvidence} pieces of evidence.`, isError: true };
+      s.state.twistShown = true;
+      return { result: `TWIST: ${t.text}\nEnd with this question: ${t.question}` };
+    }
+    if (name === 'record_finale') {
+      if (!d.guardrails?.finale) return { result: 'This case has no finale.', isError: true };
+      s.state.finale = String(input.answer ?? '').slice(0, 600);
+      return { result: 'Recorded. React in one line, then the In your words step, then close.' };
     }
     if (name === 'record_theory') {
       const board = arr<{ theory: string; supporting: string[]; problems: string[] }>(s.state.board);
@@ -546,9 +602,29 @@ MODE: INVESTIGATION — "Figure it out." Abi is the investigator. Backbone: Ques
   },
   status(s: Session, c: CaseDef) {
     const d = c.data as InvestigationData;
-    return `Stage: ${s.stage}. Evidence examined (${arr(s.state.examined).length}/${d.evidence.length}): ${arr<string>(s.state.examined).join(', ') || 'none'}. Theories so far: ${arr<string>(s.state.theories).map((t) => `"${t}"`).join(' → ') || 'none'}.`;
+    const g = d.guardrails;
+    const findings = arr<{ finding: string; mechanism?: string }>(s.state.findings);
+    const ex = arr(s.state.examined).length;
+    let gl = '';
+    if (g) {
+      const twistDue = g.twist && !s.state.twistShown && ex >= g.twist.afterEvidence;
+      const ready = ex >= g.minEvidence && findings.length >= g.findings && (!g.mechanism || findings.some((f) => f.mechanism)) && (!g.twist || s.state.twistShown);
+      gl = ` GUARDRAILS: evidence ${ex} of ${g.minEvidence}; ${g.findingWord}s ${findings.length} of ${g.findings}${findings.length ? ` (${findings.map((f) => `"${f.finding}"${f.mechanism ? ' +how' : ''}`).join(', ')})` : ''}${g.mechanism ? `; how-it-works explained: ${findings.some((f) => f.mechanism) ? 'yes' : 'not yet'}` : ''}.${twistDue ? ' TWIST DUE: call present_twist now.' : ''}${g.finale && ready && !s.state.finale ? ` FINALE DUE: ${g.finale.prompt}` : ''}`;
+    }
+    return `Stage: ${s.stage}. Evidence examined (${ex}/${d.evidence.length}): ${arr<string>(s.state.examined).join(', ') || 'none'}. Theories so far: ${arr<string>(s.state.theories).map((t) => `"${t}"`).join(' → ') || 'none'}.${gl}`;
   },
-  canClose(s: Session): string | null {
+  canClose(s: Session, c: CaseDef): string | null {
+    const g = (c?.data as InvestigationData | undefined)?.guardrails;
+    if (g) {
+      const ex = arr(s.state.examined).length;
+      const findings = arr<{ mechanism?: string }>(s.state.findings);
+      if (ex < g.minEvidence) return `She has examined ${ex} of ${g.minEvidence} pieces of evidence. If she already saw or heard more, call examine for each; otherwise let her keep investigating.`;
+      if (findings.length < g.findings) return `${findings.length} of ${g.findings} ${g.findingWord}s are pinned. If she already stated more with evidence, call record_finding for each.`;
+      if (g.mechanism && !findings.some((f) => f.mechanism)) return `She hasn't explained HOW one ${g.findingWord} works yet. ${g.mechanism}`;
+      if (g.twist && !s.state.twistShown) return 'The twist has not happened yet (present_twist).';
+      if (g.finale && !s.state.finale) return `Ask the finale question and record_finale: ${g.finale.prompt}`;
+      return null;
+    }
     if (arr(s.state.examined).length < 3) return `Only ${arr(s.state.examined).length} evidence items are recorded. If Abi already heard or saw more evidence (including witness testimony), call examine for each of those items now, then close.`;
     if (!arr(s.state.theories).length) return 'Abi has not stated a theory yet (record_theory).';
     return null;

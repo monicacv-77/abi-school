@@ -98,6 +98,21 @@ function checkCase(file: string) {
     hint(d.evidence.some((e) => e.image), 'no evidence has a picture: one real document or object image helps a lot');
     const ev = new Set(d.evidence.map((e) => e.id));
     for (const t of d.theories) for (const id of [...t.supportedBy, ...t.weakenedBy]) if (!ev.has(id)) bad.push(`theory "${t.theory.slice(0, 30)}…" refers to unknown evidence "${id}"`);
+    const g = d.guardrails;
+    hint(g, 'no guardrails: add minEvidence, findings (4 causes or 3 reasons), a mechanism, a twist and a finale (see CASE-STANDARD)');
+    if (g) {
+      need(g.minEvidence >= 3 && g.minEvidence <= d.evidence.length, `guardrails.minEvidence (${g.minEvidence}) must be between 3 and the number of evidence items`);
+      need(g.findings >= 2 && g.findingWord, 'guardrails need findings (2+) and a findingWord');
+      hint(g.mechanism, 'guardrails: add a mechanism (one finding explained as how it works)');
+      hint(g.twist, 'guardrails: add a twist halfway through');
+      if (g.twist) need(g.twist.afterEvidence < g.minEvidence, 'the twist should come before she has the minimum evidence');
+      hint(g.finale, 'guardrails: add a finale where she uses what she found');
+      const blob = (intro + ' ' + cards.map((k) => k.text).join(' ')).toLowerCase();
+      for (const e of d.evidence.filter((x) => x.id !== 'drought')) {
+        const key = e.result.split(/[.:]/)[0].toLowerCase();
+        if (key.length > 25 && blob.includes(key)) warn.push(`the opening repeats evidence "${e.id}": keep answers out of the opening`);
+      }
+    }
     for (const e of d.evidence) if (LEADING.test(e.result)) warn.push(`evidence "${e.id}" result sounds like commentary: state the facts only`);
   }
 

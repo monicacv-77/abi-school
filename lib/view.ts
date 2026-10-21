@@ -45,6 +45,8 @@ export interface SessionView {
   choices?: { n: number; label: string }[];
   winCondition?: string;
   board?: { theory: string; supporting: string[]; problems: string[] }[];
+  progress?: { evidence: number; minEvidence: number; findings: number; needFindings: number; word: string; mechanism: boolean; needMechanism: boolean; twist: boolean; hasTwist: boolean };
+  findings?: { finding: string; evidence: string[]; mechanism?: string }[];
   question?: string;
   hasSummary: boolean;
   feedback?: Session['feedback'];
@@ -139,6 +141,10 @@ export function toView(s: Session): SessionView {
     const d = c.data as InvestigationData;
     const named = (x: string) => d.evidence.find((e) => e.id === x)?.label ?? x;
     v.board = ((s.state.board as SessionView['board']) ?? []).map((b) => ({ ...b, supporting: b.supporting.map(named), problems: b.problems.map(named) }));
+    const fs = (Array.isArray(s.state.findings) ? s.state.findings : []) as { finding: string; evidence: string[]; mechanism?: string }[];
+    v.findings = fs.map((f) => ({ finding: f.finding, evidence: f.evidence.map(named), mechanism: f.mechanism }));
+    const g = d.guardrails;
+    if (g) v.progress = { evidence: Array.isArray(s.state.examined) ? s.state.examined.length : 0, minEvidence: g.minEvidence, findings: fs.length, needFindings: g.findings, word: g.findingWord, mechanism: fs.some((f) => f.mechanism), needMechanism: Boolean(g.mechanism), twist: Boolean(s.state.twistShown), hasTwist: Boolean(g.twist) };
     v.evidence = (Array.isArray(s.state.examined) ? (s.state.examined as string[]) : []).map((id) => d.evidence.find((e) => e.id === id)?.label ?? id);
   }
   if (c?.data.kind === 'simulation') {

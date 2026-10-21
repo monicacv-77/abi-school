@@ -467,6 +467,31 @@ export default function Play({ initial }: { initial: SessionView }) {
       {view.mode === 'investigation' && (
         <section className="budget" aria-label="Theory board">
           <div className="side-h">📌 Theory board</div>
+          {view.progress && (() => {
+            const p = view.progress;
+            const cap = p.word.charAt(0).toUpperCase() + p.word.slice(1);
+            const chip = (done: boolean, text: string) => (
+              <span key={text} className="pill" style={{ background: done ? '#e3f3e8' : 'var(--paper, #f6f1e7)', color: done ? '#1f6b3a' : 'inherit', fontWeight: 700, fontSize: 14, padding: '3px 9px', borderRadius: 999, border: '1px solid rgba(0,0,0,.12)' }}>{done ? '✅ ' : ''}{text}</span>
+            );
+            return (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 10 }}>
+                {chip(p.evidence >= p.minEvidence, `🔎 Evidence ${Math.min(p.evidence, p.minEvidence)} of ${p.minEvidence}`)}
+                {chip(p.findings >= p.needFindings, `🧩 ${cap}s ${Math.min(p.findings, p.needFindings)} of ${p.needFindings}`)}
+                {p.needMechanism && chip(p.mechanism, '⚙️ How it works')}
+              </div>
+            );
+          })()}
+          {view.findings && view.findings.length > 0 && (
+            <div className="stack" style={{ gap: 10, marginBottom: 10 }}>
+              {view.findings.map((f, i) => (
+                <div key={f.finding} style={{ borderLeft: '4px solid #1f6b3a', paddingLeft: 10 }}>
+                  <div style={{ fontWeight: 700 }}>{i + 1}. {f.finding}</div>
+                  <div style={{ fontSize: 15 }}><span style={{ color: '#1f6b3a', fontWeight: 700 }}>✔ Evidence:</span> {f.evidence.join(' · ')}</div>
+                  {f.mechanism && <div style={{ fontSize: 15 }}><span style={{ fontWeight: 700 }}>⚙️ How it works:</span> {f.mechanism}</div>}
+                </div>
+              ))}
+            </div>
+          )}
           {view.board && view.board.length > 0 ? (
             <div className="stack" style={{ gap: 12 }}>
               {view.board.map((b) => (
@@ -478,7 +503,7 @@ export default function Play({ initial }: { initial: SessionView }) {
               ))}
             </div>
           ) : (
-            <div className="muted" style={{ fontSize: 15 }}>No theories yet. When you have one, say it and it gets pinned here.</div>
+            !view.findings?.length && <div className="muted" style={{ fontSize: 15 }}>{view.progress ? `Nothing pinned yet. When you name a ${view.progress.word} and the evidence that shows it, it gets pinned here.` : 'No theories yet. When you have one, say it and it gets pinned here.'}</div>
           )}
           {view.evidence && view.evidence.length > 0 && (
             <>

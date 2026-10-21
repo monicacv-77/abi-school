@@ -102,8 +102,11 @@ async function main() {
     expect('source card appears in chat', JSON.stringify(f.display.filter((m: any) => m.source).map((m: any) => m.source.author)), 'Thomas Harriot');
     expect('source only once', await step(f, tu('show_source', {})), 'Already shown');
     const ev = (f.caseSnapshot.data.evidence as any[]).map((e) => e.id);
-    for (const e of ev.slice(0, 3)) await step(f, tu('examine', { evidence_id: e }));
+    for (const e of ev.slice(0, 5)) await step(f, tu('examine', { evidence_id: e }));
     await step(f, tu('record_theory', { theory: 'crop + method + ground', supporting: ev.slice(0, 3) }));
+    await step(f, tu('present_twist', {}));
+    for (const [i, x] of ['wrong crops', 'bad ground', 'bare rows dry out', 'no real farmers'].entries()) await step(f, tu('record_finding', { finding: x, evidence: [ev[i]], mechanism: i === 2 ? 'squash leaves shade the dirt so it stays wet' : undefined }));
+    await step(f, tu('record_finale', { answer: 'Plant corn, beans and squash in hills on the high ground in April' }));
     expect('no close without In your words', await step(f, close({ in_your_words: '' })), 'In your words');
     expect('closes with In your words', await step(f, close()), 'Case closed');
     expect('summary keeps her words and standards', JSON.stringify({ w: f.summary.inYourWords, s: f.summary.standards?.[0]?.code }), 'MS-LS1-5');
@@ -175,6 +178,24 @@ async function main() {
   expect('investigation: self-healing blocker', await step(inv, close()), 'call examine for each');
   await step(inv, tu('examine', { evidence_id: 'percy' }));
   await step(inv, tu('examine', { evidence_id: 'death_count' }));
+  expect('guardrails: twist due after 3 evidence', (await import('../lib/modes')).ENGINES.investigation.status(inv, inv.caseSnapshot), 'TWIST DUE');
+  expect('guardrails: not enough evidence yet', await step(inv, close()), 'examined 3 of 5');
+  expect('guardrails: twist can fire', await step(inv, tu('present_twist', {})), 'TWIST: The Company');
+  expect('guardrails: twist only once', await step(inv, tu('present_twist', {})), 'already happened');
+  await step(inv, tu('examine', { evidence_id: 'fools_gold' }));
+  await step(inv, tu('examine', { evidence_id: 'company_money' }));
+  expect('guardrails: finding needs examined evidence', await step(inv, tu('record_finding', { finding: 'Rich men wanted profit', evidence: ['lottery'] })), 'Not pinned');
+  await step(inv, tu('record_finding', { finding: 'The ads were written by a man who never went', evidence: ['pamphlet'] }));
+  await step(inv, tu('record_finding', { finding: 'The settlers who were there say it was awful', evidence: ['percy', 'death_count'] }));
+  expect('guardrails: needs all findings', await step(inv, close()), '2 of 3 reasons');
+  await step(inv, tu('record_finding', { finding: 'The Company only made money if people believed', evidence: ['company_money', 'lottery'] }));
+  expect('guardrails: needs a how-it-works', await step(inv, close()), 'HOW one reason works');
+  await step(inv, tu('record_finding', { finding: 'The Company only made money if people believed', evidence: ['company_money'], mechanism: 'investors paid in and only got paid back if settlers found something' }));
+  expect('guardrails: finding updated, not duplicated', String(((inv.state.findings) as any[]).length), '3');
+  expect('guardrails: finale due', (await import('../lib/modes')).ENGINES.investigation.status(inv, inv.caseSnapshot), 'FINALE DUE');
+  expect('guardrails: needs finale', await step(inv, close()), 'finale question');
+  await step(inv, tu('record_finale', { answer: 'It has to say people died' }));
+  expect('guardrails: view shows progress', JSON.stringify((await import('../lib/view')).toView(inv).progress), '"findings":3');
   expect('investigation: closes', await step(inv, close()), 'Case closed');
 
   // --- Simulation (Jamestown): people count, choice-dependent events, triggers, required decision

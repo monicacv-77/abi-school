@@ -7,14 +7,14 @@
   "location": "London and Jamestown, Virginia",
   "realOrConstructed": "Real people and evidence in an imagined courtroom",
   "status": "READY",
-  "version": 10,
+  "version": 11,
   "bigUnderstanding": "Who made a claim, and what they wanted, shapes what they say. The Virginia Company needed money and settlers, so it sold Virginia as paradise; the people who actually went told a very different story. The gap between the ad and reality cost lives. Quietly builds the habit Abi needs for modern ads and influencers: who's paying, what do they want me to do, who was actually there? Also sets up the investor pressure in the Jamestown simulation.",
   "opening": {
-    "intro": "London, 1610. The courtroom is packed and loud. On one side sit families whose sons, brothers and husbands sailed to Virginia after reading ads that promised a rich, easy paradise. Hundreds of them never came home. On the other side sit the well-dressed men of the Virginia Company, who sold those ads.\n\nOrder in the court! You're the judge. Call witnesses, examine the evidence, and decide: who told the truth, and why did the other side say what it did? Back your ruling with at least three pieces of evidence.",
+    "intro": "London, 1610. The courtroom is packed and loud. On one side sit families whose sons, brothers and husbands sailed to Virginia after reading ads that promised a rich, easy paradise. Hundreds of them never came home. On the other side sit the well-dressed men of the Virginia Company, who sold those ads.\n\nOrder in the court! You're the judge. Call witnesses, examine the evidence, and decide: who told the truth, and why did the other side say what it did? Your ruling needs three reasons, each backed by evidence. Then you'll decide what the Company's next ad is allowed to say.",
     "cards": [
       {
         "label": "Your court",
-        "text": "Call any witness. Ask for any document. Witnesses only know what they saw, and every one of them wants something. Your ruling must name who told the truth, explain why the other side said what it did, and cite 3 pieces of evidence.",
+        "text": "Call any witness. Ask for any document. Witnesses only know what they saw, and every one of them wants something. Your ruling needs 3 reasons, each backed by evidence, and one must explain how the money worked. Then you rule on the next ad.",
         "icon": "🔨",
         "kind": "brief"
       },
@@ -57,7 +57,7 @@
     "Ask the treasurer: how does the Company make money?",
     "Who did the ads bring over, and what happened to them?"
   ],
-  "completion": "Abi has heard or examined at least 3 pieces of evidence and delivered her ruling in her own words: who told the truth, why the other side said what it did, and at least 3 supporting pieces of evidence.",
+  "completion": "Abi has examined at least 5 pieces of evidence; given 3 reasons for her ruling in her own words, each backed by evidence she examined; explained how the Company's money worked; answered the twist about the settlers' own choices; and set a rule for the Company's next ad.",
   "endReveal": {
     "concept": "Source reliability and motive: ask who made a claim, whether they were there, and what they wanted. Messages built to persuade are called propaganda.",
     "vocabulary": [
@@ -110,7 +110,7 @@
     "kind": "investigation",
     "question": "The ads said Virginia was paradise. The settlers said it was a nightmare. Who was telling the truth, and why would anyone say otherwise?",
     "resolved": true,
-    "winCondition": "Deliver your ruling: who told the truth, why the other side said what it did, and 3 pieces of evidence that prove it.",
+    "winCondition": "Deliver your ruling: who told the truth and why the other side said what it did, with 3 reasons backed by evidence. Then decide what the Company's next ad may say.",
     "trueExplanation": "The settlers' accounts are more reliable: they were there, and their hardship is confirmed by death counts. The Virginia Company oversold Virginia because it needed investors' money and settlers; it profited only if people believed. The hype attracted the wrong people (gentlemen and gold-seekers expecting easy riches), which made things worse. When disaster struck, the Company blamed the settlers and the weather and kept advertising. Strong answers also note the settlers weren't blameless (many refused to work) and that the land was rich for people who knew how to live there, like the Powhatan.",
     "causalChain": [
       "Investors want profit",
@@ -254,7 +254,21 @@
         "weakenedBy": []
       }
     ],
-    "redHerrings": []
+    "redHerrings": [],
+    "guardrails": {
+      "minEvidence": 5,
+      "findings": 3,
+      "findingWord": "reason",
+      "mechanism": "Ask her how the Company's money actually worked: who paid, who profited, and why that made the ads say what they said.",
+      "twist": {
+        "afterEvidence": 3,
+        "text": "The Company's lawyer stands up with a smug smile and calls a surprise witness: a sailor who brought back the 1608 ship full of 'gold' (call examine for 'fools_gold' now if she hasn't seen it). He says the colonists spent weeks digging glittery dirt instead of planting.",
+        "question": "Does that change your ruling? Were the settlers part of the problem too?"
+      },
+      "finale": {
+        "prompt": "The Company wants to print a new ad for 1611. As judge, set the rules: what must it say, and what is it not allowed to say?"
+      }
+    }
   },
   "followUpSeeds": [
     "how modern ads and influencers persuade people",
@@ -263,7 +277,7 @@
     "the Powhatan's side of the story",
     "how stock and investing work today"
   ],
-  "winCondition": "Deliver your ruling: who told the truth, why the other side said what it did, and 3 pieces of evidence that prove it.",
+  "winCondition": "Deliver your ruling: who told the truth and why the other side said what it did, with 3 reasons backed by evidence. Then decide what the Company's next ad may say.",
   "image": {
     "src": "https://upload.wikimedia.org/wikipedia/commons/b/bf/Nova_Britannia_Cover.jpg",
     "alt": "Title page of Nova Britannia, a 1609 pamphlet advertising Virginia",

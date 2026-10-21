@@ -127,6 +127,14 @@ export interface InvestigationData {
   evidence: EvidenceItem[];
   theories: { theory: string; supportedBy: string[]; weakenedBy: string[] }[];
   redHerrings?: string[];
+  guardrails?: {
+    minEvidence: number; // pieces of evidence she must examine
+    findings: number; // causes/reasons she must state, each backed by evidence she examined
+    findingWord: string; // 'cause' or 'reason' (shown on her screen)
+    mechanism?: string; // one finding must explain HOW it works; this says what that looks like
+    twist?: { afterEvidence: number; text: string; question: string }; // a complication once she has enough evidence
+    finale?: { prompt: string }; // apply what she found
+  };
 }
 
 // ---------- Simulation ----------

@@ -43,6 +43,14 @@ What every new case needs, learned from building and testing Unit 1. Use it when
 - **At least one real picture** (a document, painting or object).
 - **Witnesses with motives** that Abi can catch: who was there, who got paid, what they want people to believe.
 - **Abi has a real role** (detective, judge) and makes the final call in her own words.
+- **Keep the answers out of the opening.** The intro and cards set up the puzzle (same sun, same rain, one town eats and one starves) and never describe the clues (rows vs. hills, beans on the stalks). What she sees up close comes from evidence she asks for.
+- **Guardrails (`guardrails`).** Depth without a timer. The app enforces them and shows her progress on the Theory board ("🔎 Evidence 3 of 5 · 🧩 Causes 2 of 4 · ⚙️ How it works"):
+  - `minEvidence`: usually 5 pieces she must examine.
+  - `findings` and `findingWord`: 4 causes (or 3 reasons for a ruling), each pinned only when it rests on evidence she examined.
+  - `mechanism`: one finding explained as *how it works*, not just *what* (e.g. what each plant does for the others; how the Company's money worked).
+  - `twist`: after about 3 pieces of evidence, a complication that challenges an easy answer (the drought hit everyone; the settlers dug fool's gold instead of planting). Its question usually leads to another finding.
+  - `finale`: one short "use it" question that applies what she found (plan next spring's planting; set the rules for the next ad).
+  - No circles: the guide counts what she has already shown, never makes her repeat it, and gives a light hint when she's stuck. Nothing is timed.
 
 ## Challenge — "Make it work"
 
