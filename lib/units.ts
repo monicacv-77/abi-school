@@ -22,7 +22,20 @@ export const UNITS: UnitDef[] = [
       { idea: 'Colonization fundamentally changed Native life. Every settlement story has at least two sides: what the English called expansion meant losing land, security and sovereignty for the people already there.', cases: ['002', '005'] },
     ],
   },
-  { name: 'Road to Independence', title: 'Unit 2: Road to Independence', years: [1765, 1776], blurb: 'Taxes, propaganda, alarms in the night, and a declaration.', planned: true, bigIdeas: [] },
+  {
+    name: 'Road to Independence',
+    title: 'Unit 2: Road to Independence',
+    years: [1765, 1776],
+    blurb: 'Taxes, propaganda, alarms in the night, and a declaration.',
+    planned: true,
+    bigIdeas: [
+      { idea: 'The fight was about who decides, not how much. Colonists had taxed and governed themselves through their own elected assemblies for over a century, so taxes passed by a Parliament they did not elect felt like a threat to their rights, even when the taxes were small.', cases: ['006', '010'] },
+      { idea: 'Each move made the next one worse. Taxes led to protests and boycotts, protests to crackdowns and soldiers, soldiers to violence, until compromise seemed impossible. Big breaks usually come from a chain of actions and reactions, not one event.', cases: ['006', '007', '008', '010'] },
+      { idea: 'Persuasion shaped the Revolution. Pictures, pamphlets, newspapers and rumors turned events into stories that moved people, and each side told the same event very differently. Ask who made it, what they left out, and what they wanted you to feel.', cases: ['007', '009'] },
+      { idea: 'Ordinary people made resistance work through networks: boycotts, committees, printers, riders and town meetings spread news and action faster than the British expected.', cases: ['006', '008', '009'] },
+      { idea: 'Independence was a dangerous choice that divided people, and its promise of liberty and equality left many out: Loyalists, enslaved people, women and Native nations.', cases: ['009', '010'] },
+    ],
+  },
   { name: 'The Constitution', title: 'The Constitution', years: [1787, 1787], blurb: 'Designing a government that checks its own power.', planned: true, bigIdeas: [] },
   { name: 'Westward', title: 'The Young Nation Heads West', years: [1803, 1806], blurb: 'Lewis and Clark pack for the unknown.', planned: true, bigIdeas: [] },
 ];

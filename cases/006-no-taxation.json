@@ -1,0 +1,338 @@
+{
+  "id": "006",
+  "title": "No Taxation Without… Wait, What?",
+  "mode": "investigation",
+  "classification": "Unexplained Event",
+  "unit": "Road to Independence",
+  "location": "Boston, Massachusetts",
+  "realOrConstructed": "Real events, laws, numbers and people; your mission and some witnesses are invented",
+  "status": "PILOT",
+  "version": 1,
+  "bigUnderstanding": "The colonists' anger wasn't really about the size of the taxes. They paid far less tax than people in Britain, and the tea they destroyed was cheaper than ever. It was about who has the right to decide: colonists had always taxed themselves through their own elected assemblies, Parliament claimed power over them 'in all cases whatsoever', and tax money was being used to take control of their governors and judges. Money interests (printers, smugglers, merchants left out of the tea deal) mattered too. Each tax, protest and crackdown made the next round worse. Britain's side made sense from London: a huge war debt and soldiers protecting the colonies.",
+  "winCondition": "Give Lord North 4 reasons the colonists are so angry, each backed by evidence, explain how one of them works, then advise him what to do about Boston.",
+  "opening": {
+    "intro": "Boston, February 1774. The harbor smells of salt, tar and fish. Two months ago, men in disguise boarded three ships at night and dumped more than 340 chests of tea into the water, worth almost £10,000. Nobody has been arrested, and the town is acting like it's proud of it.\n\nIn London, Parliament is furious. It believes its taxes are fair and small. The prime minister, Lord North, has sent you to Boston to find out why the colonists are this angry. Find 4 reasons, back each one with evidence, then tell him what to do.",
+    "cards": [
+      {
+        "icon": "📜",
+        "label": "Your orders",
+        "kind": "brief",
+        "text": "From Lord North: Find out why Boston is in an uproar over a few pennies of tax. Give me 4 reasons, each backed by evidence, explain how one of them works, and tell me what to do."
+      },
+      {
+        "icon": "⚓",
+        "label": "Boston, 1774",
+        "kind": "place",
+        "text": "A busy port town of about 16,000 people. Ships, warehouses, taverns, printing shops. Everyone has an opinion and nobody whispers."
+      },
+      {
+        "icon": "🎩",
+        "label": "London's view",
+        "kind": "voice",
+        "text": "A Member of Parliament: \"We ask them for a few pennies. Honestly, what is all the fuss?\""
+      },
+      {
+        "icon": "🖨️",
+        "label": "Boston's view",
+        "kind": "voice",
+        "text": "A Boston printer: \"London never listens to us. Ask your questions, Investigator. We have answers.\""
+      }
+    ],
+    "prompt": "Who do you want to talk to first, or what do you want to look at?"
+  },
+  "image": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/5/52/Boston_Tea_Party_Currier_colored.jpg",
+    "alt": "A colored print of men dumping chests of tea from a ship into Boston Harbor at night while a crowd watches",
+    "credit": "Nathaniel Currier, \"The Destruction of Tea at Boston Harbor,\" 1846 · public domain",
+    "href": "https://commons.wikimedia.org/wiki/File:Boston_Tea_Party_Currier_colored.jpg"
+  },
+  "facilitatorNotes": [
+    "FORMAT: Abi is Lord North's investigator in Boston, February 1774. You narrate briefly and play every witness; she interviews people and reads documents. Each witness answer is 1–3 sentences in a distinct voice. She works for London, which makes it fun: Bostonians are suspicious of her, and the Member of Parliament assumes she's on his side.",
+    "WITNESSES (call examine for the matching evidence when testimony covers it):\n- Thomas Hutchinson, royal governor of Massachusetts (real). Loyal to Britain, stiff, offended. His house was wrecked by a mob in 1765. Covers: stamp_protests, townshend, tea_act. Never volunteers that two of the tea merchants are his sons or that London now pays his salary; admits it, uncomfortably, only if asked directly.\n- Benjamin Edes, printer of the Boston Gazette (real). Patriot, dramatic, loves a good headline. Covers: stamp_act, stamp_protests, assemblies, boycotts, and the Stamp Act Congress words (the primary source). Plays down the mobs (\"a few high spirits\") and never mentions smuggling.\n- A Member of Parliament visiting Boston (INVENTED, say so if asked). Polite, puzzled, a bit smug. Covers: war_debt, tax_compare, representation, declaratory_act. Truly believes the taxes are fair.\n- A Boston merchant (INVENTED). Smooth and patriotic in public. Covers: boycotts, smugglers. Says it's all about liberty; only admits his tea is smuggled Dutch tea if pressed.\n- A customs officer (INVENTED). Bitter and nervous; collecting the tax is a dangerous job here. Covers: smugglers, townshend.\n- A Boston woman who spins homespun (INVENTED). Proud, practical. Covers: boycotts. Gave up tea and is not happy about it.\nAnyone in Boston can answer king. Documents (laws, records) need no witness.",
+    "Money: 12 pence = 1 shilling, 20 shillings = 1 pound (£). Explain only if she asks or seems lost.",
+    "Abi should find the idea of consent and representation herself. Don't say \"No taxation without representation\" until she has made that point in her own words; then you can tell her it was a real slogan.",
+    "PRIMARY SOURCE (in dialogue): when Abi talks to Benjamin Edes about colonists' rights or the Stamp Act Congress, he reads Resolution III aloud from his copy, original words first, then 'in plain English'. Use the exact wording given.",
+    "TWIST: Lord North's letter arrives by ship. Read it in his voice: irritated, baffled.",
+    "AFTER THE FINALE: in one or two sentences, tell her what Lord North actually did: in 1774 Parliament closed Boston's port until the tea was paid for and took away much of Massachusetts's self-government (the colonists called these the Intolerable Acts). Instead of isolating Boston, other colonies sent food and met in Philadelphia that September (the First Continental Congress). Compare it to her advice without grading it.",
+    "The Tea Party men disguised themselves loosely as Mohawk Indians. It was a costume and a symbol; Mohawk people had nothing to do with it. If it comes up, say so plainly.",
+    "If Abi notices that people demanding liberty also enslaved people (some Boston families did), agree it's a real contradiction that comes up later in this unit, and offer to save it to her Wonder List.",
+    "Mobs and tarring and feathering were real (a customs officer, John Malcolm, was tarred and feathered in Boston in January 1774). Keep it brief and non-graphic.",
+    "This is a SOLVED case with several real reasons. Accept any well-backed reason, including Britain-sympathetic ones (e.g. 'smugglers wanted to protect profits'). A strong answer notices the amount of tax isn't the real issue."
+  ],
+  "justInTimeConcepts": [
+    "Parliament: Britain's lawmaking body; the House of Commons is elected (by a small share of men).",
+    "Representation: having someone you chose speak and vote for you.",
+    "Consent: agreeing to something before it's done to you.",
+    "Boycott: refusing to buy something to put pressure on the seller.",
+    "Precedent: something done once that makes it easier to do again."
+  ],
+  "scaffolds": [
+    "Compare what Britain says the taxes are for with what colonists say they're about.",
+    "Who decided these taxes, and who was in the room when they did?",
+    "Follow the money: who pays the tax, where does the money go, and who loses business?"
+  ],
+  "completion": "Abi has examined at least 5 pieces of evidence; given 4 reasons in her own words, each backed by evidence she examined; explained how one reason works; answered the cheaper-tea twist; and advised Lord North what to do.",
+  "endReveal": {
+    "concept": "Consent of the governed and escalation: people resist rules made without their say, even cheap ones, and each round of action and reaction makes compromise harder.",
+    "vocabulary": [
+      {
+        "term": "Representation",
+        "meaning": "Having someone you chose speak and vote for you."
+      },
+      {
+        "term": "Boycott",
+        "meaning": "Refusing to buy something to pressure the seller."
+      },
+      {
+        "term": "Precedent",
+        "meaning": "Something done once that makes it easier to do again."
+      },
+      {
+        "term": "Repeal",
+        "meaning": "Canceling a law."
+      }
+    ],
+    "realVsConstructed": {
+      "real": "The Seven Years' War debt, the Stamp Act, Townshend and Tea Acts, the Declaratory Act, the boycotts, the riots, the Tea Party and its numbers, Governor Thomas Hutchinson and his sons, printer Benjamin Edes, and the Stamp Act Congress resolutions.",
+      "constructed": "Your mission from Lord North, the visiting Member of Parliament, the merchant, the customs officer and the spinner. Their testimony is built from real records."
+    }
+  },
+  "skills": [
+    "Cause and Effect",
+    "Seeing Both Sides",
+    "Using Evidence",
+    "Following the Money"
+  ],
+  "timelineEvents": [
+    {
+      "year": "1763",
+      "label": "Britain wins the Seven Years' War, deep in debt"
+    },
+    {
+      "year": "1765",
+      "label": "The Stamp Act"
+    },
+    {
+      "year": "1766",
+      "label": "Stamp Act repealed; Declaratory Act"
+    },
+    {
+      "year": "1767",
+      "label": "Townshend taxes"
+    },
+    {
+      "year": "1773",
+      "label": "The Tea Act and the Boston Tea Party"
+    },
+    {
+      "year": "1774",
+      "label": "Parliament closes Boston's port"
+    }
+  ],
+  "followUpSeeds": [
+    "what happened to Boston when the port was closed",
+    "how taxes and representation work in the US today (and who still lacks a vote, like Washington, D.C.)",
+    "boycotts in modern times and whether they work",
+    "the East India Company and how big companies influence governments",
+    "the people who stayed loyal to Britain (Loyalists)"
+  ],
+  "standards": [
+    {
+      "code": "HSS 8.1",
+      "label": "Major events before the founding of the nation and why they matter (California History–Social Science)"
+    },
+    {
+      "code": "D2.His.14.6-8",
+      "label": "Explain multiple causes and effects of events (C3 Framework)"
+    },
+    {
+      "code": "RH.6-8.6",
+      "label": "Identify an author's point of view or purpose (Common Core Literacy)"
+    },
+    {
+      "code": "D2.Civ.10.6-8",
+      "label": "Explain how personal interests and democratic principles shape how people respond to public issues (C3 Framework)"
+    }
+  ],
+  "primarySource": {
+    "author": "The Stamp Act Congress",
+    "title": "Resolutions of the Stamp Act Congress",
+    "year": "1765",
+    "original": "That it is inseparably essential to the Freedom of a People, and the undoubted Right of Englishmen, that no Taxes be imposed on them, but with their own Consent, given personally, or by their Representatives.",
+    "modern": "A free people, and every English person, has the right not to be taxed unless they agree to it, either themselves or through representatives they chose.",
+    "href": "https://oll.libertyfund.org/page/1765-resolutions-of-the-stamp-act-congress",
+    "when": "Benjamin Edes reads it aloud when Abi asks about colonists' rights, the Stamp Act Congress, or what colonists actually want",
+    "inDialogue": true
+  },
+  "data": {
+    "kind": "investigation",
+    "question": "Why are the colonists so furious about small taxes that they dumped a fortune in tea into Boston Harbor?",
+    "resolved": true,
+    "winCondition": "Give Lord North 4 reasons the colonists are so angry, each backed by evidence, explain how one of them works, then advise him what to do about Boston.",
+    "trueExplanation": "Not the amount: colonists paid far less tax than Britons, and the Tea Act made legal tea cheaper. The reasons: (1) Consent and representation: colonists had always been taxed by their own elected assemblies and had no one in Parliament. (2) Precedent: the Declaratory Act claimed power over them 'in all cases whatsoever', so accepting a small tax meant accepting any tax. (3) Control: tax money now paid royal governors and judges, so the assemblies lost their hold over them. (4) Money interests: the Stamp Act hit printers, lawyers and merchants, the loudest people in town; the Tea Act's monopoly threatened smugglers and merchants who weren't chosen. (5) Escalation: each tax, protest, repeal and new tax deepened distrust; protests worked once (Stamp Act repeal), which encouraged more. Britain's side: a huge war debt and soldiers protecting the colonies, and taxes that were low by British standards.",
+    "causalChain": [
+      "Britain wins a war and is deep in debt",
+      "Parliament taxes the colonies without asking them",
+      "Colonists protest and boycott; the tax is repealed",
+      "Parliament insists it can tax them anyway",
+      "A small tea tax stays as a symbol",
+      "The Tea Act forces the question",
+      "Tea goes into the harbor"
+    ],
+    "theories": [
+      {
+        "theory": "Colonists just didn't want to pay for the war that protected them",
+        "supportedBy": [
+          "war_debt"
+        ],
+        "weakenedBy": [
+          "tax_compare",
+          "tea_act"
+        ]
+      },
+      {
+        "theory": "It was about who gets to decide their taxes",
+        "supportedBy": [
+          "assemblies",
+          "representation",
+          "stamp_protests",
+          "declaratory_act"
+        ],
+        "weakenedBy": []
+      },
+      {
+        "theory": "Tax money was being used to take control of their government",
+        "supportedBy": [
+          "townshend",
+          "assemblies"
+        ],
+        "weakenedBy": []
+      },
+      {
+        "theory": "Some merchants and smugglers were protecting their profits",
+        "supportedBy": [
+          "smugglers",
+          "tea_act",
+          "stamp_act"
+        ],
+        "weakenedBy": []
+      },
+      {
+        "theory": "Every round of taxes and protests made it worse",
+        "supportedBy": [
+          "stamp_protests",
+          "declaratory_act",
+          "townshend",
+          "boycotts"
+        ],
+        "weakenedBy": []
+      },
+      {
+        "theory": "King George was greedy",
+        "supportedBy": [],
+        "weakenedBy": [
+          "king",
+          "representation"
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "id": "war_debt",
+        "label": "Britain's war bills",
+        "howToGet": "ask the Member of Parliament or read Treasury records",
+        "result": "Britain won the Seven Years' War (called the French and Indian War in America) in 1763. It nearly doubled Britain's national debt, from about £72 million to about £130 million. Britain also kept about 10,000 soldiers in America after the war, at about £225,000 a year."
+      },
+      {
+        "id": "tax_compare",
+        "label": "Who pays more tax",
+        "howToGet": "ask for tax records",
+        "result": "Historians estimate that a person living in Britain paid about 26 shillings a year in taxes. A person in New England paid about 1 shilling."
+      },
+      {
+        "id": "stamp_act",
+        "label": "The Stamp Act (1765)",
+        "howToGet": "read the law or ask the printer",
+        "result": "Starting in 1765, almost every piece of printed paper in the colonies had to carry a tax stamp: newspapers, pamphlets, legal papers, licenses, even playing cards (1 shilling a pack) and dice (10 shillings a pair). The stamps had to be bought with British coin, which was scarce in the colonies. It was the first tax Parliament put directly on things colonists bought and used at home.",
+        "image": {
+          "src": "https://upload.wikimedia.org/wikipedia/commons/b/be/1765_one_penny_stamp.jpg",
+          "alt": "A one-penny tax stamp from the 1765 Stamp Act",
+          "credit": "One-penny Stamp Act stamp, 1765 · public domain",
+          "href": "https://commons.wikimedia.org/wiki/File:1765_one_penny_stamp.jpg",
+          "fit": "contain"
+        }
+      },
+      {
+        "id": "stamp_protests",
+        "label": "What happened after the Stamp Act",
+        "howToGet": "ask the governor or the printer",
+        "result": "In August 1765, Boston crowds hanged a dummy of the stamp tax collector, Andrew Oliver, and wrecked his office until he quit. Two weeks later a mob tore apart Lieutenant Governor Hutchinson's house. In October, men from nine colonies met in New York (the Stamp Act Congress) and wrote out their rights. Colonists stopped buying British goods. In 1766, after British merchants complained about lost business, Parliament repealed the Stamp Act."
+      },
+      {
+        "id": "declaratory_act",
+        "label": "The law passed the same day the Stamp Act was repealed",
+        "howToGet": "read Parliament's records",
+        "result": "In March 1766, the day it repealed the Stamp Act, Parliament also passed the Declaratory Act. It says Parliament has full power to make laws for the colonies \"in all cases whatsoever.\""
+      },
+      {
+        "id": "assemblies",
+        "label": "How the colonies were governed",
+        "howToGet": "ask the printer or read colonial records",
+        "result": "Each colony has its own elected assembly. Virginia's has met since 1619 and Massachusetts's since the 1630s. For over a hundred years these assemblies have voted on their own colony's taxes and paid their governors' and judges' salaries."
+      },
+      {
+        "id": "representation",
+        "label": "Who represents the colonies in Parliament",
+        "howToGet": "ask the Member of Parliament",
+        "result": "No one elected from the colonies sits in Parliament. Parliament's answer: members of Parliament speak for every British subject, even ones who can't vote for them. Most people in Britain can't vote either, and big towns like Manchester and Birmingham have no member of their own."
+      },
+      {
+        "id": "townshend",
+        "label": "The Townshend taxes (1767) and where the money went",
+        "howToGet": "read the law or ask the governor",
+        "result": "In 1767 Parliament taxed glass, lead, paint, paper and tea brought into the colonies. Part of the money was set aside to pay royal governors and judges, so their pay no longer came from the colonial assemblies. Since 1772 Governor Hutchinson's salary has been paid this way. After more boycotts, Parliament canceled these taxes in 1770, except the tax on tea: 3 pence a pound."
+      },
+      {
+        "id": "boycotts",
+        "label": "The boycotts",
+        "howToGet": "ask the spinner or a merchant",
+        "result": "Merchants in Boston, New York and Philadelphia signed agreements to stop importing British goods. Women spun and wove their own cloth (\"homespun\") instead of buying British fabric, and many gave up British tea. Imports from Britain dropped sharply in 1769. Shops that kept selling British goods had their names printed in the newspapers."
+      },
+      {
+        "id": "tea_act",
+        "label": "The Tea Act (1773)",
+        "howToGet": "ask the governor or read the law",
+        "result": "The East India Company, a giant British company, was close to going broke with millions of pounds of unsold tea. The 1773 Tea Act let it ship tea straight to the colonies and sell it only through a few merchants it picked. In Boston, two of them are Governor Hutchinson's sons. Legal tea would sell for about 2 shillings a pound, slightly cheaper than smuggled tea. The 3-pence tea tax is still included in the price."
+      },
+      {
+        "id": "smugglers",
+        "label": "Where Boston's tea usually comes from",
+        "howToGet": "ask the merchant or the customs officer",
+        "result": "For years, much of the tea drunk in the colonies has been smuggled in from Dutch traders to avoid the tax. Some respected Boston merchants make money this way. Cheaper legal tea, sold only by the Company's chosen merchants, would cut into the business of smugglers and of every merchant who wasn't chosen."
+      },
+      {
+        "id": "king",
+        "label": "What colonists say about King George",
+        "howToGet": "ask anyone in Boston",
+        "result": "Taxes are made by Parliament, not by the King alone. In 1774 most colonists still call themselves loyal British subjects. At town meetings and dinners they still drink to King George's health and blame Parliament and the King's ministers."
+      }
+    ],
+    "redHerrings": [
+      "King George's greed: Parliament made the taxes, and colonists still toasted the King in 1774"
+    ],
+    "guardrails": {
+      "minEvidence": 5,
+      "findings": 4,
+      "findingWord": "reason",
+      "mechanism": "Ask her how one reason actually works, e.g. why agreeing to a small tax could lead to bigger ones, or what changes when London pays the governor instead of the colony.",
+      "twist": {
+        "afterEvidence": 3,
+        "text": "A ship from London brings a letter from Lord North (read it in his irritated voice): the tea they dumped was CHEAPER than any tea in the colonies, cheaper even than smuggled tea. Call examine for 'tea_act' now if she hasn't seen it.",
+        "question": "If the tea was cheaper, why on earth would they destroy it?"
+      },
+      "finale": {
+        "prompt": "Lord North must decide what to do about Boston: punish the town, cancel the tea tax, give colonists a say, or something else. What do you advise, and how will the colonists react? Use your evidence."
+      }
+    }
+  }
+}

@@ -6,11 +6,17 @@ import c002 from '@/cases/002-failing-farm.json';
 import c003 from '@/cases/003-too-good-to-be-true.json';
 import c004 from '@/cases/004-build-for-survival.json';
 import c005 from '@/cases/005-jamestown.json';
+import c006 from '@/cases/006-no-taxation.json';
 
-export const CASES: CaseDef[] = [c001, c002, c003, c004, c005] as unknown as CaseDef[];
+export const CASES: CaseDef[] = [c001, c002, c003, c004, c005, c006] as unknown as CaseDef[];
 
 // Cases planned for the unit but not written yet (shown on the dashboard).
-export const PLANNED: { id: string; title: string; mode: string; unit: string }[] = [];
+export const PLANNED: { id: string; title: string; mode: string; unit: string }[] = [
+  { id: '007', title: 'The Boston Massacre', mode: 'investigation', unit: 'Road to Independence' },
+  { id: '008', title: 'One If by Land', mode: 'challenge', unit: 'Road to Independence' },
+  { id: '009', title: 'Go Viral, 1776', mode: 'challenge', unit: 'Road to Independence' },
+  { id: '010', title: 'Philadelphia, 1776', mode: 'simulation', unit: 'Road to Independence' },
+];
 
 export function getCase(id: string): CaseDef | undefined {
   return CASES.find((c) => c.id === id);
