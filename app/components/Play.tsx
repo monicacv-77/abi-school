@@ -338,7 +338,7 @@ export default function Play({ initial }: { initial: SessionView }) {
 
   const heroEl = view.image && (
     <figure className={`hero${view.image.fit === 'contain' ? ' contain' : ''}`}>
-      <img src={view.image.src} alt={view.image.alt} loading="lazy" style={view.image.position ? { objectPosition: view.image.position } : undefined} />
+      <img src={view.image.src} alt={view.image.alt} loading="lazy" style={view.image.position ? { objectPosition: view.image.position } : undefined} onError={(e) => { const f = (e.currentTarget as HTMLElement).closest('figure') as HTMLElement | null; if (f) f.style.display = 'none'; }} />
       <figcaption>
         <a href={view.image.href} target="_blank" rel="noreferrer">{view.image.credit}</a>
       </figcaption>

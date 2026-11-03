@@ -1,0 +1,343 @@
+{
+  "id": "007",
+  "title": "The Boston Massacre",
+  "mode": "investigation",
+  "classification": "Disputed Claims",
+  "unit": "Road to Independence",
+  "location": "Boston, Massachusetts",
+  "realOrConstructed": "Real people, events, picture and testimony; Abi questioning witnesses as a juror is invented",
+  "status": "PILOT",
+  "version": 1,
+  "bigUnderstanding": "Pictures and stories are made by people who want something. Revere's engraving turned a confused, frightening night (a crowd with clubs and snowballs, soldiers who fired one at a time, conflicting testimony about an order) into a neat scene of soldiers executing peaceful citizens. It spread faster than the facts and shaped what people believed before any trial. The evidence also shows the soldiers did kill five people in a town that had been tense for years. Patriot John Adams defended the soldiers because everyone deserves a fair trial, and the jury followed the evidence: six soldiers not guilty, two guilty of manslaughter.",
+  "winCondition": "Find 4 ways Revere's picture differs from the evidence, explain why he drew it that way, then give your verdict on the soldiers and write an honest caption.",
+  "opening": {
+    "intro": "Boston, late November 1770. The courtroom is cold and packed. Eight British soldiers sit in the dock, on trial for murder. Last March, on a winter night in King Street, they fired into a crowd and five men died. Since then, almost everyone in town has seen Paul Revere's picture of that night, and everyone has an opinion.\n\nYou're on the jury. This court lets you question witnesses and examine evidence yourself. Your job:\n🔎 Check at least 5 pieces of evidence\n🖼️ Find 4 ways Revere's picture differs from the evidence, and explain why he drew it that way\n⚖️ Decide: murder, or self-defense?\n✍️ Write a caption for the picture that tells the truth",
+    "cards": [
+      {
+        "icon": "⚖️",
+        "label": "Your job",
+        "kind": "brief",
+        "text": "Compare Revere's picture with the evidence: find 4 differences, each backed by evidence, and explain why he drew it that way. Then give your verdict and write an honest caption."
+      },
+      {
+        "icon": "🏛️",
+        "label": "King Street",
+        "kind": "place",
+        "text": "Boston's main street, running down to the harbor. The Custom House, where the King's tax money is kept, stands on one side."
+      },
+      {
+        "icon": "📣",
+        "label": "The town says",
+        "kind": "voice",
+        "text": "A Boston shopkeeper: \"They shot innocent people in cold blood. It's right there in the picture.\""
+      },
+      {
+        "icon": "🎖️",
+        "label": "The soldiers say",
+        "kind": "voice",
+        "text": "A soldier's wife: \"My husband was surrounded by hundreds of angry people. What was he supposed to do?\""
+      }
+    ],
+    "prompt": "Who do you want to question first, or what do you want to examine?"
+  },
+  "image": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/e/e1/Boston_Massacre_high-res.jpg",
+    "alt": "Paul Revere's 1770 engraving of British soldiers firing on a crowd in King Street, Boston",
+    "credit": "Paul Revere, \"The Bloody Massacre,\" 1770 · public domain",
+    "href": "https://commons.wikimedia.org/wiki/File:Boston_Massacre_high-res.jpg",
+    "fit": "contain"
+  },
+  "facilitatorNotes": [
+    "FORMAT: Abi is a juror at the soldiers' trial (late November 1770). A real juror couldn't question witnesses; say so if asked. You are the court clerk (brief, a little dry) and play every witness. Each witness answer is 1–3 sentences in a distinct voice.",
+    "WITNESSES (call examine for the matching evidence when testimony covers it):\n- Paul Revere, silversmith and engraver (real). Proud of his print, patriotic, defensive. Covers: engraving. Calls it a true picture; gets prickly if asked about Pelham or whether he was there (he wasn't in King Street during the shooting).\n- Henry Pelham, artist (real). Irritated with Revere. Covers: pelham_letter. Fair-minded about the picture's facts only if asked.\n- Private Hugh White, the sentry (real, one of the defendants). Scared, defensive. Covers: sentry, troops. Leaves out that he hit the boy unless asked how it started.\n- Captain Thomas Preston (real). Stiff, formal, already found not guilty. Covers: preston_account.\n- Newton Prince (real), a free Black man who testified. Calm, careful, sticks to what he saw. Covers: bells, newton_prince.\n- Charles Hobby (real), a laborer. Certain and angry. Covers: heard_order.\n- Dr. John Jeffries (real), Patrick Carr's surgeon. Covers: carr.\n- Samuel Adams (real), patriot leader. Persuasive, passionate. Covers: troops, the_dead, short_narrative. Never mentions clubs, snowballs or the bells being rung to bring people out; calls it a massacre of innocents.\nDocuments: custom_house (court records), the_dead (newspapers).",
+    "PRIMARY SOURCE (in dialogue): when Abi asks John Adams (or the defense lawyer) why he took the case, or after the twist, Adams says the words given in the primary source, original first, then 'in plain English'. He said them in his closing speech at this trial, December 1770.",
+    "TWIST: the clerk announces the defense lawyer, John Adams: a well-known patriot and Samuel Adams's cousin. Patriot neighbors are furious with him for taking the case. Adams can say briefly that everyone deserves a fair trial and a lawyer.",
+    "AFTER THE FINALE: tell her in two sentences what the real jury decided: six soldiers not guilty; two (Hugh Montgomery and Matthew Kilroy) guilty of manslaughter, a lesser crime than murder, punished by branding on the thumb. Preston had already been found not guilty in October. Compare to her verdict without grading it, and note that patriots kept calling it a massacre anyway.",
+    "'Manslaughter' is just-in-time: if she wants something between murder and innocent, it exists.",
+    "Keep violence brief and non-graphic. No gore. The dead are people: say their names when it comes up.",
+    "Crispus Attucks is remembered as the first to die and is honored as a hero; no picture from 1770 shows him as a Black or Native man. If she asks, say so. Don't use Adams's insulting words about the crowd.",
+    "Revere's sign 'Butcher's Hall' is his own label; the building was the Custom House.",
+    "This is a SOLVED case: the engraving clearly differs from the testimony (line formation vs. one at a time; calm empty-handed crowd vs. clubs, snowballs, shouting 'Fire'; gun from the window that a jury rejected; clear night with no snow; an officer ordering fire, which witnesses dispute). Accept any well-backed difference. Her verdict is her own; accept any verdict she backs with evidence."
+  ],
+  "justInTimeConcepts": [
+    "Propaganda: a message made to persuade, not to inform.",
+    "Self-defense: using force because you believe your life is in danger.",
+    "Manslaughter: killing someone without planning to, a lesser crime than murder.",
+    "Eyewitness: someone who saw it, though people who saw the same thing often remember it differently."
+  ],
+  "scaffolds": [
+    "Put the picture next to one witness at a time: what does the picture show that the witness doesn't?",
+    "Who made the picture, was he there, and what did he want people to feel?",
+    "Look for what's missing from the picture: what were people in the crowd holding or doing?"
+  ],
+  "completion": "Abi has examined at least 5 pieces of evidence; found 4 differences between the engraving and the evidence, each backed by evidence she examined; explained why Revere drew it that way; answered the John Adams twist; and given her verdict with an honest caption.",
+  "endReveal": {
+    "concept": "Propaganda and point of view: an image can be built to make you feel something, and the same event can be told very differently by each side. Check pictures against eyewitnesses.",
+    "vocabulary": [
+      {
+        "term": "Propaganda",
+        "meaning": "A message made to persuade, not to inform."
+      },
+      {
+        "term": "Eyewitness",
+        "meaning": "Someone who saw an event happen."
+      },
+      {
+        "term": "Manslaughter",
+        "meaning": "Killing someone without planning to; a lesser crime than murder."
+      },
+      {
+        "term": "Fair trial",
+        "meaning": "A trial where both sides get heard and the verdict follows the evidence."
+      }
+    ],
+    "realVsConstructed": {
+      "real": "The shooting on March 5, 1770, Revere's engraving and Pelham's complaint, the soldiers and Captain Preston, the testimony of Newton Prince, Charles Hobby, Daniel Usher and Dr. Jeffries, Patrick Carr's last words, the Custom House trial, Boston's 'Short Narrative', John Adams's defense and the verdicts.",
+      "constructed": "A juror questioning witnesses, the shopkeeper and the soldier's wife on the cards, and the witnesses' exact words (built from their real testimony)."
+    }
+  },
+  "skills": [
+    "Comparing Sources",
+    "Spotting Propaganda",
+    "Using Evidence",
+    "Weighing Testimony"
+  ],
+  "timelineEvents": [
+    {
+      "year": "1768",
+      "label": "British soldiers arrive in Boston"
+    },
+    {
+      "year": "March 1770",
+      "label": "The Boston Massacre"
+    },
+    {
+      "year": "March 1770",
+      "label": "Revere's engraving goes on sale"
+    },
+    {
+      "year": "Oct–Dec 1770",
+      "label": "Captain Preston and the soldiers are tried"
+    }
+  ],
+  "followUpSeeds": [
+    "how photos and videos get edited or staged today",
+    "Crispus Attucks and how he's been remembered",
+    "why everyone gets a lawyer, even people the public hates",
+    "how eyewitness memory works and why witnesses disagree",
+    "what happened to John Adams after he defended the soldiers"
+  ],
+  "standards": [
+    {
+      "code": "RH.6-8.7",
+      "label": "Integrate visual information (a print) with information in texts (Common Core Literacy)"
+    },
+    {
+      "code": "RH.6-8.6",
+      "label": "Identify an author's point of view or purpose (Common Core Literacy)"
+    },
+    {
+      "code": "D2.His.6.6-8",
+      "label": "Analyze how people's perspectives shaped the sources they created (C3 Framework)"
+    },
+    {
+      "code": "HSS 8.1",
+      "label": "Major events before the founding of the nation and why they matter (California History–Social Science)"
+    }
+  ],
+  "primarySource": {
+    "author": "John Adams",
+    "title": "Closing argument for the soldiers",
+    "year": "1770",
+    "original": "Facts are stubborn things; and whatever may be our wishes, our inclinations, or the dictates of our passions, they cannot alter the state of facts and evidence.",
+    "modern": "Facts don't change. Whatever we want, whatever we feel, however angry we are, that can't change what the evidence shows.",
+    "href": "https://valpo.edu/law/wp-content/uploads/pdfs/AdamsDefenseBostonMassacre.pdf",
+    "when": "John Adams says it during the twist, or when Abi asks him why he is defending the soldiers",
+    "inDialogue": true
+  },
+  "data": {
+    "kind": "investigation",
+    "question": "Revere's picture shows soldiers coldly shooting peaceful people. Is that what happened on King Street, and were the soldiers murderers?",
+    "resolved": true,
+    "winCondition": "Find 4 ways Revere's picture differs from the evidence, explain why he drew it that way, then give your verdict on the soldiers and write an honest caption.",
+    "trueExplanation": "The engraving is propaganda. Differences backed by evidence: (1) soldiers in a neat line firing together vs. testimony that they fired one after another (heard_order, preston_account); (2) a calm, empty-handed crowd vs. clubs, snowballs, ice and people shouting 'Fire' (preston_account, newton_prince, sentry, bells, carr); (3) an officer ordering fire vs. conflicting testimony (newton_prince vs heard_order); (4) a gun firing from the Custom House window, which a jury rejected (custom_house); (5) a clear night with no snow vs. snow and ice (sentry); (6) the 'Butcher's Hall' label, Revere's opinion. Why: Revere and patriot leaders wanted to turn people against the soldiers and British rule; the picture spread before any trial, along with Boston's one-sided Short Narrative. Revere wasn't there and copied Pelham. Still real: five people died after years of tension with soldiers in town. The real jury: six not guilty, two guilty of manslaughter.",
+    "causalChain": [
+      "Soldiers sent to Boston, tension for 18 months",
+      "A sentry hits a boy; a crowd gathers",
+      "Bells ring; hundreds come out with clubs and snowballs",
+      "Soldiers fire; five die",
+      "Revere's picture and Boston's report tell one side",
+      "The story spreads before the trial",
+      "Facts in court vs. the story everyone believes"
+    ],
+    "theories": [
+      {
+        "theory": "The soldiers murdered peaceful people, just like the picture shows",
+        "supportedBy": [
+          "engraving",
+          "heard_order",
+          "the_dead"
+        ],
+        "weakenedBy": [
+          "preston_account",
+          "newton_prince",
+          "carr",
+          "sentry",
+          "bells"
+        ]
+      },
+      {
+        "theory": "The soldiers fired in self-defense against a dangerous crowd",
+        "supportedBy": [
+          "preston_account",
+          "newton_prince",
+          "carr",
+          "bells"
+        ],
+        "weakenedBy": [
+          "heard_order"
+        ]
+      },
+      {
+        "theory": "Revere's picture was made to persuade, not to show what happened",
+        "supportedBy": [
+          "engraving",
+          "pelham_letter",
+          "custom_house",
+          "short_narrative",
+          "newton_prince"
+        ],
+        "weakenedBy": []
+      },
+      {
+        "theory": "Someone fired from the Custom House window",
+        "supportedBy": [
+          "engraving"
+        ],
+        "weakenedBy": [
+          "custom_house"
+        ]
+      },
+      {
+        "theory": "Years of tension with soldiers in town made violence likely",
+        "supportedBy": [
+          "troops",
+          "sentry"
+        ],
+        "weakenedBy": []
+      }
+    ],
+    "evidence": [
+      {
+        "id": "engraving",
+        "label": "Paul Revere's picture of March 5",
+        "howToGet": "look at the print or ask Paul Revere",
+        "image": {
+          "src": "https://upload.wikimedia.org/wikipedia/commons/e/e1/Boston_Massacre_high-res.jpg",
+          "alt": "Paul Revere's 1770 engraving of British soldiers firing on a crowd in King Street, Boston",
+          "credit": "Paul Revere, \"The Bloody Massacre,\" 1770 · public domain",
+          "href": "https://commons.wikimedia.org/wiki/File:Boston_Massacre_high-res.jpg",
+          "fit": "contain"
+        },
+        "result": "An engraving sold in Boston about three weeks after the shooting. It shows seven soldiers standing in a straight line, all firing at once. An officer stands beside them with his sword raised. The townspeople stand close together and hold nothing in their hands. A gun fires from an upstairs window of the Custom House, and a sign on the building says \"Butcher's Hall.\" The sky is clear, with a moon, and there is no snow. Under the picture is a poem and the names of the dead."
+      },
+      {
+        "id": "pelham_letter",
+        "label": "A letter from artist Henry Pelham (March 29, 1770)",
+        "howToGet": "ask Henry Pelham",
+        "result": "Pelham, a Boston artist, writes to Revere angrily: he drew this scene first, Revere borrowed his drawing, copied it, and sold his own prints before Pelham could sell his. Pelham calls it dishonorable. Pelham's own version, \"The Fruits of Arbitrary Power,\" went on sale a week after Revere's."
+      },
+      {
+        "id": "sentry",
+        "label": "How the trouble started",
+        "howToGet": "ask Private Hugh White",
+        "result": "It was a cold night with snow and ice on the ground. Private Hugh White stood guard alone outside the Custom House, where the King's tax money was kept. A wigmaker's apprentice, Edward Garrick, shouted insults at a passing British officer. White hit the boy on the side of the head with his musket. A crowd gathered around White and began shouting at him and throwing snowballs. He called for help."
+      },
+      {
+        "id": "bells",
+        "label": "Why so many people came out",
+        "howToGet": "ask Newton Prince or a townsperson",
+        "result": "Church bells started ringing, which in Boston usually means a fire. People ran out, some carrying fire buckets, and some carrying sticks and clubs. Estimates say 300 to 400 people ended up in King Street. Captain Thomas Preston marched seven soldiers out to protect the sentry."
+      },
+      {
+        "id": "preston_account",
+        "label": "Captain Preston's own account",
+        "howToGet": "ask Captain Thomas Preston",
+        "result": "Preston (found not guilty at his own trial in October) says the crowd beat their clubs together, threw snowballs and chunks of ice, and dared the soldiers to fire. He says he stood in front of the guns and told the crowd to go home. He says he never ordered his men to fire. A soldier was knocked down by a club, got up and fired, and the others followed. People in the crowd were shouting \"Fire!\" too."
+      },
+      {
+        "id": "heard_order",
+        "label": "Townspeople who say Preston gave the order",
+        "howToGet": "ask Charles Hobby or Daniel Usher",
+        "result": "Charles Hobby, a laborer, swears he heard Preston call \"Fire! Fire!\" after a snowball hit a soldier. Daniel Usher says one gun went off and then Preston called \"Fire, by all means!\" Both say the soldiers fired one after another, not all at once."
+      },
+      {
+        "id": "newton_prince",
+        "label": "Newton Prince's testimony",
+        "howToGet": "ask Newton Prince",
+        "result": "Newton Prince, a free Black man in Boston, was in King Street. He saw people hitting the soldiers' guns with sticks before any shots. He says Preston was standing out in front of the soldiers, and he heard no order to fire. He heard people in the crowd shouting \"Fire!\" Witnesses even disagree about what Preston was wearing."
+      },
+      {
+        "id": "carr",
+        "label": "Patrick Carr's last words",
+        "howToGet": "ask Dr. John Jeffries, who treated him",
+        "image": {
+          "src": "https://upload.wikimedia.org/wikipedia/commons/3/3a/Obituary_of_Patrick_Carr_1770.jpg",
+          "alt": "A 1770 newspaper notice about the death of Patrick Carr",
+          "credit": "Boston newspaper, March 1770 · public domain",
+          "href": "https://commons.wikimedia.org/wiki/File:Obituary_of_Patrick_Carr_1770.jpg",
+          "fit": "contain"
+        },
+        "result": "Patrick Carr was shot and died nine days later. His doctor says that before he died, Carr said the soldiers fired to defend themselves, that he had seen soldiers fire on crowds in Ireland, and that he had never seen soldiers put up with so much before firing. He said he forgave whoever shot him."
+      },
+      {
+        "id": "custom_house",
+        "label": "Did shots come from the Custom House window?",
+        "howToGet": "read the court records",
+        "result": "A few townspeople swore they saw gunfire from a Custom House window. Four men who worked there were put on trial for it in December 1770. The main witness was a servant boy; another witness said the boy admitted he'd made it up. The jury found all four not guilty without even leaving their seats."
+      },
+      {
+        "id": "troops",
+        "label": "Soldiers in Boston",
+        "howToGet": "ask Samuel Adams or Private Hugh White",
+        "result": "Since October 1768, two regiments of British soldiers have been stationed in Boston, sent to keep order after protests against the Townshend taxes. Soldiers and townspeople fight often. Three days before the shooting, soldiers and ropemakers brawled at a ropewalk. On February 22, 1770, an 11-year-old boy, Christopher Seider, was shot and killed by a customs informer during a protest; thousands came to his funeral."
+      },
+      {
+        "id": "the_dead",
+        "label": "Who was killed",
+        "howToGet": "ask Samuel Adams or read the newspapers",
+        "image": {
+          "src": "https://upload.wikimedia.org/wikipedia/commons/c/c7/Four_coffins_of_men_killed_in_the_Boston_Massacre_LCCN2004672647.jpg",
+          "alt": "Woodcut of four coffins printed in a Boston newspaper after the shooting",
+          "credit": "Coffins of the victims, Boston Gazette, March 1770 · Library of Congress · public domain",
+          "href": "https://commons.wikimedia.org/wiki/File:Four_coffins_of_men_killed_in_the_Boston_Massacre_LCCN2004672647.jpg",
+          "fit": "contain"
+        },
+        "result": "Five men died: Crispus Attucks, a sailor of African and Native American descent; Samuel Gray, a ropemaker; James Caldwell, a sailor; Samuel Maverick, 17; and Patrick Carr. Six more were wounded. Thousands of people marched in the funeral."
+      },
+      {
+        "id": "short_narrative",
+        "label": "Boston's official report",
+        "howToGet": "ask Samuel Adams",
+        "result": "Weeks after the shooting, Boston's town leaders collected dozens of sworn statements from townspeople and printed them as \"A Short Narrative of the Horrid Massacre in Boston.\" They sent copies to London so British leaders would read Boston's side first. The soldiers' side wasn't included."
+      }
+    ],
+    "redHerrings": [
+      "Shots from the Custom House window: a jury rejected it and the main witness was accused of lying"
+    ],
+    "guardrails": {
+      "minEvidence": 5,
+      "findings": 4,
+      "findingWord": "difference",
+      "mechanism": "Ask her why Revere drew it this way: what he wanted people to feel or believe, and why that worked.",
+      "twist": {
+        "afterEvidence": 3,
+        "text": "The clerk bangs the gavel: the soldiers' lawyer is John Adams, a famous patriot and Samuel Adams's own cousin. Patriots in the gallery hiss at him. Adams stands up calmly.",
+        "question": "Why would a patriot defend British soldiers? Does that make you trust his evidence more, or less?"
+      },
+      "finale": {
+        "prompt": "Time for your verdict: were the soldiers guilty of murder, or did they act in self-defense (or something in between)? Then write a one-sentence caption for Revere's picture that tells the truth."
+      }
+    }
+  }
+}
