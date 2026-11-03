@@ -7,15 +7,15 @@
   "location": "Early colonial Virginia (Tidewater)",
   "realOrConstructed": "Constructed challenge in a historically grounded setting",
   "status": "READY",
-  "version": 14,
+  "version": 15,
   "bigUnderstanding": "Shelter is an engineering tradeoff: speed, weather protection, stability, fire safety, labor, scarce imported materials, and repairability. There is no single right design. Early Jamestown builders used local wood and clay (mud-and-stud, daub, thatch) because it was fast and local, but it needed constant maintenance in Virginia weather.",
   "winCondition": "Design shelter for about 105 people, including 15 families with children, that is fast, dry, stable, safe and buildable with what you have. Then survive the tests and fix whatever breaks.",
   "opening": {
-    "intro": "Spring, on the coast of Virginia. Your ships have just dropped anchor in a wide, brown river. Behind the muddy shore: thick forest, marsh grass taller than you, and clouds of mosquitoes. About 105 tired people are standing on the bank with their bags: soldiers and workmen, a few gentlemen, and 15 families with 25 children, from babies to 14-year-olds. Every one of them needs a roof before the storms and cold nights come.\n\nYour job: plan the settlement. It needs all five of these:\n🛏️ Homes for all 105 people, families and children included\n🍲 A way to cook for everyone\n🚻 Latrines (bathrooms)\n📦 Storage for food, tools and gunpowder\n💧 Drinking water\n\nYou have 30 builders, 600 worker-days (about three weeks) and only 6 kegs of nails. Everything must be fast, dry, stable, safe from fire and buildable with what's here. Then your plan faces 3 tests, and you fix whatever fails.",
+    "intro": "Spring, on the coast of Virginia. Your ships have just dropped anchor in a wide, brown river. Behind the muddy shore: thick forest, marsh grass taller than you, and clouds of mosquitoes. About 105 tired people are standing on the bank with their bags: soldiers and workmen, a few gentlemen, and 15 families with 25 children, from babies to 14-year-olds. Every one of them needs a roof before the storms and cold nights come.\n\nYour job: plan the settlement. It needs all of these:\n🛏️ Homes for all 105 people, families and children included\n🍲 A way to cook for everyone\n🚻 Latrines (bathrooms)\n📦 Storage for food, tools and gunpowder\n💧 Drinking water\n🏗️ For every building: choose its frame, its wall infill and its roof\n\nYou have 30 builders, 600 worker-days (about three weeks) and only 6 kegs of nails. Everything must be fast, dry, stable, safe from fire and buildable with what's here. Then your plan faces 3 tests, and you fix whatever fails.",
     "cards": [
       {
         "label": "Your targets",
-        "text": "FAST · DRY · STABLE · SAFE (fire!) · BUILDABLE · REPAIRABLE. Homes for about 105 people (25 are children), plus a way to cook, latrines, storage and water. 30 builders, 6 kegs of nails.",
+        "text": "FAST · DRY · STABLE · SAFE (fire!) · BUILDABLE · REPAIRABLE. Homes for about 105 people (25 are children), plus a way to cook, latrines, storage and water. Every building needs a frame, wall infill and a roof. 30 builders, 6 kegs of nails.",
         "icon": "🎯",
         "kind": "brief"
       },
@@ -64,7 +64,8 @@
     "Never show the toolbox as a menu. If she asks what's possible, describe a few techniques briefly, not prices.",
     "Engineering tradeoffs to judge by: one big barracks is fast and shares walls, but crowds people and one fire or failure hits everyone. Many small buildings isolate fire and failure but need more roofs and labor. Nails simplify joints but are scarce. Daub uses local stuff but needs labor and upkeep. Thatch is local and light but burns and needs repair.",
     "Abi's mom is an architect; Abi may know some building terms. Don't assume she does; don't over-explain either.",
-    "End reveal: archaeologists at Jamestown found early colonists built with local wood and clay using mud-and-stud construction. Daub mixed clay with plant fibers, and early roofs could be thatch. Fast, local, but high-maintenance in Virginia weather. The real fort burned in January 1608. Make clear her settlement, design and tests were constructed."
+    "End reveal: archaeologists at Jamestown found early colonists built with local wood and clay using mud-and-stud construction. Daub mixed clay with plant fibers, and early roofs could be thatch. Fast, local, but high-maintenance in Virginia weather. The real fort burned in January 1608. Make clear her settlement, design and tests were constructed.",
+    "EVERY BUILDING NEEDS A FRAME, WALLS AND A ROOF (the opening tells her this). When she adds a building without saying one of the three, ask her which she wants for it, one short question; never pick for her. A lean-to is branches and brush all in one, so it counts as all three."
   ],
   "justInTimeConcepts": [
     "Post-in-ground: posts set straight into holes; fast, but the buried wood rots.",
