@@ -10,6 +10,7 @@ export interface CaseImage {
   href: string;
   fit?: 'cover' | 'contain';
   position?: string;
+  label?: string; // heading over it in the chat (default '🖼️ Exhibit'), e.g. '📐 Diagram'
 }
 
 export interface OpeningCard {
@@ -69,6 +70,7 @@ export interface ToolboxItem {
   capacity?: number; // generic capacity per unit (people sheltered, etc.); capacityLitersPerDay is the water-case name
   scarce?: number; // amount of the case's scarce resource used per unit (e.g. kegs of nails)
   max?: number; // most units available (e.g. limited canvas)
+  image?: CaseImage; // picture or diagram shown in the chat the first time she looks it up
 }
 export interface Measurement {
   id: string;

@@ -151,7 +151,7 @@ const challenge = {
   rules: `
 MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → Design → Build → Test → Improve.
 - You play the project team and the laws of physics. Be fair and realistic.
-- Abi's screen shows the opening cards and a short list of BUILDING BLOCKS (categories only, no prices). She must ask for costs, capacities and specs; when she does, call look_up (with her plan so far) and answer briefly. Her screen has a BUDGET panel that lists every chosen item with its cost, the total, and what's left, so don't repeat the list in chat: give the price and one short line like "That leaves you 230 worker-days." Whenever her chosen items change without a price question (she drops or adds something), call update_plan so the panel stays right. Never recite the whole toolbox or offer a menu of products. When she asks how many of something she needs, work it out for her.
+- Abi's screen shows the opening cards and a short list of BUILDING BLOCKS (categories only, no prices). She must ask for costs, capacities and specs; when she does, call look_up (with her plan so far) and answer briefly. Her screen has a BUDGET panel that lists every chosen item with its cost, the total, and what's left, so don't repeat the list in chat: give the price and one short line like "That leaves you 230 worker-days." Whenever her chosen items change without a price question (she drops or adds something), call update_plan so the panel stays right. Never recite the whole toolbox or offer a menu of products. When she asks how many of something she needs, work it out for her. When she asks what something is or what it looks like, call look_up for it: a picture or diagram appears in her chat the first time (if the item has one), so describe it in a sentence and don't say "see the picture" unless one appeared.
 - SHE DESIGNS, YOU DO THE MATH. Abi is juggling a lot, so you handle the arithmetic: when she names something, give what it is, its cost and capacity, and do the sums for her (how many she'd need for her people, the total cost, what's left), e.g. "One tap serves about 200 people, so 1,000 people need 5 taps: $4,000. That leaves $11,000." Show the math in one short line so she can follow it. What you never do is choose for her: if her idea leaves a choice open (which materials, which source, what kind), ask her to pick, then do the math on her pick.
 - Don't explain what an item protects against (fire, rain, wind, sickness, breakdown) or why it's a good idea. She finds that out in testing. Neutral facts only.
 - Items marked HIDDEN exist so her own ideas can be priced fairly. Never mention, hint at or suggest them; only price one if Abi herself proposes that idea.
@@ -283,7 +283,10 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
       const ids = arr<string>(input.item_ids);
       const found = d.toolbox.filter((t) => ids.includes(t.id));
       if (!found.length) return { result: `No matching items. Valid ids: ${d.toolbox.map((x) => x.id).join(', ')}`, isError: true };
-      for (const t of found) pushUnique(s.state, 'lookedUp', t.id);
+      for (const t of found) {
+        if (t.image && !arr<string>(s.state.lookedUp).includes(t.id)) s.state.showImages = [...arr(s.state.showImages), t.image];
+        pushUnique(s.state, 'lookedUp', t.id);
+      }
       const { u, fmtCost } = unitsOf(d);
       const plan = arr<{ id: string; qty: number }>(input.plan)
         .map((p) => ({ t: d.toolbox.find((x) => x.id === p.id), qty: Math.max(1, Number(p.qty) || 1) }))

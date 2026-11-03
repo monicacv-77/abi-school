@@ -7,7 +7,7 @@
   "location": "Early colonial Virginia (Tidewater)",
   "realOrConstructed": "Constructed challenge in a historically grounded setting",
   "status": "READY",
-  "version": 16,
+  "version": 17,
   "bigUnderstanding": "Shelter is an engineering tradeoff: speed, weather protection, stability, fire safety, labor, scarce imported materials, and repairability. There is no single right design. Early Jamestown builders used local wood and clay (mud-and-stud, daub, thatch) because it was fast and local, but it needed constant maintenance in Virginia weather.",
   "winCondition": "Design shelter for about 105 people, including 15 families with children, that is fast, dry, stable, safe and buildable with what you have. Then survive the tests and fix whatever breaks.",
   "opening": {
@@ -223,7 +223,15 @@
           "roof_canvas",
           "roof_board"
         ],
-        "maintenance": "Buried post ends rot in damp ground within a few years."
+        "maintenance": "Buried post ends rot in damp ground within a few years.",
+        "image": {
+          "src": "/diagrams/004/frame_pegged.svg",
+          "alt": "Labeled diagram: Post-in-ground frame section, pegged joints (about 10×16 ft, sleeps 5)",
+          "credit": "Diagram · Abi School",
+          "href": "/diagrams/004/frame_pegged.svg",
+          "fit": "contain",
+          "label": "📐 Diagram"
+        }
       },
       {
         "id": "frame_nailed",
@@ -242,20 +250,44 @@
           "roof_canvas",
           "roof_board"
         ],
-        "maintenance": "Buried post ends rot in damp ground within a few years."
+        "maintenance": "Buried post ends rot in damp ground within a few years.",
+        "image": {
+          "src": "/diagrams/004/frame_nailed.svg",
+          "alt": "Labeled diagram: Post-in-ground frame section, nailed joints (about 10×16 ft, sleeps 5)",
+          "credit": "Diagram · Abi School",
+          "href": "/diagrams/004/frame_nailed.svg",
+          "fit": "contain",
+          "label": "📐 Diagram"
+        }
       },
       {
         "id": "wall_daub",
         "name": "Daub walls, one section (clay + grass pressed onto lath)",
         "cost": 6,
         "provides": "Solid, warm walls from local clay. Takes work to mix and press.",
-        "maintenance": "Cracks and washes out if rain hits it for long; patch with fresh clay."
+        "maintenance": "Cracks and washes out if rain hits it for long; patch with fresh clay.",
+        "image": {
+          "src": "/diagrams/004/wall_daub.svg",
+          "alt": "Labeled diagram: Daub walls, one section (clay + grass pressed onto lath)",
+          "credit": "Diagram · Abi School",
+          "href": "/diagrams/004/wall_daub.svg",
+          "fit": "contain",
+          "label": "📐 Diagram"
+        }
       },
       {
         "id": "wall_wattle",
         "name": "Woven-stick walls only, no clay, one section",
         "cost": 3,
-        "provides": "Quick woven sapling walls. Drafty and lets in blowing rain."
+        "provides": "Quick woven sapling walls. Drafty and lets in blowing rain.",
+        "image": {
+          "src": "/diagrams/004/wall_wattle.svg",
+          "alt": "Labeled diagram: Woven-stick walls only, no clay, one section",
+          "credit": "Diagram · Abi School",
+          "href": "/diagrams/004/wall_wattle.svg",
+          "fit": "contain",
+          "label": "📐 Diagram"
+        }
       },
       {
         "id": "wall_board",
@@ -263,28 +295,60 @@
         "cost": 2,
         "scarce": 0.15,
         "max": 6,
-        "provides": "Fast, tight walls, but only enough boards for about 6 sections."
+        "provides": "Fast, tight walls, but only enough boards for about 6 sections.",
+        "image": {
+          "src": "/diagrams/004/wall_board.svg",
+          "alt": "Labeled diagram: Board walls, one section (imported boards)",
+          "credit": "Diagram · Abi School",
+          "href": "/diagrams/004/wall_board.svg",
+          "fit": "contain",
+          "label": "📐 Diagram"
+        }
       },
       {
         "id": "wall_bark",
         "name": "Bark-slab walls, one section",
         "cost": 5,
         "provides": "Peeled bark slabs tied or pegged to the frame.",
-        "maintenance": "Bark curls and splits; needs replacing."
+        "maintenance": "Bark curls and splits; needs replacing.",
+        "image": {
+          "src": "/diagrams/004/wall_bark.svg",
+          "alt": "Labeled diagram: Bark-slab walls, one section",
+          "credit": "Diagram · Abi School",
+          "href": "/diagrams/004/wall_bark.svg",
+          "fit": "contain",
+          "label": "📐 Diagram"
+        }
       },
       {
         "id": "roof_thatch",
         "name": "Thatched roof, one section (marsh reed)",
         "cost": 4,
         "provides": "Thick reed bundles. Sheds rain well on a steep roof. Burns easily.",
-        "maintenance": "Patch every season; birds and wind pull it apart."
+        "maintenance": "Patch every season; birds and wind pull it apart.",
+        "image": {
+          "src": "/diagrams/004/roof_thatch.svg",
+          "alt": "Labeled diagram: Thatched roof, one section (marsh reed)",
+          "credit": "Diagram · Abi School",
+          "href": "/diagrams/004/roof_thatch.svg",
+          "fit": "contain",
+          "label": "📐 Diagram"
+        }
       },
       {
         "id": "roof_bark",
         "name": "Bark-covered roof, one section",
         "cost": 5,
         "provides": "Overlapping bark slabs. Less likely than thatch to catch a spark.",
-        "maintenance": "Slabs crack and shift; replace some each season."
+        "maintenance": "Slabs crack and shift; replace some each season.",
+        "image": {
+          "src": "/diagrams/004/roof_bark.svg",
+          "alt": "Labeled diagram: Bark-covered roof, one section",
+          "credit": "Diagram · Abi School",
+          "href": "/diagrams/004/roof_bark.svg",
+          "fit": "contain",
+          "label": "📐 Diagram"
+        }
       },
       {
         "id": "roof_canvas",
@@ -292,7 +356,15 @@
         "cost": 1,
         "max": 8,
         "provides": "Very fast. Only enough canvas for about 8 sections.",
-        "maintenance": "Rots and tears within a few months."
+        "maintenance": "Rots and tears within a few months.",
+        "image": {
+          "src": "/diagrams/004/roof_canvas.svg",
+          "alt": "Labeled diagram: Sail-canvas roof, one section",
+          "credit": "Diagram · Abi School",
+          "href": "/diagrams/004/roof_canvas.svg",
+          "fit": "contain",
+          "label": "📐 Diagram"
+        }
       },
       {
         "id": "roof_board",
@@ -300,87 +372,191 @@
         "cost": 3,
         "scarce": 0.2,
         "max": 2,
-        "provides": "Tight roof, but boards are almost gone."
+        "provides": "Tight roof, but boards are almost gone.",
+        "image": {
+          "src": "/diagrams/004/roof_board.svg",
+          "alt": "Labeled diagram: Board roof, one section (imported boards)",
+          "credit": "Diagram · Abi School",
+          "href": "/diagrams/004/roof_board.svg",
+          "fit": "contain",
+          "label": "📐 Diagram"
+        }
       },
       {
         "id": "lean_to",
         "name": "Quick lean-to (branches and brush, sleeps 4)",
         "cost": 1,
         "capacity": 4,
-        "provides": "Up in an hour. Leaks, blows apart in storms."
+        "provides": "Up in an hour. Leaks, blows apart in storms.",
+        "image": {
+          "src": "/diagrams/004/lean_to.svg",
+          "alt": "Labeled diagram: Quick lean-to (branches and brush, sleeps 4)",
+          "credit": "Diagram · Abi School",
+          "href": "/diagrams/004/lean_to.svg",
+          "fit": "contain",
+          "label": "📐 Diagram"
+        }
       },
       {
         "id": "well",
         "name": "Dug well",
         "cost": 25,
-        "provides": "A well dug inside the settlement and lined with timber. Enough water for about 150 people."
+        "provides": "A well dug inside the settlement and lined with timber. Enough water for about 150 people.",
+        "image": {
+          "src": "/diagrams/004/well.svg",
+          "alt": "Labeled diagram: Dug well",
+          "credit": "Diagram · Abi School",
+          "href": "/diagrams/004/well.svg",
+          "fit": "contain",
+          "label": "📐 Diagram"
+        }
       },
       {
         "id": "latrine",
         "name": "Pit latrine",
         "cost": 3,
-        "provides": "A dug pit with a simple screen around it. Serves about 20 people."
+        "provides": "A dug pit with a simple screen around it. Serves about 20 people.",
+        "image": {
+          "src": "/diagrams/004/latrine.svg",
+          "alt": "Labeled diagram: Pit latrine",
+          "credit": "Diagram · Abi School",
+          "href": "/diagrams/004/latrine.svg",
+          "fit": "contain",
+          "label": "📐 Diagram"
+        }
       },
       {
         "id": "hearth",
         "name": "Open hearth (fire pit)",
         "cost": 1,
-        "provides": "A ring of stones for a cooking and heating fire, inside or beside a building. Cooks for one family (about 4 people)."
+        "provides": "A ring of stones for a cooking and heating fire, inside or beside a building. Cooks for one family (about 4 people).",
+        "image": {
+          "src": "/diagrams/004/hearth.svg",
+          "alt": "Labeled diagram: Open hearth (fire pit)",
+          "credit": "Diagram · Abi School",
+          "href": "/diagrams/004/hearth.svg",
+          "fit": "contain",
+          "label": "📐 Diagram"
+        }
       },
       {
         "id": "storehouse",
         "name": "Storehouse section for food and tools",
         "cost": 16,
-        "provides": "A frame, walls and roof section for supplies (sleeps no one). Holds food, tools and powder for about 60 people."
+        "provides": "A frame, walls and roof section for supplies (sleeps no one). Holds food, tools and powder for about 60 people.",
+        "image": {
+          "src": "/diagrams/004/storehouse.svg",
+          "alt": "Labeled diagram: Storehouse section for food and tools",
+          "credit": "Diagram · Abi School",
+          "href": "/diagrams/004/storehouse.svg",
+          "fit": "contain",
+          "label": "📐 Diagram"
+        }
       },
       {
         "id": "raised_floor",
         "name": "Raised floor or sleeping platforms, one section",
         "cost": 3,
         "hidden": true,
-        "provides": "A wooden floor built up off the ground on short posts."
+        "provides": "A wooden floor built up off the ground on short posts.",
+        "image": {
+          "src": "/diagrams/004/raised_floor.svg",
+          "alt": "Labeled diagram: Raised floor or sleeping platforms, one section",
+          "credit": "Diagram · Abi School",
+          "href": "/diagrams/004/raised_floor.svg",
+          "fit": "contain",
+          "label": "📐 Diagram"
+        }
       },
       {
         "id": "drainage",
         "name": "Drainage ditch around one building",
         "cost": 3,
         "hidden": true,
-        "provides": "Ditches dug around and between buildings."
+        "provides": "Ditches dug around and between buildings.",
+        "image": {
+          "src": "/diagrams/004/drainage.svg",
+          "alt": "Labeled diagram: Drainage ditch around one building",
+          "credit": "Diagram · Abi School",
+          "href": "/diagrams/004/drainage.svg",
+          "fit": "contain",
+          "label": "📐 Diagram"
+        }
       },
       {
         "id": "eaves",
         "name": "Deep overhanging eaves, one section",
         "cost": 1,
         "hidden": true,
-        "provides": "Roof edges built to stick out past the walls."
+        "provides": "Roof edges built to stick out past the walls.",
+        "image": {
+          "src": "/diagrams/004/eaves.svg",
+          "alt": "Labeled diagram: Deep overhanging eaves, one section",
+          "credit": "Diagram · Abi School",
+          "href": "/diagrams/004/eaves.svg",
+          "fit": "contain",
+          "label": "📐 Diagram"
+        }
       },
       {
         "id": "bracing",
         "name": "Diagonal bracing, one section",
         "cost": 1,
         "hidden": true,
-        "provides": "Diagonal braces added to the frame."
+        "provides": "Diagonal braces added to the frame.",
+        "image": {
+          "src": "/diagrams/004/bracing.svg",
+          "alt": "Labeled diagram: Diagonal bracing, one section",
+          "credit": "Diagram · Abi School",
+          "href": "/diagrams/004/bracing.svg",
+          "fit": "contain",
+          "label": "📐 Diagram"
+        }
       },
       {
         "id": "clay_chimney",
         "name": "Clay-lined chimney or fire hood, one building",
         "cost": 5,
         "hidden": true,
-        "provides": "A clay-lined chimney over a hearth. Cooks for one family (about 4 people)."
+        "provides": "A clay-lined chimney over a hearth. Cooks for one family (about 4 people).",
+        "image": {
+          "src": "/diagrams/004/clay_chimney.svg",
+          "alt": "Labeled diagram: Clay-lined chimney or fire hood, one building",
+          "credit": "Diagram · Abi School",
+          "href": "/diagrams/004/clay_chimney.svg",
+          "fit": "contain",
+          "label": "📐 Diagram"
+        }
       },
       {
         "id": "cookhouse",
         "name": "Separate outdoor cookhouse",
         "cost": 12,
         "hidden": true,
-        "provides": "A small separate building with a big hearth. Cooks for about 35 people."
+        "provides": "A small separate building with a big hearth. Cooks for about 35 people.",
+        "image": {
+          "src": "/diagrams/004/cookhouse.svg",
+          "alt": "Labeled diagram: Separate outdoor cookhouse",
+          "credit": "Diagram · Abi School",
+          "href": "/diagrams/004/cookhouse.svg",
+          "fit": "contain",
+          "label": "📐 Diagram"
+        }
       },
       {
         "id": "firebreak",
         "name": "Fire spacing and water buckets",
         "cost": 4,
         "hidden": true,
-        "provides": "Cleared gaps between buildings, buckets of water and a person on watch."
+        "provides": "Cleared gaps between buildings, buckets of water and a person on watch.",
+        "image": {
+          "src": "/diagrams/004/firebreak.svg",
+          "alt": "Labeled diagram: Fire spacing and water buckets",
+          "credit": "Diagram · Abi School",
+          "href": "/diagrams/004/firebreak.svg",
+          "fit": "contain",
+          "label": "📐 Diagram"
+        }
       },
       {
         "id": "yehakin_section",
@@ -389,7 +565,15 @@
         "capacity": 5,
         "hidden": true,
         "provides": "Powhatan-style: saplings bent into arches, covered with mats or bark. Sheds rain; easy to repair.",
-        "maintenance": "Mats need regular replacing."
+        "maintenance": "Mats need regular replacing.",
+        "image": {
+          "src": "/diagrams/004/yehakin_section.svg",
+          "alt": "Labeled diagram: Bent-sapling house section covered in bark or reed mats (sleeps 5)",
+          "credit": "Diagram · Abi School",
+          "href": "/diagrams/004/yehakin_section.svg",
+          "fit": "contain",
+          "label": "📐 Diagram"
+        }
       }
     ],
     "measurements": [

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" font-family="Georgia, serif">
+<rect width="480" height="300" fill="#fbf7ee"/>
+<text x="16" y="28" font-size="19" font-weight="bold" fill="#2b2b2b">Sail-canvas roof</text>
+<polygon points="40,240 240,60 440,240" fill="none" stroke="#a0703c" stroke-width="6"/><polygon points="40,240 240,60 440,240" fill="#efe6cf" stroke="#2b2b2b"/><line x1="90" y1="200" x2="60" y2="260" stroke="#2b2b2b"/><line x1="390" y1="200" x2="420" y2="260" stroke="#2b2b2b"/><line x1="240" y1="150" x2="300" y2="272" stroke="#2b2b2b" stroke-width="1" stroke-dasharray="3 2"/><circle cx="240" cy="150" r="2.5" fill="#2b2b2b"/><text x="153" y="277" font-size="14" fill="#2b2b2b" text-anchor="start">sailcloth stretched over poles and tied down</text>
+<text x="16" y="290" font-size="13" fill="#555">Canvas comes from the ships, and there is only so much.</text>
+</svg>

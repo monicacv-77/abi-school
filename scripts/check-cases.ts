@@ -74,6 +74,10 @@ function checkCase(file: string) {
     need(d.buildingBlocks?.length >= 3, 'needs 3+ buildingBlocks (categories Abi sees, no prices)');
     need(d.toolbox?.length >= 6, 'toolbox is thin: 6+ priced items');
     hint(d.toolbox.some((t) => t.hidden), 'no hidden toolbox items: add a few for good ideas Abi might invent');
+    for (const b of d.buildingBlocks ?? []) hint(/·|,| or /.test(b.examples), `building block "${b.name}" should list the actual options she can pick (e.g. "thatch · bark · sail canvas · boards"), not describe the category`);
+    const noPic = d.toolbox.filter((t) => !t.hidden && !t.image).map((t) => t.id);
+    hint(!noPic.length, `toolbox items with no picture or diagram (shown when she asks what it is): ${noPic.join(', ')}`);
+    for (const t of d.toolbox) if (t.image?.src.startsWith('/') && !fs.existsSync(path.join(__dirname, '..', 'public', t.image.src))) bad.push(`toolbox "${t.id}" image file is missing: public${t.image.src}`);
     need(d.measurements?.length >= 3, 'needs 3+ measurements she can ask for');
     need(d.stressTests?.length >= 3 && d.stressTests.every((t) => t.passesIf), 'needs 3+ stress tests, each with passesIf');
     hint(d.stressTests.length <= 3, `${d.stressTests.length} stress tests: 3 is plenty for one sitting`);

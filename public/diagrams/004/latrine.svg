@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" font-family="Georgia, serif">
+<rect width="480" height="300" fill="#fbf7ee"/>
+<text x="16" y="28" font-size="19" font-weight="bold" fill="#2b2b2b">Pit latrine</text>
+<rect x="0" y="170" width="480" height="130" fill="#8a6a48" opacity=".35"/><line x1="0" y1="170" x2="480" y2="170" stroke="#8a6a48" stroke-width="2"/><rect x="180" y="170" width="120" height="100" fill="#6b5233" stroke="#2b2b2b"/><polygon points="170,170 310,170 300,70 180,70" fill="#a0703c" stroke="#2b2b2b" opacity=".9"/><polygon points="165,72 315,72 240,40" fill="#d6b25a" stroke="#2b2b2b"/><rect x="210" y="110" width="40" height="60" fill="#3a2a1a"/><line x1="240" y1="230" x2="330" y2="250" stroke="#2b2b2b" stroke-width="1" stroke-dasharray="3 2"/><circle cx="240" cy="230" r="2.5" fill="#2b2b2b"/><text x="276" y="255" font-size="14" fill="#2b2b2b" text-anchor="start">deep pit, dug in the ground</text><line x1="300" y1="120" x2="340" y2="110" stroke="#2b2b2b" stroke-width="1" stroke-dasharray="3 2"/><circle cx="300" cy="120" r="2.5" fill="#2b2b2b"/><text x="304" y="115" font-size="14" fill="#2b2b2b" text-anchor="start">simple screen around it</text>
+<text x="16" y="290" font-size="13" fill="#555">Serves about 20 people.</text>
+</svg>

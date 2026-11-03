@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" font-family="Georgia, serif">
+<rect width="480" height="300" fill="#fbf7ee"/>
+<text x="16" y="28" font-size="19" font-weight="bold" fill="#2b2b2b">Drainage ditch</text>
+<rect x="0" y="200" width="480" height="100" fill="#8a6a48" opacity=".35"/><line x1="0" y1="200" x2="480" y2="200" stroke="#8a6a48" stroke-width="2"/><rect x="150" y="110" width="180" height="90" fill="#e8dcc4" stroke="#2b2b2b"/><polygon points="140,112 340,112 240,60" fill="#d6b25a" stroke="#2b2b2b"/><path d="M75,200 Q100,240 125,200 Z" fill="#5b8fb9" stroke="#2b2b2b"/><path d="M355,200 Q380,240 405,200 Z" fill="#5b8fb9" stroke="#2b2b2b"/><line x1="100" y1="215" x2="40" y2="262" stroke="#2b2b2b" stroke-width="1" stroke-dasharray="3 2"/><circle cx="100" cy="215" r="2.5" fill="#2b2b2b"/><text x="44" y="267" font-size="14" fill="#2b2b2b" text-anchor="start">ditch dug all around the building</text>
+
+</svg>

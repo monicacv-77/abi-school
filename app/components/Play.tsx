@@ -689,8 +689,8 @@ export default function Play({ initial }: { initial: SessionView }) {
             </figure>
           ) : m.image ? (
             <figure key={i} data-msg={i} className="exhibit">
-              <div className="label" style={{ color: 'var(--accent-ink)', padding: '8px 12px 0' }}>🖼️ Exhibit</div>
-              <img src={m.image.src} alt={m.image.alt} style={{ objectFit: m.image.fit ?? 'cover' }} />
+              <div className="label" style={{ color: 'var(--accent-ink)', padding: '8px 12px 0' }}>{m.image.label ?? '🖼️ Exhibit'}</div>
+              <img src={m.image.src} alt={m.image.alt} style={{ objectFit: m.image.fit ?? 'cover' }} onError={(e) => { const f = (e.currentTarget as HTMLElement).closest('figure') as HTMLElement | null; if (f) f.style.display = 'none'; }} />
               <figcaption>
                 <a href={m.image.href} target="_blank" rel="noreferrer">{m.image.credit}</a>
               </figcaption>

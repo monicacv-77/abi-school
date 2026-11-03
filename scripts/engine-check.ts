@@ -159,6 +159,14 @@ async function main() {
     expect('insights: longest pause found', JSON.stringify(ins.longestPause), 'Where do you want to start');
   }
 
+  // --- Toolbox diagrams show the first time she looks something up
+  {
+    const b: any = await startCaseSession('004', true);
+    await step(b, tu('look_up', { item_ids: ['wall_daub', 'roof_thatch'] }));
+    await step(b, tu('look_up', { item_ids: ['wall_daub'] }));
+    expect('toolbox: diagrams appear once each', JSON.stringify(b.display.filter((m: any) => m.image).map((m: any) => m.image.src)), '["/diagrams/004/wall_daub.svg","/diagrams/004/roof_thatch.svg"]');
+  }
+
   // --- A wordless turn never shows '…'
   {
     const fx: any = await startCaseSession('002', true);

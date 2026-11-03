@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" font-family="Georgia, serif">
+<rect width="480" height="300" fill="#fbf7ee"/>
+<text x="16" y="28" font-size="19" font-weight="bold" fill="#2b2b2b">Board wall</text>
+<rect x="60" y="50" width="360" height="200" fill="none" stroke="#2b2b2b"/><polygon points="60,50 420,50 420,78 60,78" fill="#a0703c" stroke="#2b2b2b"/><polygon points="60,75 420,75 420,103 60,103" fill="#a0703c" stroke="#2b2b2b"/><polygon points="60,100 420,100 420,128 60,128" fill="#a0703c" stroke="#2b2b2b"/><polygon points="60,125 420,125 420,153 60,153" fill="#a0703c" stroke="#2b2b2b"/><polygon points="60,150 420,150 420,178 60,178" fill="#a0703c" stroke="#2b2b2b"/><polygon points="60,175 420,175 420,203 60,203" fill="#a0703c" stroke="#2b2b2b"/><polygon points="60,200 420,200 420,228 60,228" fill="#a0703c" stroke="#2b2b2b"/><polygon points="60,225 420,225 420,253 60,253" fill="#a0703c" stroke="#2b2b2b"/><line x1="240" y1="112" x2="300" y2="272" stroke="#2b2b2b" stroke-width="1" stroke-dasharray="3 2"/><circle cx="240" cy="112" r="2.5" fill="#2b2b2b"/><text x="168" y="277" font-size="14" fill="#2b2b2b" text-anchor="start">sawn boards, each one overlapping the next</text>
+<text x="16" y="290" font-size="13" fill="#555">Boards were shipped from England.</text>
+</svg>

@@ -7,7 +7,7 @@
   "location": "Eastern Province, Zambia",
   "realOrConstructed": "Constructed case in a real setting",
   "status": "READY",
-  "version": 14,
+  "version": 15,
   "bigUnderstanding": "Safe water is a system: source, treatment, access, transport and storage, sanitation, and maintenance. A good filter can still be part of a failed system. Abi should discover this by engineering, not be told.",
   "opening": {
     "intro": "Chisomo Village, eastern Zambia. It's the dry season. The dirt paths are red and dusty, and the sun is already hot by breakfast. Every morning, families walk to the river or the shallow wells with yellow plastic jerrycans, and some walk for an hour each way. Kids keep getting sick, and nobody is sure which water is safe.\n\nYour team has $30,000 and one job: design a water system that gets safe water to all 1,000 people, holds up through the rainy season, and keeps working after you leave. Then test it, and fix whatever breaks.",
@@ -409,11 +409,11 @@
       },
       {
         "name": "Storing water",
-        "examples": "tanks"
+        "examples": "a 10,000-liter tank on a tower, or none"
       },
       {
         "name": "Getting water to people",
-        "examples": "tap stands and pipes"
+        "examples": "public tap stands, pipes, or people carry it home"
       }
     ],
     "designFor": "About 1,000 people in Chisomo Village: families with children, some living 2–3 km from the center. They carry water home in jerrycans, so safe water must stay safe at home.",

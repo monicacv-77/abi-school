@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" font-family="Georgia, serif">
+<rect width="480" height="300" fill="#fbf7ee"/>
+<text x="16" y="28" font-size="19" font-weight="bold" fill="#2b2b2b">Diagonal bracing</text>
+<rect x="0" y="240" width="480" height="60" fill="#8a6a48" opacity=".35"/><line x1="0" y1="240" x2="480" y2="240" stroke="#8a6a48" stroke-width="2"/><rect x="114" y="90" width="12" height="150" fill="#a0703c" stroke="#2b2b2b"/><rect x="354" y="90" width="12" height="150" fill="#a0703c" stroke="#2b2b2b"/><rect x="110" y="84" width="260" height="12" fill="#a0703c" stroke="#2b2b2b"/><line x1="126" y1="230" x2="354" y2="96" stroke="#6e4a26" stroke-width="9"/><line x1="240" y1="163" x2="300" y2="272" stroke="#2b2b2b" stroke-width="1" stroke-dasharray="3 2"/><circle cx="240" cy="163" r="2.5" fill="#2b2b2b"/><text x="211" y="277" font-size="14" fill="#2b2b2b" text-anchor="start">diagonal brace from corner to corner</text>
+
+</svg>
