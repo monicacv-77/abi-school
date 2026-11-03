@@ -7,7 +7,7 @@
   "location": "Early colonial Virginia (Tidewater)",
   "realOrConstructed": "Constructed challenge in a historically grounded setting",
   "status": "READY",
-  "version": 15,
+  "version": 16,
   "bigUnderstanding": "Shelter is an engineering tradeoff: speed, weather protection, stability, fire safety, labor, scarce imported materials, and repairability. There is no single right design. Early Jamestown builders used local wood and clay (mud-and-stud, daub, thatch) because it was fast and local, but it needed constant maintenance in Virginia weather.",
   "winCondition": "Design shelter for about 105 people, including 15 families with children, that is fast, dry, stable, safe and buildable with what you have. Then survive the tests and fix whatever breaks.",
   "opening": {
@@ -186,24 +186,24 @@
     ],
     "buildingBlocks": [
       {
-        "name": "What holds it up",
-        "examples": "posts, frames, poles, bent saplings"
+        "name": "Frames (what holds it up)",
+        "examples": "post-in-ground frame with pegged joints · post-in-ground frame with nailed joints · quick lean-to of branches and brush (frame, walls and roof in one)"
       },
       {
-        "name": "Walls",
-        "examples": "what fills the space between the frame"
+        "name": "Wall infill",
+        "examples": "daub (clay and grass pressed onto sticks) · woven sticks (wattle) · boards · bark slabs"
       },
       {
-        "name": "Roof",
-        "examples": "what keeps the rain out overhead"
+        "name": "Roofs",
+        "examples": "thatch (marsh reed) · bark · sail canvas · boards"
+      },
+      {
+        "name": "Other buildings",
+        "examples": "dug well · pit latrine · open hearth (fire pit) · storehouse"
       },
       {
         "name": "Layout",
         "examples": "how many buildings, how big, and where"
-      },
-      {
-        "name": "Other buildings",
-        "examples": "cooking, latrines, storage, water"
       }
     ],
     "toolbox": [
