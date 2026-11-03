@@ -7,11 +7,11 @@
   "location": "Early colonial Virginia (Tidewater)",
   "realOrConstructed": "Constructed challenge in a historically grounded setting",
   "status": "READY",
-  "version": 13,
+  "version": 14,
   "bigUnderstanding": "Shelter is an engineering tradeoff: speed, weather protection, stability, fire safety, labor, scarce imported materials, and repairability. There is no single right design. Early Jamestown builders used local wood and clay (mud-and-stud, daub, thatch) because it was fast and local, but it needed constant maintenance in Virginia weather.",
   "winCondition": "Design shelter for about 105 people, including 15 families with children, that is fast, dry, stable, safe and buildable with what you have. Then survive the tests and fix whatever breaks.",
   "opening": {
-    "intro": "Spring, on the coast of Virginia. Your ships have just dropped anchor in a wide, brown river. Behind the muddy shore: thick forest, marsh grass taller than you, and clouds of mosquitoes. About 105 tired people are standing on the bank with their bags: soldiers and workmen, a few gentlemen, and 15 families with 25 children, from babies to 14-year-olds. Every one of them needs a roof before the storms and cold nights come.\n\nYou can't ship houses across an ocean, so you'll build with what's here. Design shelter that's fast, dry, stable, safe from fire, and buildable with your people and tools. Then test it, and fix whatever fails.",
+    "intro": "Spring, on the coast of Virginia. Your ships have just dropped anchor in a wide, brown river. Behind the muddy shore: thick forest, marsh grass taller than you, and clouds of mosquitoes. About 105 tired people are standing on the bank with their bags: soldiers and workmen, a few gentlemen, and 15 families with 25 children, from babies to 14-year-olds. Every one of them needs a roof before the storms and cold nights come.\n\nYour job: plan the settlement. It needs all five of these:\n🛏️ Homes for all 105 people, families and children included\n🍲 A way to cook for everyone\n🚻 Latrines (bathrooms)\n📦 Storage for food, tools and gunpowder\n💧 Drinking water\n\nYou have 30 builders, 600 worker-days (about three weeks) and only 6 kegs of nails. Everything must be fast, dry, stable, safe from fire and buildable with what's here. Then your plan faces 3 tests, and you fix whatever fails.",
     "cards": [
       {
         "label": "Your targets",

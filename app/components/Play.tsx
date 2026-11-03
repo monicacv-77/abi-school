@@ -350,7 +350,7 @@ export default function Play({ initial }: { initial: SessionView }) {
       <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
         <div style={{ flex: 1, fontSize: 21, lineHeight: 1.5 }}>
           {view.opening.intro.split(/\n{2,}/).map((para, i) => (
-            <p key={i} style={{ margin: i ? '12px 0 0' : 0 }}>{para}</p>
+            <p key={i} style={{ margin: i ? '12px 0 0' : 0, whiteSpace: 'pre-line' }}>{para}</p>
           ))}
         </div>
         <button aria-label="Read the opening aloud" onClick={() => speak(view.opening!.intro)} style={{ border: 'none', background: 'transparent', color: 'var(--accent)', minHeight: 44, minWidth: 44 }}><SpeakerIcon /></button>

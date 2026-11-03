@@ -21,7 +21,7 @@ What every new case needs, learned from building and testing Unit 1. Use it when
 
 | Piece | Standard |
 |---|---|
-| **Opening paragraph** | Two short paragraphs. First: the scene (place, time, what it looks, sounds or smells like, who's there). Second: her job and the goal in one or two sentences. This is the hook, and the goal lives here, not on a separate "win" card. |
+| **Opening paragraph** | Two short paragraphs. First: the scene (place, time, what it looks, sounds or smells like, who's there). Second: her job and the goal. Spell out everything she must accomplish here, not only in a brief: for a Challenge, list every required piece on its own line with its emoji (homes, cooking, latrines…), then her limits (builders, budget, scarce supplies) and the number of tests. This is the hook, and the goal lives here, not on a separate "win" card. |
 | **Brief cards** | 3–7 cards, each with an emoji, a short label, a couple of short sentences (aim for short; no hard limit), and a kind. They show in this order: **brief** (the project brief / her job) → the Toolbox (Challenges) → **place** (setting and background) → **voice** (reports from experts and witnesses, e.g. "A mother of three"). |
 | **Picture** | A real, credited image at the top (Wikimedia Commons or public domain). |
 | **Real vs. constructed** | Say exactly what's real and what's invented. Abi learns it at the end. |
