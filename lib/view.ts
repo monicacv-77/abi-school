@@ -2,7 +2,7 @@
 import { caseFor } from './cases';
 import { needCoverage, nextUnpassed, planKey, statWord } from './modes';
 import { getUnit } from './units';
-import type { ChallengeData, InvestigationData, Session, SimulationData } from './types';
+import type { CaseImage,  ChallengeData, InvestigationData, Session, SimulationData } from './types';
 
 export interface SessionView {
   id: string;
@@ -19,7 +19,7 @@ export interface SessionView {
   keyPoints?: string[];
   review?: { unitTitle?: string; cases: { caseId: string; title: string }[]; answers: { caseId: string; result: string }[]; total: number };
   nextTest?: { n: number; total: number; name: string; retest: boolean };
-  image?: { src: string; alt: string; credit: string; href: string; fit?: 'cover' | 'contain'; position?: string };
+  image?: CaseImage;
   blocks?: { name: string; examples: string }[];
   budget?: number;
   design?: { description: string; cost: number; liters: number; line?: string; valid: boolean } | null;

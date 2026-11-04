@@ -337,9 +337,12 @@ export default function Play({ initial }: { initial: SessionView }) {
   const twoCol = (view.mode === 'challenge' && Boolean(view.budgetBox)) || (view.mode === 'simulation' && Boolean(view.stats)) || (view.mode === 'investigation' && Boolean(view.opening)) || view.mode === 'inquiry' || view.mode === 'review';
 
   const heroEl = view.image && (
-    <figure className={`hero${view.image.fit === 'contain' ? ' contain' : ''}`}>
-      <img src={view.image.src} alt={view.image.alt} loading="lazy" style={view.image.position ? { objectPosition: view.image.position } : undefined} onError={(e) => { const f = (e.currentTarget as HTMLElement).closest('figure') as HTMLElement | null; if (f) f.style.display = 'none'; }} />
+    <figure className={`hero${view.image.fit === 'contain' ? ' contain' : ''}${view.image.big ? ' big' : ''}`}>
+      <a href={view.image.src} target="_blank" rel="noreferrer" title="Open the full-size picture">
+        <img src={view.image.src} alt={view.image.alt} loading="lazy" style={view.image.position ? { objectPosition: view.image.position } : undefined} onError={(e) => { const f = (e.currentTarget as HTMLElement).closest('figure') as HTMLElement | null; if (f) f.style.display = 'none'; }} />
+      </a>
       <figcaption>
+        <a className="zoom-btn" href={view.image.src} target="_blank" rel="noreferrer">🔍 Open the full-size picture</a>
         <a href={view.image.href} target="_blank" rel="noreferrer">{view.image.credit}</a>
       </figcaption>
     </figure>
@@ -690,8 +693,9 @@ export default function Play({ initial }: { initial: SessionView }) {
           ) : m.image ? (
             <figure key={i} data-msg={i} className="exhibit">
               <div className="label" style={{ color: 'var(--accent-ink)', padding: '8px 12px 0' }}>{m.image.label ?? '🖼️ Exhibit'}</div>
-              <img src={m.image.src} alt={m.image.alt} style={{ objectFit: m.image.fit ?? 'cover' }} onError={(e) => { const f = (e.currentTarget as HTMLElement).closest('figure') as HTMLElement | null; if (f) f.style.display = 'none'; }} />
+              <a href={m.image.src} target="_blank" rel="noreferrer" title="Open the full-size picture"><img src={m.image.src} alt={m.image.alt} style={{ objectFit: m.image.fit ?? 'cover' }} onError={(e) => { const f = (e.currentTarget as HTMLElement).closest('figure') as HTMLElement | null; if (f) f.style.display = 'none'; }} /></a>
               <figcaption>
+                <a className="zoom-btn" href={m.image.src} target="_blank" rel="noreferrer">🔍 Open full size</a>
                 <a href={m.image.href} target="_blank" rel="noreferrer">{m.image.credit}</a>
               </figcaption>
             </figure>

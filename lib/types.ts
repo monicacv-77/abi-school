@@ -10,6 +10,7 @@ export interface CaseImage {
   href: string;
   fit?: 'cover' | 'contain';
   position?: string;
+  big?: boolean; // show the top picture extra tall (when the picture is the evidence)
   label?: string; // heading over it in the chat (default '🖼️ Exhibit'), e.g. '📐 Diagram'
 }
 
@@ -40,7 +41,7 @@ export interface CaseDef {
   version: number;
   bigUnderstanding: string; // hidden
   opening: Opening;
-  image?: { src: string; alt: string; credit: string; href: string; fit?: 'cover' | 'contain'; position?: string }; // top-of-case picture
+  image?: CaseImage; // top-of-case picture
   facilitatorNotes: string[]; // hidden, case-specific rules
   justInTimeConcepts: string[];
   scaffolds: string[]; // light → stronger

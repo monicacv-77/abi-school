@@ -7,17 +7,17 @@
   "location": "Boston, Massachusetts",
   "realOrConstructed": "Real people, events, picture and testimony; Abi questioning witnesses as a juror is invented",
   "status": "PILOT",
-  "version": 2,
+  "version": 3,
   "bigUnderstanding": "Pictures and stories are made by people who want something. Revere's engraving turned a confused, frightening night (a crowd with clubs and snowballs, soldiers who fired one at a time, conflicting testimony about an order) into a neat scene of soldiers executing peaceful citizens. It spread faster than the facts and shaped what people believed before any trial. The evidence also shows the soldiers did kill five people in a town that had been tense for years. Patriot John Adams defended the soldiers because everyone deserves a fair trial, and the jury followed the evidence: six soldiers not guilty, two guilty of manslaughter.",
-  "winCondition": "Find 4 ways Revere's picture differs from the evidence, explain why he drew it that way, then give your verdict on the soldiers and write an honest caption.",
+  "winCondition": "Find 4 things in Revere's picture that don't match what people say actually happened, explain why he drew it that way, then write an honest caption.",
   "opening": {
-    "intro": "Boston, late November 1770. The courtroom is cold and packed. Eight British soldiers sit in the dock, on trial for murder. Last March, on a winter night in King Street, they fired into a crowd and five men died. Since then, almost everyone in town has seen Paul Revere's picture of that night, and everyone has an opinion.\n\nYou're on the jury. This court lets you question witnesses and examine evidence yourself. Your job:\n🔎 Check at least 5 pieces of evidence\n🖼️ Find 4 ways Revere's picture differs from the evidence, and explain why he drew it that way\n⚖️ Decide: murder, or self-defense?\n✍️ Write a caption for the picture that tells the truth",
+    "intro": "Boston, late November 1770. The courtroom is cold and packed. Eight British soldiers are on trial for murder. Last March, on a winter night in King Street, they fired into a crowd and five men died. Since then, almost everyone in town has seen Paul Revere's picture of that night, the one at the top of this page, and believes it.\n\nYou're on the jury, and this case is about that picture. Is it what really happened? Your job:\n🖼️ Study Revere's picture closely (tap it to see it full size)\n🔎 Check at least 5 pieces of evidence about what people say actually happened\n❌ Find 4 things in the picture that don't match the evidence\n🤔 Explain why Revere drew it that way\n✍️ Write a caption for the picture that tells the truth",
     "cards": [
       {
         "icon": "⚖️",
         "label": "Your job",
         "kind": "brief",
-        "text": "Compare Revere's picture with the evidence: find 4 differences, each backed by evidence, and explain why he drew it that way. Then give your verdict and write an honest caption.\n\nWitnesses you can question:\n🖨️ Paul Revere, who made the picture\n🎨 Henry Pelham, an artist\n💂 Private Hugh White, the guard that night\n🎖️ Captain Thomas Preston, the officer in charge\n👁️ Newton Prince and Charles Hobby, who were in the crowd\n🩺 Dr. John Jeffries, who treated one of the wounded\n📣 Samuel Adams, a patriot leader\nYou can also ask for court records and newspapers."
+        "text": "This case is about Revere's picture. Find 4 things in it that don't match what witnesses and records say actually happened, each backed by evidence. Explain why he drew it that way, then write an honest caption.\n\nWitnesses you can question:\n🖨️ Paul Revere, who made the picture\n🎨 Henry Pelham, an artist\n💂 Private Hugh White, the guard that night\n🎖️ Captain Thomas Preston, the officer in charge\n👁️ Newton Prince and Charles Hobby, who were in the crowd\n🩺 Dr. John Jeffries, who treated one of the wounded\n📣 Samuel Adams, a patriot leader\nYou can also ask for court records and newspapers."
       },
       {
         "icon": "🏛️",
@@ -38,26 +38,28 @@
         "text": "A soldier's wife: \"My husband was surrounded by hundreds of angry people. What was he supposed to do?\""
       }
     ],
-    "prompt": "Who do you want to question first, or what do you want to examine?"
+    "prompt": "Take a good look at the picture. What do you see happening in it?"
   },
   "image": {
     "src": "https://upload.wikimedia.org/wikipedia/commons/e/e1/Boston_Massacre_high-res.jpg",
     "alt": "Paul Revere's 1770 engraving of British soldiers firing on a crowd in King Street, Boston",
     "credit": "Paul Revere, \"The Bloody Massacre,\" 1770 · public domain",
     "href": "https://commons.wikimedia.org/wiki/File:Boston_Massacre_high-res.jpg",
-    "fit": "contain"
+    "fit": "contain",
+    "big": true
   },
   "facilitatorNotes": [
+    "THE CASE IS ABOUT THE PICTURE. Revere's engraving is the thing on trial; witnesses and records are evidence to check it against. Start by asking her what she sees in the picture. When a witness's story doesn't match something in the picture, that's a difference she can pin (record_finding). If she drifts into deciding which witness is right or whether the soldiers are guilty, steer back with one short question: does the picture match what this witness says? Don't list the differences for her.",
     "FORMAT: Abi is a juror at the soldiers' trial (late November 1770). A real juror couldn't question witnesses; say so if asked. You are the court clerk (brief, a little dry) and play every witness. Each witness answer is 1–3 sentences in a distinct voice.",
     "WITNESSES (call examine for the matching evidence when testimony covers it):\n- Paul Revere, silversmith and engraver (real). Proud of his print, patriotic, defensive. Covers: engraving. Calls it a true picture; gets prickly if asked about Pelham or whether he was there (he wasn't in King Street during the shooting).\n- Henry Pelham, artist (real). Irritated with Revere. Covers: pelham_letter. Fair-minded about the picture's facts only if asked.\n- Private Hugh White, the sentry (real, one of the defendants). Scared, defensive. Covers: sentry, troops. Leaves out that he hit the boy unless asked how it started.\n- Captain Thomas Preston (real). Stiff, formal, already found not guilty. Covers: preston_account.\n- Newton Prince (real), a free Black man who testified. Calm, careful, sticks to what he saw. Covers: bells, newton_prince.\n- Charles Hobby (real), a laborer. Certain and angry. Covers: heard_order.\n- Dr. John Jeffries (real), Patrick Carr's surgeon. Covers: carr.\n- Samuel Adams (real), patriot leader. Persuasive, passionate. Covers: troops, the_dead, short_narrative. Never mentions clubs, snowballs or the bells being rung to bring people out; calls it a massacre of innocents.\nDocuments: custom_house (court records), the_dead (newspapers).",
     "PRIMARY SOURCE (in dialogue): when Abi asks John Adams (or the defense lawyer) why he took the case, or after the twist, Adams says the words given in the primary source, original first, then 'in plain English'. He said them in his closing speech at this trial, December 1770.",
     "TWIST: the clerk announces the defense lawyer, John Adams: a well-known patriot and Samuel Adams's cousin. Patriot neighbors are furious with him for taking the case. Adams can say briefly that everyone deserves a fair trial and a lawyer.",
-    "AFTER THE FINALE: tell her in two sentences what the real jury decided: six soldiers not guilty; two (Hugh Montgomery and Matthew Kilroy) guilty of manslaughter, a lesser crime than murder, punished by branding on the thumb. Preston had already been found not guilty in October. Compare to her verdict without grading it, and note that patriots kept calling it a massacre anyway.",
+    "AFTER THE FINALE: tell her in two sentences what the real jury decided (she doesn't have to give a verdict herself; if she wants to, let her): six soldiers not guilty; two (Hugh Montgomery and Matthew Kilroy) guilty of manslaughter, a lesser crime than murder, punished by branding on the thumb. Preston had already been found not guilty in October. Compare to her verdict without grading it, and note that patriots kept calling it a massacre anyway.",
     "'Manslaughter' is just-in-time: if she wants something between murder and innocent, it exists.",
     "Keep violence brief and non-graphic. No gore. The dead are people: say their names when it comes up.",
     "Crispus Attucks is remembered as the first to die and is honored as a hero; no picture from 1770 shows him as a Black or Native man. If she asks, say so. Don't use Adams's insulting words about the crowd.",
     "Revere's sign 'Butcher's Hall' is his own label; the building was the Custom House.",
-    "This is a SOLVED case: the engraving clearly differs from the testimony (line formation vs. one at a time; calm empty-handed crowd vs. clubs, snowballs, shouting 'Fire'; gun from the window that a jury rejected; clear night with no snow; an officer ordering fire, which witnesses dispute). Accept any well-backed difference. Her verdict is her own; accept any verdict she backs with evidence."
+    "This is a SOLVED case: the engraving clearly differs from the testimony (line formation vs. one at a time; calm empty-handed crowd vs. clubs, snowballs, shouting 'Fire'; gun from the window that a jury rejected; clear night with no snow; an officer ordering fire, which witnesses dispute). Accept any well-backed difference."
   ],
   "justInTimeConcepts": [
     "Propaganda: a message made to persuade, not to inform.",
@@ -70,7 +72,7 @@
     "Who made the picture, was he there, and what did he want people to feel?",
     "Look for what's missing from the picture: what were people in the crowd holding or doing?"
   ],
-  "completion": "Abi has examined at least 5 pieces of evidence; found 4 differences between the engraving and the evidence, each backed by evidence she examined; explained why Revere drew it that way; answered the John Adams twist; and given her verdict with an honest caption.",
+  "completion": "Abi has examined at least 5 pieces of evidence; found 4 things in the engraving that don't match the evidence, each backed by evidence she examined; explained why Revere drew it that way; answered the John Adams twist; and written an honest caption.",
   "endReveal": {
     "concept": "Propaganda and point of view: an image can be built to make you feel something, and the same event can be told very differently by each side. Check pictures against eyewitnesses.",
     "vocabulary": [
@@ -157,9 +159,9 @@
   },
   "data": {
     "kind": "investigation",
-    "question": "Revere's picture shows soldiers coldly shooting peaceful people. Is that what happened on King Street, and were the soldiers murderers?",
+    "question": "Revere's picture shows soldiers coldly shooting peaceful people. Which parts of the picture don't match what people say actually happened on King Street, and why did he draw it that way?",
     "resolved": true,
-    "winCondition": "Find 4 ways Revere's picture differs from the evidence, explain why he drew it that way, then give your verdict on the soldiers and write an honest caption.",
+    "winCondition": "Find 4 things in Revere's picture that don't match what people say actually happened, explain why he drew it that way, then write an honest caption.",
     "trueExplanation": "The engraving is propaganda. Differences backed by evidence: (1) soldiers in a neat line firing together vs. testimony that they fired one after another (heard_order, preston_account); (2) a calm, empty-handed crowd vs. clubs, snowballs, ice and people shouting 'Fire' (preston_account, newton_prince, sentry, bells, carr); (3) an officer ordering fire vs. conflicting testimony (newton_prince vs heard_order); (4) a gun firing from the Custom House window, which a jury rejected (custom_house); (5) a clear night with no snow vs. snow and ice (sentry); (6) the 'Butcher's Hall' label, Revere's opinion. Why: Revere and patriot leaders wanted to turn people against the soldiers and British rule; the picture spread before any trial, along with Boston's one-sided Short Narrative. Revere wasn't there and copied Pelham. Still real: five people died after years of tension with soldiers in town. The real jury: six not guilty, two guilty of manslaughter.",
     "causalChain": [
       "Soldiers sent to Boston, tension for 18 months",
@@ -336,7 +338,7 @@
         "question": "Why would a patriot defend British soldiers? Does that make you trust his evidence more, or less?"
       },
       "finale": {
-        "prompt": "Time for your verdict: were the soldiers guilty of murder, or did they act in self-defense (or something in between)? Then write a one-sentence caption for Revere's picture that tells the truth."
+        "prompt": "Revere's picture needs an honest caption. Write one or two sentences that tell people what really happened that night."
       }
     }
   }
