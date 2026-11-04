@@ -7,17 +7,17 @@
   "location": "Boston, Massachusetts",
   "realOrConstructed": "Real events, laws, numbers and people; your mission and some witnesses are invented",
   "status": "PILOT",
-  "version": 1,
+  "version": 2,
   "bigUnderstanding": "The colonists' anger wasn't really about the size of the taxes. They paid far less tax than people in Britain, and the tea they destroyed was cheaper than ever. It was about who has the right to decide: colonists had always taxed themselves through their own elected assemblies, Parliament claimed power over them 'in all cases whatsoever', and tax money was being used to take control of their governors and judges. Money interests (printers, smugglers, merchants left out of the tea deal) mattered too. Each tax, protest and crackdown made the next round worse. Britain's side made sense from London: a huge war debt and soldiers protecting the colonies.",
-  "winCondition": "Give Lord North 4 reasons the colonists are so angry, each backed by evidence, explain how one of them works, then advise him what to do about Boston.",
+  "winCondition": "Give Lord North 2 reasons the colonists are so angry, each backed by evidence, explain how one of them works, then advise him what to do about Boston.",
   "opening": {
-    "intro": "Boston, February 1774. The harbor smells of salt, tar and fish. Two months ago, men in disguise boarded three ships at night and dumped more than 340 chests of tea into the water, worth almost £10,000. Nobody has been arrested, and the town is acting like it's proud of it.\n\nIn London, Parliament is furious. It believes its taxes are fair and small. The prime minister, Lord North, has sent you to Boston to find out why the colonists are this angry. Find 4 reasons, back each one with evidence, then tell him what to do.",
+    "intro": "Boston, February 1774. The harbor smells of salt, tar and fish. Two months ago, men in disguise boarded three ships at night and dumped more than 340 chests of tea into the water, worth almost £10,000. Nobody has been arrested, and the town is acting like it's proud of it.\n\nIn London, Parliament is furious. It believes its taxes are fair and small. The prime minister, Lord North, has sent you to Boston to find out why the colonists are this angry. Your job:\n🔎 Check at least 5 pieces of evidence\n🧩 Find 2 reasons the colonists are so angry, each backed by evidence, and explain how one of them works\n📜 Tell Lord North what to do about Boston",
     "cards": [
       {
         "icon": "📜",
         "label": "Your orders",
         "kind": "brief",
-        "text": "From Lord North: Find out why Boston is in an uproar over a few pennies of tax. Give me 4 reasons, each backed by evidence, explain how one of them works, and tell me what to do."
+        "text": "From Lord North: Find out why Boston is in an uproar over a few pennies of tax. Give me 2 reasons, each backed by evidence, explain how one of them works, and tell me what to do.\n\nPeople you can question:\n🎩 Governor Thomas Hutchinson, the King's governor\n🖨️ Benjamin Edes, printer of the Boston Gazette\n🏛️ A Member of Parliament visiting from London\n⚓ A Boston merchant\n🧾 A customs officer (he collects the taxes)\n🧶 A woman who spins her own cloth\nYou can also ask to read the laws and records."
       },
       {
         "icon": "⚓",
@@ -57,7 +57,7 @@
     "The Tea Party men disguised themselves loosely as Mohawk Indians. It was a costume and a symbol; Mohawk people had nothing to do with it. If it comes up, say so plainly.",
     "If Abi notices that people demanding liberty also enslaved people (some Boston families did), agree it's a real contradiction that comes up later in this unit, and offer to save it to her Wonder List.",
     "Mobs and tarring and feathering were real (a customs officer, John Malcolm, was tarred and feathered in Boston in January 1774). Keep it brief and non-graphic.",
-    "This is a SOLVED case with several real reasons. Accept any well-backed reason, including Britain-sympathetic ones (e.g. 'smugglers wanted to protect profits'). A strong answer notices the amount of tax isn't the real issue."
+    "This is a SOLVED case with several real reasons. She needs 2 reasons; if she finds more, pin them too. Accept any well-backed reason, including Britain-sympathetic ones (e.g. 'smugglers wanted to protect profits'). A strong answer notices the amount of tax isn't the real issue."
   ],
   "justInTimeConcepts": [
     "Parliament: Britain's lawmaking body; the House of Commons is elected (by a small share of men).",
@@ -71,7 +71,7 @@
     "Who decided these taxes, and who was in the room when they did?",
     "Follow the money: who pays the tax, where does the money go, and who loses business?"
   ],
-  "completion": "Abi has examined at least 5 pieces of evidence; given 4 reasons in her own words, each backed by evidence she examined; explained how one reason works; answered the cheaper-tea twist; and advised Lord North what to do.",
+  "completion": "Abi has examined at least 5 pieces of evidence; given 2 reasons in her own words, each backed by evidence she examined; explained how one reason works; answered the cheaper-tea twist; and advised Lord North what to do.",
   "endReveal": {
     "concept": "Consent of the governed and escalation: people resist rules made without their say, even cheap ones, and each round of action and reaction makes compromise harder.",
     "vocabulary": [
@@ -168,7 +168,7 @@
     "kind": "investigation",
     "question": "Why are the colonists so furious about small taxes that they dumped a fortune in tea into Boston Harbor?",
     "resolved": true,
-    "winCondition": "Give Lord North 4 reasons the colonists are so angry, each backed by evidence, explain how one of them works, then advise him what to do about Boston.",
+    "winCondition": "Give Lord North 2 reasons the colonists are so angry, each backed by evidence, explain how one of them works, then advise him what to do about Boston.",
     "trueExplanation": "Not the amount: colonists paid far less tax than Britons, and the Tea Act made legal tea cheaper. The reasons: (1) Consent and representation: colonists had always been taxed by their own elected assemblies and had no one in Parliament. (2) Precedent: the Declaratory Act claimed power over them 'in all cases whatsoever', so accepting a small tax meant accepting any tax. (3) Control: tax money now paid royal governors and judges, so the assemblies lost their hold over them. (4) Money interests: the Stamp Act hit printers, lawyers and merchants, the loudest people in town; the Tea Act's monopoly threatened smugglers and merchants who weren't chosen. (5) Escalation: each tax, protest, repeal and new tax deepened distrust; protests worked once (Stamp Act repeal), which encouraged more. Britain's side: a huge war debt and soldiers protecting the colonies, and taxes that were low by British standards.",
     "causalChain": [
       "Britain wins a war and is deep in debt",
@@ -322,7 +322,7 @@
     ],
     "guardrails": {
       "minEvidence": 5,
-      "findings": 4,
+      "findings": 2,
       "findingWord": "reason",
       "mechanism": "Ask her how one reason actually works, e.g. why agreeing to a small tax could lead to bigger ones, or what changes when London pays the governor instead of the colony.",
       "twist": {

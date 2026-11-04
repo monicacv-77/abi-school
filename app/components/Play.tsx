@@ -418,7 +418,7 @@ export default function Play({ initial }: { initial: SessionView }) {
                 <span style={{ flex: 1 }}>{c.label}</span>
               </summary>
               <div className="brief-body">
-                <span style={{ flex: 1 }}>{c.text}</span>
+                <span style={{ flex: 1, whiteSpace: 'pre-line' }}>{c.text}</span>
                 <button aria-label={`Read ${c.label} aloud`} onClick={() => speak(`${c.label}. ${c.text}`)} className="icon-btn"><SpeakerIcon /></button>
               </div>
             </details>

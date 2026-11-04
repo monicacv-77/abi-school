@@ -41,7 +41,7 @@ What every new case needs, learned from building and testing Unit 1. Use it when
 - **Solvable.** The answer must be reachable from the evidence. Real unsolved mysteries go to bonus cases.
 - **8–12 evidence items,** including one red herring, written as plain facts with no built-in conclusions.
 - **At least one real picture** (a document, painting or object).
-- **Witnesses with motives** that Abi can catch: who was there, who got paid, what they want people to believe.
+- **Witnesses with motives** that Abi can catch: who was there, who got paid, what they want people to believe. List everyone she can question (name and a few words on who they are) in her brief card, plus what documents she can ask for, so she never has to guess who's available.
 - **Abi has a real role** (detective, judge) and makes the final call in her own words.
 - **Keep the answers out of the opening.** The intro and cards set up the puzzle (same sun, same rain, one town eats and one starves) and never describe the clues (rows vs. hills, beans on the stalks). What she sees up close comes from evidence she asks for.
 - **Guardrails (`guardrails`).** Depth without a timer. The app enforces them and shows her progress on the Theory board ("🔎 Evidence 3 of 5 · 🧩 Causes 2 of 4 · ⚙️ How it works"):

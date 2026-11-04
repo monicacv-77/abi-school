@@ -7,7 +7,7 @@
   "location": "Boston, Massachusetts",
   "realOrConstructed": "Real people, events, picture and testimony; Abi questioning witnesses as a juror is invented",
   "status": "PILOT",
-  "version": 1,
+  "version": 2,
   "bigUnderstanding": "Pictures and stories are made by people who want something. Revere's engraving turned a confused, frightening night (a crowd with clubs and snowballs, soldiers who fired one at a time, conflicting testimony about an order) into a neat scene of soldiers executing peaceful citizens. It spread faster than the facts and shaped what people believed before any trial. The evidence also shows the soldiers did kill five people in a town that had been tense for years. Patriot John Adams defended the soldiers because everyone deserves a fair trial, and the jury followed the evidence: six soldiers not guilty, two guilty of manslaughter.",
   "winCondition": "Find 4 ways Revere's picture differs from the evidence, explain why he drew it that way, then give your verdict on the soldiers and write an honest caption.",
   "opening": {
@@ -17,7 +17,7 @@
         "icon": "⚖️",
         "label": "Your job",
         "kind": "brief",
-        "text": "Compare Revere's picture with the evidence: find 4 differences, each backed by evidence, and explain why he drew it that way. Then give your verdict and write an honest caption."
+        "text": "Compare Revere's picture with the evidence: find 4 differences, each backed by evidence, and explain why he drew it that way. Then give your verdict and write an honest caption.\n\nWitnesses you can question:\n🖨️ Paul Revere, who made the picture\n🎨 Henry Pelham, an artist\n💂 Private Hugh White, the guard that night\n🎖️ Captain Thomas Preston, the officer in charge\n👁️ Newton Prince and Charles Hobby, who were in the crowd\n🩺 Dr. John Jeffries, who treated one of the wounded\n📣 Samuel Adams, a patriot leader\nYou can also ask for court records and newspapers."
       },
       {
         "icon": "🏛️",
