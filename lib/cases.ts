@@ -8,12 +8,12 @@ import c004 from '@/cases/004-build-for-survival.json';
 import c005 from '@/cases/005-jamestown.json';
 import c006 from '@/cases/006-no-taxation.json';
 import c007 from '@/cases/007-boston-massacre.json';
+import c008 from '@/cases/008-one-if-by-land.json';
 
-export const CASES: CaseDef[] = [c001, c002, c003, c004, c005, c006, c007] as unknown as CaseDef[];
+export const CASES: CaseDef[] = [c001, c002, c003, c004, c005, c006, c007, c008] as unknown as CaseDef[];
 
 // Cases planned for the unit but not written yet (shown on the dashboard).
 export const PLANNED: { id: string; title: string; mode: string; unit: string }[] = [
-  { id: '008', title: 'One If by Land', mode: 'challenge', unit: 'Road to Independence' },
   { id: '009', title: 'Go Viral, 1776', mode: 'challenge', unit: 'Road to Independence' },
   { id: '010', title: 'Philadelphia, 1776', mode: 'simulation', unit: 'Road to Independence' },
 ];
