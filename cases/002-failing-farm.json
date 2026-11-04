@@ -7,14 +7,14 @@
   "location": "James River, Virginia",
   "realOrConstructed": "Real history and science; Abi's assignment is invented",
   "status": "READY",
-  "version": 9,
+  "version": 10,
   "bigUnderstanding": "Food is a system: crop, soil, water, timing, tools, knowledge and labor. The English failed because they brought the wrong crops, farmed the wrong ground the wrong way at the wrong time, without the people or knowledge to do it, during a drought. The Powhatan succeeded with crops and methods refined over generations, including corn, beans and squash planted together, which work as a living system. Sets up why Jamestown depended on Powhatan corn in the simulation.",
   "opening": {
     "intro": "Jamestown, summer 1609. The colony's fields outside the fort are a sad sight: the plants are thin and yellow, the harvest is coming in small, and people are going hungry. The storehouse gets emptier every week.\n\nA few miles upriver, a Powhatan town has so much food it trades away the extra. Same river, same sun, same rain. The Virginia Company wants to know why its colony can't feed itself. Find four causes, back each one with evidence, and then tell the colony what to do next spring.",
     "cards": [
       {
         "label": "Your job",
-        "text": "Find 4 causes for why the colony's fields fail and the Powhatan fields thrive. Each cause needs evidence you've checked, and for one of them, explain how it actually works. Then tell the colony what to do next spring.",
+        "text": "Find 4 causes for why the colony's fields fail and the Powhatan fields thrive. Each cause needs evidence you've checked, and for one of them, explain how it actually works. Then tell the colony what to do next spring.\n\nPeople you can question:\n🧑‍🌾 An English colonist who works the fort's field\n👩‍🌾 A Powhatan woman who farms the town's fields\n📜 Captain John Smith, who runs the colony\nYou can also inspect, dig, measure and test in either field, and look up records and science.",
         "icon": "📜",
         "kind": "brief"
       },
@@ -34,6 +34,7 @@
     "prompt": "What do you want to check first?"
   },
   "facilitatorNotes": [
+    "WITNESSES (listed on her brief; call examine for the matching evidence when testimony covers it):\n- An English colonist who works the fort's field (INVENTED). Tired, grumpy, blames the soil, the weather and the lazy gentlemen; never admits he'd never farmed before coming. Covers: english_field, tools, timing.\n- A Powhatan woman who farms the town's fields (INVENTED; the methods are real). An expert, proud, a bit wary of an English stranger asking about her town's land. Answers what she's asked and no more. Covers: powhatan_field, who_farms, clearing, livestock, and she can show bean_roots or under_squash if Abi asks to dig or look.\n- Captain John Smith (real). Boastful, blunt, blames the gentlemen who won't work. Covers: timing, kemps, rats, who_farms (the English side).\nInspecting, digging, measuring, testing and records need no witness.",
     "This is a SOLVED case with several real causes. She needs 4 causes, each backed by evidence (the app enforces this). Bonus if she sees the Powhatan field works as a system (each plant helps the others).",
     "Science is the star here. When she digs into beans or squash, let her figure out the mechanism: what nodules do, why shade keeps soil damp, why corn needs lots of nitrogen. Explain only what she needs.",
     "Treat Powhatan farmers, mostly women, as experts with generations of knowledge, not as 'simple' or 'natural.' Their system was sophisticated technology.",

@@ -52,7 +52,8 @@ function checkCase(file: string) {
   for (const k of cards) {
     hint(k.icon, `card "${k.label}" has no emoji icon`);
     hint(k.kind, `card "${k.label}" has no kind (brief = her job, place = setting, voice = experts/witnesses): it will sort last`);
-    hint(words(k.text) <= 60, `card "${k.label}" is ${words(k.text)} words: that's long for Abi; worth a second look`);
+    const prose = k.text.split('\n').filter((l) => !/^\p{Extended_Pictographic}/u.test(l.trim())).join(' '); // list lines (starting with an emoji) scan fast
+    hint(words(prose) <= 60, `card "${k.label}" is ${words(prose)} words (not counting list lines): that's long for Abi; worth a second look`);
   }
   need(c.image?.src && c.image.credit && c.image.href, 'needs a hero image with credit and link');
   need(c.scaffolds?.length >= 2, 'needs at least 2 scaffold hints (light → strong)');
@@ -102,6 +103,8 @@ function checkCase(file: string) {
     hint(d.evidence.some((e) => e.image), 'no evidence has a picture: one real document or object image helps a lot');
     const ev = new Set(d.evidence.map((e) => e.id));
     for (const t of d.theories) for (const id of [...t.supportedBy, ...t.weakenedBy]) if (!ev.has(id)) bad.push(`theory "${t.theory.slice(0, 30)}…" refers to unknown evidence "${id}"`);
+    const briefText = cards.filter((k) => k.kind === 'brief').map((k) => k.text).join(' ');
+    hint(/question|call|interview/i.test(briefText) && /\n/.test(briefText), 'brief card should list every witness she can question (name + a few words), plus what documents she can ask for');
     const g = d.guardrails;
     hint(g, 'no guardrails: add minEvidence, findings (4 causes or 3 reasons), a mechanism, a twist and a finale (see CASE-STANDARD)');
     if (g) {

@@ -7,14 +7,14 @@
   "location": "London and Jamestown, Virginia",
   "realOrConstructed": "Real people and evidence in an imagined courtroom",
   "status": "READY",
-  "version": 11,
+  "version": 12,
   "bigUnderstanding": "Who made a claim, and what they wanted, shapes what they say. The Virginia Company needed money and settlers, so it sold Virginia as paradise; the people who actually went told a very different story. The gap between the ad and reality cost lives. Quietly builds the habit Abi needs for modern ads and influencers: who's paying, what do they want me to do, who was actually there? Also sets up the investor pressure in the Jamestown simulation.",
   "opening": {
     "intro": "London, 1610. The courtroom is packed and loud. On one side sit families whose sons, brothers and husbands sailed to Virginia after reading ads that promised a rich, easy paradise. Hundreds of them never came home. On the other side sit the well-dressed men of the Virginia Company, who sold those ads.\n\nOrder in the court! You're the judge. Call witnesses, examine the evidence, and decide: who told the truth, and why did the other side say what it did? Your ruling needs three reasons, each backed by evidence. Then you'll decide what the Company's next ad is allowed to say.",
     "cards": [
       {
         "label": "Your court",
-        "text": "Call any witness. Ask for any document. Witnesses only know what they saw, and every one of them wants something. Your ruling needs 3 reasons, each backed by evidence, and one must explain how the money worked. Then you rule on the next ad.",
+        "text": "Call any witness. Ask for any document. Witnesses only know what they saw, and every one of them wants something. Your ruling needs 3 reasons, each backed by evidence, and one must explain how the money worked. Then you rule on the next ad.\n\nWitnesses you can call:\n✒️ Robert Johnson, who wrote the Company's ad\n💰 Sir Thomas Smythe, the Company's treasurer\n🧭 Captain John Smith, who ran the colony for a while\n🎩 George Percy, a gentleman who sailed with the first colonists\n⚒️ A gold refiner from a 1608 supply ship\nYou can also ask for documents, records and science.",
         "icon": "🔨",
         "kind": "brief"
       },
