@@ -113,12 +113,69 @@ function unitsOf(d: ChallengeData) {
 }
 
 export function planKey(plan: { id: string; qty: number }[], custom: { name: string; cost: number }[] = []) {
-  return [...plan.map((p) => `${p.id}:${p.qty}`).sort(), ...custom.map((c) => `custom:${c.name}:${c.cost}`).sort()].join('|');
+  return [...plan.map((p) => `${p.id}:${p.qty}${(p as PlanItem).at?.length ? `@${(p as PlanItem).at!.join('+')}` : ''}`).sort(), ...custom.map((c) => `custom:${c.name}:${c.cost}`).sort()].join('|');
 }
 
 /** How far a plan covers one need: counted needs (perUnit) must reach the target; others just need one item. */
-export function needCoverage(d: ChallengeData, n: NonNullable<ChallengeData['needs']>[number], qtyOf: (id: string) => number) {
+export type PlanItem = { id: string; qty: number; at?: string[]; toward?: string[] };
+
+/** Which places (e.g. towns) a plan reaches. Fixed-route items cover their places; items placed AT a covered place reach `reach` neighbors each. */
+export function placesCovered(d: ChallengeData, plan: PlanItem[]) {
+  const covered: string[] = [];
+  const problems: string[] = [];
+  if (!d.places) return { covered, problems, by: {} as Record<string, string> };
+  const P = d.places;
+  const by: Record<string, string> = {};
+  const norm = (x: string) => P.list.find((p) => p.toLowerCase() === String(x).trim().toLowerCase());
+  const add = (p: string, why: string) => { if (!covered.includes(p)) { covered.push(p); by[p] = why; } };
+  const has = (id: string) => plan.some((p) => p.id === id);
+  const neighbors = (x: string) => P.roads.flatMap(([a, b]) => (a === x ? [b] : b === x ? [a] : [])).filter((n) => P.list.includes(n));
+  for (const p of plan) {
+    const t = d.toolbox.find((x) => x.id === p.id);
+    if (!t?.covers) continue;
+    const needsMet = (t.needs ?? []).every((n) => n.split('|').some((alt) => alt.startsWith('existing:') || has(alt)));
+    if (!needsMet) { problems.push(`${t.name} needs ${(t.needs ?? []).join(' or ').replace(/\|/g, ' or ')} first`); continue; }
+    for (const c of t.covers) add(c, t.name);
+  }
+  const placed = plan.flatMap((p) => {
+    const t = d.toolbox.find((x) => x.id === p.id);
+    if (!t?.reach) return [];
+    const at = arr<string>(p.at);
+    if (at.length < p.qty) problems.push(`${p.qty - at.length} × ${t.name} not placed yet: ask her which town (pass "at")`);
+    if (at.length > p.qty) problems.push(`${t.name}: ${at.length} places given for ${p.qty} (extra ignored)`);
+    return at.slice(0, p.qty).map((a) => ({ t, at: a, toward: arr<string>(p.toward).map(norm).filter(Boolean) as string[] }));
+  });
+  let pending = placed;
+  for (let pass = 0; pass < 6 && pending.length; pass++) {
+    const next: typeof pending = [];
+    for (const x of pending) {
+      const at = norm(x.at);
+      if (!at) { problems.push(`"${x.at}" isn't on the map. Places: ${P.list.join(', ')}`); continue; }
+      if (!covered.includes(at)) { next.push(x); continue; }
+      const open = neighbors(at).filter((n) => !covered.includes(n));
+      const pick = [...x.toward.filter((n) => open.includes(n)), ...open.filter((n) => !x.toward.includes(n))].slice(0, x.t.reach ?? 0);
+      for (const n of pick) add(n, `${x.t.name} in ${at}`);
+      if (!pick.length) problems.push(`${x.t.name} in ${at} reaches no new towns (all its neighbors are already warned)`);
+    }
+    if (next.length === pending.length) {
+      for (const x of next) problems.push(`${x.t.name} in ${norm(x.at)} does nothing yet: ${norm(x.at)} hasn't been warned`);
+      break;
+    }
+    pending = next;
+  }
+  return { covered, problems, by };
+}
+
+function placesLine(d: ChallengeData, plan: PlanItem[]) {
+  if (!d.places) return '';
+  const pc = placesCovered(d, plan);
+  const left = d.places.list.filter((p) => !pc.covered.includes(p));
+  return [`${d.places.label} (her panel ticks these): ${pc.covered.length} of ${d.places.list.length}: ${pc.covered.map((p) => `${p} (${pc.by[p]})`).join(', ') || 'none yet'}. Not yet: ${left.join(', ') || 'none'}.`, ...pc.problems.map((x) => `Note: ${x}`)].join('\n');
+}
+
+export function needCoverage(d: ChallengeData, n: NonNullable<ChallengeData['needs']>[number], qtyOf: (id: string) => number, placesCount?: number) {
   const target = d.minCapacity ?? d.minLitersPerDay ?? 0;
+  if (n.places) return { ok: (placesCount ?? 0) >= target, served: placesCount ?? 0, target };
   if (n.perUnit) {
     const served = Object.entries(n.perUnit).reduce((sum, [id, per]) => {
       const t = d.toolbox.find((x) => x.id === id);
@@ -155,6 +212,7 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
 - SHE DESIGNS, YOU DO THE MATH. Abi is juggling a lot, so you handle the arithmetic: when she names something, give what it is, its cost and capacity, and do the sums for her (how many she'd need for her people, the total cost, what's left), e.g. "One tap serves about 200 people, so 1,000 people need 5 taps: $4,000. That leaves $11,000." Show the math in one short line so she can follow it. What you never do is choose for her: if her idea leaves a choice open (which materials, which source, what kind), ask her to pick, then do the math on her pick.
 - Don't explain what an item protects against (fire, rain, wind, sickness, breakdown) or why it's a good idea. She finds that out in testing. Neutral facts only.
 - Items marked HIDDEN exist so her own ideas can be priced fairly. Never mention, hint at or suggest them; only price one if Abi herself proposes that idea.
+- PLACES (cases with a map of places to cover, like towns to warn): her Budget panel ticks each place as it's covered. Routes cover their towns automatically. Things placed IN a town (bells, relay riders, fires) need the town: pass it as "at" in the plan (one per unit), plus "toward" if she said which neighbor to reach. If she didn't say which town, ask her. Each one only works in a town that's already warned, and reaches that town's neighbors on the map. Report exactly the towns the tool result lists; never tell her a town is warned if the tool doesn't list it.
 - Anything measured on site (water tests, how much a source yields, what's happening in homes) she must ask for. Use take_measurement and report the result in 1–3 sentences.
 - Never hand her multiple-choice designs. She invents the design. Unconventional ideas are fine if physically plausible: give a fair game cost/capacity consistent with the toolbox scale.
 - When she proposes a design, call submit_design. Report cost, daily capacity and any missing pieces. If it's over budget or under target, tell her the engineering result and let her fix it.
@@ -180,7 +238,7 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
           plan: {
             type: 'array',
             description: "Items she has chosen so far (ids and quantities). Empty if she hasn't chosen anything yet.",
-            items: { type: 'object', properties: { id: { type: 'string' }, qty: { type: 'integer', minimum: 1 } }, required: ['id', 'qty'] },
+            items: { type: 'object', properties: { id: { type: 'string' }, qty: { type: 'integer', minimum: 1 }, at: { type: 'array', items: { type: 'string' }, description: 'for items placed in a town (bells, relay riders, fires): the town for each unit, as she said it' }, toward: { type: 'array', items: { type: 'string' }, description: 'optional: which neighboring towns she wants them to reach' } }, required: ['id', 'qty'] },
           },
         },
         required: ['item_ids'],
@@ -194,7 +252,7 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
         properties: {
           plan: {
             type: 'array',
-            items: { type: 'object', properties: { id: { type: 'string' }, qty: { type: 'integer', minimum: 1 } }, required: ['id', 'qty'] },
+            items: { type: 'object', properties: { id: { type: 'string' }, qty: { type: 'integer', minimum: 1 }, at: { type: 'array', items: { type: 'string' }, description: 'for items placed in a town (bells, relay riders, fires): the town for each unit, as she said it' }, toward: { type: 'array', items: { type: 'string' }, description: 'optional: which neighboring towns she wants them to reach' } }, required: ['id', 'qty'] },
           },
         },
         required: ['plan'],
@@ -214,7 +272,7 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
           description: { type: 'string', description: 'One-sentence summary of her design in plain words' },
           items: {
             type: 'array',
-            items: { type: 'object', properties: { id: { type: 'string' }, qty: { type: 'integer', minimum: 1 } }, required: ['id', 'qty'] },
+            items: { type: 'object', properties: { id: { type: 'string' }, qty: { type: 'integer', minimum: 1 }, at: { type: 'array', items: { type: 'string' }, description: 'for items placed in a town (bells, relay riders, fires): the town for each unit, as she said it' }, toward: { type: 'array', items: { type: 'string' }, description: 'optional: which neighboring towns she wants them to reach' } }, required: ['id', 'qty'] },
           },
           custom_items: {
             type: 'array',
@@ -288,11 +346,11 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
         pushUnique(s.state, 'lookedUp', t.id);
       }
       const { u, fmtCost } = unitsOf(d);
-      const plan = arr<{ id: string; qty: number }>(input.plan)
-        .map((p) => ({ t: d.toolbox.find((x) => x.id === p.id), qty: Math.max(1, Number(p.qty) || 1) }))
-        .filter((p) => p.t) as { t: ChallengeData['toolbox'][number]; qty: number }[];
+      const plan = arr<PlanItem>(input.plan)
+        .map((p) => ({ t: d.toolbox.find((x) => x.id === p.id), qty: Math.max(1, Number(p.qty) || 1), at: p.at, toward: p.toward }))
+        .filter((p) => p.t) as { t: ChallengeData['toolbox'][number]; qty: number; at?: string[]; toward?: string[] }[];
       if (plan.length) {
-        s.state.plan = plan.map((p) => ({ id: p.t.id, qty: p.qty }));
+        s.state.plan = plan.map((p) => ({ id: p.t.id, qty: p.qty, ...(p.at?.length ? { at: p.at } : {}), ...(p.toward?.length ? { toward: p.toward } : {}) }));
         s.state.planCustom = [];
       }
       const planCost = plan.reduce((sum, p) => sum + p.t.cost * p.qty, 0);
@@ -304,6 +362,7 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
         `- Budget: ${fmtCost(d.budget)}`,
         `- Left: ${fmtCost(d.budget - planCost)}${planCost > d.budget ? ' (OVER BUDGET)' : ''}`,
         u?.scarce ? `- ${u.scarce.label}: ${planScarce} of ${u.scarce.limit} used, ${+(u.scarce.limit - planScarce).toFixed(2)} left` : '',
+        placesLine(d, arr<PlanItem>(s.state.plan)),
       ].filter(Boolean);
       return {
         result: found
@@ -314,11 +373,11 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
     if (name === 'update_plan') {
       const bad = arr<{ id: string }>(input.plan).filter((p) => !d.toolbox.find((x) => x.id === p.id));
       if (bad.length) return { result: `Unknown ids: ${bad.map((b) => b.id).join(', ')}. Valid ids: ${d.toolbox.map((x) => x.id).join(', ')}`, isError: true };
-      s.state.plan = arr<{ id: string; qty: number }>(input.plan).map((p) => ({ id: p.id, qty: Math.max(1, Number(p.qty) || 1) }));
+      s.state.plan = arr<PlanItem>(input.plan).map((p) => ({ id: p.id, qty: Math.max(1, Number(p.qty) || 1), ...(arr(p.at).length ? { at: p.at } : {}), ...(arr(p.toward).length ? { toward: p.toward } : {}) }));
       s.state.planCustom = [];
       const { fmtCost } = unitsOf(d);
       const cost = arr<{ id: string; qty: number }>(s.state.plan).reduce((sum, p) => sum + (d.toolbox.find((x) => x.id === p.id)?.cost ?? 0) * p.qty, 0);
-      return { result: `Budget panel updated. Total ${fmtCost(cost)}, ${fmtCost(d.budget - cost)} left. Her screen shows the full list.` };
+      return { result: [`Budget panel updated. Total ${fmtCost(cost)}, ${fmtCost(d.budget - cost)} left. Her screen shows the full list.`, placesLine(d, arr<PlanItem>(s.state.plan))].filter(Boolean).join('\n') };
     }
     if (name === 'take_measurement') {
       const m = d.measurements.find((x) => x.id === input.measurement_id);
@@ -335,11 +394,16 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
       let capacity = 0;
       let scarce = 0;
       const chosen = new Map<string, number>();
-      for (const it of arr<{ id: string; qty: number }>(input.items)) {
+      const atOf = new Map<string, { at: string[]; toward: string[] }>();
+      for (const it of arr<PlanItem>(input.items)) {
         const t = d.toolbox.find((x) => x.id === it.id);
         if (!t) return { result: `Unknown toolbox id "${it.id}". Valid ids: ${d.toolbox.map((x) => x.id).join(', ')}`, isError: true };
         chosen.set(t.id, (chosen.get(t.id) ?? 0) + Math.max(1, it.qty || 1));
+        const prev = atOf.get(t.id) ?? { at: [], toward: [] };
+        atOf.set(t.id, { at: [...prev.at, ...arr<string>(it.at)], toward: [...prev.toward, ...arr<string>(it.toward)] });
       }
+      const planItems: PlanItem[] = [...chosen].map(([id, qty]) => ({ id, qty, ...(atOf.get(id)?.at.length ? { at: atOf.get(id)!.at } : {}), ...(atOf.get(id)?.toward.length ? { toward: atOf.get(id)!.toward } : {}) }));
+      const pc = placesCovered(d, planItems);
       const missing: string[] = [];
       for (const [id, qty] of chosen) {
         const t = d.toolbox.find((x) => x.id === id)!;
@@ -357,7 +421,7 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
           if (cap < usable) missing.push(`only ${cap} of ${qty} × ${t.name} can be used (needs one ${t.limitedBy.join(' or ')} each)`);
           usable = Math.min(usable, cap);
         }
-        if (capOf(t) && needsMet) capacity += capOf(t) * usable;
+        if (capOf(t) && needsMet && !d.places) capacity += capOf(t) * usable;
         if (!needsMet) missing.push(`${t.name} won't work without: ${(t.needs ?? []).map((n) => n.replace(/\|/g, ' or ')).join(' and ')}`);
         lines.push(`${qty} × ${t.name} = ${fmtCost(t.cost * qty)}${t.scarce && u?.scarce ? ` + ${+(t.scarce * qty).toFixed(2)} ${u.scarce.label}` : ''}`);
       }
@@ -374,10 +438,11 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
         lines.push(`custom: ${ci.name} = ${fmtCost(ci.cost)}${cap ? `, ${cap} ${counts ? capLabel : `${capLabel.replace(/^.*?(L\/day).*$/, '$1')} that does NOT count (${d.capacityRule ?? "doesn't meet the target"})`}` : ''}`);
       }
       scarce = +scarce.toFixed(2);
+      if (d.places) { capacity = pc.covered.length; missing.push(...pc.problems.filter((x) => !/reaches no new towns/.test(x))); }
       const have = new Set([...chosen.keys(), ...covers]);
       for (const n of d.needs ?? []) {
-        const cov = needCoverage(d, n, (id) => chosen.get(id) ?? (have.has(id) ? 1 : 0));
-        if (!cov.ok) missing.push(cov.served ? `"${n.label}" covers only ${cov.served} of ${cov.target} people` : `nothing for "${n.label}" yet`);
+        const cov = needCoverage(d, n, (id) => chosen.get(id) ?? (have.has(id) ? 1 : 0), pc.covered.length);
+        if (!cov.ok) missing.push(cov.served ? `"${n.label}" covers only ${cov.served} of ${cov.target}${n.places ? '' : ' people'}` : `nothing for "${n.label}" yet`);
       }
       const overBudget = cost > d.budget;
       const overScarce = u?.scarce ? scarce > u.scarce.limit : false;
@@ -386,7 +451,7 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
       const days = u?.workers ? Math.ceil(cost / u.workers) : 0;
       const line = [fmtCost(cost), u?.scarce ? `${scarce} ${u.scarce.label}` : '', `${capacity.toLocaleString()} ${capLabel}`, days ? `~${days} days to build` : ''].filter(Boolean).join(' · ');
       const customs = arr<{ name: string; cost: number; capacity?: number; liters_per_day?: number; scarce?: number; counts_as?: string[] }>(input.custom_items).map((ci) => ({ name: ci.name, cost: ci.cost, scarce: ci.scarce ?? 0, counts_as: arr<string>(ci.counts_as) }));
-      s.state.plan = [...chosen].map(([id, qty]) => ({ id, qty }));
+      s.state.plan = planItems;
       s.state.planCustom = customs;
       const key = planKey(s.state.plan as { id: string; qty: number }[], customs);
       s.state.design = { description: input.description, lines, cost, liters: capacity, capacity, scarce, days, line, valid, key, target: minCap ?? 0, missing, ids: [...new Set([...chosen.keys(), ...covers])] };
@@ -402,6 +467,7 @@ MODE: CHALLENGE — "Make it work." Abi is the engineer. Backbone: Define → De
           u?.scarce ? `${u.scarce.label}: ${scarce} of ${u.scarce.limit}${overScarce ? ' — NOT ENOUGH' : ''}.` : '',
           days ? `Build time: about ${days} days with ${u?.workers} workers.` : '',
           `Capacity: about ${capacity.toLocaleString()} ${capLabel}${minCap ? ` (target ${minCap.toLocaleString()})${underTarget ? ' — BELOW TARGET' : ''}` : ''}.`,
+          d.places ? placesLine(d, planItems) : '',
           missing.length ? `Missing pieces: ${missing.join('; ')}` : '',
           valid ? 'Design is valid and ready to test.' : 'Design is not valid yet. Tell Abi the engineering result; let her fix it.',
           'Note: these numbers are a simple game estimate. The stress tests check everything else.',

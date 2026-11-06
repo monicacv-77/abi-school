@@ -90,6 +90,12 @@ function checkCase(file: string) {
       for (const l of t.limitedBy ?? []) if (!ids.has(l)) bad.push(`toolbox "${t.id}" limitedBy unknown id "${l}"`);
     }
     hint(d.stressTests.some((t) => t.checks?.length), 'no stress test lists required pieces (checks): add them so a design missing something essential fails for sure');
+    if (d.places) {
+      const pl = new Set(d.places.list);
+      for (const [a, b] of d.places.roads) for (const x of [a, b]) if (!pl.has(x)) bad.push(`places.roads uses "${x}", which isn't in places.list`);
+      for (const t of d.toolbox) for (const x of t.covers ?? []) if (!pl.has(x)) bad.push(`toolbox "${t.id}" covers "${x}", which isn't in places.list`);
+      need(d.needs?.some((n) => n.places), 'places are set, but no need has places: true (the "N places covered" checklist line)');
+    }
     for (const n of d.needs ?? []) for (const id of n.anyOf) if (!ids.has(id)) bad.push(`need "${n.label}" refers to unknown id "${id}"`);
     for (const t of d.stressTests) for (const ch of t.checks ?? []) for (const id of ch.anyOf) if (!ids.has(id)) bad.push(`stress test "${t.id}" check refers to unknown id "${id}"`);
     hint(d.capacityRule || !d.toolbox.some((t) => /untreated|not safe|raw/i.test(t.provides)), 'some items make raw/untreated output: add a capacityRule saying what counts toward the target');

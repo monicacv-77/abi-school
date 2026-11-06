@@ -161,6 +161,16 @@ function BudgetPanel({ b }: { b: BudgetBox }) {
           </ul>
         </>
       )}
+      {b.places && (
+        <>
+          <div className="colony-sep">📍 {b.places.label} ({b.places.list.filter((p) => p.ok).length} of {b.places.list.length})</div>
+          <div className="place-chips">
+            {b.places.list.map((p) => (
+              <span key={p.name} className={`place-chip${p.ok ? ' ok' : ''}`}>{p.ok ? '✔ ' : ''}{p.name}</span>
+            ))}
+          </div>
+        </>
+      )}
 
       {b.items.length ? (
         <table className="budget-table">

@@ -7,17 +7,17 @@
   "location": "Boston and the towns around it, Massachusetts",
   "realOrConstructed": "Constructed challenge built on the real night of April 18–19, 1775",
   "status": "PILOT",
-  "version": 2,
+  "version": 3,
   "bigUnderstanding": "A warning network works because it has many parts and backups, not because of one hero. The real alarm of April 18, 1775 used a lookout, lanterns as a backup signal, two riders on two routes, and dozens of local riders, bells, drums and guns. Paul Revere was captured before Concord, but Samuel Prescott got through, and towns spread the alarm themselves. Ordinary people working as a network made it work (a single point of failure would have sunk it).",
-  "winCondition": "Design an alarm network that warns Lexington, Concord and at least 10 towns before the British arrive, with 18 volunteers and 6 horses. Then survive the tests and fix whatever breaks.",
+  "winCondition": "Design an alarm network that warns Lexington, Concord and at least 12 towns before the British arrive, with 18 volunteers and 6 horses. Then survive the tests and fix whatever breaks.",
   "opening": {
-    "intro": "Boston, April 16, 1775. British soldiers fill the streets, and warships sit in the harbor. In a back room, patriot leader Dr. Joseph Warren lowers his voice: the British are getting ready to march into the countryside, and nobody knows when, or which way they'll leave Boston.\n\nYour job: design the alarm network that warns the towns in time. It needs:\n🕵️ A way to know when the British move\n🏮 A signal that gets out of Boston even if riders are stopped\n🐎 Riders to Lexington, where Samuel Adams and John Hancock are staying\n🏘️ A way to warn Concord, where the supplies are hidden\n🔔 Ways for towns to spread the alarm\n📍 At least 10 towns warned before the soldiers get there\n\nYou have 18 trusted volunteers and only 6 horses. Then your network faces 3 tests (they're listed in the briefs), and you fix whatever fails.",
+    "intro": "Boston, April 16, 1775. British soldiers fill the streets, and warships sit in the harbor. In a back room, patriot leader Dr. Joseph Warren lowers his voice: the British are getting ready to march into the countryside, and nobody knows when, or which way they'll leave Boston.\n\nYour job: design the alarm network that warns the towns in time. It needs:\n🕵️ A way to know when the British move\n🏮 A signal that gets out of Boston even if riders are stopped\n🐎 Riders to Lexington, where Samuel Adams and John Hancock are staying\n🏘️ A way to warn Concord, where the supplies are hidden\n🔔 Ways for towns to spread the alarm\n📍 At least 12 of the 14 towns on the map warned before the soldiers get there\n\nYou have 18 trusted volunteers and only 6 horses. Then your network faces 3 tests (they're listed in the briefs), and you fix whatever fails.",
     "cards": [
       {
         "icon": "🎯",
         "label": "Your targets",
         "kind": "brief",
-        "text": "FAST · RELIABLE · WIDE · SECRET · CLEAR. Warn Lexington and Concord with time to spare, plus at least 10 towns. 18 volunteers, 6 horses. Ask the map for distances and the guide does the timing math."
+        "text": "FAST · RELIABLE · WIDE · SECRET · CLEAR. Warn Lexington and Concord with time to spare, plus at least 12 of the 14 towns on the map (your Budget panel ticks each one). 18 volunteers, 6 horses. Ask the map for distances and the guide does the timing math."
       },
       {
         "icon": "🗺️",
@@ -62,7 +62,7 @@
   },
   "facilitatorNotes": [
     "Abi works for Dr. Joseph Warren (real) on April 16, 1775. She designs; you do the math. Use the measurements for distances and speeds, and work out timing for her when she asks or when a test runs. Never pick a route or a signal for her.",
-    "COUNTING TOWNS: the Budget panel adds up 'towns warned' from what she picks. If two riders cover the same towns, say so in a short line and count them once when judging the tests.",
+    "COUNTING TOWNS: the Budget panel ticks each town on the map as it's covered (the tools return the list). Riders cover the towns on their route; bells, relay riders and fires go IN a warned town (pass \"at\") and reach its neighbors on the map. If she says 'bells in every town', place one per warned town she means and let the tool show what's newly reached.",
     "LANTERNS: she decides what the signal means. If she reinvents 'one if by land, two if by sea', enjoy it, but don't hint at it. A lantern only works if someone across the river is watching for it and knows the code.",
     "Real people she may meet: Dr. Joseph Warren (patriot leader), Paul Revere (silversmith and rider), William Dawes (a tanner, rode out over the Neck), Robert Newman (Old North Church sexton). Keep each to 1–2 sentences. Don't let Revere design it for her.",
     "Keep it suspenseful and a little funny. No violence during the design and tests; the tests are about getting the message through.",
@@ -80,7 +80,7 @@
     "What happens if your best rider gets caught?",
     "Which towns are left out, and how could the towns you warn pass it on?"
   ],
-  "completion": "A design with every need on the checklist covered and at least 10 towns warned, within 18 volunteers and 6 horses; all 3 stress tests passed with her final design (a failure means a redesign and retest); then her answers to the wrap-up questions.",
+  "completion": "A design with every need on the checklist covered and at least 12 towns warned, within 18 volunteers and 6 horses; all 3 stress tests passed with her final design (a failure means a redesign and retest); then her answers to the wrap-up questions.",
   "wrapUpQuestions": [
     "Would you trust your network on the real night? Why?",
     "What's one weak spot still in it, and what would you add if you had more volunteers?"
@@ -162,9 +162,9 @@
         "limit": 6
       }
     },
-    "minCapacity": 10,
-    "designFor": "The towns around Boston (at least 10 to warn), especially Lexington, where patriot leaders Samuel Adams and John Hancock are staying, and Concord, where the colony's gunpowder, cannons and food are stored. Each town's militia needs time to wake up and gather.",
-    "capacityRule": "A town counts as warned only if the warning reaches it before the British soldiers do. If two riders cover the same towns, count those towns once. Lexington and Concord are checked on their own (see the needs).",
+    "minCapacity": 12,
+    "designFor": "The towns around Boston (at least 12 of the 14 on the map), especially Lexington, where patriot leaders Samuel Adams and John Hancock are staying, and Concord, where the colony's gunpowder, cannons and food are stored. Each town's militia needs time to wake up and gather.",
+    "capacityRule": "A town counts as warned only if the warning reaches it before the British soldiers do. The panel ticks each town once, however many riders pass through it.",
     "needs": [
       {
         "icon": "🕵️",
@@ -208,7 +208,7 @@
       },
       {
         "icon": "📍",
-        "label": "At least 10 towns warned",
+        "label": "At least 12 towns warned",
         "anyOf": [
           "rider_land",
           "rider_water",
@@ -217,14 +217,7 @@
           "relay_rider",
           "bonfire"
         ],
-        "perUnit": {
-          "rider_land": 3,
-          "rider_water": 3,
-          "rider_concord": 2,
-          "town_alarm": 1,
-          "relay_rider": 2,
-          "bonfire": 2
-        }
+        "places": true
       }
     ],
     "targets": [
@@ -241,7 +234,7 @@
       {
         "id": "wide",
         "label": "WIDE",
-        "check": "At least 10 towns warned in time."
+        "check": "At least 12 of the 14 towns on the map warned in time."
       },
       {
         "id": "secret",
@@ -327,8 +320,8 @@
         "name": "Rider out over Boston Neck",
         "cost": 1,
         "scarce": 1,
-        "capacity": 3,
-        "provides": "Rides the only road out of Boston, through the guarded gate on the Neck, then around through Roxbury, Brookline and Cambridge to Lexington. About 17 miles. Warns Roxbury, Brookline and Cambridge on the way.",
+        "capacity": 5,
+        "provides": "Rides the only road out of Boston, through the guarded gate on the Neck, then through Roxbury, Brookline, Cambridge and Menotomy to Lexington. About 17 miles. Warns each of those towns on the way.",
         "image": {
           "src": "/diagrams/008/rider_land.svg",
           "alt": "Labeled diagram: Rider out over Boston Neck",
@@ -336,15 +329,22 @@
           "href": "/diagrams/008/rider_land.svg",
           "fit": "contain",
           "label": "📐 Diagram"
-        }
+        },
+        "covers": [
+          "Roxbury",
+          "Brookline",
+          "Cambridge",
+          "Menotomy",
+          "Lexington"
+        ]
       },
       {
         "id": "rider_water",
         "name": "Rowboat across the river, then a rider from Charlestown",
         "cost": 3,
         "scarce": 1,
-        "capacity": 3,
-        "provides": "Two rowers take the rider across the Charles River at night, about a mile; a horse waits in Charlestown. Then about 12 miles through Medford and Menotomy to Lexington. Warns Charlestown, Medford and Menotomy on the way.",
+        "capacity": 4,
+        "provides": "Two rowers take the rider across the Charles River at night, about a mile; a horse waits in Charlestown. Then about 12 miles through Medford and Menotomy to Lexington. Warns each of those towns on the way.",
         "image": {
           "src": "/diagrams/008/rider_water.svg",
           "alt": "Labeled diagram: Rowboat across the river, then a rider from Charlestown",
@@ -352,7 +352,13 @@
           "href": "/diagrams/008/rider_water.svg",
           "fit": "contain",
           "label": "📐 Diagram"
-        }
+        },
+        "covers": [
+          "Charlestown",
+          "Medford",
+          "Menotomy",
+          "Lexington"
+        ]
       },
       {
         "id": "rider_concord",
@@ -368,7 +374,14 @@
           "href": "/diagrams/008/rider_concord.svg",
           "fit": "contain",
           "label": "📐 Diagram"
-        }
+        },
+        "covers": [
+          "Lincoln",
+          "Concord"
+        ],
+        "needs": [
+          "rider_land|rider_water"
+        ]
       },
       {
         "id": "town_alarm",
@@ -376,7 +389,7 @@
         "cost": 1,
         "capacity": 1,
         "max": 8,
-        "provides": "Someone in a town that's been warned rings the church bell, beats a drum and fires alarm guns. Heard about 2 miles on a still night, so nearby farms and one neighboring town hear it.",
+        "provides": "Put it in a town that's already been warned: someone rings the church bell, beats a drum and fires alarm guns. Heard about 2 miles on a still night, so nearby farms and one neighboring town on the map hear it.",
         "image": {
           "src": "/diagrams/008/town_alarm.svg",
           "alt": "Labeled diagram: Alarm in a warned town (bells, drums, alarm guns)",
@@ -384,7 +397,8 @@
           "href": "/diagrams/008/town_alarm.svg",
           "fit": "contain",
           "label": "📐 Diagram"
-        }
+        },
+        "reach": 1
       },
       {
         "id": "relay_rider",
@@ -393,7 +407,7 @@
         "scarce": 1,
         "capacity": 2,
         "max": 4,
-        "provides": "A local rider on a fresh horse carries the warning to two more towns off the main road, like Woburn, Bedford, Acton, Watertown or Sudbury.",
+        "provides": "Starts from a town that's already been warned: a local rider on a fresh horse carries the warning to two neighboring towns on the map.",
         "image": {
           "src": "/diagrams/008/relay_rider.svg",
           "alt": "Labeled diagram: Relay rider from a warned town",
@@ -401,7 +415,8 @@
           "href": "/diagrams/008/relay_rider.svg",
           "fit": "contain",
           "label": "📐 Diagram"
-        }
+        },
+        "reach": 2
       },
       {
         "id": "spare_horses",
@@ -458,7 +473,7 @@
         "cost": 2,
         "capacity": 2,
         "hidden": true,
-        "provides": "Big fires on hilltops, each one answered by the next hill. Seen for miles on a clear night; everyone has to know what they mean.",
+        "provides": "Big fires on hilltops near a town that's been warned, each answered by the next hill: two neighboring towns on the map see them. Everyone has to know what they mean.",
         "image": {
           "src": "/diagrams/008/bonfire.svg",
           "alt": "Labeled diagram: Signal fires on hilltops",
@@ -466,7 +481,8 @@
           "href": "/diagrams/008/bonfire.svg",
           "fit": "contain",
           "label": "📐 Diagram"
-        }
+        },
+        "reach": 2
       }
     ],
     "measurements": [
@@ -535,7 +551,7 @@
         "order": 1,
         "name": "The night they march",
         "scenario": "Around 10 at night, your lookout sees soldiers marching to the water and climbing into boats. They row across the river to Cambridge, a few boatloads at a time, and start marching toward Lexington around 2 in the morning.",
-        "passesIf": "Work out the timing with her design. The British reach Lexington around 5 a.m. and Concord around 7 a.m. A rider leaving at about 10:30 p.m. by the Charlestown route (crossing about 20 minutes, ~12 miles at 6–8 mph plus stops) reaches Lexington around midnight; by the Neck (~17 miles) about 30–60 minutes later. Lexington to Concord is about 6 miles, about an hour. Pass if Lexington and Concord are warned at least an hour before the soldiers arrive and at least 10 towns are reached in time. Fail if there's no lookout (nobody knows they've left until too late) or no rider reaches Lexington.",
+        "passesIf": "Work out the timing with her design. The British reach Lexington around 5 a.m. and Concord around 7 a.m. A rider leaving at about 10:30 p.m. by the Charlestown route (crossing about 20 minutes, ~12 miles at 6–8 mph plus stops) reaches Lexington around midnight; by the Neck (~17 miles) about 30–60 minutes later. Lexington to Concord is about 6 miles, about an hour. Pass if Lexington and Concord are warned at least an hour before the soldiers arrive and at least 12 towns are reached in time. Fail if there's no lookout (nobody knows they've left until too late) or no rider reaches Lexington.",
         "checks": [
           {
             "label": "A lookout who sees them leave",
@@ -591,6 +607,91 @@
       "Dirt roads, some muddy; stone walls and farms along the way.",
       "Boston is a peninsula, connected to land only by the Neck.",
       "British soldiers, warships and patrols in and around Boston."
-    ]
+    ],
+    "places": {
+      "label": "Towns warned",
+      "list": [
+        "Charlestown",
+        "Roxbury",
+        "Brookline",
+        "Cambridge",
+        "Watertown",
+        "Medford",
+        "Menotomy",
+        "Lexington",
+        "Lincoln",
+        "Concord",
+        "Bedford",
+        "Woburn",
+        "Acton",
+        "Sudbury"
+      ],
+      "roads": [
+        [
+          "Roxbury",
+          "Brookline"
+        ],
+        [
+          "Brookline",
+          "Cambridge"
+        ],
+        [
+          "Cambridge",
+          "Menotomy"
+        ],
+        [
+          "Charlestown",
+          "Medford"
+        ],
+        [
+          "Medford",
+          "Menotomy"
+        ],
+        [
+          "Charlestown",
+          "Cambridge"
+        ],
+        [
+          "Menotomy",
+          "Lexington"
+        ],
+        [
+          "Lexington",
+          "Lincoln"
+        ],
+        [
+          "Lincoln",
+          "Concord"
+        ],
+        [
+          "Lexington",
+          "Bedford"
+        ],
+        [
+          "Medford",
+          "Woburn"
+        ],
+        [
+          "Woburn",
+          "Lexington"
+        ],
+        [
+          "Concord",
+          "Acton"
+        ],
+        [
+          "Concord",
+          "Sudbury"
+        ],
+        [
+          "Cambridge",
+          "Watertown"
+        ],
+        [
+          "Watertown",
+          "Sudbury"
+        ]
+      ]
+    }
   }
 }

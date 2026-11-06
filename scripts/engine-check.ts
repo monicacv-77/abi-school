@@ -167,6 +167,18 @@ async function main() {
     expect('toolbox: diagrams appear once each', JSON.stringify(b.display.filter((m: any) => m.image).map((m: any) => m.image.src)), '["/diagrams/004/wall_daub.svg","/diagrams/004/roof_thatch.svg"]');
   }
 
+  // --- Places: bells in a warned town tick its neighbor on the Budget panel
+  {
+    const b: any = await startCaseSession('008', true);
+    await step(b, tu('update_plan', { plan: [{ id: 'rider_water', qty: 1 }, { id: 'town_alarm', qty: 2, at: ['Lexington', 'Medford'], toward: ['Bedford', 'Woburn'] }] }));
+    const v: any = (await import('../lib/view')).toView(b);
+    const ok = v.budgetBox.places.list.filter((p: any) => p.ok).map((p: any) => p.name).sort().join(',');
+    expect('places: route + bells tick the right towns', ok, 'Bedford,Charlestown,Lexington,Medford,Menotomy,Woburn');
+    expect('places: count shows on the need', JSON.stringify(v.budgetBox.needs), '6 of 12');
+    const r = ((await (await import('../lib/modes')).ENGINES.challenge.handle('update_plan', { plan: [{ id: 'town_alarm', qty: 1, at: ['Concord'] }] }, b, b.caseSnapshot)) as any).result;
+    expect('places: a bell in an unwarned town does nothing', r, "hasn't been warned");
+  }
+
   // --- A wordless turn never shows '…'
   {
     const fx: any = await startCaseSession('002', true);

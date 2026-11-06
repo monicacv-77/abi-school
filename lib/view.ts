@@ -1,6 +1,6 @@
 // What the browser is allowed to see about a session (never the raw model conversation or hidden data).
 import { caseFor } from './cases';
-import { needCoverage, nextUnpassed, planKey, statWord } from './modes';
+import { needCoverage, nextUnpassed, placesCovered, planKey, statWord, type PlanItem } from './modes';
 import { getUnit } from './units';
 import type { CaseImage,  ChallengeData, InvestigationData, Session, SimulationData } from './types';
 
@@ -36,6 +36,7 @@ export interface SessionView {
     workers?: number;
     designed: boolean; // the list matches her last submitted design
     needs?: { icon: string; label: string; ok: boolean }[];
+    places?: { label: string; list: { name: string; ok: boolean }[] };
     ready?: boolean;
   };
   decision?: { when: string; number: number; title: string; options: { letter: string; label: string; detail?: string }[] };
@@ -119,6 +120,7 @@ export function toView(s: Session): SessionView {
     ];
     const des = s.state.design as { key?: string; capacity?: number; target?: number; days?: number; valid?: boolean } | null;
     const designed = Boolean(des?.key && des.key === planKey(plan, custom));
+    const pc = placesCovered(d, plan as PlanItem[]);
     v.budgetBox = {
       unit: d.units?.cost ?? null,
       budget: d.budget,
@@ -132,9 +134,10 @@ export function toView(s: Session): SessionView {
       ready: designed ? Boolean(des?.valid) : undefined,
       needs: d.needs?.map((n) => {
         const covered = new Set(custom.flatMap((c) => (c as { counts_as?: string[] }).counts_as ?? []));
-        const cov = needCoverage(d, n, (id) => plan.find((p) => p.id === id)?.qty ?? (covered.has(id) ? 1 : 0));
-        return { icon: n.icon, label: n.perUnit && cov.served ? `${n.label} (${cov.served.toLocaleString('en-US')} of ${cov.target.toLocaleString('en-US')})` : n.label, ok: cov.ok };
+        const cov = needCoverage(d, n, (id) => plan.find((p) => p.id === id)?.qty ?? (covered.has(id) ? 1 : 0), pc.covered.length);
+        return { icon: n.icon, label: (n.perUnit || n.places) && cov.served ? `${n.label} (${cov.served.toLocaleString('en-US')} of ${cov.target.toLocaleString('en-US')})` : n.label, ok: cov.ok };
       }),
+      places: d.places ? { label: d.places.label, list: d.places.list.map((name) => ({ name, ok: pc.covered.includes(name) })) } : undefined,
     };
     if (plan.length) {
       const cost = plan.reduce((sum, p) => sum + (d.toolbox.find((t) => t.id === p.id)?.cost ?? 0) * p.qty, 0);

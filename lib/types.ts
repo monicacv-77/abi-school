@@ -72,6 +72,8 @@ export interface ToolboxItem {
   scarce?: number; // amount of the case's scarce resource used per unit (e.g. kegs of nails)
   max?: number; // most units available (e.g. limited canvas)
   image?: CaseImage; // picture or diagram shown in the chat the first time she looks it up
+  covers?: string[]; // places (from the case's places.list) this item always reaches, e.g. the towns on a rider's route
+  reach?: number; // placed AT a place she has already covered, it reaches this many neighboring places (bells, relay riders)
 }
 export interface Measurement {
   id: string;
@@ -102,7 +104,8 @@ export interface ChallengeData {
   minCapacity?: number; // generic target; water case uses minLitersPerDay
   designFor?: string; // exactly who the design serves (how many people, ages, families, needs)
   capacityRule?: string; // what counts toward the target, e.g. only SAFE water counts
-  needs?: { icon: string; label: string; anyOf: string[]; perUnit?: Record<string, number> }[]; // perUnit = people each item serves; then the need is met only when the total reaches the target (minCapacity)
+  places?: { label: string; list: string[]; roads: [string, string][] }; // a map of places to cover (e.g. towns to warn); the Budget panel ticks each one
+  needs?: { icon: string; label: string; anyOf: string[]; perUnit?: Record<string, number>; places?: boolean }[]; // places = met when enough places are covered (minCapacity) // perUnit = people each item serves; then the need is met only when the total reaches the target (minCapacity)
   targets: { id: string; label: string; check: string }[];
   minLitersPerDay?: number;
   buildingBlocks: { name: string; examples: string }[]; // what Abi sees: categories, no prices

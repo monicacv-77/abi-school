@@ -310,3 +310,7 @@ textarea { resize: none; }
 .fb-q { font-weight: 700; min-width: 54px; }
 .fb-btn { border: 2px solid var(--accent); background: var(--card); color: var(--ink); border-radius: 999px; padding: 6px 14px; min-height: 42px; font-weight: 600; }
 .fb-btn.on { background: var(--accent); color: #fff; }
+
+.place-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 10px; }
+.place-chip { font-size: 14px; padding: 3px 9px; border-radius: 999px; border: 1px solid rgba(0,0,0,.18); color: var(--muted); background: var(--card); }
+.place-chip.ok { background: #e3f3e8; color: #1f6b3a; border-color: #9fd0ae; font-weight: 700; }
