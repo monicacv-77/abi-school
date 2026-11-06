@@ -85,6 +85,7 @@ export interface StressTest {
   order: number;
   name: string;
   scenario: string; // short, for the facilitator to narrate
+  preview?: string; // one line on her 'The tests' brief card: what it tests, without the twist or how to pass
   passesIf: string; // how to judge
   hiddenDetail?: string; // revealed only if Abi investigates
   checks?: { label: string; anyOf: string[] }[]; // pieces the design MUST contain to pass (toolbox ids); missing any = automatic fail

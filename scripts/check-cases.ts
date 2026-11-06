@@ -81,6 +81,8 @@ function checkCase(file: string) {
     for (const t of d.toolbox) if (t.image?.src.startsWith('/') && !fs.existsSync(path.join(__dirname, '..', 'public', t.image.src))) bad.push(`toolbox "${t.id}" image file is missing: public${t.image.src}`);
     need(d.measurements?.length >= 3, 'needs 3+ measurements she can ask for');
     need(d.stressTests?.length >= 3 && d.stressTests.every((t) => t.passesIf), 'needs 3+ stress tests, each with passesIf');
+    hint(d.stressTests.every((t) => t.preview), 'give each stress test a one-line preview (shown on her "The tests" brief card); describe what it tests, not the twist or how to pass');
+    hint(/brief/i.test(intro) && /test/i.test(intro), 'opening should say how many tests there are and that they\'re listed in the briefs');
     hint(d.stressTests.length <= 3, `${d.stressTests.length} stress tests: 3 is plenty for one sitting`);
     need((d.minCapacity ?? d.minLitersPerDay) !== undefined, 'needs a capacity target (minCapacity)');
     for (const t of d.toolbox) {

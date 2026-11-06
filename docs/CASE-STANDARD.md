@@ -61,7 +61,7 @@ What every new case needs, learned from building and testing Unit 1. Use it when
 - **Pictures of the options.** Give each visible toolbox item a picture or labeled diagram (`image`). It appears in the chat the first time she asks what it is or what it looks like. Diagrams label the parts and never say why an option is good or bad.
 - **Toolbox.** Priced items for the guide, plus a few hidden ones for good ideas she might invent. Describe each item neutrally: what it is, its size or capacity, its upkeep. Never what it protects against or why it's smart ("keeps sparks off the thatch"); that's what the tests reveal.
 - **3+ measurements** she has to ask for.
-- **3 stress tests** (more is too much for one sitting), each with a clear pass rule, plus **required pieces** (`checks`) where a test depends on something being in the design (e.g. safe storage at home). A design missing a required piece fails that test automatically.
+- **3 stress tests** (more is too much for one sitting), each with a clear pass rule, a one-line `preview` for her "🧪 The tests" brief card (what it tests, never the twist or how to pass; the app builds the card), and the opening says how many tests there are and that they're listed in the briefs. Add **required pieces** (`checks`) where a test depends on something being in the design (e.g. safe storage at home). A design missing a required piece fails that test automatically.
 - **What counts (`capacityRule`).** Say what counts toward the target if some items produce something that doesn't, e.g. untreated river water isn't safe water until it's treated.
 - **Wrap-up:** "Would you approve this…? Why?"
 

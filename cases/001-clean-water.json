@@ -7,10 +7,10 @@
   "location": "Eastern Province, Zambia",
   "realOrConstructed": "Constructed case in a real setting",
   "status": "READY",
-  "version": 15,
+  "version": 16,
   "bigUnderstanding": "Safe water is a system: source, treatment, access, transport and storage, sanitation, and maintenance. A good filter can still be part of a failed system. Abi should discover this by engineering, not be told.",
   "opening": {
-    "intro": "Chisomo Village, eastern Zambia. It's the dry season. The dirt paths are red and dusty, and the sun is already hot by breakfast. Every morning, families walk to the river or the shallow wells with yellow plastic jerrycans, and some walk for an hour each way. Kids keep getting sick, and nobody is sure which water is safe.\n\nYour team has $30,000 and one job: design a water system that gets safe water to all 1,000 people, holds up through the rainy season, and keeps working after you leave. Then test it, and fix whatever breaks.",
+    "intro": "Chisomo Village, eastern Zambia. It's the dry season. The dirt paths are red and dusty, and the sun is already hot by breakfast. Every morning, families walk to the river or the shallow wells with yellow plastic jerrycans, and some walk for an hour each way. Kids keep getting sick, and nobody is sure which water is safe.\n\nYour team has $30,000 and one job: design a water system that gets safe water to all 1,000 people, holds up through the rainy season, and keeps working after you leave. Then it faces 3 tests (they're listed in the briefs), and you fix whatever breaks.",
     "cards": [
       {
         "label": "Project brief",
@@ -350,7 +350,8 @@
               "household_filters"
             ]
           }
-        ]
+        ],
+        "preview": "days of heavy rain turn the river brown and the paths to mud."
       },
       {
         "id": "recontamination",
@@ -367,7 +368,8 @@
               "household_filters"
             ]
           }
-        ]
+        ],
+        "preview": "is the water still safe by the time people drink it at home?"
       },
       {
         "id": "breakdown",
@@ -391,7 +393,8 @@
               "maintenance_fund"
             ]
           }
-        ]
+        ],
+        "preview": "six months later, the most important part of your system breaks."
       }
     ],
     "buildingBlocks": [

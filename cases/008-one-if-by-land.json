@@ -7,11 +7,11 @@
   "location": "Boston and the towns around it, Massachusetts",
   "realOrConstructed": "Constructed challenge built on the real night of April 18–19, 1775",
   "status": "PILOT",
-  "version": 1,
+  "version": 2,
   "bigUnderstanding": "A warning network works because it has many parts and backups, not because of one hero. The real alarm of April 18, 1775 used a lookout, lanterns as a backup signal, two riders on two routes, and dozens of local riders, bells, drums and guns. Paul Revere was captured before Concord, but Samuel Prescott got through, and towns spread the alarm themselves. Ordinary people working as a network made it work (a single point of failure would have sunk it).",
   "winCondition": "Design an alarm network that warns Lexington, Concord and at least 10 towns before the British arrive, with 18 volunteers and 6 horses. Then survive the tests and fix whatever breaks.",
   "opening": {
-    "intro": "Boston, April 16, 1775. British soldiers fill the streets, and warships sit in the harbor. In a back room, patriot leader Dr. Joseph Warren lowers his voice: the British are getting ready to march into the countryside, and nobody knows when, or which way they'll leave Boston.\n\nYour job: design the alarm network that warns the towns in time. It needs:\n🕵️ A way to know when the British move\n🏮 A signal that gets out of Boston even if riders are stopped\n🐎 Riders to Lexington, where Samuel Adams and John Hancock are staying\n🏘️ A way to warn Concord, where the supplies are hidden\n🔔 Ways for towns to spread the alarm\n📍 At least 10 towns warned before the soldiers get there\n\nYou have 18 trusted volunteers and only 6 horses. Then your network faces 3 tests, and you fix whatever fails.",
+    "intro": "Boston, April 16, 1775. British soldiers fill the streets, and warships sit in the harbor. In a back room, patriot leader Dr. Joseph Warren lowers his voice: the British are getting ready to march into the countryside, and nobody knows when, or which way they'll leave Boston.\n\nYour job: design the alarm network that warns the towns in time. It needs:\n🕵️ A way to know when the British move\n🏮 A signal that gets out of Boston even if riders are stopped\n🐎 Riders to Lexington, where Samuel Adams and John Hancock are staying\n🏘️ A way to warn Concord, where the supplies are hidden\n🔔 Ways for towns to spread the alarm\n📍 At least 10 towns warned before the soldiers get there\n\nYou have 18 trusted volunteers and only 6 horses. Then your network faces 3 tests (they're listed in the briefs), and you fix whatever fails.",
     "cards": [
       {
         "icon": "🎯",
@@ -550,7 +550,8 @@
               "rider_water"
             ]
           }
-        ]
+        ],
+        "preview": "the British march at night. Does your warning beat them to Lexington and Concord?"
       },
       {
         "id": "locked_down",
@@ -566,14 +567,16 @@
               "bonfire"
             ]
           }
-        ]
+        ],
+        "preview": "the British guard every way out of Boston."
       },
       {
         "id": "patrol",
         "order": 3,
         "name": "Patrol on the road",
         "scenario": "Between Lexington and Concord, a British patrol blocks the road in the dark and grabs the first rider who comes along.",
-        "passesIf": "Pass if Concord still gets warned: more than one rider heading for Concord (riding together or on different roads), a relay rider or back roads around the patrol, bells and alarms spreading from Lincoln, or signal fires. Fail if one single rider was the only way to warn Concord. Hiding the supplies early is a bonus, not a pass by itself."
+        "passesIf": "Pass if Concord still gets warned: more than one rider heading for Concord (riding together or on different roads), a relay rider or back roads around the patrol, bells and alarms spreading from Lincoln, or signal fires. Fail if one single rider was the only way to warn Concord. Hiding the supplies early is a bonus, not a pass by itself.",
+        "preview": "a British patrol on the road to Concord grabs riders."
       }
     ],
     "existingResources": [

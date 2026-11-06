@@ -84,7 +84,13 @@ export function toView(s: Session): SessionView {
   }
   if (c) {
     const rank = { brief: 0, place: 1, voice: 2 } as const;
-    v.opening = { ...c.opening, cards: [...c.opening.cards].sort((a, b) => rank[a.kind ?? 'voice'] - rank[b.kind ?? 'voice']) };
+    const cards = [...c.opening.cards];
+    if (c.data.kind === 'challenge' && (c.data as ChallengeData).stressTests?.length) {
+      const tests = [...(c.data as ChallengeData).stressTests].sort((a, b) => a.order - b.order);
+      const i = cards.findIndex((k) => k.kind === 'brief');
+      cards.splice(i + 1, 0, { icon: '🧪', label: 'The tests', kind: 'brief', text: `When your design is done, it faces ${tests.length} tests, one at a time:\n${tests.map((t, n) => `${n + 1}️⃣ ${t.name}${t.preview ? `: ${t.preview}` : ''}`).join('\n')}\nFail one, and you fix your design and try again.` });
+    }
+    v.opening = { ...c.opening, cards: cards.sort((a, b) => rank[a.kind ?? 'voice'] - rank[b.kind ?? 'voice']) };
     v.image = c.image;
   }
   if (c?.data.kind === 'challenge') {
